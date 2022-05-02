@@ -1,4 +1,4 @@
-package com.example.plantalot;
+package com.plantalot;
 
 import org.junit.Test;
 
