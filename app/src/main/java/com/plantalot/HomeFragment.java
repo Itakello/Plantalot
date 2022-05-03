@@ -22,6 +22,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 	
 	private final List<String> mDataset = Arrays.asList("Trento", "Bergamo", "Belluno");
+	private final List<String> mDataset2 = Arrays.asList("Back yard", "Front yard", "Nice yard");
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,12 @@ public class HomeFragment extends Fragment {
 		DrawerAdapter mAdapter = new DrawerAdapter(getActivity(), mDataset);
 //        mAdapter.setClickListener(getActivity());
 		mRecyclerView.setAdapter(mAdapter);
+		
+		RecyclerView mRecyclerView2 = view.findViewById(R.id.recycler_view2);
+		mRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtiAdapter mAdapter2 = new OrtiAdapter(getActivity(), mDataset2);
+//        mAdapter.setClickListener(getActivity());
+		mRecyclerView2.setAdapter(mAdapter2);
 	}
 	
 	private void setUpToolbar(@NonNull View view) {
