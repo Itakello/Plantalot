@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context="com.plantalot.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="88dp">
+
+        <include layout="@layout/navigation_drawer" />
+    </LinearLayout>
+
+    <!-- FIXED TOP APP BAR -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/app_bar_"
+            style="@style/Widget.App.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="12dp"
+            android:paddingLeft="12dp"
+            android:paddingEnd="12dp"
+            android:paddingRight="12dp"
+            app:contentInsetStart="0dp"
+            app:menu="@menu/top_app_bar"
+            app:navigationIcon="@drawable/ic_round_menu_24"
+            app:title="@string/app_name" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- BACKDROP BACK LAYER -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Scrollable content -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/navigation_drawer_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/Red">
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Trento" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Bergamo" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Belluno" />-->
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Trento" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Bergamo" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Belluno" />-->
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Trento" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Bergamo" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Belluno" />-->
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Trento" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Bergamo" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Belluno" />-->
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Trento" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Bergamo" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:text="Belluno" />-->
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- BACKDROP FRONT LAYER -->
+    <!--    <com.plantalot.view.backdrop.BackdropFrontLayer-->
+    <!--        android:id="@+id/backdrop"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:elevation="8dp"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_behavior="com.plantalot.view.backdrop.BackdropFrontLayerBehavior">-->
+
+
+    <!--        &lt;!&ndash;This is the backdrop's header with a title and icon&ndash;&gt;-->
+    <!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+    <!--            android:id="@+id/backdrop_header"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/backdrop_background"-->
+    <!--            android:clickable="true"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:paddingHorizontal="15dp"-->
+    <!--            android:paddingTop="8dp"-->
+    <!--            app:behavior_peekHeight="56dp">-->
+
+    <!--            <FrameLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="Esperienze"-->
+    <!--                    android:textColor="#000000"-->
+    <!--                    android:textSize="17sp"-->
+    <!--                    android:textStyle="bold" />-->
+
+
+    <!--                &lt;!&ndash;arrow to collapse backdrop&ndash;&gt;-->
+    <!--                <ImageView-->
+    <!--                    android:id="@+id/up_arrow"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="right"-->
+    <!--                    android:src="@drawable/white_to_black_up_arrow" />-->
+
+
+    <!--            </FrameLayout>-->
+
+
+    <!--            <View-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="1dp"-->
+    <!--                android:layout_marginTop="8dp"-->
+    <!--                android:background="#dddddd" />-->
+
+
+    <!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
+
+    <!--        &lt;!&ndash;And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)&ndash;&gt;-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:background="#ffffff"-->
+    <!--            android:orientation="vertical">-->
+
+
+    <!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+    <!--                android:id="@+id/swiperefresh"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent">-->
+
+
+    <!--                <androidx.recyclerview.widget.RecyclerView-->
+    <!--                    android:id="@+id/esperienze"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:nestedScrollingEnabled="false" />-->
+
+
+    <!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+
+    <!--            &lt;!&ndash;The content's body goes here&ndash;&gt;-->
+
+
+    <!--        </LinearLayout>-->
+
+    <!--    </com.plantalot.view.backdrop.BackdropFrontLayer>-->
+
+</FrameLayout>
