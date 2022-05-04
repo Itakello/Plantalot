@@ -15,19 +15,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class HomeFragment extends Fragment {
 	
-	private final List<String> mDataset = Arrays.asList("Trento", "Bergamo", "Belluno");
-	private final List<String> mDataset2 = Arrays.asList("Back yard", "Front yard", "Nice yard");
+	private final Map<String, Map<String, List<Integer>>> mGiardini = new HashMap<>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		
+		mGiardini.put("Trento", new HashMap<>());
+		mGiardini.put("Bergamo", new HashMap<>());
+		mGiardini.put("Belluno", new HashMap<>());
+		
+		mGiardini.get("Trento").put("Back yard", Arrays.asList(R.drawable.tomato_3944072, R.drawable.cabbage_3944158, R.drawable.garlic_3944096, R.drawable.watermelon_3944164, R.drawable.peanut_3944274, R.drawable.asparagus_3944087, R.drawable.beet_3944102, R.drawable.chard_3944149, R.drawable.broccoli_3944323, R.drawable.artichoke_3944084, R.drawable.melon_3944173, R.drawable.carrot_3944093, R.drawable.cauliflower_3944060, R.drawable.cabbage_3944158, R.drawable.brussels_sprouts_4977368, R.drawable.kale_3944155, R.drawable.cucumber_3944113, R.drawable.onion_3944225, R.drawable.green_onion_4788140, R.drawable.chives_4788105, R.drawable.green_beans_4977341, R.drawable.beans_3944104, R.drawable.soybean_3944107, R.drawable.fennel_3944161, R.drawable.strawberry_3944176, R.drawable.lettuce_3944125, R.drawable.corn_3944286, R.drawable.eggplants_3944110, R.drawable.melon_3944173, R.drawable.okra_4977475, R.drawable.chili_pepper_3944137, R.drawable.pepper_3944075, R.drawable.green_pea_4977534, R.drawable.leek_3944259, R.drawable.parsley_4788183, R.drawable.vegetable_3944143, R.drawable.turnip_3944078, R.drawable.arugula_4788082, R.drawable.shallot_3944099, R.drawable.celery_3944146, R.drawable.vegetable_3944152, R.drawable.spinach_3944292, R.drawable.melon_3944173, R.drawable.pumpkin_3944344, R.drawable.zucchini_3944064));
+		mGiardini.get("Trento").put("Front yard", Arrays.asList(R.drawable.cucumber_3944113, R.drawable.onion_3944225, R.drawable.green_onion_4788140, R.drawable.chives_4788105, R.drawable.green_beans_4977341, R.drawable.beans_3944104, R.drawable.soybean_3944107, R.drawable.fennel_3944161, R.drawable.strawberry_3944176, R.drawable.lettuce_3944125, R.drawable.corn_3944286, R.drawable.eggplants_3944110, R.drawable.melon_3944173, R.drawable.okra_4977475, R.drawable.chili_pepper_3944137, R.drawable.pepper_3944075, R.drawable.green_pea_4977534, R.drawable.leek_3944259, R.drawable.parsley_4788183, R.drawable.vegetable_3944143, R.drawable.turnip_3944078, R.drawable.arugula_4788082, R.drawable.shallot_3944099, R.drawable.celery_3944146, R.drawable.vegetable_3944152, R.drawable.spinach_3944292, R.drawable.melon_3944173, R.drawable.pumpkin_3944344, R.drawable.zucchini_3944064));
+		mGiardini.get("Trento").put("Nice yard", Arrays.asList(R.drawable.tomato_3944072, R.drawable.cabbage_3944158, R.drawable.garlic_3944096, R.drawable.watermelon_3944164, R.drawable.peanut_3944274, R.drawable.asparagus_3944087, R.drawable.beet_3944102, R.drawable.chard_3944149, R.drawable.broccoli_3944323, R.drawable.artichoke_3944084, R.drawable.melon_3944173, R.drawable.carrot_3944093, R.drawable.cauliflower_3944060, R.drawable.cabbage_3944158, R.drawable.brussels_sprouts_4977368, R.drawable.kale_3944155));
 	}
 	
 	@Override
@@ -41,17 +51,15 @@ public class HomeFragment extends Fragment {
 	}
 	
 	private void setUpRecyclerView(@NonNull View view) {
-		RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		DrawerAdapter mAdapter = new DrawerAdapter(getActivity(), mDataset);
-//        mAdapter.setClickListener(getActivity());
-		mRecyclerView.setAdapter(mAdapter);
+		RecyclerView giardiniRecyclerView = view.findViewById(R.id.recycler_view_giardini);
+		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		DrawerAdapter giardiniAdapter = new DrawerAdapter(getActivity(), new ArrayList<>(mGiardini.keySet()));
+		giardiniRecyclerView.setAdapter(giardiniAdapter);
 		
-		RecyclerView mRecyclerView2 = view.findViewById(R.id.recycler_view2);
-		mRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtiAdapter mAdapter2 = new OrtiAdapter(getActivity(), mDataset2);
-//        mAdapter.setClickListener(getActivity());
-		mRecyclerView2.setAdapter(mAdapter2);
+		RecyclerView ortiRecyclerView = view.findViewById(R.id.recycler_home_orti);
+		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtiAdapter ortiAdapter = new OrtiAdapter(mGiardini.get("Trento"));
+		ortiRecyclerView.setAdapter(ortiAdapter);
 	}
 	
 	private void setUpToolbar(@NonNull View view) {

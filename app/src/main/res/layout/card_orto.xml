@@ -1,69 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		>
 	
 	<com.google.android.material.card.MaterialCardView
 			android:id="@+id/card"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginVertical="8dp"
+			app:cardCornerRadius="12dp"
 			>
 		
 		<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				>
 			
-			<!-- Media -->
-			<ImageView
+			<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recycler_home_ortaggi"
 					android:layout_width="match_parent"
-					android:layout_height="194dp"
-					android:contentDescription="string/content_description_media"
-					android:scaleType="centerCrop"
-					app:srcCompat="@drawable/ic_round_add_24" />
+					android:layout_height="240dp"
+					/>
 			
 			<androidx.constraintlayout.widget.ConstraintLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:orientation="horizontal"
-					android:padding="16dp">
+					android:padding="16dp"
+					>
 				
-				<!-- Title, secondary and supporting text -->
 				<TextView
-						android:id="@+id/card_title"
+						android:id="@+id/title_card_orto"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="Back yard"
 						android:textAppearance="?attr/textAppearanceHeadline6"
-						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintBottom_toBottomOf="parent"
 						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
 						/>
 				
 				<TextView
+						android:id="@+id/label_specie"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:paddingRight="16dp"
 						android:text="12 varietà"
 						android:textAppearance="?attr/textAppearanceBody2"
 						android:textColor="?android:attr/textColorSecondary"
-						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintEnd_toStartOf="@id/piante"
-						android:paddingRight="16dp"/>
+						app:layout_constraintEnd_toStartOf="@id/label_piante"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
 				
 				<TextView
-						android:id="@+id/piante"
+						android:id="@+id/label_piante"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:paddingLeft="16dp"
 						android:text="42 piante"
 						android:textAppearance="?attr/textAppearanceBody2"
 						android:textColor="?android:attr/textColorSecondary"
-						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintBottom_toBottomOf="parent"
 						app:layout_constraintEnd_toEndOf="parent"
-						android:paddingLeft="16dp" />
+						app:layout_constraintTop_toTopOf="parent"
+						/>
 			
 			</androidx.constraintlayout.widget.ConstraintLayout>
 		

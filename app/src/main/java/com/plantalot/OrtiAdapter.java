@@ -1,79 +1,75 @@
 package com.plantalot;
 
-import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	
-	private final List<String> mData;
-	private final LayoutInflater mInflater;
-	private ItemClickListener mClickListener;
+	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+	private final Map<String, List<Integer>> mData;
+	private final List<String> mKeys;
 	
-	// data is passed into the constructor
-	OrtiAdapter(Context context, List<String> data) {
-		this.mInflater = LayoutInflater.from(context);
+	OrtiAdapter(Map<String, List<Integer>> data) {
 		this.mData = data;
+		this.mKeys = new ArrayList<>(mData.keySet());
 	}
 	
-	// inflates the row layout from xml when needed
 	@NonNull
 	@Override
-	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		View view = mInflater.inflate(R.layout.card_orto, parent, false);
+	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_orto, viewGroup, false);
 		return new ViewHolder(view);
 	}
 	
-	// binds the data to the TextView in each row
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		String giardino = mData.get(position);
-		holder.textView.setText(giardino);
+	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+		String ortoName = mKeys.get(i);
+		
+		viewHolder.mRecyclerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+		int height = viewHolder.mRecyclerView.getMeasuredHeight();
+		int width = viewHolder.mRecyclerView.getMeasuredWidth();
+		int varieta = mData.get(ortoName).size();
+		
+		viewHolder.titleTextView.setText(ortoName);
+		viewHolder.labelTextView.setText(varieta + " specie");
+		
+		GridLayoutManager layoutManager = new GridLayoutManager(viewHolder.mRecyclerView.getContext(), 8, LinearLayoutManager.VERTICAL, false);
+		layoutManager.setInitialPrefetchItemCount(mData.get(ortoName).size());
+		CardAdapter cardAdapter = new CardAdapter(new ArrayList<>(mData.get(ortoName)));
+		
+		viewHolder.mRecyclerView.setLayoutManager(layoutManager);
+		viewHolder.mRecyclerView.setAdapter(cardAdapter);
+		viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
 	}
 	
-	// total number of rows
 	@Override
 	public int getItemCount() {
 		return mData.size();
 	}
 	
-	
-	// stores and recycles views as they are scrolled off screen
-	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		TextView textView;
+	static class ViewHolder extends RecyclerView.ViewHolder {
 		
-		ViewHolder(View itemView) {
+		private final TextView titleTextView;
+		private final TextView labelTextView;
+		private final RecyclerView mRecyclerView;
+		
+		ViewHolder(final View itemView) {
 			super(itemView);
-			textView = itemView.findViewById(R.id.card_title);
-			itemView.setOnClickListener(this);
+			titleTextView = itemView.findViewById(R.id.title_card_orto);
+			labelTextView = itemView.findViewById(R.id.label_specie);
+			mRecyclerView = itemView.findViewById(R.id.recycler_home_ortaggi);
 		}
-		
-		@Override
-		public void onClick(View view) {
-			if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-		}
-	}
-	
-	// convenience method for getting data at click position
-	String getItem(int id) {
-		return mData.get(id);
-	}
-	
-	// allows clicks events to be caught
-	void setClickListener(ItemClickListener itemClickListener) {
-		this.mClickListener = itemClickListener;
-	}
-	
-	// parent activity will implement this method to respond to click events
-	public interface ItemClickListener {
-		void onItemClick(View view, int position);
 	}
 	
 }

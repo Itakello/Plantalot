@@ -1,29 +1,17 @@
 package com.plantalot;
 
-import com.plantalot.R;
-
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
 import android.view.animation.Interpolator;
-import android.view.animation.Transformation;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -86,7 +74,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		animator.start();
 
 		// Add bottom margin to RecyclerView to not crop the content
-		RecyclerView fl = sheet.findViewById(R.id.recycler_view2);
+		RecyclerView fl = sheet.findViewById(R.id.recycler_home_orti);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fl.getLayoutParams();
 		params.bottomMargin = backdropShown ? translateY : 0;
 		fl.setLayoutParams(params);

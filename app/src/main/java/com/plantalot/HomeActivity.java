@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
 	}
 	
 	private void setUpRecyclerView() {
-		RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+		RecyclerView mRecyclerView = findViewById(R.id.recycler_view_giardini);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		DrawerAdapter mAdapter = new DrawerAdapter(this, mDataset);
 //        mAdapter.setClickListener(getActivity());
