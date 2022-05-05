@@ -1,19 +1,18 @@
-package com.plantalot;
+package com.plantalot.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Resources;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.google.android.flexbox.AlignItems;
-import com.google.android.flexbox.AlignSelf;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.plantalot.utils.Consts;
+import com.plantalot.R;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	private final int width;
 	
 	CardAdapter(List<Integer> data, int width) {
-		this.mData = data.subList(0, Math.min(Const.CARD_COLUMNS, data.size()));
+		this.mData = data.subList(0, Math.min(Consts.CARD_COLUMNS, data.size()));
 		this.width = width;
 	}
 	

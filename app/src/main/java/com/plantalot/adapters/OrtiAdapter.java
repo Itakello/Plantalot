@@ -1,4 +1,4 @@
-package com.plantalot;
+package com.plantalot.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.plantalot.utils.Consts;
+import com.plantalot.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	private final List<String> mKeys;
 	Context context;
 	
-	OrtiAdapter(Map<String, List<Integer>> data) {
+	public OrtiAdapter(Map<String, List<Integer>> data) {
 		this.mData = data;
 		this.mKeys = new ArrayList<>(mData.keySet());
 	}
@@ -46,7 +48,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 			public void run() {
 				int width = viewHolder.mFrameLayout.getWidth();
 				int padding = viewHolder.mFrameLayout.getPaddingTop();
-				int imgwidth = (width - 2 * padding) / (Const.CARD_COLUMNS / 2);
+				int imgwidth = (width - 2 * padding) / (Consts.CARD_COLUMNS / 2);
 				
 				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
 				layoutManager.setJustifyContent(JustifyContent.CENTER);
@@ -57,7 +59,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 				viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
 				
 				ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();
-				params.height = 2 * ((width - 2 * padding) / (Const.CARD_COLUMNS / 2) + padding);
+				params.height = 2 * ((width - 2 * padding) / (Consts.CARD_COLUMNS / 2) + padding);
 				viewHolder.mFrameLayout.setLayoutParams(params);
 				if (specie == 5 || specie == 6) {  // compact view
 					viewHolder.mFrameLayout.setPadding(padding + imgwidth / 2, padding, padding + imgwidth / 2, padding);

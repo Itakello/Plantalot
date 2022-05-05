@@ -3,34 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../../../../layout/custom_preview.xml" value="0.3723958333333333" />
-        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot2/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable-v24/backdrop_background.xml" value="0.1655" />
-        <entry key="app/src/main/res/drawable-v24/black_to_white_up_arrow.xml" value="0.1535" />
-        <entry key="app/src/main/res/drawable-v24/ic_dashboard_black_24dp.xml" value="0.1825" />
-        <entry key="app/src/main/res/drawable-v24/white_to_black_up_arrow.xml" value="0.1535" />
-        <entry key="app/src/main/res/drawable/ic_round_account_circle_24.xml" value="0.1755" />
-        <entry key="app/src/main/res/drawable/ic_round_close_24.xml" value="0.1755" />
-        <entry key="app/src/main/res/drawable/ic_round_menu_24.xml" value="0.3355" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/backdrop.xml" value="0.42961876832844575" />
-        <entry key="app/src/main/res/layout/card_orto.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_backdrop_front_layer.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.2848575712143928" />
-        <entry key="app/src/main/res/layout/home_fragment_.xml" value="0.3411458333333333" />
-        <entry key="app/src/main/res/layout/image_view.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/main_activity.xml" value="0.271875" />
-        <entry key="app/src/main/res/layout/main_activity_.xml" value="0.16770833333333332" />
-        <entry key="app/src/main/res/layout/navigation_drawer.xml" value="0.3411458333333333" />
-        <entry key="app/src/main/res/layout/navigation_drawer_button.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/sdfds.xml" value="0.26902173913043476" />
-        <entry key="app/src/main/res/layout/shr_login_fragment.xml" value="0.3411458333333333" />
-        <entry key="app/src/main/res/layout/shr_product_grid_fragment.xml" value="0.21195652173913043" />
-        <entry key="app/src/main/res/menu/top_app_bar.xml" value="0.3411458333333333" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3485" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3485" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/drawable/ic_round_menu_24.xml" value="0.3485" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/activity_main.xml" value="0.16979166666666667" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/card_orto.xml" value="0.1" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/fragment_window.xml" value="0.16979166666666667" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/home_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/home_fragment_.xml" value="0.176" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/main_activity.xml" value="0.10740740740740741" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/navigation_drawer.xml" value="0.10740740740740741" />
+        <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/navigation_drawer_button.xml" value="0.10740740740740741" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

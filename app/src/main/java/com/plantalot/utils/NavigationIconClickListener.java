@@ -1,4 +1,4 @@
-package com.plantalot;
+package com.plantalot.utils;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.plantalot.R;
 
 /**
  * {@link View.OnClickListener} used to translate the product grid sheet downward on
@@ -38,7 +40,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		this(context, sheet, interpolator, null, null, 0);
 	}
 	
-	NavigationIconClickListener(
+	public NavigationIconClickListener(
 			Context context, View sheet, @Nullable Interpolator interpolator,
 			@Nullable Drawable openIcon, @Nullable Drawable closeIcon, int translateY) {
 		this.context = context;

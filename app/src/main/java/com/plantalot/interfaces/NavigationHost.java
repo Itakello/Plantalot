@@ -1,4 +1,4 @@
-package com.plantalot;
+package com.plantalot.interfaces;
 
 import androidx.fragment.app.Fragment;
 

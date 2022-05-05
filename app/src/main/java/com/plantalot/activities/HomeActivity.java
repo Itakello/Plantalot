@@ -1,6 +1,6 @@
 // Clone di HomeFragment.java
 
-package com.plantalot;
+package com.plantalot.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.plantalot.utils.NavigationIconClickListener;
+import com.plantalot.R;
+import com.plantalot.adapters.DrawerAdapter;
 
 import java.util.Arrays;
 import java.util.List;

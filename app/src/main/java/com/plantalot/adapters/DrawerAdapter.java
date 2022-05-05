@@ -1,4 +1,4 @@
-package com.plantalot;
+package com.plantalot.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.plantalot.R;
+
 import java.util.List;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
@@ -18,7 +20,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 	private ItemClickListener mClickListener;
 	
 	// data is passed into the constructor
-	DrawerAdapter(Context context, List<String> data) {
+	public DrawerAdapter(Context context, List<String> data) {
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
 	}
