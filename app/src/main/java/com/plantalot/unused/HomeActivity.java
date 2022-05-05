@@ -1,6 +1,6 @@
 // Clone di HomeFragment.java
 
-package com.plantalot.activities;
+package com.plantalot.unused;
 
 import android.os.Bundle;
 import android.view.Menu;

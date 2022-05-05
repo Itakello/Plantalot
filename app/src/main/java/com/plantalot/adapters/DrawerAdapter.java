@@ -13,6 +13,7 @@ import com.plantalot.R;
 
 import java.util.List;
 
+// Cambia il contenuto del backlyer
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
 	
 	private final List<String> mData;

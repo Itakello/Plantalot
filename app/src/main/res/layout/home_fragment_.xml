@@ -148,13 +148,13 @@
     </androidx.core.widget.NestedScrollView>
 
     <!-- BACKDROP FRONT LAYER -->
-    <!--    <com.plantalot.view.backdrop.BackdropFrontLayer-->
+    <!--    <com.plantalot.unused.backdrop.BackdropFrontLayer-->
     <!--        android:id="@+id/backdrop"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="match_parent"-->
     <!--        android:elevation="8dp"-->
     <!--        android:orientation="vertical"-->
-    <!--        app:layout_behavior="com.plantalot.view.backdrop.BackdropFrontLayerBehavior">-->
+    <!--        app:layout_behavior="com.plantalot.unused.backdrop.BackdropFrontLayerBehavior">-->
 
 
     <!--        &lt;!&ndash;This is the backdrop's header with a title and icon&ndash;&gt;-->
@@ -232,6 +232,6 @@
 
     <!--        </LinearLayout>-->
 
-    <!--    </com.plantalot.view.backdrop.BackdropFrontLayer>-->
+    <!--    </com.plantalot.unused.backdrop.BackdropFrontLayer>-->
 
 </FrameLayout>

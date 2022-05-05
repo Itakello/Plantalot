@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.plantalot.R;
 import com.plantalot.adapters.DrawerAdapter;
 import com.plantalot.utils.NavigationIconClickListener;
 import com.plantalot.adapters.OrtiAdapter;
-import com.plantalot.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +83,8 @@ public class HomeFragment extends Fragment {
 		
 		final LinearLayout drawer = (LinearLayout) view.findViewById(R.id.navigation_drawer);
 		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-		
+
+		// animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
 				view.findViewById(R.id.backdrop_front_layer),

@@ -16,6 +16,7 @@ import com.plantalot.R;
 
 import java.util.List;
 
+// Riempe la card con le icone
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	
 	private final List<Integer> mData;

@@ -38,7 +38,8 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 		View view = LayoutInflater.from(context).inflate(R.layout.card_orto, viewGroup, false);
 		return new ViewHolder(view);
 	}
-	
+
+	// Assegna ad ogni card i vari elementi (nome e card adapter)
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 		String ortoName = mKeys.get(i);
@@ -67,7 +68,6 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 				
 				viewHolder.titleTextView.setText(ortoName);
 				viewHolder.labelTextView.setText(specie + " specie");
-				
 			}
 		});
 		
@@ -79,7 +79,8 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	}
 	
 	static class ViewHolder extends RecyclerView.ViewHolder {
-		
+
+		// Attributes card
 		private final TextView titleTextView;
 		private final TextView labelTextView;
 		private final RecyclerView mRecyclerView;
