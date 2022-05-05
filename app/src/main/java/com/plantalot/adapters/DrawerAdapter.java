@@ -29,7 +29,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 	// inflates the row layout from xml when needed
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		View view = mInflater.inflate(R.layout.navigation_drawer_button, parent, false);
+		View view = mInflater.inflate(R.layout.home_bl_drawer_button, parent, false);
 		return new ViewHolder(view);
 	}
 	

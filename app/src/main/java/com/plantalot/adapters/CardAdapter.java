@@ -30,7 +30,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_view, viewGroup, false);
+		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_fl_imageview_ortaggio, viewGroup, false);
 		Resources r = viewGroup.getContext().getResources();
 		return new ViewHolder(view);
 	}
@@ -55,7 +55,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 		
 		ViewHolder(View view) {
 			super(view);
-			mImageView = view.findViewById(R.id.image_home_ortaggio);
+			mImageView = view.findViewById(R.id.home_imageview_ortaggio);
 			
 			ViewGroup.LayoutParams lp = itemView.getLayoutParams();
 			if (lp instanceof FlexboxLayoutManager.LayoutParams) {

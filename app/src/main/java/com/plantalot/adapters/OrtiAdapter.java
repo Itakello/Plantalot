@@ -35,7 +35,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		context = viewGroup.getContext();
-		View view = LayoutInflater.from(context).inflate(R.layout.card_orto, viewGroup, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.home_fl_card_orto, viewGroup, false);
 		return new ViewHolder(view);
 	}
 
@@ -86,12 +86,12 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 		private final RecyclerView mRecyclerView;
 		private final FrameLayout mFrameLayout;
 		
-		ViewHolder(final View itemView) {
-			super(itemView);
-			titleTextView = itemView.findViewById(R.id.title_card_orto);
-			labelTextView = itemView.findViewById(R.id.label_specie);
-			mRecyclerView = itemView.findViewById(R.id.recycler_home_ortaggi);
-			mFrameLayout = itemView.findViewById(R.id.layout_home_ortaggi);
+		ViewHolder(final View view) {
+			super(view);
+			titleTextView = view.findViewById(R.id.home_fl_card_title_orto);
+			labelTextView = view.findViewById(R.id.label_specie);
+			mRecyclerView = view.findViewById(R.id.home_fl_recycler_ortaggi);
+			mFrameLayout = view.findViewById(R.id.layout_home_ortaggi);
 		}
 	}
 	

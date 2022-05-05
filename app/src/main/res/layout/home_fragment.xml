@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
 		style="@style/Widget.App.Background"
@@ -8,40 +9,26 @@
 		android:clipChildren="false"
 		android:clipToPadding="false"
 		android:gravity="bottom"
-		tools:context=".fragments.HomeFragment">
+		tools:context=".fragments.HomeFragment"
+		>
 	
-	<!--  TOP & BACK -->
+	<!-- BACK LAYER -->
 	<LinearLayout
-			android:id="@+id/top"
+			android:id="@+id/home_backdrop_backlayer"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical">
+			android:orientation="vertical"
+			>
 		
-		<!-- TOP APP BAR -->
-		<com.google.android.material.appbar.AppBarLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:elevation="0dp">
-			
-			<com.google.android.material.appbar.MaterialToolbar
-					android:id="@+id/app_bar"
-					android:layout_width="match_parent"
-					android:layout_height="?attr/actionBarSize"
-					app:contentInsetStart="0dp"
-					app:menu="@menu/top_app_bar"
-					app:navigationIcon="@drawable/ic_round_menu_24"
-					app:title="@string/app_name" />
+		<include layout="@layout/home_bl_appbar" />
 		
-		</com.google.android.material.appbar.AppBarLayout>
-		
-		<!-- BACKDROP BACK LAYER -->
-		<include layout="@layout/navigation_drawer" />
+		<include layout="@layout/home_bl_drawer" />
 	
 	</LinearLayout>
 	
-	<!-- BACKDROP FRONT LAYER -->
+	<!-- FRONT LAYER -->
 	<androidx.core.widget.NestedScrollView
-			android:id="@+id/backdrop_front_layer"
+			android:id="@+id/home_backdrop_frontlayer"
 			style="@style/Widget.App.BackdropFrontLayer"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -49,31 +36,10 @@
 			android:overScrollMode="never"
 			android:paddingHorizontal="16dp"
 			android:scrollbars="none"
-			app:layout_behavior="@string/appbar_scrolling_view_behavior">
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			>
 		
-		<LinearLayout
-				android:id="@+id/fl_content"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center"
-				android:orientation="vertical">
-			
-			<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:paddingVertical="24dp"
-					android:text="Trento"
-					android:textAppearance="?attr/textAppearanceHeadline5" />
-			
-			<androidx.recyclerview.widget.RecyclerView
-					android:id="@+id/recycler_home_orti"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:nestedScrollingEnabled="false"
-					android:overScrollMode="never"
-					android:paddingBottom="24dp" />
-		
-		</LinearLayout>
+		<include layout="@layout/home_fl_content" />
 	
 	</androidx.core.widget.NestedScrollView>
 

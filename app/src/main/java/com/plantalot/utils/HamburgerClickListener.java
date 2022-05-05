@@ -20,30 +20,27 @@ import com.plantalot.R;
  * {@link View.OnClickListener} used to translate the product grid sheet downward on
  * the Y-axis when the navigation icon in the toolbar is pressed.
  */
-public class NavigationIconClickListener implements View.OnClickListener {
+public class HamburgerClickListener implements View.OnClickListener {
 	
 	private final AnimatorSet animatorSet = new AnimatorSet();
-	private final Context context;
 	private final View sheet;
 	private final Interpolator interpolator;
-	private final int height;
 	private boolean backdropShown = false;
 	private final Drawable openIcon;
 	private final Drawable closeIcon;
 	private final int translateY;
 	
-	NavigationIconClickListener(Context context, View sheet) {
+	HamburgerClickListener(Context context, View sheet) {
 		this(context, sheet, null);
 	}
 	
-	NavigationIconClickListener(Context context, View sheet, @Nullable Interpolator interpolator) {
+	HamburgerClickListener(Context context, View sheet, @Nullable Interpolator interpolator) {
 		this(context, sheet, interpolator, null, null, 0);
 	}
 	
-	public NavigationIconClickListener(
+	public HamburgerClickListener(
 			Context context, View sheet, @Nullable Interpolator interpolator,
 			@Nullable Drawable openIcon, @Nullable Drawable closeIcon, int translateY) {
-		this.context = context;
 		this.sheet = sheet;
 		this.interpolator = interpolator;
 		this.openIcon = openIcon;
@@ -52,7 +49,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		height = displayMetrics.heightPixels;
+		int height = displayMetrics.heightPixels;
 	}
 	
 	@Override
@@ -76,7 +73,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		animator.start();
 
 		// Add bottom margin to RecyclerView to not crop the content
-		RecyclerView fl = sheet.findViewById(R.id.recycler_home_orti);
+		RecyclerView fl = sheet.findViewById(R.id.home_fl_recycler_orti);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fl.getLayoutParams();
 		params.bottomMargin = backdropShown ? translateY : 0;
 		fl.setLayoutParams(params);
