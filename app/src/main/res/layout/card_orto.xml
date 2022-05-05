@@ -20,11 +20,22 @@
 				android:orientation="vertical"
 				>
 			
-			<androidx.recyclerview.widget.RecyclerView
-					android:id="@+id/recycler_home_ortaggi"
+			<FrameLayout
+					android:id="@+id/layout_home_ortaggi"
 					android:layout_width="match_parent"
-					android:layout_height="240dp"
-					/>
+					android:layout_height="wrap_content"
+					android:background="@color/LightGrey"
+					android:padding="8dp"
+					>
+				
+				<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/recycler_home_ortaggi"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						/>
+			
+			</FrameLayout>
 			
 			<androidx.constraintlayout.widget.ConstraintLayout
 					android:layout_width="match_parent"
@@ -48,8 +59,7 @@
 						android:id="@+id/label_specie"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:paddingRight="16dp"
-						android:text="12 varietà"
+						android:text="# varietà"
 						android:textAppearance="?attr/textAppearanceBody2"
 						android:textColor="?android:attr/textColorSecondary"
 						app:layout_constraintBottom_toBottomOf="parent"
@@ -61,8 +71,8 @@
 						android:id="@+id/label_piante"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:paddingLeft="16dp"
-						android:text="42 piante"
+						android:paddingHorizontal="16dp"
+						android:text="# piante"
 						android:textAppearance="?attr/textAppearanceBody2"
 						android:textColor="?android:attr/textColorSecondary"
 						app:layout_constraintBottom_toBottomOf="parent"

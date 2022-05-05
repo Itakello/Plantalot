@@ -1,14 +1,17 @@
 package com.plantalot;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 	private final Map<String, List<Integer>> mData;
 	private final List<String> mKeys;
+	Context context;
 	
 	OrtiAdapter(Map<String, List<Integer>> data) {
 		this.mData = data;
@@ -28,29 +32,43 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_orto, viewGroup, false);
+		context = viewGroup.getContext();
+		View view = LayoutInflater.from(context).inflate(R.layout.card_orto, viewGroup, false);
 		return new ViewHolder(view);
 	}
 	
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 		String ortoName = mKeys.get(i);
+		int specie = mData.get(ortoName).size();
 		
-		viewHolder.mRecyclerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-		int height = viewHolder.mRecyclerView.getMeasuredHeight();
-		int width = viewHolder.mRecyclerView.getMeasuredWidth();
-		int varieta = mData.get(ortoName).size();
+		viewHolder.mFrameLayout.post(new Runnable() {  // needed to get the width (fixme ?)
+			public void run() {
+				int width = viewHolder.mFrameLayout.getWidth();
+				int padding = viewHolder.mFrameLayout.getPaddingTop();
+				int imgwidth = (width - 2 * padding) / (Const.CARD_COLUMNS / 2);
+				
+				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
+				layoutManager.setJustifyContent(JustifyContent.CENTER);
+				CardAdapter cardAdapter = new CardAdapter(new ArrayList<>(mData.get(ortoName)), imgwidth);
+				
+				viewHolder.mRecyclerView.setLayoutManager(layoutManager);
+				viewHolder.mRecyclerView.setAdapter(cardAdapter);
+				viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
+				
+				ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();
+				params.height = 2 * ((width - 2 * padding) / (Const.CARD_COLUMNS / 2) + padding);
+				viewHolder.mFrameLayout.setLayoutParams(params);
+				if (specie == 5 || specie == 6) {  // compact view
+					viewHolder.mFrameLayout.setPadding(padding + imgwidth / 2, padding, padding + imgwidth / 2, padding);
+				}
+				
+				viewHolder.titleTextView.setText(ortoName);
+				viewHolder.labelTextView.setText(specie + " specie");
+				
+			}
+		});
 		
-		viewHolder.titleTextView.setText(ortoName);
-		viewHolder.labelTextView.setText(varieta + " specie");
-		
-		GridLayoutManager layoutManager = new GridLayoutManager(viewHolder.mRecyclerView.getContext(), 8, LinearLayoutManager.VERTICAL, false);
-		layoutManager.setInitialPrefetchItemCount(mData.get(ortoName).size());
-		CardAdapter cardAdapter = new CardAdapter(new ArrayList<>(mData.get(ortoName)));
-		
-		viewHolder.mRecyclerView.setLayoutManager(layoutManager);
-		viewHolder.mRecyclerView.setAdapter(cardAdapter);
-		viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
 	}
 	
 	@Override
@@ -63,12 +81,14 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 		private final TextView titleTextView;
 		private final TextView labelTextView;
 		private final RecyclerView mRecyclerView;
+		private final FrameLayout mFrameLayout;
 		
 		ViewHolder(final View itemView) {
 			super(itemView);
 			titleTextView = itemView.findViewById(R.id.title_card_orto);
 			labelTextView = itemView.findViewById(R.id.label_specie);
 			mRecyclerView = itemView.findViewById(R.id.recycler_home_ortaggi);
+			mFrameLayout = itemView.findViewById(R.id.layout_home_ortaggi);
 		}
 	}
 	
