@@ -40,7 +40,8 @@ public class HomeFragment extends Fragment {
 		mGiardini.put("Bergamo", new HashMap<>());
 		mGiardini.put("Belluno", new HashMap<>());
 		
-//		mGiardini.get("Trento").put("Back yard", Arrays.asList(R.drawable.tomato_3944072, R.drawable.cabbage_3944158, R.drawable.garlic_3944096, R.drawable.watermelon_3944164, R.drawable.peanut_3944274, R.drawable.asparagus_3944087, R.drawable.beet_3944102, R.drawable.chard_3944149, R.drawable.broccoli_3944323, R.drawable.artichoke_3944084, R.drawable.melon_3944173, R.drawable.carrot_3944093, R.drawable.cauliflower_3944060, R.drawable.cabbage_3944158, R.drawable.brussels_sprouts_4977368, R.drawable.kale_3944155, R.drawable.cucumber_3944113, R.drawable.onion_3944225, R.drawable.green_onion_4788140, R.drawable.chives_4788105, R.drawable.green_beans_4977341, R.drawable.beans_3944104, R.drawable.soybean_3944107, R.drawable.fennel_3944161, R.drawable.strawberry_3944176, R.drawable.lettuce_3944125, R.drawable.corn_3944286, R.drawable.eggplants_3944110, R.drawable.melon_3944173, R.drawable.okra_4977475, R.drawable.chili_pepper_3944137, R.drawable.pepper_3944075, R.drawable.green_pea_4977534, R.drawable.leek_3944259, R.drawable.parsley_4788183, R.drawable.vegetable_3944143, R.drawable.turnip_3944078, R.drawable.arugula_4788082, R.drawable.shallot_3944099, R.drawable.celery_3944146, R.drawable.vegetable_3944152, R.drawable.spinach_3944292, R.drawable.melon_3944173, R.drawable.pumpkin_3944344, R.drawable.zucchini_3944064));
+		mGiardini.get("Belluno").put("Back yard", Arrays.asList(R.drawable.tomato_3944072, R.drawable.cabbage_3944158, R.drawable.garlic_3944096, R.drawable.watermelon_3944164, R.drawable.peanut_3944274, R.drawable.asparagus_3944087, R.drawable.beet_3944102, R.drawable.chard_3944149, R.drawable.broccoli_3944323, R.drawable.artichoke_3944084, R.drawable.melon_3944173, R.drawable.carrot_3944093, R.drawable.cauliflower_3944060, R.drawable.cabbage_3944158, R.drawable.brussels_sprouts_4977368, R.drawable.kale_3944155, R.drawable.cucumber_3944113, R.drawable.onion_3944225, R.drawable.green_onion_4788140, R.drawable.chives_4788105, R.drawable.green_beans_4977341, R.drawable.beans_3944104, R.drawable.soybean_3944107, R.drawable.fennel_3944161, R.drawable.strawberry_3944176, R.drawable.lettuce_3944125, R.drawable.corn_3944286, R.drawable.eggplants_3944110, R.drawable.melon_3944173, R.drawable.okra_4977475, R.drawable.chili_pepper_3944137, R.drawable.pepper_3944075, R.drawable.green_pea_4977534, R.drawable.leek_3944259, R.drawable.parsley_4788183, R.drawable.vegetable_3944143, R.drawable.turnip_3944078, R.drawable.arugula_4788082, R.drawable.shallot_3944099, R.drawable.celery_3944146, R.drawable.vegetable_3944152, R.drawable.spinach_3944292, R.drawable.melon_3944173, R.drawable.pumpkin_3944344, R.drawable.zucchini_3944064));
+		
 		mGiardini.get("Bergamo").put("Dietro casa", Arrays.asList(R.drawable.cucumber_3944113, R.drawable.onion_3944225, R.drawable.beans_3944104, R.drawable.fennel_3944161, R.drawable.strawberry_3944176, R.drawable.lettuce_3944125, R.drawable.corn_3944286, R.drawable.eggplants_3944110, R.drawable.melon_3944173, R.drawable.okra_4977475, R.drawable.chili_pepper_3944137, R.drawable.pepper_3944075, R.drawable.green_pea_4977534, R.drawable.leek_3944259, R.drawable.parsley_4788183, R.drawable.vegetable_3944143, R.drawable.turnip_3944078, R.drawable.arugula_4788082, R.drawable.shallot_3944099, R.drawable.celery_3944146, R.drawable.vegetable_3944152, R.drawable.spinach_3944292, R.drawable.melon_3944173, R.drawable.pumpkin_3944344, R.drawable.zucchini_3944064));
 		
 		mGiardini.get("Trento").put("Front yard", Arrays.asList(R.drawable.cucumber_3944113, R.drawable.onion_3944225, R.drawable.beans_3944104, R.drawable.fennel_3944161, R.drawable.strawberry_3944176, R.drawable.lettuce_3944125, R.drawable.corn_3944286, R.drawable.eggplants_3944110, R.drawable.melon_3944173, R.drawable.okra_4977475, R.drawable.chili_pepper_3944137, R.drawable.pepper_3944075, R.drawable.green_pea_4977534, R.drawable.leek_3944259, R.drawable.parsley_4788183, R.drawable.vegetable_3944143, R.drawable.turnip_3944078, R.drawable.arugula_4788082, R.drawable.shallot_3944099, R.drawable.celery_3944146, R.drawable.vegetable_3944152, R.drawable.spinach_3944292, R.drawable.melon_3944173, R.drawable.pumpkin_3944344, R.drawable.zucchini_3944064));
@@ -64,16 +65,16 @@ public class HomeFragment extends Fragment {
 	}
 	
 	private void setUpRecyclerView(@NonNull View view) {
+		String key = "Trento";
+		TextView title = view.findViewById(R.id.home_fl_title_giardino);
+		title.setText(key);
+		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.recycler_view_giardini);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		DrawerAdapter giardiniAdapter = new DrawerAdapter(getActivity(), new ArrayList<>(mGiardini.keySet()));
 		giardiniRecyclerView.setAdapter(giardiniAdapter);
 		
-		String key = "Trento";
-		TextView title = view.findViewById(R.id.home_fl_title_giardino);
-		title.setText(key);
-		
-		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);  // TODO backdrop title
+		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		OrtiAdapter ortiAdapter = new OrtiAdapter(mGiardini.get(key));
 		ortiRecyclerView.setAdapter(ortiAdapter);
