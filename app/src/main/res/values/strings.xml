@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Plantalot</string>
+    <string name="new_garden">Nuovo giardino</string>
+    <string name="garden_name">Giardino</string>
 </resources>
