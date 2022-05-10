@@ -67,19 +67,6 @@
 		<item name="iconPadding">0dp</item>
 	</style>
 	
-	<style name="Widget.App.Button.NavButton" parent="Widget.Material3.Button.TonalButton">
-		<item name="android:insetTop">0dp</item>
-		<item name="android:insetBottom">0dp</item>
-		<item name="iconPadding">0dp</item>
-		<item name="iconGravity">textStart</item>
-		<item name="iconSize">24dp</item>
-		<item name="iconTint">?attr/colorPrimary</item>
-		<item name="android:textAppearance">@style/TextAppearance.App.Toolbar</item>
-		<item name="android:clickable">false</item>
-		<item name="android:focusable">false</item>
-		<item name="rippleColor">@color/none</item>
-	</style>
-	
 	<style name="Widget.App.Button.TextButton.IconOnly.BackLayer" parent="Widget.Material3.Button.TextButton">
 		<item name="android:insetTop">0dp</item>
 		<item name="android:insetBottom">0dp</item>
@@ -88,11 +75,12 @@
 		<item name="android:theme">@style/ThemeOverlay.App.Button.TextButton.BackLayer</item>
 	</style>
 	
-	
 	<style name="Widget.App.Button.TextButton.BackLayer" parent="Widget.Material3.Button.TextButton">
 		<item name="android:theme">@style/ThemeOverlay.App.Button.TextButton.BackLayer</item>
 		<item name="android:textAppearance">@style/TextAppearance.App.TextButton.BackLayer</item>
-		<!--		<item name="iconPadding">16dp</item>-->
+		<item name="android:paddingStart">16dp</item>
+		<item name="android:paddingEnd">16dp</item>
+		<item name="android:layout_gravity">center</item>
 	</style>
 	
 	<!--	<style name="Widget.App.Button.IconOnly.BackLayer" parent="Widget.App.Button.TextButton.IconOnly">-->
@@ -113,6 +101,18 @@
 		<item name="android:elevation">16dp</item>
 	</style>
 	
+	<style name="Widget.App.Button.NavButton" parent="Widget.Material3.Button.TonalButton">
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="iconPadding">0dp</item>
+		<item name="iconGravity">textStart</item>
+		<item name="iconSize">24dp</item>
+		<item name="iconTint">?attr/colorPrimary</item>
+		<item name="android:textAppearance">@style/TextAppearance.App.Toolbar</item>
+		<item name="android:clickable">false</item>
+		<item name="android:focusable">false</item>
+		<item name="rippleColor">@color/none</item>
+	</style>
 	
 	<style name="Widget.App.Chip.Suggestion" parent="Widget.Material3.Chip.Suggestion">
 		<item name="android:checked">true</item>
@@ -120,107 +120,4 @@
 		<item name="rippleColor">@color/none</item>
 	</style>
 	
-	<!--	<style name="TextAppearance.App.Title" parent="TextAppearance.MaterialComponents.Headline4">-->
-	<!--		<item name="textAllCaps">true</item>-->
-	<!--		<item name="android:textStyle">bold</item>-->
-	<!--		<item name="android:textColor">?attr/colorPrimary</item>-->
-	<!--	</style>-->
-	<!--	-->
-	<!--	<style name="Widget.App.Background" parent="">-->
-	<!--		<item name="android:background">?attr/colorPrimary</item>-->
-	<!--	</style>-->
-	
-	<!--	<style name="ThemeOverlay.App.Button" parent="">-->
-	<!--		<item name="colorPrimary">@color/design_default_color_on_secondary</item>-->
-	<!--	</style>-->
-	<!--	-->
-	<!--	        <style name="ThemeOverlay.App.Toolbar" parent="">-->
-	<!--	            <item name="colorPrimary">@color/colorPrimary</item>-->
-	<!--	            <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>-->
-	<!--	            <item name="colorOnPrimary">@color/Black</item>-->
-	<!--	            <item name="android:textColorPrimary">?attr/colorOnPrimary</item>-->
-	<!--	            <item name="elevation">0dp</item>-->
-	<!--	        </style>-->
-	<!--	-->
-	<!--	    <style name="TextAppearance.App.Headline6" parent="">-->
-	<!--	        <item name="android:textAlignment">center</item>-->
-	<!--	        <item name="android:gravity">center</item>-->
-	<!--	        <item name="android:layout_width">match_parent</item>-->
-	<!--	    </style>-->
-	<!--	-->
-	<!--	    <style name="TextAppearance.App.Subtitle1" parent="">-->
-	<!--	        <item name="android:textAlignment">center</item>-->
-	<!--	        <item name="android:gravity">center</item>-->
-	<!--	        <item name="android:layout_width">match_parent</item>-->
-	<!--	    </style>-->
-	<!--	-->
-	<!--	-->
-	<!--	    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
-	<!--	        <item name="hintTextAppearance">@style/TextAppearance.App.TextInputLayout.HintText</item>-->
-	<!--	        <item name="hintTextColor">@color/textColorPrimary</item>-->
-	<!--	        <item name="android:paddingBottom">8dp</item>-->
-	<!--	        <item name="boxStrokeColor">@color/textInputOutlineColor</item>-->
-	<!--	    </style>-->
-	<!--	-->
-	<!--	    <style name="TextAppearance.App.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">-->
-	<!--	        <item name="android:textColor">?android:attr/textColorPrimary</item>-->
-	<!--	    </style>-->
-	<!--	-->
-	<!--	    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">-->
-	<!--	        <item name="android:textColor">?android:attr/textColorPrimary</item>-->
-	<!--	        <item name="backgroundTint">?attr/colorPrimaryDark</item>-->
-	<!--	        <item name="android:stateListAnimator" tools:ignore="NewApi">-->
-	<!--	            @animator/next_button_state_list_anim-->
-	<!--	        </item>-->
-	<!--	    </style>-->
-	<!--	-->
-	<!--	    <style name="Widget.App.Toolbar" parent="Widget.AppCompat.Toolbar">-->
-	<!--	        <item name="android:background">?attr/colorAccent</item>-->
-	<!--	        <item name="android:theme">@style/Theme.App</item>-->
-	<!--	        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
-	<!--	        <item name="titleTextAppearance">@style/TextAppearance.App.Toolbar</item>-->
-	<!--	    </style>-->
-	
-	
-	<!--	-->
-	<!--	<style name="Theme.App" parent="Theme.MaterialComponents.Light.NoActionBar">-->
-	<!--		-->
-	<!--		 Original AppCompat attributes. -->
-	<!--				<item name="colorPrimary">@color/colorPrimary</item>-->
-	<!--				<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-	<!--				<item name="colorSecondary">@color/secondary_color</item>-->
-	<!--				<item name="android:colorBackground">@color/background_color</item>-->
-	<!--				<item name="colorError">@color/error_color</item>-->
-	<!--				-->
-	<!--				 New MaterialComponents attributes. -->
-	<!--				<item name="colorPrimaryVariant">@color/primary_variant_color</item>-->
-	<!--				<item name="colorSecondaryVariant">@color/secondary_variant_color</item>-->
-	<!--				<item name="colorSurface">@color/surface_color</item>-->
-	<!--				<item name="colorOnPrimary">@color/color_on_primary</item>-->
-	<!--				<item name="colorOnSecondary">@color/color_on_secondary</item>-->
-	<!--				<item name="colorOnBackground">@color/color_on_background</item>-->
-	<!--				<item name="colorOnError">@color/color_on_error</item>-->
-	<!--				<item name="colorOnSurface">@color/color_on_surface</item>-->
-	<!--				<item name="scrimBackground">@color/mtrl_scrim_color</item>-->
-	<!--		<item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>-->
-	<!--		<item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2</item>-->
-	<!--		<item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3</item>-->
-	<!--		<item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4</item>-->
-	<!--		<item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5</item>-->
-	<!--		<item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>-->
-	<!--		<item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>-->
-	<!--		<item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>-->
-	<!--		<item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>-->
-	<!--		<item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>-->
-	<!--		<item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>-->
-	<!--		<item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>-->
-	<!--		<item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>-->
-	<!--		-->
-	<!--		        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
-	<!--		        <item name="android:textColorPrimary">@color/textColorPrimary</item>-->
-	<!--		-->
-	<!--		<item name="toolbarStyle">@style/Widget.App.Toolbar</item>-->
-	<!--		<item name="borderlessButtonStyle">@style/Widget.App.Button.TextButton</item>-->
-	<!--	</style>-->
-
 </resources>
