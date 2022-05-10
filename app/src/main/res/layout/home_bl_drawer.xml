@@ -2,7 +2,7 @@
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/navigation_drawer"
+		android:id="@+id/home_bl_drawer"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
@@ -12,7 +12,7 @@
 		>
 	
 	<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/recycler_view_giardini"
+			android:id="@+id/home_bl_drawer_recycler"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
@@ -23,11 +23,11 @@
 			android:layout_width="56dp"
 			android:layout_height="1dp"
 			android:layout_margin="16dp"
-			android:background="@color/textColorPrimary"
+			android:background="?attr/colorSecondary"
 			/>
 	
 	<Button
-			style="@style/Widget.App.Button.TextButton"
+			style="@style/Widget.App.Button.TextButton.BackLayer"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Nuovo giardino"

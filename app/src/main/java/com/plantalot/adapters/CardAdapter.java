@@ -23,7 +23,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	private final int width;
 	
 	CardAdapter(List<Integer> data, int width) {
-		this.mData = data.subList(0, Math.min(Consts.CARD_COLUMNS, data.size()));
+		this.mData = data.subList(0, Math.min(Consts.CARD_PLANTS, data.size()));
 		this.width = width;
 	}
 	

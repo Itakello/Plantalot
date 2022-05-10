@@ -6,5 +6,5 @@
 		android:layout_height="96dp"
 		android:contentDescription="_"
 		android:padding="10dp"
-		android:src="@drawable/carrot_3944093"
+		android:src="@mipmap/carrot_3944093"
 		/>

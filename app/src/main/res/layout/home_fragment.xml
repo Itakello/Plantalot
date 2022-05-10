@@ -3,7 +3,7 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
-		style="@style/Widget.App.Background"
+		style="@style/Widget.App.Backdrop.BackLayer"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:clipChildren="false"
@@ -29,7 +29,7 @@
 	<!-- FRONT LAYER -->
 	<androidx.core.widget.NestedScrollView
 			android:id="@+id/home_backdrop_frontlayer"
-			style="@style/Widget.App.BackdropFrontLayer"
+			style="@style/Widget.App.Backdrop.FrontLayer"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="?attr/actionBarSize"
