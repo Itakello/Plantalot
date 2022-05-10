@@ -1,5 +1,4 @@
 package com.plantalot.classes;
 
-public class Giardino {
-
+public class Flowerbed {
 }

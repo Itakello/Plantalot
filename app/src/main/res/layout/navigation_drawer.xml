@@ -28,7 +28,7 @@
         style="@style/Widget.App.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nuovo giardino"
+        android:text="@string/new_garden"
         app:icon="@drawable/ic_round_add_24"
         app:iconPadding="8dp"
         />
