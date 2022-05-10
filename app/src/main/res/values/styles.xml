@@ -1,48 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-		<!-- Customize your theme here. -->
-		<item name="colorPrimary">?attr/colorPrimary</item>
-		<item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
-		<item name="colorAccent">?attr/colorAccent</item>
-	</style>
-	
-	<style name="AppTheme.NoActionBar">
-		<item name="windowActionBar">false</item>
-		<item name="windowNoTitle">true</item>
-	</style>
-	
-	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-	
-	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<style name="Theme.App" parent="Material3Theme">
 		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>
 		<item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
-		
 		<!--		<item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>-->
 	</style>
 	

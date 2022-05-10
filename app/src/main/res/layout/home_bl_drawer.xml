@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-		style="@style/ThemeOverlay.App.BackLayer"
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/home_bl_drawer"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:orientation="vertical"
-		android:paddingTop="8dp"
-		android:paddingBottom="16dp"
-		>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/home_bl_drawer"
+	style="@style/ThemeOverlay.App.BackLayer"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:orientation="vertical"
+	android:paddingTop="8dp"
+	android:paddingBottom="16dp"
+	>
 	
 	<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/home_bl_drawer_recycler"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center_horizontal"
-			android:orientation="vertical"
-			/>
+		android:id="@+id/home_bl_drawer_recycler"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
+		android:orientation="vertical"
+		android:overScrollMode="never"
+		/>
 	
 	<View
-			android:layout_width="56dp"
-			android:layout_height="1dp"
-			android:layout_margin="16dp"
-			android:background="?attr/colorSecondary"
-			/>
+		android:layout_width="56dp"
+		android:layout_height="1dp"
+		android:layout_margin="16dp"
+		android:background="?attr/colorSecondary"
+		/>
 	
 	<Button
-			style="@style/Widget.App.Button.TextButton.BackLayer"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Nuovo giardino"
-			app:icon="@drawable/ic_round_add_24"
-			app:iconPadding="8dp"
-			/>
+		style="@style/Widget.App.Button.TextButton.BackLayer"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Nuovo giardino"
+		app:icon="@drawable/ic_round_add_24"
+		app:iconPadding="8dp"
+		/>
 
 </LinearLayout>

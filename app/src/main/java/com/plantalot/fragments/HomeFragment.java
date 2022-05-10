@@ -37,7 +37,6 @@ import java.util.Random;
 
 public class HomeFragment extends Fragment {
 	
-	//	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 	private final Map<String, Map<String, List<Integer>>> mDataGiardini = new HashMap<>();
 	private final List<Pair<String, Integer>> mDataButtons = Arrays.asList(
 			new Pair<>("Tutte le piante", R.drawable.ic_iconify_carrot_24),
@@ -92,14 +91,6 @@ public class HomeFragment extends Fragment {
 		flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
 		navbuttonsRecyclerView.setLayoutManager(flexboxLayoutManager);
 		navbuttonsRecyclerView.setAdapter(navbuttonsAdapter);
-//		navbuttonsRecyclerView.setRecycledViewPool(viewPool);
-
-//		ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();
-//		params.height = 2 * ((width - 2 * padding) / (Consts.CARD_PLANTS / 2) + padding);
-//		viewHolder.mFrameLayout.setLayoutParams(params);
-//		if (specie == 5 || specie == 6) {  // compact view
-//			viewHolder.mFrameLayout.setPadding(padding + imgwidth / 2, padding, padding + imgwidth / 2, padding);
-//		}
 	}
 	
 	private void setUpToolbar(@NonNull View view) {
