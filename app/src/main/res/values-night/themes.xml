@@ -1,37 +1,33 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    
-    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        
-        <!-- Original AppCompat attributes. -->
-        <item name="colorPrimary">#f00</item>
-        <item name="colorPrimaryDark">#ff0</item>
-        <!--		<item name="colorSecondary">@color/secondary_color</item>-->
-        <!--		<item name="android:colorBackground">@color/background_color</item>-->
-        <!--		<item name="colorError">@color/error_color</item>-->
-        <!--		-->
-        <!--		&lt;!&ndash; New MaterialComponents attributes. &ndash;&gt;-->
-        <!--		<item name="colorPrimaryVariant">@color/primary_variant_color</item>-->
-        <!--		<item name="colorSecondaryVariant">@color/secondary_variant_color</item>-->
-        <!--		<item name="colorSurface">@color/surface_color</item>-->
-        <!--		<item name="colorOnPrimary">@color/color_on_primary</item>-->
-        <!--		<item name="colorOnSecondary">@color/color_on_secondary</item>-->
-        <!--		<item name="colorOnBackground">@color/color_on_background</item>-->
-        <!--		<item name="colorOnError">@color/color_on_error</item>-->
-        <!--		<item name="colorOnSurface">@color/color_on_surface</item>-->
-        <!--		<item name="scrimBackground">@color/mtrl_scrim_color</item>-->
-        <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>
-        <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2</item>
-        <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3</item>
-        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4</item>
-        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5</item>
-        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
-        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>
-        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
-        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
-        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
-        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
-        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
-        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
-    
-    </style>
+<resources>
+	
+	<style name="Material3Theme" parent="Theme.Material3.Dark.NoActionBar">
+		<item name="colorPrimary">@color/md_theme_dark_primary</item>
+		<item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+		<item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+		<item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+		<item name="colorSecondary">@color/md_theme_dark_secondary</item>
+		<item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+		<item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+		<item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+		<item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+		<item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
+		<item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
+		<item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+		<item name="colorError">@color/md_theme_dark_error</item>
+		<item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+		<item name="colorOnError">@color/md_theme_dark_onError</item>
+		<item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+		<item name="android:colorBackground">@color/md_theme_dark_background</item>
+		<item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+		<item name="colorSurface">@color/md_theme_dark_surface</item>
+		<item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+		<item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+		<item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+		<item name="colorOutline">@color/md_theme_dark_outline</item>
+		<item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+		<item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+<!--		<item name="colorInversePrimary">@color/md_theme_dark_inversePrimary</item>-->
+<!--		<item name="colorShadow">@color/md_theme_dark_shadow</item>-->
+		<item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
+	</style>
 </resources>

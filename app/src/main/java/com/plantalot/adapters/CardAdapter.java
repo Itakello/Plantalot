@@ -23,14 +23,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	private final int width;
 	
 	CardAdapter(List<Integer> data, int width) {
-		this.mData = data.subList(0, Math.min(Consts.CARD_COLUMNS, data.size()));
+		this.mData = data.subList(0, Math.min(Consts.CARD_PLANTS, data.size()));
 		this.width = width;
 	}
 	
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_view, viewGroup, false);
+		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_fl_imageview_ortaggio, viewGroup, false);
 		Resources r = viewGroup.getContext().getResources();
 		return new ViewHolder(view);
 	}
@@ -55,7 +55,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 		
 		ViewHolder(View view) {
 			super(view);
-			mImageView = view.findViewById(R.id.image_home_ortaggio);
+			mImageView = view.findViewById(R.id.home_imageview_ortaggio);
 			
 			ViewGroup.LayoutParams lp = itemView.getLayoutParams();
 			if (lp instanceof FlexboxLayoutManager.LayoutParams) {

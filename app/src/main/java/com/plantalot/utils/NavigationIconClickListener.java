@@ -23,13 +23,11 @@ import com.plantalot.R;
 public class NavigationIconClickListener implements View.OnClickListener {
 	
 	private final AnimatorSet animatorSet = new AnimatorSet();
-	private final Context context;
 	private final View sheet;
 	private final Interpolator interpolator;
-	private final int height;
 	private boolean backdropShown = false;
-	private final Drawable openIcon;
-	private final Drawable closeIcon;
+	private final Integer openIcon;
+	private final Integer closeIcon;
 	private final int translateY;
 	
 	NavigationIconClickListener(Context context, View sheet) {
@@ -42,8 +40,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 	
 	public NavigationIconClickListener(
 			Context context, View sheet, @Nullable Interpolator interpolator,
-			@Nullable Drawable openIcon, @Nullable Drawable closeIcon, int translateY) {
-		this.context = context;
+			Integer openIcon, Integer closeIcon, int translateY) {
 		this.sheet = sheet;
 		this.interpolator = interpolator;
 		this.openIcon = openIcon;
@@ -52,7 +49,6 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		height = displayMetrics.heightPixels;
 	}
 	
 	@Override
@@ -74,9 +70,9 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		}
 		animatorSet.play(animator);
 		animator.start();
-
+		
 		// Add bottom margin to RecyclerView to not crop the content
-		RecyclerView fl = sheet.findViewById(R.id.recycler_home_orti);
+		RecyclerView fl = sheet.findViewById(R.id.home_fl_recycler_orti);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fl.getLayoutParams();
 		params.bottomMargin = backdropShown ? translateY : 0;
 		fl.setLayoutParams(params);
@@ -88,11 +84,8 @@ public class NavigationIconClickListener implements View.OnClickListener {
 			if (!(view instanceof ImageView)) {
 				throw new IllegalArgumentException("updateIcon() must be called on an ImageView");
 			}
-			if (backdropShown) {
-				((ImageView) view).setImageDrawable(closeIcon);
-			} else {
-				((ImageView) view).setImageDrawable(openIcon);
-			}
+			((ImageView) view).setImageResource(backdropShown ? closeIcon : openIcon);
+			
 		}
 	}
 }

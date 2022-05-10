@@ -26,6 +26,18 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion '30.0.3'
+
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/home',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
+    }
+
 }
 
 dependencies {

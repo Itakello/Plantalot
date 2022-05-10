@@ -21,7 +21,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.home_bl_drawer, container, false);
 //        final TextInputLayout passwordTextInput = view.findViewById(R.id.password_text_input);
 //        final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
 //        MaterialButton nextButton = view.findViewById(R.id.next_button);

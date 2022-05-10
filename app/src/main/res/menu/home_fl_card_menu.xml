@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+			android:id="@+id/option_1"
+			android:icon="@drawable/ic_round_edit_24"
+			android:title="Modifica nome" />
+	<item
+			android:id="@+id/option_2"
+			android:icon="@drawable/ic_round_photo_camera_24"
+			android:title="Aggiungi foto" />
+	<item
+			android:id="@+id/option_3"
+			android:icon="@drawable/ic_round_delete_24"
+			android:title="Elimina" />
+</menu>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="16dp"
+		android:gravity="center"
+		android:orientation="horizontal"
+		>
+	
+	<Button
+			android:id="@+id/drawer_button_text"
+			style="@style/Widget.App.Button.TextButton.BackLayer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="Label"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+	
+	<!-- FIXME remove text in Edit button -->
+	<Button
+			android:id="@+id/drawer_button_edit"
+			style="@style/Widget.App.Button.IconOnly.BackLayer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:icon="@drawable/ic_round_edit_24"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
