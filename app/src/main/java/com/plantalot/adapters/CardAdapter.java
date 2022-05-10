@@ -3,7 +3,6 @@ package com.plantalot.adapters;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	private final List<Integer> mData;
 	private final int width;
 	
-	CardAdapter(List<Integer> data, int width) {
+	public CardAdapter(@NonNull List<Integer> data, int width) {
 		this.mData = data.subList(0, Math.min(Consts.CARD_PLANTS, data.size()));
 		this.width = width;
 	}
@@ -30,8 +29,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_fl_imageview_ortaggio, viewGroup, false);
-		Resources r = viewGroup.getContext().getResources();
+		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_fl_imageview, viewGroup, false);
 		return new ViewHolder(view);
 	}
 	

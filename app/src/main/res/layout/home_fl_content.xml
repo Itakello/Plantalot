@@ -17,6 +17,16 @@
 			android:textAppearance="?attr/textAppearanceHeadline5"
 			/>
 	
+	<!-- FIXME width -->
+	<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/home_fl_recycler_navbuttons"
+			android:layout_width="288dp"
+			android:layout_height="wrap_content"
+			android:nestedScrollingEnabled="false"
+			android:overScrollMode="never"
+			android:paddingBottom="24dp"
+			/>
+	
 	<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/home_fl_recycler_orti"
 			android:layout_width="match_parent"

@@ -25,9 +25,9 @@
 	<!-- FIXME remove text in Edit button -->
 	<Button
 			android:id="@+id/drawer_button_edit"
-			style="@style/Widget.App.Button.IconOnly.BackLayer"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			style="@style/Widget.App.Button.TextButton.IconOnly.BackLayer"
+			android:layout_width="36dp"
+			android:layout_height="36dp"
 			app:icon="@drawable/ic_round_edit_24"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"

@@ -1,10 +1,9 @@
-package com.plantalot.utils;
+package com.plantalot.animations;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Interpolator;
@@ -55,7 +54,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 	public void onClick(View view) {
 		backdropShown = !backdropShown;
 		
-		// Cancel the existing animations
+		// Cancel the existing com.plantalot.animations
 		animatorSet.removeAllListeners();
 		animatorSet.end();
 		animatorSet.cancel();

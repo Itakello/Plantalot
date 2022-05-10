@@ -1,5 +1,43 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">?attr/colorPrimary</item>
+		<item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
+		<item name="colorAccent">?attr/colorAccent</item>
+	</style>
+	
+	<style name="AppTheme.NoActionBar">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+	</style>
+	
+	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+	
+	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<style name="Theme.App" parent="Material3Theme">
 		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>
@@ -11,8 +49,8 @@
 	
 	<style name="Widget.App.PopupMenu" parent="Widget.Material3.PopupMenu">
 		<item name="android:popupBackground">@drawable/bkg_popupmenu</item>
-    <item name="android:dropDownHorizontalOffset">8dp</item>
-<!--    <item name="android:dropDownVerticalOffset">4dp</item>-->
+		<item name="android:dropDownHorizontalOffset">8dp</item>
+		<!--    <item name="android:dropDownVerticalOffset">4dp</item>-->
 	</style>
 	
 	
@@ -26,60 +64,79 @@
 	<!--	</style>-->
 	
 	<style name="ThemeOverlay.App.BackLayer" parent="Theme.App">
-		<item name="colorPrimary">?attr/colorPrimaryContainer</item>
-		<item name="colorOnPrimary">?attr/colorOnPrimaryContainer</item>
+		<item name="colorSurface">?attr/colorPrimaryContainer</item>
+		<item name="colorOnSurface">?attr/colorOnPrimaryContainer</item>
 	</style>
 	
 	<style name="ThemeOverlay.App.Button.TextButton.BackLayer" parent="ThemeOverlay.App.BackLayer">
-		<item name="colorPrimary">?attr/colorOnPrimary</item>
+		<item name="colorPrimary">?attr/colorOnSurface</item>
 	</style>
 	
 	<style name="Widget.App.Backdrop.BackLayer" parent="">
 		<item name="android:theme">@style/ThemeOverlay.App.BackLayer</item>
-		<item name="android:background">?attr/colorPrimary</item>
 	</style>
 	
-	<style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-		<item name="android:elevation">0dp</item>
+	<style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
 		<item name="titleCentered">true</item>
+		<item name="subtitleCentered">true</item>
 		<item name="titleTextAppearance">@style/TextAppearance.App.Toolbar</item>
 	</style>
 	
 	<style name="Widget.App.Toolbar.BackLayer" parent="Widget.App.Toolbar">
-		<!--		<item name="android:theme">@style/ThemeOverlay.App.BackLayer</item>-->
+		<item name="android:theme">@style/ThemeOverlay.App.BackLayer</item>
+		<item name="android:paddingStart">0dp</item>
+		<item name="android:paddingEnd">4dp</item>
 	</style>
 	
 	<style name="TextAppearance.App.Toolbar" parent="TextAppearance.MaterialComponents.Button">
 		<item name="android:textSize">16sp</item>
 	</style>
 	
+	<style name="TextAppearance.App.TextButton.BackLayer" parent="TextAppearance.MaterialComponents.Button">
+		<item name="android:textSize">14sp</item>
+	</style>
+	
 	
 	<!-- BUTTONS -->
 	
 	<style name="Widget.App.Button.TonalButton.IconOnly" parent="Widget.Material3.Button.TonalButton">
-		<item name="iconPadding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
 		<item name="iconGravity">textStart</item>
-		<item name="android:minWidth">40dp</item>
-		<item name="android:padding">0dp</item>
+		<item name="iconPadding">0dp</item>
 	</style>
 	
-	<style name="Widget.App.Button.TextButton.IconOnly" parent="Widget.Material3.Button.TextButton">
+	<style name="Widget.App.Button.NavButton" parent="Widget.Material3.Button.TonalButton">
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
 		<item name="iconPadding">0dp</item>
 		<item name="iconGravity">textStart</item>
-		<item name="android:minWidth">40dp</item>
-		<item name="android:padding">0dp</item>
+		<item name="iconSize">24dp</item>
+		<item name="iconTint">?attr/colorPrimary</item>
+		<item name="android:textAppearance">@style/TextAppearance.App.Toolbar</item>
+		<item name="android:clickable">false</item>
+		<item name="android:focusable">false</item>
+		<item name="rippleColor">@color/none</item>
+	</style>
+	
+	<style name="Widget.App.Button.TextButton.IconOnly.BackLayer" parent="Widget.Material3.Button.TextButton">
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="iconGravity">textStart</item>
+		<item name="iconPadding">0dp</item>
+		<item name="android:theme">@style/ThemeOverlay.App.Button.TextButton.BackLayer</item>
 	</style>
 	
 	
 	<style name="Widget.App.Button.TextButton.BackLayer" parent="Widget.Material3.Button.TextButton">
 		<item name="android:theme">@style/ThemeOverlay.App.Button.TextButton.BackLayer</item>
-		<item name="android:paddingHorizontal">16dp</item>
-		<item name="android:textAppearance">?attr/textAppearanceButton</item>
+		<item name="android:textAppearance">@style/TextAppearance.App.TextButton.BackLayer</item>
+		<!--		<item name="iconPadding">16dp</item>-->
 	</style>
 	
-	<style name="Widget.App.Button.IconOnly.BackLayer" parent="Widget.App.Button.TextButton.IconOnly">
-		<item name="android:theme">@style/ThemeOverlay.App.Button.TextButton.BackLayer</item>
-	</style>
+	<!--	<style name="Widget.App.Button.IconOnly.BackLayer" parent="Widget.App.Button.TextButton.IconOnly">-->
+	<!--		<item name="android:theme">@style/ThemeOverlay.App.Button.TextButton.BackLayer</item>-->
+	<!--	</style>-->
 	
 	
 	<!-- FRONT LAYER-->
@@ -92,14 +149,14 @@
 	<style name="Widget.App.Backdrop.FrontLayer" parent="">
 		<item name="android:background">@drawable/bkg_backdrop_frontlayer</item>
 		<item name="android:backgroundTint">?attr/colorSurface</item>
-		<item name="android:elevation">12dp</item>
+		<item name="android:elevation">16dp</item>
 	</style>
 	
 	
 	<style name="Widget.App.Chip.Suggestion" parent="Widget.Material3.Chip.Suggestion">
 		<item name="android:checked">true</item>
 		<item name="android:clickable">false</item>
-		<item name="rippleColor">#00000000</item>
+		<item name="rippleColor">@color/none</item>
 	</style>
 	
 	<!--	<style name="TextAppearance.App.Title" parent="TextAppearance.MaterialComponents.Headline4">-->

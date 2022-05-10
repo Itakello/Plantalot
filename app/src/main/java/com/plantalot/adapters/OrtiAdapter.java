@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,23 +41,27 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		context = viewGroup.getContext();
-		View view = LayoutInflater.from(context).inflate(R.layout.home_fl_card_orto, viewGroup, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.home_fl_card, viewGroup, false);
 		return new ViewHolder(view);
 	}
 	
-	// Assegna ad ogni card i vari elementi (nome e card adapter)
+	
+	// Bind elements to card
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+		
 		String ortoName = mKeys.get(i);
 		int specie = mData.get(ortoName).size();
 		
-		// Set card menu
+		// Card popup menu
 		viewHolder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				PopupMenu popup = new PopupMenu(context, viewHolder.buttonViewOption);
 				popup.inflate(R.menu.home_fl_card_menu);
-				popup.setGravity(Gravity.END);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+					popup.setGravity(Gravity.END);
+				}
 				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
@@ -79,6 +84,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 			}
 		});
 		
+		// Icons thumbnails
 		viewHolder.mFrameLayout.post(new Runnable() {  // needed to get the width (fixme ?)
 			public void run() {
 				int width = viewHolder.mFrameLayout.getWidth();
@@ -123,43 +129,12 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 		
 		ViewHolder(final View view) {
 			super(view);
-			titleTextView = view.findViewById(R.id.home_fl_card_title_orto);
-			labelTextView = view.findViewById(R.id.label_varieta);
-			mRecyclerView = view.findViewById(R.id.home_fl_recycler_ortaggi);
-			mFrameLayout = view.findViewById(R.id.layout_home_ortaggi);
+			titleTextView = view.findViewById(R.id.home_fl_card_title__orto);
+			labelTextView = view.findViewById(R.id.home_fl_card_label__varieta);
+			mRecyclerView = view.findViewById(R.id.home_fl_recycler__ortaggi);
+			mFrameLayout = view.findViewById(R.id.home_fl_layout__ortaggi);
 			buttonViewOption = view.findViewById(R.id.home_fl_card_button_menu);
 		}
 	}
-//
-//	public void showPopup(View v) {
-//		PopupMenu popup = new PopupMenu(context, v);
-//		MenuInflater inflater = popup.getMenuInflater();
-//		inflater.inflate(R.menu.home_fl_card_menu, popup.getMenu());
-//		popup.show();
-//	}
-//
-//	public void showMenu(View v) {
-//		PopupMenu popup = new PopupMenu(context, v);
-//
-//		// This activity implements OnMenuItemClickListener
-//		popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) this);
-//		popup.inflate(R.menu.home_fl_card_menu);
-//		popup.show();
-//	}
-//
-//	@Override
-//	public boolean onMenuItemClick(MenuItem item) {
-//		switch (item.getItemId()) {
-////			case R.id.archive:
-////				archive(item);
-////				return true;
-////			case R.id.delete:
-////				delete(item);
-////				return true;
-//			default:
-//				return false;
-//		}
-//	}
-//
 	
 }

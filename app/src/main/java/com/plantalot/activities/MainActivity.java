@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.plantalot.fragments.OrtaggioFragment;
 import com.plantalot.interfaces.NavigationHost;
 import com.plantalot.R;
 import com.plantalot.fragments.HomeFragment;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 					.beginTransaction()
-					.add(R.id.container, new HomeFragment())
+					.add(R.id.container, new OrtaggioFragment())  // <-- fixme
 					.commit();
 		}
 	}

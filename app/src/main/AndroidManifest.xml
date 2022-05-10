@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.ScrollingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="true">

@@ -11,12 +11,9 @@
 			android:id="@+id/home_bl_toolbar"
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
-			app:contentInsetStart="0dp"
 			app:menu="@menu/home_bl_toolbar_menu"
 			app:navigationIcon="@drawable/ic_round_menu_24"
 			app:title="@string/app_name"
-			android:paddingEnd="4dp"
-			android:paddingStart="0dp"
 			/>
 
 </com.google.android.material.appbar.AppBarLayout>

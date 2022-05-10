@@ -7,11 +7,12 @@ android {
 
     defaultConfig {
         applicationId "com.plantalot"
-        minSdk 28
+        minSdk 22
         targetSdk 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary true
     }
 
     buildTypes {
@@ -27,17 +28,6 @@ android {
     }
     buildToolsVersion '30.0.3'
 
-    sourceSets {
-        main {
-            res.srcDirs =
-                    [
-                            'src/main/res/layout/home',
-                            'src/main/res/layout',
-                            'src/main/res'
-                    ]
-        }
-    }
-
 }
 
 dependencies {
@@ -52,4 +42,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test:runner:1.5.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-alpha06'
+    implementation 'de.hdodenhof:circleimageview:1.3.0'
 }
