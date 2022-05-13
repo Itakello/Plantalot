@@ -19,11 +19,11 @@ import java.util.List;
 
 // Navigation buttons in Home
 
-public class NavbuttonsAdapter extends RecyclerView.Adapter<NavbuttonsAdapter.ViewHolder> {
+public class HomeNavButtonsAdapter extends RecyclerView.Adapter<HomeNavButtonsAdapter.ViewHolder> {
 	
 	private final List<Pair<String, Integer>> mData;
 	
-	public NavbuttonsAdapter(List<Pair<String, Integer>> data) {
+	public HomeNavButtonsAdapter(List<Pair<String, Integer>> data) {
 		this.mData = data;
 	}
 	

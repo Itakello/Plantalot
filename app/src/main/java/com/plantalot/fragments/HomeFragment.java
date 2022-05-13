@@ -20,11 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.plantalot.R;
-import com.plantalot.adapters.DrawerAdapter;
+import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.utils.Consts;
 import com.plantalot.animations.NavigationIconClickListener;
-import com.plantalot.adapters.OrtiAdapter;
-import com.plantalot.adapters.NavbuttonsAdapter;
+import com.plantalot.adapters.HomeOrtiAdapter;
+import com.plantalot.adapters.HomeNavButtonsAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,20 +77,20 @@ public class HomeFragment extends Fragment {
 		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		DrawerAdapter giardiniAdapter = new DrawerAdapter(getActivity(), new ArrayList<>(mDataGiardini.keySet()));
+		HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), new ArrayList<>(mDataGiardini.keySet()));
 		giardiniRecyclerView.setAdapter(giardiniAdapter);
 		
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtiAdapter ortiAdapter = new OrtiAdapter(mDataGiardini.get(key));
-		ortiRecyclerView.setAdapter(ortiAdapter);
+		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(mDataGiardini.get(key));
+		ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		
 		RecyclerView navbuttonsRecyclerView = view.findViewById(R.id.home_fl_recycler_navbuttons);
-		NavbuttonsAdapter navbuttonsAdapter = new NavbuttonsAdapter(mDataButtons);
+		HomeNavButtonsAdapter homeNavButtonsAdapter = new HomeNavButtonsAdapter(mDataButtons);
 		FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
 		flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
 		navbuttonsRecyclerView.setLayoutManager(flexboxLayoutManager);
-		navbuttonsRecyclerView.setAdapter(navbuttonsAdapter);
+		navbuttonsRecyclerView.setAdapter(homeNavButtonsAdapter);
 	}
 	
 	private void setupToolbar(@NonNull View view) {

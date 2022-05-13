@@ -24,14 +24,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
+public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHolder> {
 	
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 	private final Map<String, List<Integer>> mData;
 	private final List<String> mKeys;
 	Context context;
 	
-	public OrtiAdapter(Map<String, List<Integer>> data) {
+	public HomeOrtiAdapter(Map<String, List<Integer>> data) {
 		this.mData = data;
 		this.mKeys = new ArrayList<>(mData.keySet());
 		Collections.shuffle(mKeys);
@@ -93,10 +93,10 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 				
 				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
 				layoutManager.setJustifyContent(JustifyContent.CENTER);
-				CardAdapter cardAdapter = new CardAdapter(new ArrayList<>(mData.get(ortoName)), imgwidth);
+				HomeThumbnailAdapter homeThumbnailAdapter = new HomeThumbnailAdapter(new ArrayList<>(mData.get(ortoName)), imgwidth);
 				
 				viewHolder.mRecyclerView.setLayoutManager(layoutManager);
-				viewHolder.mRecyclerView.setAdapter(cardAdapter);
+				viewHolder.mRecyclerView.setAdapter(homeThumbnailAdapter);
 				viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
 				
 				ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();

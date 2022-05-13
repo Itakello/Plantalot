@@ -4,7 +4,6 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:elevation="4dp"
@@ -23,46 +22,30 @@
 			android:id="@+id/ortaggio_fl_scrim"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:background="#40000000"
-			android:elevation="2dp"
 			android:alpha="0"
 			android:animateLayoutChanges="true"
+			android:background="#40000000"
+			android:elevation="2dp"
 			/>
 		
 		<androidx.core.widget.NestedScrollView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:paddingTop="4dp"
 			>
 			
-			<com.ms.square.android.expandabletextview.ExpandableTextView
-				android:id="@+id/expand_text_view"
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				expandableTextView:animDuration="100"
-				expandableTextView:maxCollapsedLines="3"
+				android:orientation="vertical"
 				>
 				
-				<TextView
-					android:id="@id/expandable_text"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginHorizontal="16dp"
-					android:layout_marginTop="16dp"
-					android:layout_marginBottom="0dp"
-					/>
+				<include layout="@layout/ortaggio_bl_description" />
 				
-				<ImageButton
-					android:id="@id/expand_collapse"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="right|bottom"
-					android:background="@android:color/transparent"
-					android:paddingHorizontal="16dp"
-					android:paddingVertical="8dp"
-					/>
+				<include layout="@layout/ortaggio_bl_calendar" />
 			
-			</com.ms.square.android.expandabletextview.ExpandableTextView>
-	
+			</LinearLayout>
+		
 		</androidx.core.widget.NestedScrollView>
 	
 	</FrameLayout>

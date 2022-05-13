@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:padding="16dp"
+	tools:showIn="@layout/ortaggio_bl_content"
+	>
+	
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Trapiantabile in"
+		android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+		android:paddingBottom="8dp"
+		/>
+	
+	<com.google.android.material.button.MaterialButtonToggleGroup
+		android:layout_width="match_parent"
+		android:layout_height="64dp"
+		>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="I"
+			app:cornerRadius="8dp"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="II"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="III"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="IV"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="V"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="VI"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="VII"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="VIII"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="IX"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="X"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="XI"
+			/>
+		
+		<Button
+			style="?attr/materialButtonOutlinedStyle"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="XII"
+			app:cornerRadius="8dp"
+			/>
+	
+	</com.google.android.material.button.MaterialButtonToggleGroup>
+
+</LinearLayout>

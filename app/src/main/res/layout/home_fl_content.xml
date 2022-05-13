@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/home_backdrop_frontlayer"
 	style="@style/Widget.App.Backdrop.FrontLayer"
 	android:layout_width="match_parent"
@@ -11,7 +12,6 @@
 	android:paddingHorizontal="16dp"
 	android:scrollbars="none"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior"
-	xmlns:tools="http://schemas.android.com/tools"
 	tools:showIn="@layout/home_fragment"
 	>
 	
