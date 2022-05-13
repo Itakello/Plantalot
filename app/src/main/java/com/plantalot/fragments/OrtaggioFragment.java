@@ -54,7 +54,6 @@ public class OrtaggioFragment extends Fragment {
 		
 		final ActionBar actionBar = activity.getSupportActionBar();
 		if (actionBar != null) {
-			actionBar.setHomeAsUpIndicator(R.drawable.ic_round_menu_24);
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 
