@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/ortaggio_fl_dropdown"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:clickable="true"
+	android:focusable="true"
+	app:cardCornerRadius="0dp"
+	app:strokeWidth="0dp"
+	tools:showIn="@layout/ortaggio_bl_content"
+	android:backgroundTint="?attr/colorSecondaryContainer"
+		android:elevation="4dp"
+	>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		>
+		
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="?attr/colorOnSurfaceVariant"
+			/>
+		
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingStart="16dp"
+			android:paddingTop="8dp"
+			android:paddingEnd="8dp"
+			android:paddingBottom="8dp"
+			>
+			
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				android:text="Peperoncino Habanero"
+				android:textAppearance="?attr/textAppearanceTitleMedium"
+				android:textColor="?attr/colorOnSurfaceVariant"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				/>
+			
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ortaggio_fl_dropdown_icon"
+				android:contentDescription="TODO"
+				android:src="@drawable/ic_round_keyboard_arrow_down_24"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				/>
+		
+		</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="?attr/colorOnSurfaceVariant"
+			/>
+	
+	</LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

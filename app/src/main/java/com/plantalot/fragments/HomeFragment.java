@@ -65,12 +65,12 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
-		setUpRecyclerView(view);
-		setUpToolbar(view);
+		setupRecyclerView(view);
+		setupToolbar(view);
 		return view;
 	}
 	
-	private void setUpRecyclerView(@NonNull View view) {
+	private void setupRecyclerView(@NonNull View view) {
 		String key = "Trento";
 		TextView title = view.findViewById(R.id.home_fl_title_giardino);
 		title.setText(key);
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
 		navbuttonsRecyclerView.setAdapter(navbuttonsAdapter);
 	}
 	
-	private void setUpToolbar(@NonNull View view) {
+	private void setupToolbar(@NonNull View view) {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		

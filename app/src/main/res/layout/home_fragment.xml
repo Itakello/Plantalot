@@ -5,16 +5,15 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="?attr/colorPrimaryContainer"
 	android:clipChildren="false"
 	android:clipToPadding="false"
 	android:gravity="bottom"
 	tools:context=".fragments.HomeFragment"
-	android:background="?attr/colorPrimaryContainer"
 	>
 	
-	<!-- BACK LAYER -->
 	<LinearLayout
-		android:id="@+id/home_backdrop_backlayer"
+		android:id="@+id/home_bl_content"
 		style="@style/Widget.App.Backdrop.BackLayer"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -27,21 +26,6 @@
 	
 	</LinearLayout>
 	
-	<!-- FRONT LAYER -->
-	<androidx.core.widget.NestedScrollView
-		android:id="@+id/home_backdrop_frontlayer"
-		style="@style/Widget.App.Backdrop.FrontLayer"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="?attr/actionBarSize"
-		android:overScrollMode="never"
-		android:paddingHorizontal="16dp"
-		android:scrollbars="none"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		>
-		
-		<include layout="@layout/home_fl_content" />
-	
-	</androidx.core.widget.NestedScrollView>
+	<include layout="@layout/home_fl_content" />
 
 </FrameLayout>

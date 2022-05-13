@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ImageView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/circle_image_view"
+	android:layout_width="72dp"
+	android:layout_height="72dp"
+	android:layout_gravity="top"
+	android:layout_marginStart="16dp"
+	android:layout_marginTop="64dp"
+	android:contentDescription="TODO"
+	android:elevation="4dp"
+	android:src="@mipmap/chili_pepper_3944137"
+	app:collapsedImageTarget="@id/image_collapsed_target"
+	app:layout_behavior="com.plantalot.animations.AppbarCollapsingImage"
+	tools:showIn="@layout/ortaggio_fragment"
+	/>

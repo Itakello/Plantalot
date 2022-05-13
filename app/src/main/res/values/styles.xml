@@ -4,7 +4,35 @@
 		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>
 		<item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
+    <item name="android:listPopupWindowStyle">@style/Widget.App.Dropdown.Popup</item>
+
+		
 		<!--		<item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>-->
+	</style>
+	
+	<style name="Widget.App.Dropdown.Popup" parent="Widget.Material3.PopupMenu.ListPopupWindow">
+<!--		<item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>-->
+<!--		<item name="android:textAppearance">@style/TextAppearance.App.Button</item>-->
+<!--		<item name="shapeAppearance">@style/ShapeAppearance.App.Squared</item>-->
+		<item name="android:backgroundTint">?attr/colorSecondaryContainer</item>
+	</style>
+	
+	
+	<style name="Widget.App.Dropdown.Button" parent="Widget.Material3.Button">
+<!--		<item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>-->
+<!--		<item name="android:textAppearance">@style/TextAppearance.App.Button</item>-->
+		<item name="shapeAppearance">@style/ShapeAppearance.App.Squared</item>
+	</style>
+	
+	<style name="ThemeOverlay.App.Button" parent="">
+<!--		<item name="colorPrimary">@color/shrine_pink_100</item>-->
+<!--		<item name="colorOnPrimary">@color/shrine_pink_900</item>-->
+	</style>
+	
+	<style name="ShapeAppearance.App.Squared" parent="ShapeAppearance.Material3.SmallComponent">
+		<item name="cornerFamily">cut</item>
+		<item name="cornerSize">0dp</item>
+		<item name="cornerRadius">100dp</item>
 	</style>
 	
 	
@@ -119,5 +147,5 @@
 		<item name="android:clickable">false</item>
 		<item name="rippleColor">@color/none</item>
 	</style>
-	
+
 </resources>
