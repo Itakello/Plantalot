@@ -52,24 +52,21 @@ public class OrtaggioFragment extends Fragment {
 					new Pair<>("Cavolo", R.mipmap.plant_cabbage_3944158),
 					new Pair<>("Porro", R.mipmap.plant_leek_3944259),
 					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
-			new Pair<>("Consociazioni sfavorevoli", Arrays.asList(
-					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
-					new Pair<>("Cavolo", R.mipmap.plant_cabbage_3944158),
-					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
-					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
+			new Pair<>("Consociazioni sconsigliate", Arrays.asList(
+					new Pair<>("Zucchina", R.mipmap.plant_zucchini_3944064),
+					new Pair<>("Cipolla", R.mipmap.plant_onion_3944225),
+					new Pair<>("Melanzana", R.mipmap.plant_eggplants_3944110),
+					new Pair<>("Cavolo nero", R.mipmap.plant_kale_3944155))),
 			new Pair<>("Rotazioni utili", Arrays.asList(
-					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
-					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
-					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
-					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
-					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
-			new Pair<>("Rotazioni sfavorevoli", Arrays.asList(
-					new Pair<>("Porro", R.mipmap.plant_leek_3944259),
-					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
-					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
-					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
-					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
-					new Pair<>("Bietola", R.mipmap.plant_chard_3944149)))
+					new Pair<>("Pomodoro", R.mipmap.plant_tomato_3944072),
+					new Pair<>("Aglio", R.mipmap.plant_garlic_3944096),
+					new Pair<>("Finocchio", R.mipmap.plant_fennel_3944161))),
+			new Pair<>("Rotazioni sconsigliate", Arrays.asList(
+					new Pair<>("Asparago", R.mipmap.plant_asparagus_3944087),
+					new Pair<>("Carciofo", R.mipmap.plant_artichoke_3944084),
+					new Pair<>("Barbabietola", R.mipmap.plant_beet_3944102),
+					new Pair<>("Sedano", R.mipmap.plant_celery_3944146),
+					new Pair<>("Cavolfiore", R.mipmap.plant_cauliflower_3944060)))
 	);
 	
 	@Override
