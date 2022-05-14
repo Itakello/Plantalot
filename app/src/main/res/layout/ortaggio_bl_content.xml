@@ -43,7 +43,15 @@
 				<include layout="@layout/ortaggio_bl_description" />
 				
 				<include layout="@layout/ortaggio_bl_calendar" />
-			
+				
+			<androidx.recyclerview.widget.RecyclerView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/ortaggio_bl_specs_recycler"
+				android:overScrollMode="never"
+				android:padding="16dp"
+				/>
+				
 			</LinearLayout>
 		
 		</androidx.core.widget.NestedScrollView>

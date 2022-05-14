@@ -14,12 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
+import com.plantalot.adapters.OrtaggioSpecsAdapter;
+import com.plantalot.classes.OrtaggioSpecs;
 import com.plantalot.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +32,16 @@ import java.util.List;
 public class OrtaggioFragment extends Fragment {
 	
 	private long dropdownDismissTime = 0;
+	
+	private final static List<OrtaggioSpecs> specs = Arrays.asList(
+			new OrtaggioSpecs("Distanze", "40 × 100 cm", R.mipmap.specs_distanze_1462005, false),
+			new OrtaggioSpecs("Mezz'ombra", "In estate", R.mipmap.specs_mezzombra_4496245, false),
+			new OrtaggioSpecs("Raccolta", "80-100 giorni", R.mipmap.specs_raccolta_3078971, false),
+			new OrtaggioSpecs("Produzione", "200 g/cad", R.mipmap.specs_produzione_741366, false),
+			new OrtaggioSpecs("Rotazione", "4 anni", R.mipmap.specs_rotazione_4496256, false),
+			new OrtaggioSpecs("Vaschetta", "6 piante", R.mipmap.specs_vaschetta_1655603, false),
+			new OrtaggioSpecs("Concimazione", "Abbondante (organica)\nIn buca al trapianto\nMensile dopo il trapianto", R.mipmap.specs_concimazione_1670075, true),
+			new OrtaggioSpecs("Irrigazione", "Abbondare a inizio allegagione e ingrossamento dei frutti\nSospendere prima della raccolta", R.mipmap.specs_irrigazione_3319229, true));
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +54,7 @@ public class OrtaggioFragment extends Fragment {
 		View view = inflater.inflate(R.layout.ortaggio_fragment, container, false);
 		setupToolbar(view);
 		setupDropdown(view);
-		setupContent(view);
+		setupContent(view, container);
 		return view;
 	}
 	
@@ -65,14 +80,18 @@ public class OrtaggioFragment extends Fragment {
 //				drawer.getMeasuredHeight()));
 	}
 	
-	private void setupContent(@NonNull View view) {
-//		TextView description = view.findViewById(R.id.ortaggio_bl_description);
-//        Utils.makeTextViewResizable(description, 3, true);
-//		Utils.makeTextViewResizable(description, 3, true);
+	private void setupContent(@NonNull View view, ViewGroup container) {
 		
+		// Expandable Text View
 		ExpandableTextView expTv1 = view.findViewById(R.id.expand_text_view);
 		expTv1.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis nisi sed mi cursus maximus eget ac enim. Aenean a sodales lectus. Aenean erat ex, luctus a feugiat et, bibendum nec nibh. Nullam eget risus leo. Nulla facilisi. Proin iaculis consectetur elit et tempor. Pellentesque lacus metus, pulvinar et viverra eget, lobortis nec dui. In euismod eu magna facilisis suscipit. Sed ut imperdiet diam. Integer ut neque turpis. Aenean tortor mauris, convallis sed pellentesque at, interdum vel odio. Vivamus nec mollis nisl. Nulla eleifend congue venenatis. Etiam eget ex pulvinar, iaculis diam a, hendrerit velit. Morbi aliquet id mauris dapibus fermentum. Pellentesque pretium finibus blandit. Vivamus ut orci in lacus elementum suscipit eget sed purus. Integer augue lectus, consectetur sit amet velit quis, auctor dignissim lacus. Integer suscipit pulvinar justo a condimentum. Nam tincidunt pretium risus in ullamcorper. Aliquam efficitur, enim vitae consectetur sagittis, nunc leo porttitor dolor, et tristique metus ipsum sed erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut tellus nisl, dictum in justo nec, volutpat laoreet libero.");
-
+		
+		// Specs
+		RecyclerView giardiniRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
+		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioSpecsAdapter ortaggioSpecsAdapter = new OrtaggioSpecsAdapter(specs);
+		giardiniRecyclerView.setAdapter(ortaggioSpecsAdapter);
+		
 	}
 	
 	private void setupDropdown(@NonNull View view) {
