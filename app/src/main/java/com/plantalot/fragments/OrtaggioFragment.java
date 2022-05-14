@@ -1,6 +1,7 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -20,11 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
+import com.plantalot.adapters.OrtaggioCardListAdapter;
+import com.plantalot.adapters.OrtaggioCardRowAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.OrtaggioSpecs;
 import com.plantalot.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +44,33 @@ public class OrtaggioFragment extends Fragment {
 			new OrtaggioSpecs("Vaschetta", "6 piante", R.mipmap.specs_vaschetta_1655603, false),
 			new OrtaggioSpecs("Concimazione", "Abbondante (organica)\nIn buca al trapianto\nMensile dopo il trapianto", R.mipmap.specs_concimazione_1670075, true),
 			new OrtaggioSpecs("Irrigazione", "Abbondare a inizio allegagione e ingrossamento dei frutti\nSospendere prima della raccolta", R.mipmap.specs_irrigazione_3319229, true));
+	
+	private final static List<Pair<String, List<Pair<String, Integer>>>> cards = Arrays.asList(
+			new Pair<>("Consociazioni utili", Arrays.asList(
+					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
+					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
+					new Pair<>("Cavolo", R.mipmap.plant_cabbage_3944158),
+					new Pair<>("Porro", R.mipmap.plant_leek_3944259),
+					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
+			new Pair<>("Consociazioni sfavorevoli", Arrays.asList(
+					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
+					new Pair<>("Cavolo", R.mipmap.plant_cabbage_3944158),
+					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
+					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
+			new Pair<>("Rotazioni utili", Arrays.asList(
+					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
+					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
+					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
+					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
+					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
+			new Pair<>("Rotazioni sfavorevoli", Arrays.asList(
+					new Pair<>("Porro", R.mipmap.plant_leek_3944259),
+					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
+					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
+					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
+					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
+					new Pair<>("Bietola", R.mipmap.plant_chard_3944149)))
+	);
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,10 +116,16 @@ public class OrtaggioFragment extends Fragment {
 		expTv1.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis nisi sed mi cursus maximus eget ac enim. Aenean a sodales lectus. Aenean erat ex, luctus a feugiat et, bibendum nec nibh. Nullam eget risus leo. Nulla facilisi. Proin iaculis consectetur elit et tempor. Pellentesque lacus metus, pulvinar et viverra eget, lobortis nec dui. In euismod eu magna facilisis suscipit. Sed ut imperdiet diam. Integer ut neque turpis. Aenean tortor mauris, convallis sed pellentesque at, interdum vel odio. Vivamus nec mollis nisl. Nulla eleifend congue venenatis. Etiam eget ex pulvinar, iaculis diam a, hendrerit velit. Morbi aliquet id mauris dapibus fermentum. Pellentesque pretium finibus blandit. Vivamus ut orci in lacus elementum suscipit eget sed purus. Integer augue lectus, consectetur sit amet velit quis, auctor dignissim lacus. Integer suscipit pulvinar justo a condimentum. Nam tincidunt pretium risus in ullamcorper. Aliquam efficitur, enim vitae consectetur sagittis, nunc leo porttitor dolor, et tristique metus ipsum sed erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut tellus nisl, dictum in justo nec, volutpat laoreet libero.");
 		
 		// Specs
-		RecyclerView giardiniRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
-		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		RecyclerView specsRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
+		specsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		OrtaggioSpecsAdapter ortaggioSpecsAdapter = new OrtaggioSpecsAdapter(specs);
-		giardiniRecyclerView.setAdapter(ortaggioSpecsAdapter);
+		specsRecyclerView.setAdapter(ortaggioSpecsAdapter);
+		
+		// Cards
+		RecyclerView cardsRecyclerView = view.findViewById(R.id.ortaggio_bl_card_list_recycler);
+		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(cards);
+		cardsRecyclerView.setAdapter(ortaggioCardListAdapter);
 		
 	}
 	

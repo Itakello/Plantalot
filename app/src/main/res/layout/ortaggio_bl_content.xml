@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -44,14 +42,22 @@
 				
 				<include layout="@layout/ortaggio_bl_calendar" />
 				
-			<androidx.recyclerview.widget.RecyclerView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/ortaggio_bl_specs_recycler"
-				android:overScrollMode="never"
-				android:padding="16dp"
-				/>
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/ortaggio_bl_specs_recycler"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:overScrollMode="never"
+					android:padding="16dp"
+					/>
 				
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/ortaggio_bl_card_list_recycler"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:overScrollMode="never"
+					android:paddingBottom="24dp"
+					/>
+			
 			</LinearLayout>
 		
 		</androidx.core.widget.NestedScrollView>
