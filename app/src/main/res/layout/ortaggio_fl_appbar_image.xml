@@ -12,7 +12,7 @@
 	android:layout_marginTop="64dp"
 	android:contentDescription="TODO"
 	android:elevation="4dp"
-	android:src="@mipmap/chili_pepper_3944137"
+	android:src="@mipmap/plant_chili_pepper_3944137"
 	app:collapsedImageTarget="@id/image_collapsed_target"
 	app:layout_behavior="com.plantalot.animations.AppbarCollapsingImage"
 	tools:showIn="@layout/ortaggio_fragment"
