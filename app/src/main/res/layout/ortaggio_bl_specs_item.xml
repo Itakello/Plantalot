@@ -15,7 +15,7 @@
 		android:layout_width="48dp"
 		android:layout_height="48dp"
 		android:padding="8dp"
-		android:src="@mipmap/plant_ginger_3944338"
+		android:src="@mipmap/specs_trapianto_2855575"
 		/>
 	
 	<LinearLayout

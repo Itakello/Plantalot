@@ -19,12 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
-import com.plantalot.adapters.OrtaggioCardRowAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.OrtaggioSpecs;
+import com.plantalot.utils.ColorUtils;
 import com.plantalot.utils.Utils;
 
 import java.util.Arrays;
@@ -34,6 +36,9 @@ import java.util.List;
 public class OrtaggioFragment extends Fragment {
 	
 	private long dropdownDismissTime = 0;
+	
+	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
+	private final static Boolean[] months_bs = {false, false, true, true, true, true, true, true, true, false, false, false};
 	
 	private final static List<OrtaggioSpecs> specs = Arrays.asList(
 			new OrtaggioSpecs("Distanze", "40 × 100 cm", R.mipmap.specs_distanze_1462005, false),
@@ -79,13 +84,13 @@ public class OrtaggioFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.ortaggio_fragment, container, false);
 		setupToolbar(view);
-		setupDropdown(view);
+//		setupDropdown(view);
 		setupContent(view, container);
 		return view;
 	}
 	
 	private void setupToolbar(@NonNull View view) {
-		MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+		MaterialToolbar toolbar = view.findViewById(R.id.ortaggi_fl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
 		if (activity != null) {
@@ -112,6 +117,19 @@ public class OrtaggioFragment extends Fragment {
 		ExpandableTextView expTv1 = view.findViewById(R.id.expand_text_view);
 		expTv1.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis nisi sed mi cursus maximus eget ac enim. Aenean a sodales lectus. Aenean erat ex, luctus a feugiat et, bibendum nec nibh. Nullam eget risus leo. Nulla facilisi. Proin iaculis consectetur elit et tempor. Pellentesque lacus metus, pulvinar et viverra eget, lobortis nec dui. In euismod eu magna facilisis suscipit. Sed ut imperdiet diam. Integer ut neque turpis. Aenean tortor mauris, convallis sed pellentesque at, interdum vel odio. Vivamus nec mollis nisl. Nulla eleifend congue venenatis. Etiam eget ex pulvinar, iaculis diam a, hendrerit velit. Morbi aliquet id mauris dapibus fermentum. Pellentesque pretium finibus blandit. Vivamus ut orci in lacus elementum suscipit eget sed purus. Integer augue lectus, consectetur sit amet velit quis, auctor dignissim lacus. Integer suscipit pulvinar justo a condimentum. Nam tincidunt pretium risus in ullamcorper. Aliquam efficitur, enim vitae consectetur sagittis, nunc leo porttitor dolor, et tristique metus ipsum sed erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut tellus nisl, dictum in justo nec, volutpat laoreet libero.");
 		
+		// Calendar
+		MaterialButtonToggleGroup calendar = view.findViewById(R.id.ortaggio_bl_calendar);
+		for (int i = 0; i < 12; i++) {
+			MaterialButton month = (MaterialButton) getLayoutInflater().inflate(R.layout.ortaggio_bl_calendar_item, calendar, false);
+			month.setText(months[i]);
+			if (months_bs[i]) {  // FIXME it doesn't show changes with API 22
+				month.setChecked(true);
+				month.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimary, getContext(), 40));
+				month.jumpDrawablesToCurrentState();
+			}
+			calendar.addView(month);
+		}
+		
 		// Specs
 		RecyclerView specsRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
 		specsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -130,6 +148,10 @@ public class OrtaggioFragment extends Fragment {
 		View listPopupWindowButton = view.findViewById(R.id.ortaggio_fl_dropdown);
 		View scrim = view.findViewById(R.id.ortaggio_fl_scrim);
 		ImageView listPopupWindowButtonIcon = view.findViewById(R.id.ortaggio_fl_dropdown_icon);
+		View frontground = view.findViewById(R.id.ortaggio_fl_dropdown_front);
+		
+		frontground.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimaryContainer, getContext(), 50));
+		
 		ListPopupWindow listPopupWindow = new ListPopupWindow(getContext(), null, com.google.android.material.R.attr.listPopupWindowStyle);
 		listPopupWindow.setAnchorView(listPopupWindowButton);
 		List<String> items = Arrays.asList("Item 1", "Item 2", "Item 3", "Item 4"

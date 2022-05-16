@@ -7,18 +7,20 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:clickable="true"
+	android:elevation="4dp"
 	android:focusable="true"
 	app:cardCornerRadius="0dp"
 	app:strokeWidth="0dp"
 	tools:showIn="@layout/ortaggio_bl_content"
-	android:backgroundTint="?attr/colorSecondaryContainer"
-		android:elevation="4dp"
+	android:background="?attr/colorSurface"
 	>
 	
 	<LinearLayout
+		android:id="@+id/ortaggio_fl_dropdown_front"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
+		android:background="?attr/colorPrimaryContainer"
 		>
 		
 		<View
@@ -49,9 +51,9 @@
 				/>
 			
 			<ImageView
+				android:id="@+id/ortaggio_fl_dropdown_icon"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:id="@+id/ortaggio_fl_dropdown_icon"
 				android:contentDescription="TODO"
 				android:src="@drawable/ic_round_keyboard_arrow_down_24"
 				app:layout_constraintBottom_toBottomOf="parent"

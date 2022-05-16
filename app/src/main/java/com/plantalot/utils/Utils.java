@@ -10,6 +10,4 @@ public class Utils {
 		return (int) (dp * context.getResources().getDisplayMetrics().density);
 	}
 	
-	
-	
 }

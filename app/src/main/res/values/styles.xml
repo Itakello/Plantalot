@@ -1,32 +1,45 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 	
 	<style name="Theme.App" parent="Material3Theme">
-		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>
+<!--		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
+<!--		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>-->
 		<item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
-    <item name="android:listPopupWindowStyle">@style/Widget.App.Dropdown.Popup</item>
-
-		
+		<item name="android:listPopupWindowStyle">@style/Widget.App.Dropdown.Popup</item>
 		<!--		<item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>-->
 	</style>
 	
+	<style name="Widget.App.Calendar.Month" parent="Widget.Material3.Button.OutlinedButton">
+		<item name="android:padding">0dp</item>
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:checkable">true</item>
+		<item name="android:clickable">false</item>
+		<item name="android:focusable">false</item>
+		<item name="cornerRadius">8dp</item>
+	</style>
+	
+	<style name="ThemeOverlay.App.Card.Ortaggio.Bad" parent="">
+				<item name="colorPrimary">?attr/colorError</item>
+	</style>
+	
+	
 	<style name="Widget.App.Dropdown.Popup" parent="Widget.Material3.PopupMenu.ListPopupWindow">
-<!--		<item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>-->
-<!--		<item name="android:textAppearance">@style/TextAppearance.App.Button</item>-->
-<!--		<item name="shapeAppearance">@style/ShapeAppearance.App.Squared</item>-->
+		<!--		<item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>-->
+		<!--		<item name="android:textAppearance">@style/TextAppearance.App.Button</item>-->
+		<!--		<item name="shapeAppearance">@style/ShapeAppearance.App.Squared</item>-->
 		<item name="android:backgroundTint">?attr/colorSecondaryContainer</item>
 	</style>
 	
 	
 	<style name="Widget.App.Dropdown.Button" parent="Widget.Material3.Button">
-<!--		<item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>-->
-<!--		<item name="android:textAppearance">@style/TextAppearance.App.Button</item>-->
+		<!--		<item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>-->
+		<!--		<item name="android:textAppearance">@style/TextAppearance.App.Button</item>-->
 		<item name="shapeAppearance">@style/ShapeAppearance.App.Squared</item>
 	</style>
 	
 	<style name="ThemeOverlay.App.Button" parent="">
-<!--		<item name="colorPrimary">@color/shrine_pink_100</item>-->
-<!--		<item name="colorOnPrimary">@color/shrine_pink_900</item>-->
+		<!--		<item name="colorPrimary">@color/shrine_pink_100</item>-->
+		<!--		<item name="colorOnPrimary">@color/shrine_pink_900</item>-->
 	</style>
 	
 	<style name="ShapeAppearance.App.Squared" parent="ShapeAppearance.Material3.SmallComponent">

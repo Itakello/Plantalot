@@ -20,21 +20,21 @@
 		app:showAsAction="always"
 		/>
 	
-	<item
-		android:id="@+id/ortaggio_fl_menu_edit"
-		android:contentDescription="edit"
-		android:icon="@drawable/ic_round_edit_24"
-		android:title="Modifica varietà"
-		app:showAsAction="ifRoom"
-		/>
-	
-	<item
-		android:id="@+id/ortaggio_fl_menu_share"
-		android:contentDescription="share"
-		android:icon="@drawable/ic_round_share_24"
-		android:title="Condividi"
-		app:showAsAction="ifRoom"
-		/>
+<!--	<item-->
+<!--		android:id="@+id/ortaggio_fl_menu_edit"-->
+<!--		android:contentDescription="edit"-->
+<!--		android:icon="@drawable/ic_round_edit_24"-->
+<!--		android:title="Modifica varietà"-->
+<!--		app:showAsAction="ifRoom"-->
+<!--		/>-->
+<!--	-->
+<!--	<item-->
+<!--		android:id="@+id/ortaggio_fl_menu_share"-->
+<!--		android:contentDescription="share"-->
+<!--		android:icon="@drawable/ic_round_share_24"-->
+<!--		android:title="Condividi"-->
+<!--		app:showAsAction="ifRoom"-->
+<!--		/>-->
 	
 <!--	<item-->
 <!--		android:id="@+id/more"-->

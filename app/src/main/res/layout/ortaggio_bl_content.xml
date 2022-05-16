@@ -2,6 +2,7 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:elevation="4dp"
@@ -9,7 +10,7 @@
 	app:layout_behavior="@string/appbar_scrolling_view_behavior"
 	>
 	
-	<include layout="@layout/ortaggio_fl_dropdown" />
+<!--	<include layout="@layout/ortaggio_fl_dropdown" />-->
 	
 	<FrameLayout
 		android:layout_width="match_parent"
@@ -22,14 +23,15 @@
 			android:layout_height="match_parent"
 			android:alpha="0"
 			android:animateLayoutChanges="true"
-			android:background="#40000000"
+			android:background="#60000000"
 			android:elevation="2dp"
 			/>
 		
 		<androidx.core.widget.NestedScrollView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:paddingTop="4dp"
+			android:clipToPadding="false"
+			android:paddingVertical="8dp"
 			>
 			
 			<LinearLayout
@@ -42,20 +44,33 @@
 				
 				<include layout="@layout/ortaggio_bl_calendar" />
 				
-				<androidx.recyclerview.widget.RecyclerView
-					android:id="@+id/ortaggio_bl_specs_recycler"
+				<com.google.android.material.card.MaterialCardView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:overScrollMode="never"
-					android:padding="16dp"
-					/>
+					android:layout_margin="16dp"
+					app:cardCornerRadius="0dp"
+					app:strokeWidth="0dp"
+					>
+					
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/ortaggio_bl_specs_recycler"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:overScrollMode="never"
+						tools:itemCount="5"
+						tools:listitem="@layout/ortaggio_bl_specs_row"
+						/>
+				
+				</com.google.android.material.card.MaterialCardView>
 				
 				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/ortaggio_bl_card_list_recycler"
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:overScrollMode="never"
 					android:paddingBottom="24dp"
+					tools:itemCount="4"
+					tools:listitem="@layout/ortaggio_bl_card_row"
 					/>
 			
 			</LinearLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,13 +41,17 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 		Pair<String, List<Pair<String, Integer>>> row = mData.get(position);
 		viewHolder.mTextView.setText(row.first);
 		
-		// Cards
-		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second);
+		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 		viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
 		
 		if (position == 1) {  // FIXME ?
-			viewHolder.mRecyclerView.setPadding( Utils.dp2px(12, context), 0,  Utils.dp2px(12, context), Utils.dp2px(16, context));
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+			);
+			params.setMargins(0, 0, 0, Utils.dp2px(16, context));
+			viewHolder.mRecyclerView.setLayoutParams(params);
 		}
 		
 	}

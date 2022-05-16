@@ -76,7 +76,7 @@ public class AppbarCollapsingBehavior extends CoordinatorLayout.Behavior<View> {
 //		subtitle1.setText("h: " + MAX_H);
 		
 		View dropdown = parent.findViewById(R.id.ortaggio_fl_dropdown);
-		dropdown.setElevation(Utils.dp2px(height == mTarget[HEIGHT] ? 4 : 0, context));
+//		dropdown.setElevation(Utils.dp2px(height == mTarget[HEIGHT] ? 4 : 0, context));
 		
 		return true;
 	}

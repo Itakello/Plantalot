@@ -3,34 +3,28 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/app_bar"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:background="?attr/colorPrimaryContainer"
 	android:fitsSystemWindows="true"
 	tools:showIn="@layout/ortaggio_fragment"
 	>
-	<!--		android:theme="@style/AppTheme.AppBarOverlay"-->
+<!--	android:background="?attr/colorPrimaryContainer"-->
 	
 	<com.google.android.material.appbar.CollapsingToolbarLayout
-		android:id="@+id/toolbar_layout"
 		android:layout_width="match_parent"
 		android:layout_height="152dp"
-		android:fitsSystemWindows="true"
 		app:contentScrim="?attr/colorPrimaryContainer"
 		app:expandedTitleGravity="start"
 		app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-		app:title=" "
 		>
 		
 		<com.google.android.material.appbar.MaterialToolbar
-			android:id="@+id/toolbar"
+			android:id="@+id/ortaggi_fl_toolbar"
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
 			app:layout_collapseMode="pin"
 			app:navigationIcon="@drawable/ic_round_close_24"
 			>
-			<!--				app:popupTheme="@style/AppTheme.PopupOverlay"-->
 			
 			<Space
 				android:id="@+id/image_collapsed_target"

@@ -21,7 +21,7 @@ public class OrtaggioSpecsAdapter extends RecyclerView.Adapter<OrtaggioSpecsAdap
 	
 	public OrtaggioSpecsAdapter(@NonNull List<OrtaggioSpecs> data) {
 		for (int i = 0; i < data.size(); i++) {
-			if (i < data.size() - 1 && !data.get(i).large && !data.get(i + 1).large) {
+			if (i < data.size() - 1 && !data.get(i).isLarge() && !data.get(i + 1).isLarge()) {
 				this.mData.add(new Pair<>(data.get(i), data.get(i + 1)));
 				i++;
 			} else {

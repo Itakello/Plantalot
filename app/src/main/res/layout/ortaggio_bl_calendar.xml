@@ -13,126 +13,26 @@
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:paddingBottom="8dp"
 		android:text="Trapiantabile in"
 		android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-		android:paddingBottom="8dp"
 		/>
 	
-	<com.google.android.material.button.MaterialButtonToggleGroup
+	<com.google.android.material.card.MaterialCardView
 		android:layout_width="match_parent"
-		android:layout_height="64dp"
+		android:layout_height="wrap_content"
+		app:strokeWidth="0dp"
+		app:cardCornerRadius="8dp"
 		>
 		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="I"
-			app:cornerRadius="8dp"
-			/>
+		<com.google.android.material.button.MaterialButtonToggleGroup
+			android:id="@+id/ortaggio_bl_calendar"
+			android:layout_width="match_parent"
+			android:layout_height="48dp"
+			>
 		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="II"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="III"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="IV"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="V"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="VI"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="VII"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="VIII"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="IX"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="X"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="XI"
-			/>
-		
-		<Button
-			style="?attr/materialButtonOutlinedStyle"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:padding="0dp"
-			android:text="XII"
-			app:cornerRadius="8dp"
-			/>
+		</com.google.android.material.button.MaterialButtonToggleGroup>
 	
-	</com.google.android.material.button.MaterialButtonToggleGroup>
+	</com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
