@@ -3,13 +3,10 @@ package com.plantalot.fragments;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListPopupWindow;
-import android.widget.PopupWindow;
+import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -18,16 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
+import com.plantalot.adapters.CircleButtonsAdapter;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.OrtaggioSpecs;
 import com.plantalot.utils.ColorUtils;
-import com.plantalot.utils.Utils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,18 +49,22 @@ public class OrtaggioFragment extends Fragment {
 			new OrtaggioSpecs("Concimazione", "Abbondante (organica)\nIn buca al trapianto\nMensile dopo il trapianto", R.mipmap.specs_concimazione_1670075, true),
 			new OrtaggioSpecs("Irrigazione", "Abbondare a inizio allegagione e ingrossamento dei frutti\nSospendere prima della raccolta", R.mipmap.specs_irrigazione_3319229, true));
 	
-	private final static List<Pair<String, List<Pair<String, Integer>>>> cards = Arrays.asList(
+	private final static List<Pair<String, List<Pair<String, Integer>>>> cards1 = Arrays.asList(
 			new Pair<>("Consociazioni utili", Arrays.asList(
 					new Pair<>("Carota", R.mipmap.plant_carrot_3944093),
 					new Pair<>("Zucca", R.mipmap.plant_pumpkin_3944344),
 					new Pair<>("Cavolo", R.mipmap.plant_cabbage_3944158),
 					new Pair<>("Porro", R.mipmap.plant_leek_3944259),
-					new Pair<>("Bietola", R.mipmap.plant_chard_3944149))),
+					new Pair<>("Bietola", R.mipmap.plant_chard_3944149),
+					new Pair<>("Canapa", R.mipmap.plant_weed_3944340))),
 			new Pair<>("Consociazioni sconsigliate", Arrays.asList(
 					new Pair<>("Zucchina", R.mipmap.plant_zucchini_3944064),
 					new Pair<>("Cipolla", R.mipmap.plant_onion_3944225),
 					new Pair<>("Melanzana", R.mipmap.plant_eggplants_3944110),
-					new Pair<>("Cavolo nero", R.mipmap.plant_kale_3944155))),
+					new Pair<>("Cavolo nero", R.mipmap.plant_kale_3944155)))
+	);
+	
+	private final static List<Pair<String, List<Pair<String, Integer>>>> cards2 = Arrays.asList(
 			new Pair<>("Rotazioni utili", Arrays.asList(
 					new Pair<>("Pomodoro", R.mipmap.plant_tomato_3944072),
 					new Pair<>("Aglio", R.mipmap.plant_garlic_3944096),
@@ -74,10 +77,19 @@ public class OrtaggioFragment extends Fragment {
 					new Pair<>("Cavolfiore", R.mipmap.plant_cauliflower_3944060)))
 	);
 	
+	private final List<String> dropdownItems = Arrays.asList("Peperoncino generico", "Peperoncino Fatalii", "Peperoncino Habanero", "Peperoncino Naga Morich", "Peperoncino Diavolicchio"
+//				, "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4"
+	);
+	
+	private final List<Pair<String, Integer>> mButtons = Arrays.asList(
+			new Pair<>("Carriola", R.drawable.ic_round_wheelbarrow_border_24),
+			new Pair<>("Preferiti", R.drawable.ic_round_favorite_border_24),
+			new Pair<>("Modifica", R.drawable.ic_round_edit_24));
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+//		setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -90,7 +102,7 @@ public class OrtaggioFragment extends Fragment {
 	}
 	
 	private void setupToolbar(@NonNull View view) {
-		MaterialToolbar toolbar = view.findViewById(R.id.ortaggi_fl_toolbar);
+		MaterialToolbar toolbar = view.findViewById(R.id.ortaggio_fl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
 		if (activity != null) {
@@ -101,6 +113,11 @@ public class OrtaggioFragment extends Fragment {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+		
+		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_dropdown);
+		dropdown.setText(dropdownItems.get(0));
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
+		dropdown.setAdapter(adapter);
 
 //		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 //				getContext(),
@@ -109,6 +126,13 @@ public class OrtaggioFragment extends Fragment {
 //				R.drawable.ic_round_menu_24,
 //				R.drawable.ic_round_close_24,
 //				drawer.getMeasuredHeight()));
+		
+		RecyclerView navbuttonsRecyclerView = view.findViewById(R.id.ortaggio_bl_buttons);
+		CircleButtonsAdapter circleButtonsAdapter = new CircleButtonsAdapter(mButtons);
+		FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
+		flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
+		navbuttonsRecyclerView.setLayoutManager(flexboxLayoutManager);
+		navbuttonsRecyclerView.setAdapter(circleButtonsAdapter);
 	}
 	
 	private void setupContent(@NonNull View view, ViewGroup container) {
@@ -122,7 +146,7 @@ public class OrtaggioFragment extends Fragment {
 		for (int i = 0; i < 12; i++) {
 			MaterialButton month = (MaterialButton) getLayoutInflater().inflate(R.layout.ortaggio_bl_calendar_item, calendar, false);
 			month.setText(months[i]);
-			if (months_bs[i]) {  // FIXME it doesn't show changes with API 22
+			if (months_bs[i]) {  // FIXME it doesn't show changes with API 22 (?)
 				month.setChecked(true);
 				month.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimary, getContext(), 40));
 				month.jumpDrawablesToCurrentState();
@@ -137,67 +161,23 @@ public class OrtaggioFragment extends Fragment {
 		specsRecyclerView.setAdapter(ortaggioSpecsAdapter);
 		
 		// Cards
-		RecyclerView cardsRecyclerView = view.findViewById(R.id.ortaggio_bl_card_list_recycler);
-		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(cards);
-		cardsRecyclerView.setAdapter(ortaggioCardListAdapter);
+		RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
+		cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1);
+		cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
+		
+		// Cards
+		RecyclerView cardsRecyclerView2 = view.findViewById(R.id.ortaggio_bl_card_list_recycler2);
+		cardsRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2);
+		cardsRecyclerView2.setAdapter(ortaggioCardListAdapter2);
 		
 	}
-	
-	private void setupDropdown(@NonNull View view) {
-		View listPopupWindowButton = view.findViewById(R.id.ortaggio_fl_dropdown);
-		View scrim = view.findViewById(R.id.ortaggio_fl_scrim);
-		ImageView listPopupWindowButtonIcon = view.findViewById(R.id.ortaggio_fl_dropdown_icon);
-		View frontground = view.findViewById(R.id.ortaggio_fl_dropdown_front);
-		
-		frontground.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimaryContainer, getContext(), 50));
-		
-		ListPopupWindow listPopupWindow = new ListPopupWindow(getContext(), null, com.google.android.material.R.attr.listPopupWindowStyle);
-		listPopupWindow.setAnchorView(listPopupWindowButton);
-		List<String> items = Arrays.asList("Item 1", "Item 2", "Item 3", "Item 4"
-//				, "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4"
-		);
-		ArrayAdapter adapter = new ArrayAdapter(requireContext(), R.layout.ortaggio_fl_dropdown_item, items);
-		listPopupWindow.setAdapter(adapter);
-		
-		listPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkg_dropdown_window));
-		listPopupWindow.setVerticalOffset(0);
-		listPopupWindow.setHeight(Math.min(items.size() * Utils.dp2px(40, getContext()), Utils.dp2px(600, getContext())));  // FIXME!!!
 
-
-//		// Set list popup's item click listener
-//		listPopupWindow.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
-//		  // Respond to list popup window item click.
-//
-//		  // Dismiss popup
-//		  listPopupWindow.dismiss()
-//		}
-		
-		listPopupWindowButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (System.currentTimeMillis() - dropdownDismissTime > 200) {  // FIXME!!!
-					listPopupWindow.show();
-					listPopupWindowButtonIcon.setImageResource(R.drawable.ic_round_keyboard_arrow_up_24);
-					scrim.animate().alpha(1.0f).setDuration(100);
-				}
-			}
-		});
-		
-		listPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-			@Override
-			public void onDismiss() {
-				dropdownDismissTime = System.currentTimeMillis();
-				listPopupWindowButtonIcon.setImageResource(R.drawable.ic_round_keyboard_arrow_down_24);
-				scrim.animate().alpha(0.0f).setDuration(100);
-			}
-		});
-	}
-	
-	// Show appbar right menu
-	@Override
-	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
-		getActivity().getMenuInflater().inflate(R.menu.ortaggio_fl_toolbar_menu, menu);
-	}
+//	// Show appbar right menu
+//	@Override
+//	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
+//		getActivity().getMenuInflater().inflate(R.menu.ortaggio_fl_toolbar_menu, menu);
+//	}
 	
 }

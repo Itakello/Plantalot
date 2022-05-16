@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO add 3 dots ... -->
 <com.ms.square.android.expandabletextview.ExpandableTextView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
@@ -15,11 +17,9 @@
 		android:id="@id/expandable_text"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginHorizontal="16dp"
-		android:layout_marginTop="16dp"
-		android:layout_marginBottom="8dp"
 		android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
 		android:textColor="?attr/colorOnSurface"
+		android:paddingHorizontal="16dp"
 		/>
 	
 	<ImageButton
@@ -29,7 +29,7 @@
 		android:layout_gravity="end|bottom"
 		android:background="@android:color/transparent"
 		android:contentDescription="TODO"
-		android:paddingHorizontal="16dp"
+		android:paddingHorizontal="12dp"
 		/>
 
 </com.ms.square.android.expandabletextview.ExpandableTextView>

@@ -47,6 +47,7 @@
         <entry key="app/src/main/res/layout/activity_scrolling.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_scrolling_.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/appbar_scrolling.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/layout/component_circle_button.xml" value="0.33645833333333336" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.1" />
         <entry key="app/src/main/res/layout/home/drawable/popupmenu_background.xml" value="0.1575" />
         <entry key="app/src/main/res/layout/home/layout/home_fl_card_menu.xml" value="0.3411458333333333" />
@@ -64,6 +65,7 @@
         <entry key="app/src/main/res/layout/home_frontlayer.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/navigation_drawer.xml" value="0.1537037037037037" />
+        <entry key="app/src/main/res/layout/ortaggio_bl_appbar_header.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/ortaggio_bl_calendar.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_bl_calendar_item.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_bl_card.xml" value="0.3411458333333333" />
@@ -71,7 +73,7 @@
         <entry key="app/src/main/res/layout/ortaggio_bl_card_item_bad.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_bl_card_item_good.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_bl_card_row.xml" value="0.3411458333333333" />
-        <entry key="app/src/main/res/layout/ortaggio_bl_content.xml" value="0.2822240943555181" />
+        <entry key="app/src/main/res/layout/ortaggio_bl_content.xml" value="0.2561340514661879" />
         <entry key="app/src/main/res/layout/ortaggio_bl_description.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_bl_detail_item.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_bl_detail_row.xml" value="0.3411458333333333" />
@@ -88,6 +90,7 @@
         <entry key="app/src/main/res/layout/ortaggio_fl_appbar_dropdown.xml" value="0.3611111111111111" />
         <entry key="app/src/main/res/layout/ortaggio_fl_appbar_image.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_fl_appbar_info.xml" value="0.3411458333333333" />
+        <entry key="app/src/main/res/layout/ortaggio_fl_appbar_title.xml" value="0.16302083333333334" />
         <entry key="app/src/main/res/layout/ortaggio_fl_dropdown.xml" value="0.25" />
         <entry key="app/src/main/res/layout/ortaggio_fl_dropdown_item.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_fl_listview.xml" value="0.23645833333333333" />

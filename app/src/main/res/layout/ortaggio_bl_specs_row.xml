@@ -32,7 +32,7 @@
 	</LinearLayout>
 	
 	<include
-		android:id="@+id/ortaggio_bl_specs_row_divider_h_end"
+		android:id="@+id/ortaggio_bl_specs_row_divider_h_start"
 		layout="@layout/ortaggio_bl_specs_divider_h"
 		android:visibility="gone"
 		/>

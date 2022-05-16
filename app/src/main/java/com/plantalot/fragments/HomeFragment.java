@@ -24,7 +24,7 @@ import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.utils.Consts;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
-import com.plantalot.adapters.HomeNavButtonsAdapter;
+import com.plantalot.adapters.CircleButtonsAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,11 +86,11 @@ public class HomeFragment extends Fragment {
 		ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		
 		RecyclerView navbuttonsRecyclerView = view.findViewById(R.id.home_fl_recycler_navbuttons);
-		HomeNavButtonsAdapter homeNavButtonsAdapter = new HomeNavButtonsAdapter(mDataButtons);
+		CircleButtonsAdapter circleButtonsAdapter = new CircleButtonsAdapter(mDataButtons);
 		FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
 		flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
 		navbuttonsRecyclerView.setLayoutManager(flexboxLayoutManager);
-		navbuttonsRecyclerView.setAdapter(homeNavButtonsAdapter);
+		navbuttonsRecyclerView.setAdapter(circleButtonsAdapter);
 	}
 	
 	private void setupToolbar(@NonNull View view) {

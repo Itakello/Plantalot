@@ -28,9 +28,9 @@ public class ColorUtils {
 	}
 	
 	public static int alphaColor(int colorCode, int alpha) {
-		return Color.parseColor(convertIntoColor(colorCode, alpha));
+		return Color.parseColor(convertIntoColor(colorCode, Math.min(99, alpha)));
 	}
-		
+	
 	public static int attrColor(int attr, Context context, int alpha) {
 		TypedValue typedValue = new TypedValue();
 		context.getTheme().resolveAttribute(attr, typedValue, true);

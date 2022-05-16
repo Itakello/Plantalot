@@ -48,7 +48,7 @@ public class OrtaggioSpecsAdapter extends RecyclerView.Adapter<OrtaggioSpecsAdap
 			viewHolder.specsItem2.setVisibility(View.GONE);
 		}
 		
-		if (position == mData.size()-1) {
+		if (position == mData.size() - 1) {
 			viewHolder.specsDividerH.setVisibility(View.VISIBLE);
 		}
 
@@ -73,7 +73,7 @@ public class OrtaggioSpecsAdapter extends RecyclerView.Adapter<OrtaggioSpecsAdap
 			specsItem1 = view.findViewById(R.id.ortaggio_bl_specs_row_item1);
 			specsDividerV = view.findViewById(R.id.ortaggio_bl_specs_row_divider_v);
 			specsItem2 = view.findViewById(R.id.ortaggio_bl_specs_row_item2);
-			specsDividerH = view.findViewById(R.id.ortaggio_bl_specs_row_divider_h_end);
+			specsDividerH = view.findViewById(R.id.ortaggio_bl_specs_row_divider_h_start);
 
 //			ViewGroup.LayoutParams lp = itemView.getLayoutParams();
 //			if (lp instanceof FlexboxLayoutManager.LayoutParams) {

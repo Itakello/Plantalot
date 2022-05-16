@@ -35,7 +35,7 @@ public class OrtaggioSpecs {
 			valueFormatted = new SpannableString(value);
 			Matcher matcher = Pattern.compile("\n\n").matcher(value);
 			while (matcher.find()) {
-				valueFormatted.setSpan(new AbsoluteSizeSpan(4, true), matcher.start() + 1, matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				valueFormatted.setSpan(new AbsoluteSizeSpan(8, true), matcher.start() + 1, matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
 		

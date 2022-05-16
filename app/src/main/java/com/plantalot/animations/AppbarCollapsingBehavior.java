@@ -4,16 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.plantalot.utils.ColorUtils;
 import com.plantalot.R;
-import com.plantalot.utils.Utils;
 
 public class AppbarCollapsingBehavior extends CoordinatorLayout.Behavior<View> {
 	
@@ -21,9 +19,6 @@ public class AppbarCollapsingBehavior extends CoordinatorLayout.Behavior<View> {
 	private final static int Y = 1;
 	private final static int WIDTH = 2;
 	private final static int HEIGHT = 3;
-	
-	private static int MIN_H;
-	private static int MAX_H;
 	
 	protected int mTargetId;
 	private int[] mView;
@@ -49,14 +44,16 @@ public class AppbarCollapsingBehavior extends CoordinatorLayout.Behavior<View> {
 		return dependency instanceof AppBarLayout;
 	}
 	
+	// FIXME animation not completed
 	@Override
 	public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull View child, @NonNull View dependency) {
 		setup(parent, child);
 		AppBarLayout appBarLayout = (AppBarLayout) dependency;
 		
 		int range = appBarLayout.getTotalScrollRange();
-		float factor = -appBarLayout.getY() / range;
+		float factor = -appBarLayout.getY() / range + 0.05f;  // fixme epsilon
 		
+		System.out.println(factor);
 		int left = mView[X] + (int) (factor * (mTarget[X] - mView[X]));
 		int top = mView[Y] + (int) (factor * (mTarget[Y] - mView[Y]));
 		int width = mView[WIDTH] + (int) (factor * (mTarget[WIDTH] - mView[WIDTH]));
@@ -69,13 +66,20 @@ public class AppbarCollapsingBehavior extends CoordinatorLayout.Behavior<View> {
 		child.setX(left);
 		child.setY(top);
 		
-		TextView subtitle1 = parent.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
-		TextView subtitle2 = parent.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
-		subtitle1.setAlpha((float) Math.min((MAX_H - MIN_H) / 2, height - MIN_H) / (float) ((MAX_H - MIN_H) / 2));
-		subtitle2.setAlpha((float) Math.max(0, height - MIN_H - (MAX_H - MIN_H) / 2) / (float) ((MAX_H - MIN_H) / 2));
-//		subtitle1.setText("h: " + MAX_H);
+		appBarLayout.setBackgroundColor(ColorUtils.attrColor(
+				com.google.android.material.R.attr.colorPrimary,
+				context,
+				6 + (int) (12 * factor)  // fixme
+		));
 		
-		View dropdown = parent.findViewById(R.id.ortaggio_fl_dropdown);
+		TextView subtitle = parent.findViewById(R.id.ortaggio_fl_appbar_subtitle);
+		subtitle.setAlpha((float) Math.max(0, (factor - 0.25)*1.32));  // fixme
+		
+//		TextView subtitle2 = parent.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
+//		subtitle2.setAlpha((float) Math.max(0, height - MIN_H - (MAX_H - MIN_H) / 2) / (float) ((MAX_H - MIN_H) / 2));
+//		subtitle1.setText("h: " + MAX_H);
+
+//		View dropdown = parent.findViewById(R.id.ortaggio_fl_dropdown);
 //		dropdown.setElevation(Utils.dp2px(height == mTarget[HEIGHT] ? 4 : 0, context));
 		
 		return true;
@@ -106,9 +110,6 @@ public class AppbarCollapsingBehavior extends CoordinatorLayout.Behavior<View> {
 			mTarget[Y] += (int) view.getY();
 			view = (View) view.getParent();
 		}
-		
-		MAX_H = mView[HEIGHT];
-		MIN_H = mView[HEIGHT] - mTarget[HEIGHT];
 	}
 	
 }

@@ -16,7 +16,7 @@ public class OrtaggioActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ortaggio_fragment);
-		MaterialToolbar toolbar = findViewById(R.id.ortaggi_fl_toolbar);
+		MaterialToolbar toolbar = findViewById(R.id.ortaggio_fl_toolbar);
 		setSupportActionBar(toolbar);
 		
 		final ActionBar actionBar = getSupportActionBar();
