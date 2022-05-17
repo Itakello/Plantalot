@@ -7,11 +7,13 @@
 	android:layout_height="wrap_content"
 	android:layout_gravity="top|center_horizontal"
 	android:clipToPadding="false"
+	android:elevation="8dp"
 	android:gravity="center"
 	android:orientation="vertical"
+	android:paddingBottom="8dp"
+	android:paddingTop="4dp"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior"
 	tools:showIn="@layout/ortaggio_fragment"
-	android:paddingBottom="8dp"
 	>
 	
 	<LinearLayout
@@ -75,4 +77,5 @@
 		tools:listitem="@layout/component_circle_button"
 		tools:orientation="horizontal"
 		/>
+
 </LinearLayout>
