@@ -32,13 +32,9 @@ public class UserModel extends ViewModel {
             g.put("Orto 3", new Orto("Orto 3", 100, 100));
             for (Orto o :
                     g.values()) {
-                o.add(new Pianta("Carota", R.mipmap.carrot_3944093));
+                o.add(new Pianta("Carota", R.mipmap.plant_carrot_3944093));
             }
         }
         userLiveData.setValue(u);
-    }
-
-    public void initialize(){
-
     }
 }

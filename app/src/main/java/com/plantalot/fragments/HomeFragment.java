@@ -22,8 +22,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
-import com.plantalot.adapters.DrawerAdapter;
-import com.plantalot.adapters.OrtiAdapter;
+import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.utils.Consts;
 import com.plantalot.animations.NavigationIconClickListener;
@@ -31,18 +30,16 @@ import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.adapters.CircleButtonsAdapter;
 import com.plantalot.viewmodels.UserModel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
 public class HomeFragment extends Fragment {
-	
-	private final Map<String, Map<String, List<Integer>>> mDataGiardini = new HashMap<>();
+
+	private Giardino g;
+	private User u;
 	private final List<Pair<String, Integer>> mDataButtons = Arrays.asList(
 			new Pair<>("Tutte le piante", R.drawable.ic_iconify_carrot_24),
 			new Pair<>("Le mie piante", R.drawable.ic_iconify_sprout_24),
@@ -55,7 +52,9 @@ public class HomeFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		Collections.shuffle(Consts.plants_icons, new Random(System.currentTimeMillis()));
-
+		final UserModel homeModel = new ViewModelProvider(this).get(UserModel.class);
+		u = homeModel.getUser().getValue();
+		g = u.get("Trento");
 //		mDataGiardini.put("Trento", new HashMap<>());
 //		mDataGiardini.put("Bergamo", new HashMap<>());
 //		mDataGiardini.put("Belluno", new HashMap<>());
@@ -76,8 +75,7 @@ public class HomeFragment extends Fragment {
 	}
 	
 	private void setUpRecyclerView(@NonNull View view) {
-		final UserModel homeModel = new ViewModelProvider(this).get(UserModel.class);
-		User u = homeModel.getUser().getValue();
+		System.out.println("Dimensione utente : " + u.size());
 
 		String key = "Trento";
 		TextView title = view.findViewById(R.id.home_fl_title_giardino);
@@ -85,20 +83,19 @@ public class HomeFragment extends Fragment {
 		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), new ArrayList<>(mDataGiardini.keySet()));
-		giardiniRecyclerView.setAdapter(giardiniAdapter);
 
 		// FIXME
-		List<String> giardini = Objects.requireNonNull(u).getGiardini();
+		List<String> giardini = u.getGiardini();
 		if(giardini.size()>0){
-			DrawerAdapter giardiniAdapter = new DrawerAdapter(getActivity(), giardini);
+			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), giardini);
 			giardiniRecyclerView.setAdapter(giardiniAdapter);
 		}
 
 
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(mDataGiardini.get(key));
+		System.out.println(g);
+		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(g);
 		ortiRecyclerView.setAdapter(homeOrtiAdapter);
 
 		RecyclerView navbuttonsRecyclerView = view.findViewById(R.id.home_fl_recycler_navbuttons);
