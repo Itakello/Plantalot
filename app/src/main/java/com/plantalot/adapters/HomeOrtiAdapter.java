@@ -21,16 +21,18 @@ import com.plantalot.classes.Orto;
 import com.plantalot.utils.Consts;
 import com.plantalot.R;
 
-public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
+import java.util.ArrayList;
+
+public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHolder> {
 	
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 	private final Giardino g;
 	Context context;
-	
-	public OrtiAdapter(Giardino g) {
+
+	public HomeOrtiAdapter(Giardino g) {
 		this.g = g;
 	}
-	
+
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -88,7 +90,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 				
 				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
 				layoutManager.setJustifyContent(JustifyContent.CENTER);
-				HomeThumbnailAdapter homeThumbnailAdapter = new HomeThumbnailAdapter(new ArrayList<>(mData.get(ortoName)), imgwidth);
+				HomeThumbnailAdapter homeThumbnailAdapter = new HomeThumbnailAdapter(o.getImages(), imgwidth);
 				
 				viewHolder.mRecyclerView.setLayoutManager(layoutManager);
 				viewHolder.mRecyclerView.setAdapter(homeThumbnailAdapter);
