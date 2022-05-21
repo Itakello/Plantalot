@@ -2,29 +2,31 @@ package com.plantalot.classes;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class Lawn extends LinkedHashMap<String, Garden> {
+public class Giardino extends LinkedHashMap<String, Orto> {
 
     public enum Color {
         GREEN, BLUE, RED, YELLOW, ORANGE, PURPLE, PINK,
     };
 
-    String name;
+    String nome;
     int xPos;
     int yPos;
-    Color c;
+    int zPos;
+//    Color c;
 
-    public Lawn(String name, int xPos, int yPos, Color c){
-        this.name = name;
+    public Giardino(String name, int xPos, int yPos, int zPos){
+        this.nome = name;
         this.xPos = xPos;
         this.yPos = yPos;
-        this.c = c;
+        this.zPos = zPos;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return name + ": (" + xPos + " " + yPos + ") [" + c + "]";
+        return nome + ": (" + xPos + " " + yPos + ")";// [" + c + "]";
     }
 }

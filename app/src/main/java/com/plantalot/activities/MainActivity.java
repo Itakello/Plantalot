@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.plantalot.fragments.OrtaggioFragment;
+import com.plantalot.classes.Giardino;
+import com.plantalot.classes.Orto;
 import com.plantalot.interfaces.NavigationHost;
 import com.plantalot.R;
 import com.plantalot.fragments.HomeFragment;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 	

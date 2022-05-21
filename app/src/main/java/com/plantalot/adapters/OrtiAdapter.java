@@ -16,25 +16,19 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.plantalot.classes.Giardino;
+import com.plantalot.classes.Orto;
 import com.plantalot.utils.Consts;
 import com.plantalot.R;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-	private final Map<String, List<Integer>> mData;
-	private final List<String> mKeys;
+	private final Giardino g;
 	Context context;
 	
-	public OrtiAdapter(Map<String, List<Integer>> data) {
-		this.mData = data;
-		this.mKeys = new ArrayList<>(mData.keySet());
-		Collections.shuffle(mKeys);
+	public OrtiAdapter(Giardino g) {
+		this.g = g;
 	}
 	
 	@NonNull
@@ -49,9 +43,10 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	// Bind elements to card
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-		
-		String ortoName = mKeys.get(i);
-		int specie = mData.get(ortoName).size();
+
+		Orto o = (Orto) g.values().toArray()[i];
+		String ortoName = o.getNome();
+		int specie = o.size();
 		
 		// Card popup menu
 		viewHolder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +88,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 				
 				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
 				layoutManager.setJustifyContent(JustifyContent.CENTER);
-				CardAdapter cardAdapter = new CardAdapter(new ArrayList<>(mData.get(ortoName)), imgwidth);
+				CardAdapter cardAdapter = new CardAdapter(o.getImages(), imgwidth);
 				
 				viewHolder.mRecyclerView.setLayoutManager(layoutManager);
 				viewHolder.mRecyclerView.setAdapter(cardAdapter);
@@ -115,7 +110,7 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 	
 	@Override
 	public int getItemCount() {
-		return mData.size();
+		return g.size();
 	}
 	
 	static class ViewHolder extends RecyclerView.ViewHolder {
