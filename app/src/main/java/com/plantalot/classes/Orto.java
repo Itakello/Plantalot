@@ -2,16 +2,21 @@ package com.plantalot.classes;
 
 import androidx.annotation.NonNull;
 
+import com.plantalot.R;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Orto extends ArrayList<Pianta> {
+public class Orto {
     final private String nome;
     final private int larghezza, altezza;
     final private int camminamenti_largezza, camminamenti_altezza;
     final private int colonne_aiuole, righe_aiuole;
+    public ArrayList<Pianta> piante;
 //    Esposizione
 //    Orientamento
+
     public Orto(String nome, int larghezza, int altezza){
         this.nome = nome;
         this.larghezza = larghezza;
@@ -20,13 +25,19 @@ public class Orto extends ArrayList<Pianta> {
         this.righe_aiuole = 2;
         this.camminamenti_altezza = 30;
         this.camminamenti_largezza = 30;
+
+        // Inizializzazione statica
+        piante = new ArrayList<>();
+        for (int i=0; i<6; i++){
+            piante.add(new Pianta("Carota", R.mipmap.plant_carrot_3944093));
+        }
         System.out.println("Creato orto " + nome);
     }
 
     public ArrayList<Integer> getImages(){
         ArrayList<Integer> imgs = new ArrayList<>();
         for (Pianta p :
-                this) {
+                piante) {
             imgs.add(p.image);
         }
         return imgs;
