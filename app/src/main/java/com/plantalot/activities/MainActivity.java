@@ -14,7 +14,7 @@ import com.plantalot.fragments.HomeFragment;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationHost {
+public class MainActivity extends AppCompatActivity {//implements NavigationHost {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 		setContentView(R.layout.main_activity);
 
 		// Activity never existed before
-		if (savedInstanceState == null) {
-			getSupportFragmentManager()
-					.beginTransaction()
-					.add(R.id.container, new HomeFragment())  // <-- fixme
-					.commit();
-		}
+//		if (savedInstanceState == null) {
+//			getSupportFragmentManager()
+//					.beginTransaction()
+//					.add(R.id.container, new HomeFragment())  // <-- fixme
+//					.commit();
+//		}
 	}
 	
 	/**
@@ -36,17 +36,17 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 	 * @param fragment       Fragment to navigate to.
 	 * @param addToBackstack Whether or not the current fragment should be added to the backstack.
 	 */
-	@Override
-	public void navigateTo(Fragment fragment, boolean addToBackstack) {
-		FragmentTransaction transaction =
-				getSupportFragmentManager()
-						.beginTransaction()
-						.replace(R.id.container, fragment);
-		
-		if (addToBackstack) {
-			transaction.addToBackStack(null);
-		}
-		
-		transaction.commit();
-	}
+//	@Override
+//	public void navigateTo(Fragment fragment, boolean addToBackstack) {
+//		FragmentTransaction transaction =
+//				getSupportFragmentManager()
+//						.beginTransaction()
+//						.replace(R.id.container, fragment);
+//
+//		if (addToBackstack) {
+//			transaction.addToBackStack(null);
+//		}
+//
+//		transaction.commit();
+//	}
 }

@@ -61,11 +61,10 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 				@Override
 				public void onClick(View v) {
 					System.out.println("Hai premuto il pulsante " + button.getText());
+					Navigation.findNavController(v).navigate(R.id.action_select_giardino);
 				}
 			});
 		}
-		
-
 	}
 	
 	// convenience method for getting data at click position

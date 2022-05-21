@@ -11,10 +11,10 @@
         android:label="home_fragment"
         tools:layout="@layout/home_fragment" >
         <action
-            android:id="@+id/action_homeFragment_to_ortaggioFragment"
+            android:id="@+id/action_ortaggio"
             app:destination="@id/ortaggioFragment" />
         <action
-            android:id="@+id/action_homeFragment_self"
+            android:id="@+id/action_select_giardino"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
