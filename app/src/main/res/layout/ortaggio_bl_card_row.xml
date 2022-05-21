@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO error per sconsigliati -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	>
+	
+	<TextView
+		android:id="@+id/ortaggio_bl_card_row_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginBottom="8dp"
+		android:text="Consociazioni"
+		android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+		/>
+	
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/ortaggio_bl_card_row_recycler"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:clipToPadding="false"
+		android:paddingHorizontal="12dp"
+		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+		tools:itemCount="5"
+		tools:listitem="@layout/ortaggio_bl_card_item_good"
+		tools:orientation="horizontal"
+		/>
+</LinearLayout>

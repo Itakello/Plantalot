@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/home_backdrop_frontlayer"
+	style="@style/Widget.App.Backdrop.FrontLayer"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_marginTop="?attr/actionBarSize"
+	android:overScrollMode="never"
+	android:paddingHorizontal="16dp"
+	android:scrollbars="none"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	tools:showIn="@layout/home_fragment"
+	>
+	
+	<LinearLayout
 		android:id="@+id/home_fl_content"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
 		android:orientation="vertical"
 		>
-	
-	<TextView
+		
+		<TextView
 			android:id="@+id/home_fl_title_giardino"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -16,9 +31,9 @@
 			android:text="Trento"
 			android:textAppearance="?attr/textAppearanceHeadline5"
 			/>
-	
-	<!-- FIXME width -->
-	<androidx.recyclerview.widget.RecyclerView
+		
+		<!-- FIXME width -->
+		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/home_fl_recycler_navbuttons"
 			android:layout_width="288dp"
 			android:layout_height="wrap_content"
@@ -26,8 +41,8 @@
 			android:overScrollMode="never"
 			android:paddingBottom="24dp"
 			/>
-	
-	<androidx.recyclerview.widget.RecyclerView
+		
+		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/home_fl_recycler_orti"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -35,5 +50,7 @@
 			android:overScrollMode="never"
 			android:paddingBottom="24dp"
 			/>
+	
+	</LinearLayout>
 
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

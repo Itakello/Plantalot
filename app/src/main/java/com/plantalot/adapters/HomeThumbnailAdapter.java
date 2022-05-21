@@ -16,12 +16,12 @@ import com.plantalot.R;
 import java.util.List;
 
 // Riempe la card con le icone
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+public class HomeThumbnailAdapter extends RecyclerView.Adapter<HomeThumbnailAdapter.ViewHolder> {
 	
 	private final List<Integer> mData;
 	private final int width;
 	
-	public CardAdapter(@NonNull List<Integer> data, int width) {
+	public HomeThumbnailAdapter(@NonNull List<Integer> data, int width) {
 		this.mData = data.subList(0, Math.min(Consts.CARD_PLANTS, data.size()));
 		this.width = width;
 	}

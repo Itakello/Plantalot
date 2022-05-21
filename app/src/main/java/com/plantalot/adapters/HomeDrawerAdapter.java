@@ -14,14 +14,14 @@ import com.plantalot.R;
 import java.util.List;
 
 // Cambia il contenuto del backlyer
-public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
+public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.ViewHolder> {
 	
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
 	private ItemClickListener mClickListener;
 	
 	// data is passed into the constructor
-	public DrawerAdapter(Context context, List<String> data) {
+	public HomeDrawerAdapter(Context context, List<String> data) {
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
 	}

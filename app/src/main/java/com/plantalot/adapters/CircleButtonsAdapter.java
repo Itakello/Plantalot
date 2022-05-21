@@ -19,18 +19,18 @@ import java.util.List;
 
 // Navigation buttons in Home
 
-public class NavbuttonsAdapter extends RecyclerView.Adapter<NavbuttonsAdapter.ViewHolder> {
+public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdapter.ViewHolder> {
 	
 	private final List<Pair<String, Integer>> mData;
 	
-	public NavbuttonsAdapter(List<Pair<String, Integer>> data) {
+	public CircleButtonsAdapter(List<Pair<String, Integer>> data) {
 		this.mData = data;
 	}
 	
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_fl_navbutton, viewGroup, false);
+		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.component_circle_button, viewGroup, false);
 		return new ViewHolder(view);
 	}
 	

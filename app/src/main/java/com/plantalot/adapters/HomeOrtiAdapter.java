@@ -88,10 +88,10 @@ public class OrtiAdapter extends RecyclerView.Adapter<OrtiAdapter.ViewHolder> {
 				
 				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
 				layoutManager.setJustifyContent(JustifyContent.CENTER);
-				CardAdapter cardAdapter = new CardAdapter(o.getImages(), imgwidth);
+				HomeThumbnailAdapter homeThumbnailAdapter = new HomeThumbnailAdapter(new ArrayList<>(mData.get(ortoName)), imgwidth);
 				
 				viewHolder.mRecyclerView.setLayoutManager(layoutManager);
-				viewHolder.mRecyclerView.setAdapter(cardAdapter);
+				viewHolder.mRecyclerView.setAdapter(homeThumbnailAdapter);
 				viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
 				
 				ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();
