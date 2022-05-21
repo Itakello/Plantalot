@@ -14,22 +14,31 @@ public class User implements Parcelable {
     private String name;
     private String email;
     private String password;
-    public LinkedHashMap<String, Giardino> giardini;
+    public ArrayList<Giardino> giardini;
 
     public User(String name){
         this.name = name;
         System.out.println("Creato un nuovo user: " + name);
-        giardini = new LinkedHashMap<>();
-        giardini.put("Belluno", new Giardino("Belluno", 0,0,0));
-        giardini.put("Trento", new Giardino("Trento", 0, 0, 0));
-        giardini.put("Bergamo", new Giardino("Bergamo",0,0,0));
-        giardini.put("Roma", new Giardino("Bergamo",0,0,0));
+        giardini = new ArrayList<>();
+        giardini.add(new Giardino("Belluno", 0,0,0));
+        giardini.add(new Giardino("Trento", 0, 0, 0));
+        giardini.add(new Giardino("Bergamo",0,0,0));
+        giardini.add(new Giardino("Roma",0,0,0));
     }
 
     protected User(Parcel in) {
         name = in.readString();
         email = in.readString();
         password = in.readString();
+    }
+
+    public List<String> getGiardiniNames(){
+        List<String> names = new ArrayList<>();
+        for (Giardino g :
+                giardini) {
+            names.add(g.getNome());
+        }
+        return names;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -43,10 +52,6 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
-    public List<String> getGiardini(){
-        return new ArrayList<>(giardini.keySet());
-    }
 
     @Override
     public int describeContents() {

@@ -15,7 +15,7 @@ public class Giardino {
     private final int xPos;
     private final int yPos;
     private final int zPos;
-    public LinkedHashMap<String, Orto> orti;
+    public ArrayList<Orto> orti;
 //    Color c;
 
     public Giardino(String name, int xPos, int yPos, int zPos){
@@ -23,10 +23,10 @@ public class Giardino {
         this.xPos = xPos;
         this.yPos = yPos;
         this.zPos = zPos;
-        orti = new LinkedHashMap<>();
-        orti.put("Orto 1", new Orto("Orto 1", 100, 100));
-        orti.put("Orto 2", new Orto("Orto 2", 100, 100));
-        orti.put("Orto 3", new Orto("Orto 3", 100, 100));
+        orti = new ArrayList<>();
+        orti.add(new Orto("Orto 1", 100, 100));
+        orti.add(new Orto("Orto 2", 100, 100));
+        orti.add(new Orto("Orto 3", 100, 100));
     }
 
     @NonNull

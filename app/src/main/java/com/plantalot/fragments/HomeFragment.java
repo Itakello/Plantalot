@@ -23,15 +23,12 @@ import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
-import com.plantalot.utils.Consts;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.adapters.CircleButtonsAdapter;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 
 public class HomeFragment extends Fragment {
@@ -66,7 +63,7 @@ public class HomeFragment extends Fragment {
 			user = new User("Giacomo");
 		}
 		if(user.giardini.size()>0)
-			giardino = user.giardini.values().iterator().next(); // First garden available
+			giardino = user.giardini.get(0);
 		else
 			giardino = null;
 	}
@@ -89,9 +86,8 @@ public class HomeFragment extends Fragment {
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 		// FIXME
-		List<String> giardini = user.getGiardini();
-		if(giardini.size()>0){
-			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), giardini);
+		if(user.giardini.size()>0){
+			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), user.getGiardiniNames());
 			giardiniRecyclerView.setAdapter(giardiniAdapter);
 		}
 
@@ -136,5 +132,4 @@ public class HomeFragment extends Fragment {
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
 	}
-	
 }

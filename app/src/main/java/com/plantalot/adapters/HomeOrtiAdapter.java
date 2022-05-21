@@ -46,7 +46,7 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-		Orto o = (Orto) giardino.orti.values().iterator().next();
+		Orto o = giardino.orti.get(i);
 		String ortoName = o.getNome();
 		int specie = o.piante.size();
 		
