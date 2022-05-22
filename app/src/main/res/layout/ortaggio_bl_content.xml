@@ -17,6 +17,9 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
+		android:clickable="true"
+		android:focusableInTouchMode="true"
+		android:focusable="true"
 		>
 		
 		<com.google.android.material.card.MaterialCardView
@@ -24,32 +27,29 @@
 			android:layout_marginTop="0dp"
 			>
 			
-			<include layout="@layout/ortaggio_bl_appbar_header" />
+			<include layout="@layout/ortaggio_bl_header" />
 		
 		</com.google.android.material.card.MaterialCardView>
 		
 		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
 			
-			<LinearLayout
+			<FrameLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:paddingTop="16dp"
-				android:paddingBottom="8dp"
+				android:padding="16dp"
 				>
 				
 				<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:paddingHorizontal="16dp"
-					android:paddingBottom="8dp"
 					android:text="Descrizione"
 					android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
 					/>
 				
 				<include layout="@layout/ortaggio_bl_description" />
 				
-			</LinearLayout>
+			</FrameLayout>
 			
 		</com.google.android.material.card.MaterialCardView>
 		
@@ -65,13 +65,13 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:padding="16dp"
 				>
 				
 				<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:paddingBottom="12dp"
+					android:paddingTop="16dp"
+					android:paddingHorizontal="16dp"
 					android:text="Informazioni"
 					android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
 					/>
@@ -80,6 +80,7 @@
 					android:id="@+id/ortaggio_bl_specs_recycler"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:padding="12dp"
 					android:overScrollMode="never"
 					tools:itemCount="5"
 					tools:listitem="@layout/ortaggio_bl_specs_row"
@@ -95,7 +96,7 @@
 				android:id="@+id/ortaggio_bl_card_list_recycler1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:elevation="12dp"
+				android:elevation="16dp"
 				android:overScrollMode="never"
 				tools:itemCount="2"
 				tools:listitem="@layout/ortaggio_bl_card_row"
@@ -109,7 +110,7 @@
 				android:id="@+id/ortaggio_bl_card_list_recycler2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:elevation="12dp"
+				android:elevation="16dp"
 				android:overScrollMode="never"
 				tools:itemCount="2"
 				tools:listitem="@layout/ortaggio_bl_card_row"

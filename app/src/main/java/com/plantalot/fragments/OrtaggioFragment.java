@@ -1,5 +1,6 @@
 package com.plantalot.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.textfield.TextInputLayout;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
 import com.plantalot.adapters.CircleButtonsAdapter;
@@ -27,8 +29,11 @@ import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.OrtaggioSpecs;
 import com.plantalot.utils.ColorUtils;
+import com.plantalot.utils.Utils;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,6 +42,7 @@ public class OrtaggioFragment extends Fragment {
 	private long dropdownDismissTime = 0;
 	
 	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
+	//	private final static String[] months = {"G", "F", "M", "A", "M", "G", "L", "A", "S", "O", "N", "D"};
 	private final static Boolean[] months_bs = {false, false, true, true, true, true, true, true, true, false, false, false};
 	
 	private final static List<OrtaggioSpecs> specs = Arrays.asList(
@@ -77,7 +83,7 @@ public class OrtaggioFragment extends Fragment {
 					new Pair<>("Cavolfiore", R.mipmap.plant_cauliflower_3944060)))
 	);
 	
-	private final List<String> dropdownItems = Arrays.asList("Peperoncino generico", "Peperoncino Fatalii", "Peperoncino Habanero", "Peperoncino Naga Morich", "Peperoncino Diavolicchio"
+	private final List<String> dropdownItems = Arrays.asList("Generico", "Fatalii", "Habanero", "Naga Morich", "Diavolicchio"
 //				, "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4", "Item 4"
 	);
 	
@@ -96,7 +102,7 @@ public class OrtaggioFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.ortaggio_fragment, container, false);
 		setupToolbar(view);
-//		setupDropdown(view);
+		setupTexField(view);
 		setupContent(view, container);
 		return view;
 	}
@@ -114,7 +120,7 @@ public class OrtaggioFragment extends Fragment {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 		
-		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_dropdown);
+		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
 		dropdown.setText(dropdownItems.get(0));
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
 		dropdown.setAdapter(adapter);
@@ -135,6 +141,22 @@ public class OrtaggioFragment extends Fragment {
 		navbuttonsRecyclerView.setAdapter(circleButtonsAdapter);
 	}
 	
+	private void setupTexField(@NonNull View view) {
+		AutoCompleteTextView autocomplete = view.findViewById(R.id.ortaggio_bl_autocomplete);
+		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
+		autocomplete.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+//					textfield.setEndIconMode(TextInputLayout.END_ICON_DROPDOWN_MENU);
+					Utils.hideSoftKeyboard(v, getActivity());
+					// todo reset last input
+				} else {
+//					textfield.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
+				}
+			}
+		});
+	}
 	private void setupContent(@NonNull View view, ViewGroup container) {
 		
 		// Expandable Text View
@@ -145,12 +167,22 @@ public class OrtaggioFragment extends Fragment {
 		MaterialButtonToggleGroup calendar = view.findViewById(R.id.ortaggio_bl_calendar);
 		for (int i = 0; i < 12; i++) {
 			MaterialButton month = (MaterialButton) getLayoutInflater().inflate(R.layout.ortaggio_bl_calendar_item, calendar, false);
+			java.util.Date date = new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			
 			month.setText(months[i]);
 			if (months_bs[i]) {  // FIXME it doesn't show changes with API 22 (?)
 				month.setChecked(true);
 				month.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimary, getContext(), 40));
 				month.jumpDrawablesToCurrentState();
 			}
+			
+			if (i == cal.get(Calendar.MONTH)) {
+				month.setTypeface(null, Typeface.BOLD);
+				month.setStrokeWidth(Utils.dp2px(3, getContext()));
+			}
+			
 			calendar.addView(month);
 		}
 		

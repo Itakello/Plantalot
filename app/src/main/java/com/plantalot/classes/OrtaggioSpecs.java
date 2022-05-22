@@ -39,7 +39,7 @@ public class OrtaggioSpecs {
 			}
 		}
 		
-		((TextView) view.findViewById(R.id.ortaggio_bl_specs_title)).setText(title);
+//		((TextView) view.findViewById(R.id.ortaggio_bl_specs_title)).setText(title);
 		((TextView) view.findViewById(R.id.ortaggio_bl_specs_value)).setText(valueFormatted);
 		((ImageView) view.findViewById(R.id.ortaggio_bl_specs_icon)).setImageResource(icon);
 	}

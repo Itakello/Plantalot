@@ -37,10 +37,6 @@ public class ColorUtils {
 		return alphaColor(typedValue.data, alpha);
 	}
 	
-	public static int attrColor(int attr, Context context) {
-		return attrColor(attr, context, 100);
-	}
-	
 	
 	/**
 	 * Convert color code into alphaparent color code

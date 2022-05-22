@@ -1,13 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 	
 	<style name="Theme.App" parent="Material3Theme">
-<!--		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
-<!--		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>-->
+		<!--		<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
+		<!--		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>-->
 		<item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
 		<item name="android:listPopupWindowStyle">@style/Widget.App.Dropdown.Popup</item>
-<!--		<item name="popupMenuBackground">@drawable/bkg_popupmenu</item>-->
-
+		<!--		<item name="popupMenuBackground">@drawable/bkg_popupmenu</item>-->
+		
 		<!--		<item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>-->
+	</style>
+	
+	<style name="TextAppearance.None" parent="">
+		<item name="android:textSize">0sp</item>
+		<item name="lineHeight">0sp</item>
+		<item name="android:padding">0dp</item>
+		<item name="android:layout_margin">0dp</item>
+	</style>
+	
+	<style name="TextAppearance.Short" parent="">
+		<item name="lineHeight">10sp</item>
 	</style>
 	
 	
@@ -32,7 +43,7 @@
 	</style>
 	
 	<style name="ThemeOverlay.App.Card.Ortaggio.Bad" parent="">
-				<item name="colorPrimary">?attr/colorError</item>
+		<item name="colorPrimary">?attr/colorError</item>
 	</style>
 	
 	
@@ -166,6 +177,16 @@
 		<item name="android:clickable">false</item>
 		<item name="android:focusable">false</item>
 		<item name="rippleColor">@color/none</item>
+		<item name="android:theme">@style/ThemeOverlay.App.Tetriary</item>
+	</style>
+	
+	<style name="ThemeOverlay.App.Tetriary" parent="Theme.App">
+		<item name="colorPrimary">?attr/colorTertiary</item>
+		<item name="colorPrimaryVariant">?attr/colorTertiary</item>
+		<item name="colorPrimaryContainer">?attr/colorTertiaryContainer</item>
+		<item name="colorSecondary">?attr/colorTertiary</item>
+		<item name="colorSecondaryVariant">?attr/colorTertiary</item>
+		<item name="colorSecondaryContainer">?attr/colorTertiaryContainer</item>
 	</style>
 	
 	<style name="Widget.App.Chip.Suggestion" parent="Widget.Material3.Chip.Suggestion">

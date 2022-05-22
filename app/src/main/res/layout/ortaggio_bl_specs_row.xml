@@ -3,10 +3,12 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:orientation="vertical"
+	android:elevation="8dp"
 	>
 	
-	<include layout="@layout/ortaggio_bl_specs_divider_h" />
+<!--	<include layout="@layout/ortaggio_bl_specs_divider_h" />-->
 	
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -19,10 +21,10 @@
 			layout="@layout/ortaggio_bl_specs_item"
 			/>
 		
-		<include
-			android:id="@+id/ortaggio_bl_specs_row_divider_v"
-			layout="@layout/ortaggio_bl_specs_divider_v"
-			/>
+<!--		<include-->
+<!--			android:id="@+id/ortaggio_bl_specs_row_divider_v"-->
+<!--			layout="@layout/ortaggio_bl_specs_divider_v"-->
+<!--			/>-->
 		
 		<include
 			android:id="@+id/ortaggio_bl_specs_row_item2"
@@ -31,10 +33,10 @@
 	
 	</LinearLayout>
 	
-	<include
-		android:id="@+id/ortaggio_bl_specs_row_divider_h_start"
-		layout="@layout/ortaggio_bl_specs_divider_h"
-		android:visibility="gone"
-		/>
+<!--	<include-->
+<!--		android:id="@+id/ortaggio_bl_specs_row_divider_h_start"-->
+<!--		layout="@layout/ortaggio_bl_specs_divider_h"-->
+<!--		android:visibility="gone"-->
+<!--		/>-->
 
 </LinearLayout>

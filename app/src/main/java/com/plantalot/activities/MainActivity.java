@@ -10,6 +10,7 @@ import com.plantalot.fragments.OrtaggioFragment;
 import com.plantalot.interfaces.NavigationHost;
 import com.plantalot.R;
 import com.plantalot.fragments.HomeFragment;
+import com.plantalot.utils.Utils;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 	
@@ -17,8 +18,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-
-		// Activity never existed before
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 					.beginTransaction()
