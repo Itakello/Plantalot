@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.AlignItems;
@@ -58,7 +59,6 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 			super(view);
 			mButton = view.findViewById(R.id.home_fl_navbutton_icon);
 			mTextView = view.findViewById(R.id.home_fl_navbutton_label);
-			
 			ViewGroup.LayoutParams lp = itemView.getLayoutParams();
 			if (lp instanceof FlexboxLayoutManager.LayoutParams) {
 				FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;

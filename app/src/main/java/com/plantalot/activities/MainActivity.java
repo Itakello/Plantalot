@@ -6,24 +6,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.plantalot.fragments.OrtaggioFragment;
+import com.plantalot.classes.Giardino;
+import com.plantalot.classes.Orto;
 import com.plantalot.interfaces.NavigationHost;
 import com.plantalot.R;
 import com.plantalot.fragments.HomeFragment;
-import com.plantalot.utils.Utils;
 
-public class MainActivity extends AppCompatActivity implements NavigationHost {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {//implements NavigationHost {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		if (savedInstanceState == null) {
-			getSupportFragmentManager()
-					.beginTransaction()
-					.add(R.id.container, new OrtaggioFragment())  // <-- fixme
-					.commit();
-		}
+
+		// Activity never existed before
+//		if (savedInstanceState == null) {
+//			getSupportFragmentManager()
+//					.beginTransaction()
+//					.add(R.id.container, new HomeFragment())  // <-- fixme
+//					.commit();
+//		}
 	}
 	
 	/**
@@ -32,17 +36,17 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 	 * @param fragment       Fragment to navigate to.
 	 * @param addToBackstack Whether or not the current fragment should be added to the backstack.
 	 */
-	@Override
-	public void navigateTo(Fragment fragment, boolean addToBackstack) {
-		FragmentTransaction transaction =
-				getSupportFragmentManager()
-						.beginTransaction()
-						.replace(R.id.container, fragment);
-		
-		if (addToBackstack) {
-			transaction.addToBackStack(null);
-		}
-		
-		transaction.commit();
-	}
+//	@Override
+//	public void navigateTo(Fragment fragment, boolean addToBackstack) {
+//		FragmentTransaction transaction =
+//				getSupportFragmentManager()
+//						.beginTransaction()
+//						.replace(R.id.container, fragment);
+//
+//		if (addToBackstack) {
+//			transaction.addToBackStack(null);
+//		}
+//
+//		transaction.commit();
+//	}
 }

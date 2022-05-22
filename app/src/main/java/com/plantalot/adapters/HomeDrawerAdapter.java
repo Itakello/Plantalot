@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
@@ -18,7 +22,6 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
-	private ItemClickListener mClickListener;
 	
 	// data is passed into the constructor
 	public HomeDrawerAdapter(Context context, List<String> data) {
@@ -45,21 +48,22 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	public int getItemCount() {
 		return mData.size();
 	}
-	
-	
+
+
 	// stores and recycles views as they are scrolled off screen
-	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	public class ViewHolder extends RecyclerView.ViewHolder {
 		Button button;
-		
-		ViewHolder(View itemView) {
+
+		public ViewHolder(View itemView) {
 			super(itemView);
 			button = itemView.findViewById(R.id.drawer_button_text);
-			itemView.setOnClickListener(this);
-		}
-		
-		@Override
-		public void onClick(View view) {
-			if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+			button.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					System.out.println("Hai premuto il pulsante " + button.getText());
+					Navigation.findNavController(v).navigate(R.id.action_select_giardino);
+				}
+			});
 		}
 	}
 	
@@ -68,13 +72,8 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 		return mData.get(id);
 	}
 	
-	// allows clicks events to be caught
-	void setClickListener(ItemClickListener itemClickListener) {
-		this.mClickListener = itemClickListener;
-	}
-	
 	// parent activity will implement this method to respond to click events
-	public interface ItemClickListener {
+	public interface GardenClickListener {
 		void onItemClick(View view, int position);
 	}
 	
