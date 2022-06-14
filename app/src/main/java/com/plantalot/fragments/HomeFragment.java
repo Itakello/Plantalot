@@ -32,7 +32,7 @@ import java.util.List;
 
 
 public class HomeFragment extends Fragment {
-
+	
 	private Giardino giardino;
 	private static User user;
 	private final List<Pair<String, Integer>> mDataButtons = Arrays.asList(
@@ -41,8 +41,8 @@ public class HomeFragment extends Fragment {
 			new Pair<>("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24),
 			new Pair<>("Disponi giardino", R.drawable.ic_round_auto_24),
 			new Pair<>("Aggiungi orto", R.drawable.ic_round_add_big_24));
-
-	public static HomeFragment newInstance(){
+	
+	public static HomeFragment newInstance() {
 		HomeFragment myFrag = new HomeFragment();
 		Bundle args = new Bundle();
 		args.putParcelable("Userr", user);
@@ -54,15 +54,15 @@ public class HomeFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
+		
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			System.out.println("User preso dal bundle");
 			user = bundle.getParcelable("Userr");
-		}else {
+		} else {
 			user = new User("Giacomo");
 		}
-		if(user.giardini.size()>0)
+		if (user.giardini.size() > 0)
 			giardino = user.giardini.get(0);
 		else
 			giardino = null;
@@ -77,27 +77,26 @@ public class HomeFragment extends Fragment {
 	}
 	
 	private void setUpRecyclerView(@NonNull View view) {
-
+		
 		String key = giardino.getNome();
 		TextView title = view.findViewById(R.id.home_fl_title_giardino);
 		title.setText(key);
 		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+		
 		// FIXME
-		if(user.giardini.size()>0){
+		if (user.giardini.size() > 0) {
 			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), user.getGiardiniNames());
 			giardiniRecyclerView.setAdapter(giardiniAdapter);
 		}
-
-
+		
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		System.out.println(giardino);
 		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
 		ortiRecyclerView.setAdapter(homeOrtiAdapter);
-
+		
 		RecyclerView navbuttonsRecyclerView = view.findViewById(R.id.home_fl_recycler_navbuttons);
 		CircleButtonsAdapter circleButtonsAdapter = new CircleButtonsAdapter(mDataButtons);
 		FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());

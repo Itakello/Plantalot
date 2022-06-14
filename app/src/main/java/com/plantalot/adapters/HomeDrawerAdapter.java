@@ -48,16 +48,16 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	public int getItemCount() {
 		return mData.size();
 	}
-
-
+	
+	
 	// stores and recycles views as they are scrolled off screen
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		Button button;
-
+		
 		public ViewHolder(View itemView) {
 			super(itemView);
 			button = itemView.findViewById(R.id.drawer_button_text);
-			button.setOnClickListener(new View.OnClickListener(){
+			button.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					System.out.println("Hai premuto il pulsante " + button.getText());

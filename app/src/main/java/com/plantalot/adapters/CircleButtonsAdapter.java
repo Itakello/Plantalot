@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 
 import java.util.List;
@@ -43,6 +44,12 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
+		viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Navigation.findNavController(v).navigate(R.id.action_ortaggio);
+			}
+		});
 	}
 	
 	@Override
@@ -52,13 +59,15 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		
+		MaterialCardView mCard;
 		MaterialButton mButton;
 		TextView mTextView;
 		
 		ViewHolder(View view) {
 			super(view);
-			mButton = view.findViewById(R.id.home_fl_navbutton_icon);
-			mTextView = view.findViewById(R.id.home_fl_navbutton_label);
+			mCard = view.findViewById(R.id.component_circle_button);
+			mButton = view.findViewById(R.id.component_circle_button_icon);
+			mTextView = view.findViewById(R.id.component_circle_button_label);
 			ViewGroup.LayoutParams lp = itemView.getLayoutParams();
 			if (lp instanceof FlexboxLayoutManager.LayoutParams) {
 				FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
