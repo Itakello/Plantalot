@@ -1,6 +1,7 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.classes.Giardino;
@@ -62,10 +70,7 @@ public class HomeFragment extends Fragment {
 		} else {
 			user = new User("Giacomo");
 		}
-		if (user.giardini.size() > 0)
-			giardino = user.giardini.get(0);
-		else
-			giardino = null;
+		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
 	}
 	
 	@Override

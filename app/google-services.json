@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "798259715075",
+    "firebase_url": "https://plantalot-of-plants-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "plantalot-of-plants",
+    "storage_bucket": "plantalot-of-plants.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798259715075:android:14025aba0035d8e5a1c236",
+        "android_client_info": {
+          "package_name": "com.plantalot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798259715075-cmktgp3o54eubs7im7tkffvnjvai1ub5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi4mrpDvTK39mCPNnCGy3V2Y2ltc5bTzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798259715075-cmktgp3o54eubs7im7tkffvnjvai1ub5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

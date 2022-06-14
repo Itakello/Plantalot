@@ -1,18 +1,17 @@
 package com.plantalot.activities;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.plantalot.classes.Giardino;
-import com.plantalot.classes.Orto;
-import com.plantalot.interfaces.NavigationHost;
 import com.plantalot.R;
-import com.plantalot.fragments.HomeFragment;
-
-import java.util.ArrayList;
+import com.plantalot.database.DbStrings;
 
 public class MainActivity extends AppCompatActivity {//implements NavigationHost {
 	
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationHost
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-
+		
 		// Activity never existed before
 //		if (savedInstanceState == null) {
 //			getSupportFragmentManager()
