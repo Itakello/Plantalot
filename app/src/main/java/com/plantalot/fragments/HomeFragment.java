@@ -34,8 +34,10 @@ import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.adapters.CircleButtonsAdapter;
+import com.plantalot.database.Db;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -71,6 +73,8 @@ public class HomeFragment extends Fragment {
 			user = new User("Giacomo");
 		}
 		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
+	
+		Db db = new Db();  // FIXME !!!!!
 	}
 	
 	@Override
