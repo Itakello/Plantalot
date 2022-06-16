@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/home_backdrop_frontlayer"
+	style="@style/Widget.App.Backdrop.FrontLayer"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_marginTop="?attr/actionBarSize"
+	android:overScrollMode="never"
+	android:paddingHorizontal="16dp"
+	android:scrollbars="none"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	tools:showIn="@layout/all_plants_fragment"
+	>
+	
+	<LinearLayout
+		android:id="@+id/home_fl_content"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:orientation="vertical"
+		>
+		
+		
+		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
+			
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/all_plants_fl_card_list_recycler"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:elevation="16dp"
+				android:overScrollMode="never"
+				tools:itemCount="2"
+				tools:listitem="@layout/ortaggio_bl_card_row"
+				android:paddingTop="16dp"
+				/>
+		
+		</com.google.android.material.card.MaterialCardView>
+	
+	</LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

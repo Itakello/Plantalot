@@ -103,7 +103,7 @@ public class OrtaggioFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Object result = snapshot.child(dropdownItems.get(position)).getValue();
-				if (result != null && result.getClass().getName().equals("HashMap")) {
+				if (result != null && result.getClass().getName().equals("java.util.HashMap")) {
 					setupStats((HashMap<String, Object>) result, pianta);  // fixme
 				}
 			}
@@ -327,7 +327,6 @@ public class OrtaggioFragment extends Fragment {
 						Log.e("firebase", "onCancelled " + error.getMessage());
 					}
 				});
-				
 				
 			}
 			

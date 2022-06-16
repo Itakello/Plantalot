@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/colorPrimaryContainer"
+	android:clipChildren="false"
+	android:clipToPadding="false"
+	android:gravity="bottom"
+	tools:context=".fragments.HomeFragment"
+	>
+	
+	<LinearLayout
+		android:id="@+id/home_bl_content"
+		style="@style/Widget.App.Backdrop.BackLayer"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		>
+		
+		<include layout="@layout/home_bl_appbar" />
+		
+		<include layout="@layout/home_bl_drawer" />
+	
+	</LinearLayout>
+	
+	<include layout="@layout/all_plants_fl_content" />
+
+</FrameLayout>

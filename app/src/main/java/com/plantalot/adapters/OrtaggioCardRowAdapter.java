@@ -63,9 +63,8 @@ public class OrtaggioCardRowAdapter extends RecyclerView.Adapter<OrtaggioCardRow
 			@Override
 			public void onClick(View view) {  // fixme best practice ???
 				Bundle bundle = new Bundle();
-				
 				bundle.putString("ortaggio", ortaggio);
-				Navigation.findNavController(view).navigate(R.id.action_swap_ortaggio, bundle);
+				Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
 			}
 		});
 	}

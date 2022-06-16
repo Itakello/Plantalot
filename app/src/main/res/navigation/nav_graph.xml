@@ -29,14 +29,38 @@
 			android:id="@+id/action_select_giardino"
 			app:destination="@id/homeFragment"
 			/>
+		<action
+			android:id="@+id/action_goto_all_plants"
+			app:destination="@id/allPlantsFragment"
+			/>
 	</fragment>
+	
+	<fragment
+		android:id="@+id/allPlantsFragment"
+		android:name="com.plantalot.fragments.AllPlantsFragment"
+		android:label="AllPlantsFragment"
+		>
+		<action
+			android:id="@+id/action_goto_ortaggio"
+			app:destination="@id/ortaggioFragment"
+			app:enterAnim="@anim/nav_default_enter_anim"
+			app:exitAnim="@anim/nav_default_exit_anim"
+			>
+			<argument
+				android:name="ortaggio"
+				android:defaultValue=""
+				app:argType="string"
+				/>
+		</action>
+	</fragment>
+	
 	<fragment
 		android:id="@+id/ortaggioFragment"
 		android:name="com.plantalot.fragments.OrtaggioFragment"
 		android:label="OrtaggioFragment"
 		>
 		<action
-			android:id="@+id/action_swap_ortaggio"
+			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
 			>
 			<argument
