@@ -31,7 +31,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 	
-	private Giardino giardino;
+	private static Giardino giardino;
 	private static User user;
 	private final List<CircleButton> mButtons = Arrays.asList(
 			new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24),
@@ -41,26 +41,19 @@ public class HomeFragment extends Fragment {
 //			new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24),
 			new CircleButton("Casuale (↑↑↑)", R.drawable.ic_round_casino_24));  // FIXME
 	
-	public static HomeFragment newInstance() {
-		HomeFragment myFrag = new HomeFragment();
-		Bundle args = new Bundle();
-		args.putParcelable("User", user);
-		myFrag.setArguments(args);
-		return myFrag;
-	}
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		
-		Bundle bundle = this.getArguments();
+		/*Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			System.out.println("User preso dal bundle");
 			user = bundle.getParcelable("User");
 		} else {
 			user = new User("Giacomo");
-		}
+		}*/
+		user = new User("Giacomo");
 		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
 		
 		Db db = new Db();  // FIXME !!!!!
@@ -69,39 +62,41 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
+		setUpBackLayer(view);
+		setUpGiardino(view);
 		setUpRecyclerView(view);
 		setUpToolbar(view);
+
 		return view;
 	}
 	
-	private void setUpRecyclerView(@NonNull View view) {
-		
-		String key = giardino.getNome();
-		TextView title = view.findViewById(R.id.home_fl_title_giardino);
-		title.setText(key);
-		
-		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
-		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		
-		// FIXME
-		if (user.giardini.size() > 0) {
-			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), user.getGiardiniNames());
-			giardiniRecyclerView.setAdapter(giardiniAdapter);
-		}
-		
+	private void setUpRecyclerView(@NonNull View view){
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		System.out.println(giardino);
-		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
-		ortiRecyclerView.setAdapter(homeOrtiAdapter);
-		
+
 		CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
 	}
-	
+
+	private static void setUpGiardino(@NonNull View view){
+		TextView title = view.findViewById(R.id.home_fl_title_giardino);
+		title.setText(giardino.getNome());
+
+		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
+		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
+		ortiRecyclerView.setAdapter(homeOrtiAdapter);
+	}
+
+	// used in HomeDrawerAdapter
+	public static void setUpGiardino(@NonNull View view, String newGiardino){
+		giardino = user.getGiardinoByName(newGiardino);
+		assert giardino != null: "Invalid name from home drawer adapter";
+		setUpGiardino(view);
+	}
+
 	private void setUpToolbar(@NonNull View view) {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
-		
+
 		if (activity != null) {
 			activity.setSupportActionBar(toolbar);
 		}
@@ -109,7 +104,7 @@ public class HomeFragment extends Fragment {
 		final LinearLayout drawer = view.findViewById(R.id.home_bl_drawer);
 		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 		
-		// animation
+		// Setup animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
 				view.findViewById(R.id.home_backdrop_frontlayer),
@@ -117,6 +112,17 @@ public class HomeFragment extends Fragment {
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
 				drawer.getMeasuredHeight()));
+	}
+
+	private void setUpBackLayer(@NonNull View view) {
+		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
+		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+		// FIXME
+		if (user.giardini.size() > 0) {
+			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), user.getGiardiniNames(), view);
+			giardiniRecyclerView.setAdapter(giardiniAdapter);
+		}
 	}
 	
 	// Show appbar right menu

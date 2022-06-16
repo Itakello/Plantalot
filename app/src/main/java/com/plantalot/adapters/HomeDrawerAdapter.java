@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
+import com.plantalot.fragments.HomeFragment;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
+	private final View fragView;
 	
 	// data is passed into the constructor
-	public HomeDrawerAdapter(Context context, List<String> data) {
+	public HomeDrawerAdapter(Context context, List<String> data, View fragView) {
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
+		this.fragView = fragView;
 	}
 	
 	// inflates the row layout from xml when needed
@@ -60,8 +63,8 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					System.out.println("Hai premuto il pulsante " + button.getText());
-					Navigation.findNavController(v).navigate(R.id.action_select_giardino);
+					System.out.println("Hai premuto il pulsante " + button.getText().toString());
+					HomeFragment.setUpGiardino(fragView, button.getText().toString());
 				}
 			});
 		}

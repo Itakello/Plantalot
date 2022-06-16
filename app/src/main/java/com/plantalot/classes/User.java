@@ -23,7 +23,6 @@ public class User implements Parcelable {
         giardini.add(new Giardino("Belluno", 0,0,0));
         giardini.add(new Giardino("Trento", 0, 0, 0));
         giardini.add(new Giardino("Bergamo",0,0,0));
-        giardini.add(new Giardino("Roma",0,0,0));
     }
 
     protected User(Parcel in) {
@@ -63,5 +62,14 @@ public class User implements Parcelable {
         dest.writeString(name);
         dest.writeString(email);
         dest.writeString(password);
+    }
+
+    public Giardino getGiardinoByName(String name){
+        for (Giardino g :
+                giardini) {
+            if (g.getNome().equals(name))
+                return g;
+        }
+        return null;
     }
 }
