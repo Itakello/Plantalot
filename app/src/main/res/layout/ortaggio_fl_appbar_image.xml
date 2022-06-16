@@ -4,21 +4,21 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="72dp"
-	android:layout_height="72dp"
-	android:layout_marginTop="24dp"
+	android:layout_width="96dp"
+	android:layout_height="96dp"
+	android:layout_marginTop="32dp"
 	android:elevation="4dp"
 	app:collapsedImageTarget="@id/image_collapsed_target"
 	app:layout_behavior="com.plantalot.animations.AppbarCollapsingImage"
 	tools:context=".activities.MainActivity"
 	tools:showIn="@layout/ortaggio_fragment"
 	>
-<!--	android:layout_gravity="center_horizontal"-->
-<ImageView
-	android:id="@+id/ortaggio_fl_appbar_image"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:contentDescription="TODO"
-	android:src="@mipmap/plant_chili_pepper_3944137"
-	/>
-	</LinearLayout>
+	<!--	android:layout_gravity="center_horizontal"-->
+	<ImageView
+		android:id="@+id/ortaggio_fl_appbar_image"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:contentDescription="TODO"
+		tools:src="@mipmap/plant_basil_3944343"
+		/>
+</LinearLayout>

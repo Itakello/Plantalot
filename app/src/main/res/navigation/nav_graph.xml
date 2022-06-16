@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
-
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.plantalot.fragments.HomeFragment"
-        android:label="home_fragment"
-        tools:layout="@layout/home_fragment" >
-        <action
-            android:id="@+id/action_ortaggio"
-            app:destination="@id/ortaggioFragment" />
-        <action
-            android:id="@+id/action_select_giardino"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/ortaggioFragment"
-        android:name="com.plantalot.fragments.OrtaggioFragment"
-        android:label="OrtaggioFragment" />
+<navigation
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_graph"
+	app:startDestination="@id/homeFragment"
+	>
+	
+	<fragment
+		android:id="@+id/homeFragment"
+		android:name="com.plantalot.fragments.HomeFragment"
+		android:label="home_fragment"
+		tools:layout="@layout/home_fragment"
+		>
+		<action
+			android:id="@+id/action_goto_ortaggio"
+			app:destination="@id/ortaggioFragment"
+			app:enterAnim="@anim/nav_default_enter_anim"
+			app:exitAnim="@anim/nav_default_exit_anim"
+			>
+			<argument
+				android:name="ortaggio"
+				android:defaultValue=""
+				app:argType="string"
+				/>
+		</action>
+		<action
+			android:id="@+id/action_select_giardino"
+			app:destination="@id/homeFragment"
+			/>
+	</fragment>
+	<fragment
+		android:id="@+id/ortaggioFragment"
+		android:name="com.plantalot.fragments.OrtaggioFragment"
+		android:label="OrtaggioFragment"
+		>
+		<action
+			android:id="@+id/action_swap_ortaggio"
+			app:destination="@id/ortaggioFragment"
+			>
+			<argument
+				android:name="ortaggio"
+				android:defaultValue=""
+				app:argType="string"
+				/>
+		</action>
+	</fragment>
 </navigation>

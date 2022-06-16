@@ -16,79 +16,82 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
 		android:clickable="true"
-		android:focusableInTouchMode="true"
 		android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:orientation="vertical"
 		>
 		
-		<com.google.android.material.card.MaterialCardView
-			style="@style/Widget.App.Card.FullWidth"
-			android:layout_marginTop="0dp"
-			>
-			
-			<include layout="@layout/ortaggio_bl_header" />
-		
-		</com.google.android.material.card.MaterialCardView>
-		
-		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
-			
-			<FrameLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:padding="16dp"
-				>
+				<com.google.android.material.card.MaterialCardView
+					style="@style/Widget.App.Card.FullWidth"
+					android:layout_marginTop="0dp"
+					>
+					
+					<include layout="@layout/ortaggio_bl_header" />
 				
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="Descrizione"
-					android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-					/>
+				</com.google.android.material.card.MaterialCardView>
 				
-				<include layout="@layout/ortaggio_bl_description" />
+				<com.google.android.material.card.MaterialCardView
+					android:id="@+id/ortaggio_bl_specs_description"
+					style="@style/Widget.App.Card.FullWidth"
+					>
+					
+					<FrameLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:padding="16dp"
+						>
+						
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="Descrizione"
+							android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+							/>
+						
+						<include layout="@layout/ortaggio_bl_description" />
+					
+					</FrameLayout>
 				
-			</FrameLayout>
-			
-		</com.google.android.material.card.MaterialCardView>
-		
-		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
-			
-			<include layout="@layout/ortaggio_bl_calendar" />
-		
-		</com.google.android.material.card.MaterialCardView>
-		
-		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
-			
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				>
+				</com.google.android.material.card.MaterialCardView>
 				
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:paddingTop="16dp"
-					android:paddingHorizontal="16dp"
-					android:text="Informazioni"
-					android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-					/>
+				<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
+					
+					<include layout="@layout/ortaggio_bl_calendar" />
 				
-				<androidx.recyclerview.widget.RecyclerView
-					android:id="@+id/ortaggio_bl_specs_recycler"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="12dp"
-					android:overScrollMode="never"
-					tools:itemCount="5"
-					tools:listitem="@layout/ortaggio_bl_specs_row"
-					/>
-			
-			</LinearLayout>
-		
-		</com.google.android.material.card.MaterialCardView>
+				</com.google.android.material.card.MaterialCardView>
+				
+				<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
+					
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						>
+						
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:paddingHorizontal="16dp"
+							android:paddingTop="16dp"
+							android:text="Informazioni"
+							android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+							/>
+						
+						<androidx.recyclerview.widget.RecyclerView
+							android:id="@+id/ortaggio_bl_specs_recycler"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:overScrollMode="never"
+							android:padding="12dp"
+							tools:itemCount="5"
+							tools:listitem="@layout/ortaggio_bl_specs_row"
+							/>
+					
+					</LinearLayout>
+				
+				</com.google.android.material.card.MaterialCardView>
 		
 		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
 			
@@ -98,8 +101,9 @@
 				android:layout_height="wrap_content"
 				android:elevation="16dp"
 				android:overScrollMode="never"
-				tools:itemCount="2"
+				tools:itemCount="1"
 				tools:listitem="@layout/ortaggio_bl_card_row"
+				android:paddingTop="16dp"
 				/>
 		
 		</com.google.android.material.card.MaterialCardView>
@@ -114,6 +118,7 @@
 				android:overScrollMode="never"
 				tools:itemCount="2"
 				tools:listitem="@layout/ortaggio_bl_card_row"
+				android:paddingTop="16dp"
 				/>
 		
 		</com.google.android.material.card.MaterialCardView>

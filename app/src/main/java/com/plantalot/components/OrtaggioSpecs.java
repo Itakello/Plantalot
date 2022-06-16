@@ -1,4 +1,4 @@
-package com.plantalot.classes;
+package com.plantalot.components;
 
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;

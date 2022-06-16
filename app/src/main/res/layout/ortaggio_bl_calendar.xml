@@ -24,12 +24,16 @@
 		android:layout_height="wrap_content"
 		app:cardCornerRadius="8dp"
 		app:strokeWidth="0dp"
+		android:clickable="false"
+		android:focusable="false"
 		>
 		
 		<com.google.android.material.button.MaterialButtonToggleGroup
 			android:id="@+id/ortaggio_bl_calendar"
 			android:layout_width="match_parent"
 			android:layout_height="48dp"
+			android:clickable="false"
+			android:focusable="false"
 			/>
 	
 	</com.google.android.material.card.MaterialCardView>

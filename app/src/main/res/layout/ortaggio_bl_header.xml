@@ -28,9 +28,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="4dp"
-			android:text="Capsicum chinese"
 			android:textAppearance="?attr/textAppearanceBodyLarge"
 			android:textStyle="italic"
+			tools:text="Capsicum chinese"
 			/>
 		
 		<TextView
@@ -38,9 +38,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="4dp"
-			android:text="Solanacee"
 			android:textAppearance="?attr/textAppearanceBodyLarge"
 			android:textStyle="italic"
+			tools:text="Solanacee"
 			/>
 	</LinearLayout>
 	
@@ -58,27 +58,26 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="56dp"
-		android:layout_marginTop="16dp"
+		android:layout_marginTop="20dp"
 		app:boxStrokeColor="?attr/colorTertiary"
 		app:endIconMode="dropdown_menu"
 		app:endIconTint="?attr/colorTertiary"
 		app:hintEnabled="false"
-		
 		>
 		
 		<androidx.appcompat.widget.AppCompatAutoCompleteTextView
 			android:id="@+id/ortaggio_bl_autocomplete"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:completionThreshold="10"
 			android:imeOptions="actionNext"
 			android:inputType="textPhonetic"
 			android:lines="1"
 			android:nextFocusDown="@+id/ortaggio_bl_buttons"
 			android:padding="0dp"
 			android:singleLine="true"
-			android:completionThreshold="10"
 			/>
-<!--			android:textCursorDrawable="@drawable/edittext_cursor_drawable"-->
+		<!--			android:textCursorDrawable="@drawable/edittext_cursor_drawable"-->
 	
 	</com.google.android.material.textfield.TextInputLayout>
 	

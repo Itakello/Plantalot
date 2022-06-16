@@ -1,8 +1,6 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -18,26 +16,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
-import com.plantalot.adapters.CircleButtonsAdapter;
+import com.plantalot.components.CircleButton;
 import com.plantalot.database.Db;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -45,17 +33,18 @@ public class HomeFragment extends Fragment {
 	
 	private Giardino giardino;
 	private static User user;
-	private final List<Pair<String, Integer>> mDataButtons = Arrays.asList(
-			new Pair<>("Tutte le piante", R.drawable.ic_iconify_carrot_24),
-			new Pair<>("Le mie piante", R.drawable.ic_iconify_sprout_24),
-			new Pair<>("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24),
-			new Pair<>("Disponi giardino", R.drawable.ic_round_auto_24),
-			new Pair<>("Aggiungi orto", R.drawable.ic_round_add_big_24));
+	private final List<CircleButton> mButtons = Arrays.asList(
+			new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24),
+			new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24),
+			new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24),
+			new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24),
+//			new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24),
+			new CircleButton("Casuale (↑↑↑)", R.drawable.ic_round_casino_24));  // FIXME
 	
 	public static HomeFragment newInstance() {
 		HomeFragment myFrag = new HomeFragment();
 		Bundle args = new Bundle();
-		args.putParcelable("Userr", user);
+		args.putParcelable("User", user);
 		myFrag.setArguments(args);
 		return myFrag;
 	}
@@ -68,12 +57,12 @@ public class HomeFragment extends Fragment {
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			System.out.println("User preso dal bundle");
-			user = bundle.getParcelable("Userr");
+			user = bundle.getParcelable("User");
 		} else {
 			user = new User("Giacomo");
 		}
 		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
-	
+		
 		Db db = new Db();  // FIXME !!!!!
 	}
 	
@@ -106,12 +95,7 @@ public class HomeFragment extends Fragment {
 		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
 		ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		
-		RecyclerView navbuttonsRecyclerView = view.findViewById(R.id.home_fl_recycler_navbuttons);
-		CircleButtonsAdapter circleButtonsAdapter = new CircleButtonsAdapter(mDataButtons);
-		FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext());
-		flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
-		navbuttonsRecyclerView.setLayoutManager(flexboxLayoutManager);
-		navbuttonsRecyclerView.setAdapter(circleButtonsAdapter);
+		CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
 	}
 	
 	private void setUpToolbar(@NonNull View view) {

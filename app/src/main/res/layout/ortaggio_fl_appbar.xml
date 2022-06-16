@@ -14,7 +14,7 @@
 	<com.google.android.material.appbar.CollapsingToolbarLayout
 		android:id="@+id/ortaggio_fl_collapsing_toolbar_layout"
 		android:layout_width="match_parent"
-		android:layout_height="140dp"
+		android:layout_height="176dp"
 		android:fitsSystemWindows="true"
 		app:contentScrim="@color/none"
 		app:expandedTitleGravity="center_horizontal|bottom"

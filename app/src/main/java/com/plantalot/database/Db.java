@@ -14,12 +14,13 @@ import java.util.HashMap;
 
 public class Db {
 	
-	public static DatabaseReference mDatabase;  // FIXME !!!!!
 	public static HashMap<String, String> icons;  // FIXME !!!!!
 	
 	public Db() {
-		mDatabase = FirebaseDatabase.getInstance().getReference();
-		DatabaseReference dbRefIcons = mDatabase.child("ortomio").child("icons");
+		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+		DatabaseReference db = FirebaseDatabase.getInstance().getReference("ortomio");
+		db.keepSynced(true);
+		DatabaseReference dbRefIcons = FirebaseDatabase.getInstance().getReference("ortomio/icons");
 		dbRefIcons.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {

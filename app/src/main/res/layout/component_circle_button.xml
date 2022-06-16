@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-	android:id="@+id/component_circle_button"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/component_circle_button"
 	android:layout_width="96dp"
 	android:layout_height="112dp"
 	android:backgroundTint="#00000000"
 	android:clickable="true"
 	android:focusable="true"
 	app:strokeWidth="0dp"
-	
 	>
 	
 	<LinearLayout
@@ -34,7 +34,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
 			android:lineHeight="16dp"
-			android:text="Label"
+			tools:text="Label"
 			android:textAlignment="center"
 			android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
 			>

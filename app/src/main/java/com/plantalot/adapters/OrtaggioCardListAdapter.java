@@ -1,6 +1,7 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
+import com.plantalot.database.Db;
 import com.plantalot.utils.Utils;
 
 import java.util.List;
@@ -21,10 +23,10 @@ import java.util.List;
 // Riempe la card con le icone
 public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardListAdapter.ViewHolder> {
 	
-	private final List<Pair<String, List<Pair<String, Integer>>>> mData;
+	private final List<Pair<String, List<String>>> mData;
 	Context context;
 	
-	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<Pair<String, Integer>>>> data) {
+	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data) {
 		this.mData = data;
 	}
 	
@@ -38,7 +40,7 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-		Pair<String, List<Pair<String, Integer>>> row = mData.get(position);
+		Pair<String, List<String>> row = mData.get(position);
 		viewHolder.mTextView.setText(row.first);
 		
 		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
@@ -50,7 +52,6 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT
 			);
-			params.setMargins(0, 0, 0, Utils.dp2px(16, context));
 			viewHolder.mRecyclerView.setLayoutParams(params);
 		}
 		

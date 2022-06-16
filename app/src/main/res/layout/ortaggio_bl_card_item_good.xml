@@ -24,7 +24,7 @@
 			android:paddingHorizontal="12dp"
 			android:paddingTop="12dp"
 			android:paddingBottom="8dp"
-			android:src="@mipmap/plant_pumpkin_3944344"
+			android:src="@mipmap/plant_basil_3944343"
 			/>
 		
 		<TextView

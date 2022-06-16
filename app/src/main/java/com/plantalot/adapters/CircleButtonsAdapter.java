@@ -1,6 +1,6 @@
 package com.plantalot.adapters;
 
-import android.util.Pair;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +15,29 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
+import com.plantalot.components.CircleButton;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
-
-// Navigation buttons in Home
 
 public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdapter.ViewHolder> {
 	
-	private final List<Pair<String, Integer>> mData;
+	private final List<CircleButton> mData;
 	
-	public CircleButtonsAdapter(List<Pair<String, Integer>> data) {
+	// FIXME
+	private List<String> ortaggi_list = Arrays.asList("Aglio", "Anguria", "Arachide", "Barbabietola", "Basilico", "Bietola", "Broccolo", "Carosello", "Carota", "Catalogna", "Cavolfiore", "Cavolo cappuccio", "Cavolo cinese", "Cavolo di Bruxelles", "Cavolo nero", "Cavolo riccio", "Cece", "Cetriolo", "Cicoria", "Cima di rapa", "Cipolla", "Cipollotto", "Erba cipollina", "Fagiolino", "Fagiolo", "Fava", "Finocchio", "Indivia", "Lattuga", "Mais", "Melanzana", "Melone", "Okra gombo", "Peperoncino", "Peperone", "Pisello", "Pomodoro", "Porro", "Prezzemolo", "Puntarelle", "Radicchio", "Rapa", "Ravanello", "Rucola", "Scalogno", "Sedano", "Sedano rapa", "Spinacio", "Valeriana", "Verza", "Zucca", "Zucchino");
+	private static int iter = 0;
+	
+	public CircleButtonsAdapter(List<CircleButton> data) {
 		this.mData = data;
+		if (iter == 0) {
+			Collections.shuffle(ortaggi_list, new Random());
+		} else {
+			iter++;
+		}
 	}
 	
 	@NonNull
@@ -38,16 +49,20 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-		int icon = mData.get(position).second;
-		String label = mData.get(position).first;
+		int icon = mData.get(position).getIcon();
+		String label = mData.get(position).getLabel();
 		viewHolder.mButton.setIconResource(icon);
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
 		viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Navigation.findNavController(v).navigate(R.id.action_ortaggio);
+			public void onClick(View view) {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
+				if (viewHolder.getAdapterPosition() == 4) {
+					Bundle bundle = new Bundle();
+					bundle.putString("ortaggio", ortaggi_list.get(iter++));
+					Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
+				}
 			}
 		});
 	}
@@ -57,13 +72,12 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		return mData.size();
 	}
 	
-	static class ViewHolder extends RecyclerView.ViewHolder {
-		
+	public static class ViewHolder extends RecyclerView.ViewHolder {
 		MaterialCardView mCard;
 		MaterialButton mButton;
 		TextView mTextView;
 		
-		ViewHolder(View view) {
+		public ViewHolder(View view) {
 			super(view);
 			mCard = view.findViewById(R.id.component_circle_button);
 			mButton = view.findViewById(R.id.component_circle_button_icon);
@@ -73,7 +87,6 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 				FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
 				flexboxLp.setAlignSelf(AlignItems.CENTER);
 			}
-			
 		}
 	}
 	

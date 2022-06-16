@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
-import com.plantalot.classes.OrtaggioSpecs;
+import com.plantalot.components.OrtaggioSpecs;
 
 import java.util.ArrayList;
 import java.util.List;
