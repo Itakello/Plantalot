@@ -40,6 +40,8 @@
 			android:nestedScrollingEnabled="false"
 			android:overScrollMode="never"
 			android:paddingBottom="24dp"
+			tools:itemCount="1"
+			tools:listitem="@layout/component_circle_button"
 			/>
 		
 		<androidx.recyclerview.widget.RecyclerView
@@ -49,6 +51,8 @@
 			android:nestedScrollingEnabled="false"
 			android:overScrollMode="never"
 			android:paddingBottom="24dp"
+			tools:itemCount="3"
+			tools:listitem="@layout/home_fl_card"
 			/>
 	
 	</LinearLayout>

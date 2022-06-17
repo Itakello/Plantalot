@@ -71,6 +71,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		animator.start();
 		
 		// Add bottom margin to RecyclerView to not crop the content
+//		RecyclerView fl = sheet.findViewById(R.id.all_plants_fl_card_list_recycler);  // FIXME !!!!!!!!!!!
 		RecyclerView fl = sheet.findViewById(R.id.home_fl_recycler_orti);
 		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fl.getLayoutParams();
 		params.bottomMargin = backdropShown ? translateY : 0;

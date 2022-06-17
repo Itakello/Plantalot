@@ -9,20 +9,20 @@
 	android:clipChildren="false"
 	android:clipToPadding="false"
 	android:gravity="bottom"
-	tools:context=".fragments.HomeFragment"
+	tools:context=".fragments.AllPlantsFragment"
 	>
 	
 	<LinearLayout
-		android:id="@+id/home_bl_content"
+		android:id="@+id/all_plants_bl_content"
 		style="@style/Widget.App.Backdrop.BackLayer"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		>
 		
-		<include layout="@layout/home_bl_appbar" />
+		<include layout="@layout/all_plants_bl_appbar" />
 		
-		<include layout="@layout/home_bl_drawer" />
+		<include layout="@layout/all_plants_bl_drawer" />
 	
 	</LinearLayout>
 	

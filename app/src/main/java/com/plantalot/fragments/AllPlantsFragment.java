@@ -86,54 +86,42 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void setUpRecyclerView(@NonNull View view) {
-		FirebaseFirestore.getInstance().collection("ortomio").document("ortaggi").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-			@Override
-			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-				if (task.isSuccessful()) {
-					HashMap<String, Object> ortaggi = (HashMap<String, Object>) task.getResult().getData();
-					System.out.println("firestore OK ======================================================" + ortaggi);
-					HashMap<String, List<String>> famiglie = new HashMap<>();
-					for (Object o : ortaggi.values()) {
-						HashMap<String, Object> ortaggio = (HashMap) o;
-						String famiglia = (String) ortaggio.get(DbStrings.VARIETA_TASSONOMIA_FAMIGLIA);
-						if (famiglie.get(famiglia) == null) {
-							famiglie.put(famiglia, new ArrayList<>());
-						}
-						famiglie.get(famiglia).add((String) ortaggio.get(DbStrings.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-					}
-					List<String> sorted = new ArrayList<>(famiglie.keySet());
-					Collections.sort(sorted);
-					List cards = new ArrayList();
-					for (String famiglia : sorted) {
-						Collections.sort(famiglie.get(famiglia));
-						cards.add(new Pair<>(famiglia, famiglie.get(famiglia)));
-					}
-					RecyclerView cardsRecyclerView1 = view.findViewById(R.id.all_plants_fl_card_list_recycler);
-					cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-					OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards);
-					cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
-				} else {
-					System.out.println("firebase ERROR ======================================================");
-				}
-			}
-		});
+		RecyclerView giardiniRecyclerView = view.findViewById(R.id.all_plants_bl_drawer_recycler);
+		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		
+		// FIXME
+		if (user.giardini.size() > 0) {
+			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), user.getGiardiniNames());
+			giardiniRecyclerView.setAdapter(giardiniAdapter);
+		}
+		
+//		List<Pair<String, List<String>>> cards = new ArrayList();
+//		for (int i = 0; i < 5; i++) {
+//			cards.add(new Pair<>("Caricamento...", new ArrayList<>(Arrays.asList(new String[5]))));
+//		}
+		
+		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
+		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(Db.cards);
+		cardsRecyclerView.setAdapter(ortaggioCardListAdapter);
+		
 	}
 	
 	private void setUpToolbar(@NonNull View view) {
-		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
+		Toolbar toolbar = view.findViewById(R.id.all_plants_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
 		if (activity != null) {
 			activity.setSupportActionBar(toolbar);
 		}
 		
-		final LinearLayout drawer = view.findViewById(R.id.home_bl_drawer);
+		final LinearLayout drawer = view.findViewById(R.id.all_plants_bl_drawer);
 		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 		
 		// animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
-				view.findViewById(R.id.home_backdrop_frontlayer),
+				view.findViewById(R.id.all_plants_backdrop_frontlayer),
 				new AccelerateDecelerateInterpolator(),
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
@@ -143,6 +131,6 @@ public class AllPlantsFragment extends Fragment {
 	// Show appbar right menu
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
-		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
+		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
 	}
 }

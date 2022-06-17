@@ -40,20 +40,25 @@
         <entry key="app/src/main/res/drawable/ic_iconify__24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_iconify_plant_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.118" />
+        <entry key="app/src/main/res/drawable/ic_round_account_circle_24.xml" value="0.308" />
         <entry key="app/src/main/res/drawable/ic_round_add_big_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_round_auto_24.xml" value="0.195" />
         <entry key="app/src/main/res/drawable/ic_round_close_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_round_edit_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_round_menu_24.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/ic_round_photo_camera_24.xml" value="0.155" />
+        <entry key="app/src/main/res/drawable/ic_round_search_24.xml" value="0.308" />
+        <entry key="app/src/main/res/drawable/ic_round_tune_24.xml" value="0.308" />
         <entry key="app/src/main/res/drawable/ic_round_wheelbarrow_24.xml" value="0.1355" />
         <entry key="app/src/main/res/drawable/ic_round_wheelbarrow_border_24.xml" value="0.2315" />
         <entry key="app/src/main/res/layout-v28/home_fl_navbutton.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout-v31/ortaggio_bl_content.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/activity_scrolling.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_scrolling_.xml" value="0.3411458333333333" />
-        <entry key="app/src/main/res/layout/all_plants_fl_content.xml" value="0.3390625" />
-        <entry key="app/src/main/res/layout/all_plants_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/all_plants_bl_appbar.xml" value="0.25136612021857924" />
+        <entry key="app/src/main/res/layout/all_plants_bl_drawer.xml" value="0.3390625" />
+        <entry key="app/src/main/res/layout/all_plants_fl_content.xml" value="0.2887864823348694" />
+        <entry key="app/src/main/res/layout/all_plants_fragment.xml" value="0.25842696629213485" />
         <entry key="app/src/main/res/layout/appbar_scrolling.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/component_circle_button.xml" value="0.33645833333333336" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.1" />
@@ -65,11 +70,12 @@
         <entry key="app/src/main/res/layout/home_bl_drawer_button.xml" value="0.33" />
         <entry key="app/src/main/res/layout/home_fl_card.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/home_fl_card_orto.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/home_fl_content.xml" value="0.23645833333333333" />
+        <entry key="app/src/main/res/layout/home_fl_content.xml" value="0.1" />
         <entry key="app/src/main/res/layout/home_fl_imageview.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/home_fl_imageview_ortaggio.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/home_fl_navbutton.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/home_fragmentasdf.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/home_frontlayer.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/navigation_drawer.xml" value="0.1537037037037037" />
@@ -105,6 +111,7 @@
         <entry key="app/src/main/res/layout/ortaggio_fl_dropdown_item.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/ortaggio_fl_listview.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/ortaggio_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/all_plants_bl_toolbar_menu.xml" value="0.3390625" />
         <entry key="app/src/main/res/menu/home_bl_toolbar.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/menu/home_bl_toolbar_menu.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/menu/home_fl_card_menu.xml" value="0.3411458333333333" />
