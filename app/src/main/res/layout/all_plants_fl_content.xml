@@ -20,11 +20,12 @@
 		>
 		
 		<TextView
+			android:id="@+id/all_plants_fl_title"
 			android:layout_width="match_parent"
 			android:layout_height="48dp"
 			android:paddingHorizontal="16dp"
 			android:gravity="center_vertical"
-			android:text="Famiglie"
+			tools:text="Famiglie"
 			android:textAppearance="?attr/textAppearanceTitleMedium"
 			/>
 		

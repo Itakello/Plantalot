@@ -11,7 +11,7 @@ import android.widget.CursorAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plantalot.R;
-import com.plantalot.database.DbStrings;
+import com.plantalot.database.Db;
 
 public class MainActivity extends AppCompatActivity {//implements NavigationHost {
 	
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationHost
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+		Db.init();
 		
 		// Activity never existed before
 //		if (savedInstanceState == null) {

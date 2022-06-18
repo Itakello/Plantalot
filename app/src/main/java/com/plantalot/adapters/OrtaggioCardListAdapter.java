@@ -18,6 +18,7 @@ import com.plantalot.R;
 import com.plantalot.database.Db;
 import com.plantalot.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Riempe la card con le icone
@@ -27,12 +28,12 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	Context context;
 	
 	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data) {
-		for (Pair<String, List<String>> p: data) {
+		this.mData = (List<Pair<String, List<String>>>) ((ArrayList) data).clone();
+		for (Pair<String, List<String>> p : data) {
 			if (p.second.isEmpty()) {
-				data.remove(p);
+				mData.remove(p);
 			}
 		}
-		this.mData = data;
 	}
 	
 	@NonNull
@@ -47,20 +48,19 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Pair<String, List<String>> row = mData.get(position);
 		
-	
-			viewHolder.mTextView.setText(row.first);
-			
-			OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
-			viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-			viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
-			
-			if (position == 1) {  // FIXME ?
-				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.WRAP_CONTENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT
-				);
-				viewHolder.mRecyclerView.setLayoutParams(params);
-			}
+		viewHolder.mTextView.setText(row.first);
+		
+		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
+		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+		viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
+		
+		if (position == 1) {  // FIXME ?
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+			);
+			viewHolder.mRecyclerView.setLayoutParams(params);
+		}
 		
 	}
 	

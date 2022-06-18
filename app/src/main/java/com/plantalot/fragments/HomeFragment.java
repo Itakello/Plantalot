@@ -62,8 +62,6 @@ public class HomeFragment extends Fragment {
 			user = new User("Giacomo");
 		}
 		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
-		
-		Db db = new Db();  // FIXME !!!!!
 	}
 	
 	@Override
