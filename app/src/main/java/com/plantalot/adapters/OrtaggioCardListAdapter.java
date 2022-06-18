@@ -27,6 +27,11 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	Context context;
 	
 	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data) {
+		for (Pair<String, List<String>> p: data) {
+			if (p.second.isEmpty()) {
+				data.remove(p);
+			}
+		}
 		this.mData = data;
 	}
 	
@@ -41,19 +46,21 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Pair<String, List<String>> row = mData.get(position);
-		viewHolder.mTextView.setText(row.first);
 		
-		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
-		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-		viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
-		
-		if (position == 1) {  // FIXME ?
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT
-			);
-			viewHolder.mRecyclerView.setLayoutParams(params);
-		}
+	
+			viewHolder.mTextView.setText(row.first);
+			
+			OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
+			viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+			viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
+			
+			if (position == 1) {  // FIXME ?
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT
+				);
+				viewHolder.mRecyclerView.setLayoutParams(params);
+			}
 		
 	}
 	

@@ -261,7 +261,7 @@ public class OrtaggioFragment extends Fragment {
 				HashMap varieta = (HashMap) snapshotVarieta.child(defaultVar).getValue();
 				System.out.println("====================================================== " + varieta);
 				
-				String imageFile = Db.icons.get((String) varieta.get(DbStrings.VARIETA_CLASSIFICAZIONE_PIANTA));
+				String imageFile = Db.icons.get((String) varieta.get(DbStrings.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
 				ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
 				boolean hasImage = false;
 				if (imageFile != null) {

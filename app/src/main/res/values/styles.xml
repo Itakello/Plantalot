@@ -132,6 +132,13 @@
 		<item name="iconPadding">0dp</item>
 	</style>
 	
+	<style name="Widget.App.Button.ElevatedButton.IconOnly" parent="Widget.Material3.Button.ElevatedButton">
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="iconGravity">textStart</item>
+		<item name="iconPadding">0dp</item>
+	</style>
+	
 	<style name="Widget.App.Button.TextButton.IconOnly.BackLayer" parent="Widget.Material3.Button.TextButton">
 		<item name="android:insetTop">0dp</item>
 		<item name="android:insetBottom">0dp</item>

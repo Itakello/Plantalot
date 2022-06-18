@@ -30,6 +30,8 @@ public class Db {
 	
 	public static HashMap<String, String> icons;  // FIXME !!!!!
 	public static List<Pair<String, List<String>>> cards = new ArrayList();  // FIXME !!!!!
+	public static List<String> famiglie = new ArrayList();  // FIXME !!!!!
+	public static HashMap<String, Object> ortaggi;  // FIXME !!!!!
 	
 	public Db() {
 		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -48,38 +50,38 @@ public class Db {
 			}
 		});
 		
-		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-				.setPersistenceEnabled(true)
-				.build();
+		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
 		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 		FirebaseFirestore.getInstance().collection("ortomio").document("ortaggi").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 			@Override
 			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 				if (task.isSuccessful()) {
-					HashMap<String, Object> ortaggi = (HashMap<String, Object>) task.getResult().getData();
-					HashMap<String, List<String>> famiglie = new HashMap<>();
+					ortaggi = (HashMap<String, Object>) task.getResult().getData();
+					HashMap<String, List<String>> famiglieMap = new HashMap<>();
 					for (Object o : ortaggi.values()) {
 						HashMap<String, Object> ortaggio = (HashMap) o;
 						String famiglia = (String) ortaggio.get(DbStrings.VARIETA_TASSONOMIA_FAMIGLIA);
-						if (famiglie.get(famiglia) == null) {
-							famiglie.put(famiglia, new ArrayList<>());
+						if (famiglieMap.get(famiglia) == null) {
+							famiglieMap.put(famiglia, new ArrayList<>());
+							famiglie.add(famiglia);
 						}
-						famiglie.get(famiglia).add((String) ortaggio.get(DbStrings.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
+						famiglieMap.get(famiglia).add((String) ortaggio.get(DbStrings.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
 					}
-					List<String> sorted = new ArrayList<>(famiglie.keySet());
+					Collections.sort(famiglie);
+					List<String> sorted = new ArrayList<>(famiglieMap.keySet());
 					Collections.sort(sorted);
 					sorted.add("Altro");
-					famiglie.put("Altro", new ArrayList<>());
+					famiglieMap.put("Altro", new ArrayList<>());
 					for (String famiglia : sorted) {
-						if (Objects.equals(famiglia, "Altro") || famiglie.get(famiglia).size() > 1) {
-							Collections.sort(famiglie.get(famiglia));
+						if (Objects.equals(famiglia, "Altro") || famiglieMap.get(famiglia).size() > 1) {
+							Collections.sort(famiglieMap.get(famiglia));
 							if (Objects.equals(famiglia, "Crucifere")) {
-								famiglie.get(famiglia).remove("Altri cavoli");
-								famiglie.get(famiglia).add("Altri cavoli");
+								famiglieMap.get(famiglia).remove("Altri cavoli");
+								famiglieMap.get(famiglia).add("Altri cavoli");
 							}
-							cards.add(new Pair<>(famiglia, famiglie.get(famiglia)));
+							cards.add(new Pair<>(famiglia, famiglieMap.get(famiglia)));
 						} else {
-							famiglie.get("Altro").add(famiglie.get(famiglia).get(0));
+							famiglieMap.get("Altro").add(famiglieMap.get(famiglia).get(0));
 						}
 					}
 				} else {
