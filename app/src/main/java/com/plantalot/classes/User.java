@@ -20,9 +20,9 @@ public class User implements Parcelable {
         this.name = name;
         System.out.println("Creato un nuovo user: " + name);
         giardini = new ArrayList<>();
-        giardini.add(new Giardino("Belluno", 0,0,0));
-        giardini.add(new Giardino("Trento", 0, 0, 0));
-        giardini.add(new Giardino("Bergamo",0,0,0));
+//        giardini.add(new Giardino("Belluno", 0,0,0));
+//        giardini.add(new Giardino("Trento", 0, 0, 0));
+//        giardini.add(new Giardino("Bergamo",0,0,0));
     }
 
     protected User(Parcel in) {

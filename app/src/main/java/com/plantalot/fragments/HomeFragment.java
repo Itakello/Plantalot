@@ -56,15 +56,17 @@ public class HomeFragment extends Fragment {
 		user = new User("Giacomo");
 		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
 		
-		Db db = new Db();  // FIXME !!!!!
+//		Db db = new Db();  // FIXME !!!!
 	}
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		setUpBackLayer(view);
-		setUpGiardino(view);
-		setUpRecyclerView(view);
+		if(giardino != null) {
+			setUpGiardino(view);
+			setUpRecyclerView(view);
+		}
 		setUpToolbar(view);
 
 		return view;
@@ -104,7 +106,7 @@ public class HomeFragment extends Fragment {
 		final LinearLayout drawer = view.findViewById(R.id.home_bl_drawer);
 		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 		
-		// Setup animation
+		// Setup listener + animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
 				view.findViewById(R.id.home_backdrop_frontlayer),
