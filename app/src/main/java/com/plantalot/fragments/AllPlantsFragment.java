@@ -137,7 +137,7 @@ public class AllPlantsFragment extends Fragment {
 				new AccelerateDecelerateInterpolator(),
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
-				drawer.getMeasuredHeight()));
+				drawer));
 	}
 	
 	// Show appbar right menu

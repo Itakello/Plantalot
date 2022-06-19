@@ -27,24 +27,16 @@ public class NavigationIconClickListener implements View.OnClickListener {
 	private boolean backdropShown = false;
 	private final Integer openIcon;
 	private final Integer closeIcon;
-	private final int translateY;
-	
-	NavigationIconClickListener(Context context, View sheet) {
-		this(context, sheet, null);
-	}
-	
-	NavigationIconClickListener(Context context, View sheet, @Nullable Interpolator interpolator) {
-		this(context, sheet, interpolator, null, null, 0);
-	}
+	private final LinearLayout drawer;
 	
 	public NavigationIconClickListener(
 			Context context, View sheet, @Nullable Interpolator interpolator,
-			Integer openIcon, Integer closeIcon, int translateY) {
+			Integer openIcon, Integer closeIcon, LinearLayout drawer) {
 		this.sheet = sheet;
 		this.interpolator = interpolator;
 		this.openIcon = openIcon;
 		this.closeIcon = closeIcon;
-		this.translateY = translateY;
+		this. drawer = drawer;
 		
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -53,6 +45,8 @@ public class NavigationIconClickListener implements View.OnClickListener {
 	@Override
 	public void onClick(View view) {
 		backdropShown = !backdropShown;
+		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+		int translateY = drawer.getMeasuredHeight();
 		
 		// Cancel the existing com.plantalot.animations
 		animatorSet.removeAllListeners();

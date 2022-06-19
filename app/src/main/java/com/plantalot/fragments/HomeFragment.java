@@ -104,9 +104,6 @@ public class HomeFragment extends Fragment {
 			activity.setSupportActionBar(toolbar);
 		}
 
-		final LinearLayout drawer = view.findViewById(R.id.home_bl_drawer);
-		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-
 		// Setup listener + animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
@@ -114,7 +111,7 @@ public class HomeFragment extends Fragment {
 				new AccelerateDecelerateInterpolator(),
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
-				drawer.getMeasuredHeight()));
+				view.findViewById(R.id.home_bl_drawer)));
 	}
 
 	public void updateUI(@NonNull View view, FirebaseUser fUser, User user, String nomeGiardino){ //FIXME delete 1 user
