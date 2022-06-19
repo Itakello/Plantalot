@@ -33,6 +33,12 @@
 			/>
 		
 		<!-- FIXME width -->
+		<TextView
+			android:id="@+id/anonymousStatusId"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="anonymousStatusId" />
+
 		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/home_fl_recycler_navbuttons"
 			android:layout_width="288dp"
@@ -50,7 +56,7 @@
 			android:overScrollMode="never"
 			android:paddingBottom="24dp"
 			/>
-	
+
 	</LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

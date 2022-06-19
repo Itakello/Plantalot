@@ -21,48 +21,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.plantalot.R;
 import com.plantalot.database.DbStrings;
 
-public class MainActivity extends AppCompatActivity {//implements NavigationHost {
-	private static final String TAG = "MainActivity";
-	private FirebaseAuth mAuth;
+public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		mAuth = FirebaseAuth.getInstance();
-
 	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		// Check if user is signed in (non-null) and update UI accordingly.
-		FirebaseUser currentUser = mAuth.getCurrentUser();
-		signInAnonymously();
-	}
-
-	private void signInAnonymously() {
-//		showProgressBar();
-		mAuth.signInAnonymously()
-				.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-					@Override
-					public void onComplete(@NonNull Task<AuthResult> task) {
-						if (task.isSuccessful()) {
-							// Sign in success, update UI with the signed-in user's information
-							Log.d(TAG, "signInAnonymously:success");
-							FirebaseUser user = mAuth.getCurrentUser();
-//							updateUI(user);
-						} else {
-							// If sign in fails, display a message to the user.
-							Log.w(TAG, "signInAnonymously:failure", task.getException());
-							Toast.makeText(getApplicationContext(), "Authentication failed.",
-									Toast.LENGTH_SHORT).show();
-//							updateUI(null);
-						}
-
-//						hideProgressBar();
-					}
-				});
-	}
-
 }

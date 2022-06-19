@@ -76,7 +76,7 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 				@Override
 				public void onClick(View v) {
 					System.out.println("Hai premuto il pulsante " + button.getText().toString());
-					HomeFragment.setUpGiardino(fragView, button.getText().toString());
+//					HomeFragment.setUpGiardino(fragView, button.getText().toString());
 					Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
 					ImageButton img_button = getToolbarNavigationButton(toolbar);
 
