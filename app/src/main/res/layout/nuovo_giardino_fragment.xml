@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:clickable="true"
+	android:elevation="1dp"
+	android:fitsSystemWindows="true"
+	android:focusable="true"
+	android:focusableInTouchMode="true"
+	android:orientation="vertical"
+	>
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		>
+		
+		<Button
+			style="@style/Widget.App.Button.ElevatedButton.IconOnly"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:insetLeft="0dp"
+			android:insetTop="0dp"
+			android:insetRight="0dp"
+			android:insetBottom="0dp"
+			android:text=""
+			app:icon="@drawable/ic_round_arrow_back_24"
+			app:iconGravity="textStart"
+			app:iconPadding="0dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+		
+		<Button
+			style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Salva"
+			app:icon="@drawable/ic_round_done_24"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:paddingStart="24dp"
+		android:paddingEnd="24dp"
+		>
+		
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingVertical="16dp"
+			android:text="Nuovo giardino"
+			android:textAppearance="?attr/textAppearanceDisplaySmall"
+			/>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingTop="24dp"
+			>
+			
+			<ImageView
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:layout_marginTop="4dp"
+				android:layout_marginEnd="16dp"
+				android:src="@drawable/ic_round_fence_24"
+				/>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Nome"
+				android:paddingHorizontal="8dp"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					/>
+			</com.google.android.material.textfield.TextInputLayout>
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingTop="24dp"
+			>
+			
+			<ImageView
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:layout_marginTop="4dp"
+				android:layout_marginEnd="16dp"
+				android:src="@drawable/ic_outline_location_on_24"
+				/>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Posizione"
+				android:paddingHorizontal="8dp"
+				>
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					/>
+			</com.google.android.material.textfield.TextInputLayout>
+		</LinearLayout>
+		
+		
+	</LinearLayout>
+
+</LinearLayout>
