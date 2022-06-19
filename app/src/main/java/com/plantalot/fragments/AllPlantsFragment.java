@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
+import com.plantalot.adapters.AllPlantsCardListAdapter;
 import com.plantalot.adapters.AllPlantsDrawerAdapter;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.classes.Giardino;
@@ -301,14 +302,14 @@ public class AllPlantsFragment extends Fragment {
 		}
 		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
 		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(cards);
-		cardsRecyclerView.setAdapter(ortaggioCardListAdapter);
+		AllPlantsCardListAdapter allPlantsCardListAdapter = new AllPlantsCardListAdapter(cards);
+		cardsRecyclerView.setAdapter(allPlantsCardListAdapter);
 	}
 	
 	private void setupFilters() {
 		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_drawer_recycler);
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		AllPlantsDrawerAdapter drawerAdapter = new AllPlantsDrawerAdapter(getContext(), chips, activeFilters, RAGGRUPPA, this);
+		AllPlantsDrawerAdapter drawerAdapter = new AllPlantsDrawerAdapter(getContext(), chips, activeFilters, RAGGRUPPA, this, titles);
 		drawerRecyclerView.setAdapter(drawerAdapter);
 	}
 	
@@ -327,17 +328,17 @@ public class AllPlantsFragment extends Fragment {
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
-		menu.findItem(R.id.search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-			@Override
-			public boolean onMenuItemActionExpand(MenuItem menuItem) {
-				return true;
-			}
-			
-			@Override
-			public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-				return true;
-			}
-		});
+//		menu.findItem(R.id.search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+//			@Override
+//			public boolean onMenuItemActionExpand(MenuItem menuItem) {
+//				return true;
+//			}
+//
+//			@Override
+//			public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+//				return true;
+//			}
+//		});
 		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 		searchView.setQueryHint("Cerca un ortaggio");
 		
@@ -373,14 +374,14 @@ public class AllPlantsFragment extends Fragment {
 		if (backdropShown) {
 //			interval = 20;
 //			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
-			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.GONE);
+//			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.GONE);
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
 			showResultsNumber();
 		} else {
 //			interval -= 20;
 //			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
+//			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
-			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.VISIBLE);
 		}
 //		handler.postAtTime(runnable, System.currentTimeMillis() + interval);
 //		handler.postDelayed(runnable, interval);

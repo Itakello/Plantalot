@@ -32,15 +32,17 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 	private final Context context;
 	private final AllPlantsFragment fragment;
 	private final HashMap<String, Set<String>> activeFilters;
+	private final HashMap<String, String> titles;
 	
 	// data is passed into the constructor
 	public AllPlantsDrawerAdapter(Context context, List<Pair<String, List<String>>> data,
 	                              HashMap<String, Set<String>> activeFilters, String raggruppa,
-	                              AllPlantsFragment fragment) {
+	                              AllPlantsFragment fragment,  HashMap<String, String> titles) {
 		this.mData = data;
 		this.mInflater = LayoutInflater.from(context);
 		this.context = context;
 		this.fragment = fragment;
+		this.titles = titles;
 		this.activeFilters = activeFilters;
 		this.RAGGRUPPA = raggruppa;
 		System.out.println(activeFilters);
@@ -59,7 +61,7 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		String title = mData.get(position).first;
 		List<String> chips = mData.get(position).second;
-		viewHolder.title.setText(title);
+		viewHolder.title.setText(titles.get(title));
 		if (Objects.equals(title, RAGGRUPPA)) {
 			viewHolder.chipGroup.setSingleSelection(true);
 			viewHolder.chipGroup.setSelectionRequired(true);
@@ -70,7 +72,7 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 				viewHolder.chipGroup.addView(mInflater.inflate(R.layout.component_chips_divider, null, false));
 			} else {
 				Chip chip = new Chip(context);
-				chip.setText(c);
+				chip.setText(Objects.equals(title, RAGGRUPPA) ? titles.get(c) : c);
 				chip.setCheckable(true);
 				if (Objects.equals(title, RAGGRUPPA)) {
 					if (Objects.equals((new ArrayList<>(activeFilters.get(title))).get(0), c)) {

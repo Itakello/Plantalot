@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/all_plants_card_item"
+	style="card"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginHorizontal="8dp"
+	android:clickable="true"
+	android:focusable="true"
+	android:gravity="center"
+	android:orientation="vertical"
+	>
+	
+	<com.google.android.material.card.MaterialCardView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="false"
+		>
+		
+		<ImageView
+			android:id="@+id/all_plants_card_image"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:adjustViewBounds="true"
+			android:padding="24dp"
+			android:paddingHorizontal="12dp"
+			android:src="@mipmap/plant_basil_3944343"
+			/>
+		
+	</com.google.android.material.card.MaterialCardView>
+	
+	<TextView
+		android:id="@+id/all_plants_card_label"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:layout_marginTop="4dp"
+		android:gravity="top|center"
+		android:lineHeight="16dp"
+		android:text="Zucca"
+		android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+		/>
+
+</LinearLayout>
