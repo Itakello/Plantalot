@@ -1,6 +1,7 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.classes.Giardino;
@@ -30,9 +37,12 @@ import java.util.List;
 
 
 public class HomeFragment extends Fragment {
-	
-	private Giardino giardino;
+
+	private static final String TAG = "HomeFragment";
+	private static Giardino giardino;
 	private static User user;
+	private FirebaseAuth mAuth;
+
 	private final List<CircleButton> mButtons = Arrays.asList(
 			new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24),
 			new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24),
@@ -40,86 +50,91 @@ public class HomeFragment extends Fragment {
 			new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24),
 //			new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24),
 			new CircleButton("Casuale (↑↑↑)", R.drawable.ic_round_casino_24));  // FIXME
-	
-	public static HomeFragment newInstance() {
-		HomeFragment myFrag = new HomeFragment();
-		Bundle args = new Bundle();
-		args.putParcelable("User", user);
-		myFrag.setArguments(args);
-		return myFrag;
-	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		
-		Bundle bundle = this.getArguments();
-		if (bundle != null) {
-			System.out.println("User preso dal bundle");
-			user = bundle.getParcelable("User");
-		} else {
-			user = new User("Giacomo");
-		}
-		giardino = (user.giardini.size() > 0) ? user.giardini.get(0) : null;
+		mAuth = FirebaseAuth.getInstance();
+//		mAuth.useEmulator("0.0.0.0", 9099);
 	}
-	
+
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
-		setUpRecyclerView(view);
-		setUpToolbar(view);
+		initializeUI(view);
+
+		// Check if user is signed in (non-null) and update UI accordingly.
+		mAuth.signInAnonymously()
+				.addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+					@Override
+					public void onComplete(@NonNull Task<AuthResult> task) {
+						FirebaseUser currentUser = mAuth.getCurrentUser();
+						User user = new User("Giacomo");
+						updateUI(view, currentUser, user, "Belluno");
+					}
+				});
+
 		return view;
 	}
-	
-	private void setUpRecyclerView(@NonNull View view) {
-		
-		String key = giardino.getNome();
-		TextView title = view.findViewById(R.id.home_fl_title_giardino);
-		title.setText(key);
-		
+
+	// Show appbar right menu
+	@Override
+	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
+		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
+	}
+
+	private void initializeUI(@NonNull View view){
+		// Setup giardini recycler view
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		
-		// FIXME
-		if (user.giardini.size() > 0) {
-			HomeDrawerAdapter giardiniAdapter = new HomeDrawerAdapter(getActivity(), user.getGiardiniNames());
-			giardiniRecyclerView.setAdapter(giardiniAdapter);
-		}
-		
+
+		setUpToolbar(view);
+
+		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		System.out.println(giardino);
-		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
-		ortiRecyclerView.setAdapter(homeOrtiAdapter);
-		
-		CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
 	}
-	
+
 	private void setUpToolbar(@NonNull View view) {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
-		
+
 		if (activity != null) {
 			activity.setSupportActionBar(toolbar);
 		}
-		
-		final LinearLayout drawer = view.findViewById(R.id.home_bl_drawer);
-		drawer.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-		
-		// animation
+
+		// Setup listener + animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
 				view.findViewById(R.id.home_backdrop_frontlayer),
 				new AccelerateDecelerateInterpolator(),
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
-				drawer.getMeasuredHeight()));
+				view.findViewById(R.id.home_bl_drawer)));
 	}
-	
-	// Show appbar right menu
-	@Override
-	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
-		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
+
+	public void updateUI(@NonNull View view, FirebaseUser fUser, User user, String nomeGiardino){ //FIXME delete 1 user
+		giardino = user.getGiardinoByName(nomeGiardino);
+
+		TextView idView = view.findViewById(R.id.anonymousStatusId);
+		idView.setText("User ID: " + fUser.getUid());
+
+		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
+		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(getActivity(), user.getGiardiniNames(), view));
+
+		TextView instructions = view.findViewById(R.id.instructions);
+		if(giardino == null){
+			instructions.setText("NO giardino");
+		}else{
+			instructions.setText("SI giardino");
+			CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
+			TextView title = view.findViewById(R.id.home_fl_title_giardino);
+			title.setText(giardino.getNome());
+
+			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
+			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
+			ortiRecyclerView.setAdapter(homeOrtiAdapter);
+		}
 	}
 }

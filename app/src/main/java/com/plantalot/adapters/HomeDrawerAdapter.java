@@ -1,19 +1,19 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHostController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
+import com.plantalot.fragments.HomeFragment;
 
 import java.util.List;
 
@@ -22,11 +22,13 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
+	private final View fragView;
 	
 	// data is passed into the constructor
-	public HomeDrawerAdapter(Context context, List<String> data) {
+	public HomeDrawerAdapter(Context context, List<String> data, View fragView) {
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
+		this.fragView = fragView;
 	}
 	
 	// inflates the row layout from xml when needed
@@ -48,7 +50,20 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	public int getItemCount() {
 		return mData.size();
 	}
-	
+
+	private ImageButton getToolbarNavigationButton(Toolbar toolbar) {
+		int size = toolbar.getChildCount();
+		for (int i = 0; i < size; i++) {
+			View child = toolbar.getChildAt(i);
+			if (child instanceof ImageButton) {
+				ImageButton btn = (ImageButton) child;
+				if (btn.getDrawable() == toolbar.getNavigationIcon()) {
+					return btn;
+				}
+			}
+		}
+		return null;
+	}
 	
 	// stores and recycles views as they are scrolled off screen
 	public class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,8 +75,21 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					System.out.println("Hai premuto il pulsante " + button.getText());
-					Navigation.findNavController(v).navigate(R.id.action_select_giardino);
+					System.out.println("Hai premuto il pulsante " + button.getText().toString());
+//					HomeFragment.setUpGiardino(fragView, button.getText().toString());
+					Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
+					ImageButton img_button = getToolbarNavigationButton(toolbar);
+
+					// Add delay for smooth animation
+					final Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							img_button.performClick();
+						}
+					}, 300);
+
+
 				}
 			});
 		}
