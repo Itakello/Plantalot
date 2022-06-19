@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
 			instructions.setText("NO giardino");
 		}else{
 			instructions.setText("SI giardino");
-			//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
+			CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
 			TextView title = view.findViewById(R.id.home_fl_title_giardino);
 			title.setText(giardino.getNome());
 
