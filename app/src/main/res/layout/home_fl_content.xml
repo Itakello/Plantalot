@@ -28,7 +28,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingVertical="24dp"
-			android:text="Trento"
+			android:text="Nome giardino"
 			android:textAppearance="?attr/textAppearanceHeadline5"
 			/>
 		
@@ -37,7 +37,16 @@
 			android:id="@+id/anonymousStatusId"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:gravity="center"
 			android:text="anonymousStatusId" />
+
+		<TextView
+			android:id="@+id/instructions"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:text="Instructions"
+			android:textSize="24sp" />
 
 		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/home_fl_recycler_navbuttons"

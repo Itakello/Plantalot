@@ -116,22 +116,25 @@ public class HomeFragment extends Fragment {
 
 	public void updateUI(@NonNull View view, FirebaseUser fUser, User user, String nomeGiardino){ //FIXME delete 1 user
 		giardino = user.getGiardinoByName(nomeGiardino);
-		assert giardino != null: "Invalid giardino name";
 
 		TextView idView = view.findViewById(R.id.anonymousStatusId);
 		idView.setText("User ID: " + fUser.getUid());
 
-		if (user.giardini.size() > 0) {
-			System.out.println("Aggiungendo i giardini al bl");
-			RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
-			giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(getActivity(), user.getGiardiniNames(), view));
-		}
-		//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
-		TextView title = view.findViewById(R.id.home_fl_title_giardino);
-		title.setText(giardino.getNome());
+		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
+		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(getActivity(), user.getGiardiniNames(), view));
 
-		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
-		HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
-		ortiRecyclerView.setAdapter(homeOrtiAdapter);
+		TextView instructions = view.findViewById(R.id.instructions);
+		if(giardino == null){
+			instructions.setText("NO giardino");
+		}else{
+			instructions.setText("SI giardino");
+			//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
+			TextView title = view.findViewById(R.id.home_fl_title_giardino);
+			title.setText(giardino.getNome());
+
+			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
+			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
+			ortiRecyclerView.setAdapter(homeOrtiAdapter);
+		}
 	}
 }
