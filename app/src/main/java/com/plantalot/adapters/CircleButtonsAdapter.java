@@ -29,15 +29,9 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	
 	// FIXME
 	private List<String> ortaggi_list = Arrays.asList("Aglio", "Anguria", "Arachide", "Barbabietola", "Basilico", "Bietola", "Broccolo", "Carosello", "Carota", "Catalogna", "Cavolfiore", "Cavolo cappuccio", "Cavolo cinese", "Cavolo di Bruxelles", "Cavolo nero", "Cavolo riccio", "Cece", "Cetriolo", "Cicoria", "Cima di rapa", "Cipolla", "Cipollotto", "Erba cipollina", "Fagiolino", "Fagiolo", "Fava", "Finocchio", "Indivia", "Lattuga", "Mais", "Melanzana", "Melone", "Okra gombo", "Peperoncino", "Peperone", "Pisello", "Pomodoro", "Porro", "Prezzemolo", "Puntarelle", "Radicchio", "Rapa", "Ravanello", "Rucola", "Scalogno", "Sedano", "Sedano rapa", "Spinacio", "Valeriana", "Verza", "Zucca", "Zucchino");
-	private static int iter = 0;
 	
 	public CircleButtonsAdapter(List<CircleButton> data) {
 		this.mData = data;
-		if (iter == 0) {
-			Collections.shuffle(ortaggi_list, new Random());
-		} else {
-			iter++;
-		}
 	}
 	
 	@NonNull
@@ -51,22 +45,20 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		int icon = mData.get(position).getIcon();
 		String label = mData.get(position).getLabel();
+		int id_fragment = mData.get(position).getId_fragment();
+		Bundle bundle = mData.get(position).getBundle();
+
 		viewHolder.mButton.setIconResource(icon);
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
-		viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
-				if (viewHolder.getAdapterPosition() == 0) {
-					Navigation.findNavController(view).navigate(R.id.action_goto_all_plants);
-				}else if (viewHolder.getAdapterPosition() == 4) {
-					Bundle bundle = new Bundle();
-					bundle.putString("ortaggio", ortaggi_list.get(iter++));
-					Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
+		if(id_fragment != -1)
+			viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
+					Navigation.findNavController(view).navigate(id_fragment, bundle);
 				}
-			}
-		});
+			});
 	}
 	
 	@Override

@@ -2,7 +2,11 @@ package com.plantalot.classes;
 
 import androidx.annotation.NonNull;
 
+import com.plantalot.R;
+import com.plantalot.components.CircleButton;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Giardino {
@@ -23,6 +27,7 @@ public class Giardino {
         this.xPos = xPos;
         this.yPos = yPos;
         this.zPos = zPos;
+
         orti = new ArrayList<>();
         orti.add(new Orto("Orto 1", 100, 100));
         orti.add(new Orto("Orto 2", 100, 100));

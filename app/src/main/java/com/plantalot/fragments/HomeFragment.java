@@ -1,20 +1,19 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,9 +29,8 @@ import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.components.CircleButton;
-import com.plantalot.database.Db;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,13 +41,7 @@ public class HomeFragment extends Fragment {
 	private static User user;
 	private FirebaseAuth mAuth;
 
-	private final List<CircleButton> mButtons = Arrays.asList(
-			new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24),
-			new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24),
-			new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24),
-			new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24),
-//			new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24),
-			new CircleButton("Casuale", R.drawable.ic_round_casino_24));  // FIXME
+	private List<CircleButton> mButtons;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +66,6 @@ public class HomeFragment extends Fragment {
 						updateUI(view, currentUser, user, "Belluno");
 					}
 				});
-
 		return view;
 	}
 
@@ -94,6 +85,17 @@ public class HomeFragment extends Fragment {
 		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+		// Add link to new_garden fragment
+		Button new_garden = view.findViewById(R.id.nuovo_giardino);
+		new_garden.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Navigation.findNavController(view).navigate(R.id.action_goto_newGarden);
+			}
+		});
+
+		setUpCircleButtons();
 	}
 
 	private void setUpToolbar(@NonNull View view) {
@@ -112,6 +114,18 @@ public class HomeFragment extends Fragment {
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
 				view.findViewById(R.id.home_bl_drawer)));
+	}
+
+	private void setUpCircleButtons(){
+		mButtons = new ArrayList<>();
+		mButtons.add(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants));
+		mButtons.add(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24));
+		mButtons.add(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24));
+		mButtons.add(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24));
+		mButtons.add(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24));
+		Bundle bundle = new Bundle();
+		bundle.putString("ortaggio", "Aglio");
+		mButtons.add(new CircleButton("Casuale", R.drawable.ic_round_casino_24, R.id.action_goto_ortaggio, bundle));
 	}
 
 	public void updateUI(@NonNull View view, FirebaseUser fUser, User user, String nomeGiardino){ //FIXME delete 1 user

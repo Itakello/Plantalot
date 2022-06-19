@@ -63,10 +63,10 @@ public class OrtaggioFragment extends Fragment {
 //	List<String> ortaggi_list = Arrays.asList("Peperoncino");
 	private LinkedList<String> dropdownItems;
 	
-	private final List<CircleButton> mButtons = Arrays.asList(
-			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24),
-			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24),
-			new CircleButton("Modifica", R.drawable.ic_round_edit_24));
+//	private final List<CircleButton> mButtons = Arrays.asList(
+//			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24),
+//			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24),
+//			new CircleButton("Modifica", R.drawable.ic_round_edit_24));
 	
 	private View view;
 	
@@ -108,7 +108,7 @@ public class OrtaggioFragment extends Fragment {
 			}
 		});
 		
-		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
+//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
 	}
 	
 	private void setupTexField() {

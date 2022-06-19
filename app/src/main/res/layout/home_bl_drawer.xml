@@ -29,6 +29,7 @@
 		/>
 	
 	<Button
+		android:id="@+id/nuovo_giardino"
 		style="@style/Widget.App.Button.TextButton.BackLayer"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
