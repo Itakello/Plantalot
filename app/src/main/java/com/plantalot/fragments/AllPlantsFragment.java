@@ -50,33 +50,37 @@ public class AllPlantsFragment extends Fragment {
 	private boolean backdropShown = false;
 	DisplayMetrics displayMetrics = new DisplayMetrics();
 	
-	public final static String INFO_RAGGRUPPA = "Raggruppa";
-	private final static String INFO_FAMIGLIA = "Famiglie";
-	private final static String INFO_NOME = "Nome";
-	private final static String INFO_TRAPIANTO = "Mesi per il trapianto";
-	private final static String INFO_RACCOLTA = "Giorni per la raccolta";
-	private final static String INFO_DIST_PIANTE = "Distanza fra piante";
-	private final static String INFO_DIST_FILE = "Distanza fra file";
-	private final static String INFO_DIMENSIONI = "Dimensioni";
-	private final static String INFO_ESPOSIZIONE = "Esposizione";
-	private final static String INFO_ROTAZIONE = "Anni di rotazione";
-	private final static String INFO_PACK = "Piante per pack";
+	private static final HashMap<String, String> titles = new HashMap<>();
 	
-	private final static HashMap<String, List<Pair<Integer, Integer>>> groups = new HashMap<>();
+	private static final HashMap<String, List<Pair<Integer, Integer>>> groups = new HashMap<>();
+	private static final List<String> months = new ArrayList<>(Arrays.asList("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"));
+	public static final String RAGGRUPPA = "Raggruppa";
 	
-	private final static List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
-			new Pair<>(INFO_RAGGRUPPA, Arrays.asList(INFO_FAMIGLIA, INFO_NOME, INFO_RACCOLTA, INFO_DIST_PIANTE, INFO_DIST_FILE, INFO_PACK)),  /*, "Produzione", "Anni di rotazione", "Piante per pack"*/
-			new Pair<>(INFO_FAMIGLIA, Db.famiglie),
-			new Pair<>(INFO_TRAPIANTO, Arrays.asList("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "Questo mese")),
-			new Pair<>(INFO_RACCOLTA, new ArrayList<>()),
-			new Pair<>(INFO_DIMENSIONI, Arrays.asList("Piccole", "Medie", "Grandi")),
-			new Pair<>(INFO_ESPOSIZIONE, Arrays.asList("Sole", "Mezz'ombra")),
-			new Pair<>(INFO_PACK, new ArrayList<>())
-//			new Pair<>(INFO_ROTAZIONE, Arrays.asList("2", "3", "4", "5", "7")),  // TODO
+	private static final List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
+			new Pair<>(RAGGRUPPA, new ArrayList<>()),  /*, "Produzione", "Anni di rotazione", "Piante per pack"*/
+			new Pair<>(Db.VARIETA_TASSONOMIA_FAMIGLIA, Db.famiglie),
+			new Pair<>(Db.VARIETA_TRAPIANTI_MESI, months),
+			new Pair<>(Db.VARIETA_RACCOLTA_AVG, new ArrayList<>()),
+			new Pair<>(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>()),
+			new Pair<>(Db.VARIETA_DISTANZE_FILE, new ArrayList<>()),
+			new Pair<>(Db.VARIETA_ALTRO_PACK, new ArrayList<>())
+//			new Pair<>(Db.VARIETA_ALTRO_MEZZOMBRA, Arrays.asList("Sole", "Mezz'ombra"))  // TODO
+//			new Pair<>(CHIP_ROTAZIONE, Arrays.asList("2", "3", "4", "5", "7")),  // TODO
 //			new Pair<>("Giardini e preferiti", Arrays.asList("Tutto", "", "Preferiti")),  // TODO
 	));
 	
 	static {
+		titles.put(RAGGRUPPA, RAGGRUPPA);
+		titles.put(Db.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglia");
+		titles.put(Db.VARIETA_TASSONOMIA_SPECIE, "Nome");
+		titles.put(Db.VARIETA_TRAPIANTI_MESI, "Mesi per il trapianto");
+		titles.put(Db.VARIETA_RACCOLTA_AVG, "Giorni alla raccolta");
+		titles.put(Db.VARIETA_DISTANZE_PIANTE, "Distanza fra piante");
+		titles.put(Db.VARIETA_DISTANZE_FILE, "Distanza fra file");
+		titles.put(Db.VARIETA_ALTRO_PACK, "Piante per pack");
+//		titles.put(Db.ESPOSIZIONE, "Esposizione");
+//		titles.put(Db.ROTAZIONE, "Anni di rotazione");
+		
 		groups.put(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>(Arrays.asList(
 				new Pair<>(5, 10),
 				new Pair<>(15, 20),
@@ -108,17 +112,36 @@ public class AllPlantsFragment extends Fragment {
 		
 		for (Pair<String, List<String>> chip : chips) {
 			switch (chip.first) {
-				case INFO_PACK:
+				case RAGGRUPPA:
+					chip.second.addAll(Arrays.asList(
+							Db.VARIETA_TASSONOMIA_FAMIGLIA,
+							Db.VARIETA_TASSONOMIA_SPECIE,
+							Db.VARIETA_RACCOLTA_AVG,
+							Db.VARIETA_DISTANZE_PIANTE,
+							Db.VARIETA_DISTANZE_FILE,
+							Db.VARIETA_ALTRO_PACK));
+					break;
+				case Db.VARIETA_ALTRO_PACK:
 					for (Pair<Integer, Integer> pair : groups.get(Db.VARIETA_ALTRO_PACK)) {
 						chip.second.add(pair.first.toString());
 					}
 					break;
-				case INFO_RACCOLTA:
-					for (Pair<Integer, Integer> pair : groups.get(Db.VARIETA_RACCOLTA_AVG)) {
-						chip.second.add(pair.first + " - " + pair.second);
-					}
+				case Db.VARIETA_DISTANZE_PIANTE:
+					setChip(chip, Db.VARIETA_DISTANZE_PIANTE);
+					break;
+				case Db.VARIETA_DISTANZE_FILE:
+					setChip(chip, Db.VARIETA_DISTANZE_FILE);
+					break;
+				case Db.VARIETA_RACCOLTA_AVG:
+					setChip(chip, Db.VARIETA_RACCOLTA_AVG);
 					break;
 			}
+		}
+	}
+	
+	private static void setChip(Pair<String, List<String>> chip, String key) {
+		for (Pair<Integer, Integer> pair : groups.get(key)) {
+			chip.second.add(pair.first + " - " + pair.second);
 		}
 	}
 	
@@ -129,7 +152,7 @@ public class AllPlantsFragment extends Fragment {
 		for (Pair<String, List<String>> chip : chips) {
 			activeFilters.put(chip.first, new HashSet<>());
 		}
-		activeFilters.get(INFO_RAGGRUPPA).add(INFO_FAMIGLIA);
+		activeFilters.get(RAGGRUPPA).add(Db.VARIETA_TASSONOMIA_FAMIGLIA);
 	}
 	
 	@Override
@@ -139,6 +162,38 @@ public class AllPlantsFragment extends Fragment {
 		setupToolbar();
 		setupFilters();
 		return view;
+	}
+	
+	private boolean respectsFilters(HashMap<String, Object> ortaggio) {
+		if (!(activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).isEmpty()
+				|| activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).contains((String) ortaggio.get(Db.VARIETA_TASSONOMIA_FAMIGLIA)))) {
+			return false;
+		}
+		boolean ok = activeFilters.get(Db.VARIETA_TRAPIANTI_MESI).isEmpty();
+		if (!ok) {
+			for (String month : activeFilters.get(Db.VARIETA_TRAPIANTI_MESI)) {
+				if (!ok && number(((List) ortaggio.get(Db.VARIETA_TRAPIANTI_MESI)).get(months.indexOf(month))) == 1) {
+					ok = true;
+				}
+			}
+		}
+		if (!ok) return false;
+		if (filterByRange(ortaggio, Db.VARIETA_RACCOLTA_AVG)) return false;
+		if (filterByRange(ortaggio, Db.VARIETA_DISTANZE_PIANTE)) return false;
+		if (filterByRange(ortaggio, Db.VARIETA_DISTANZE_FILE)) return false;
+		return activeFilters.get(Db.VARIETA_ALTRO_PACK).isEmpty()
+				|| activeFilters.get(Db.VARIETA_ALTRO_PACK).contains(ortaggio.get(Db.VARIETA_ALTRO_PACK).toString());
+	}
+	
+	private boolean filterByRange(HashMap<String, Object> ortaggio, String key) {
+		if (activeFilters.get(key).isEmpty()) return false;
+		for (String range : activeFilters.get(key)) {
+			if (((Long) ortaggio.get(key)).intValue() >= Integer.parseInt(range.split(" - ")[0])
+					&& ((Long) ortaggio.get(key)).intValue() <= Integer.parseInt(range.split(" - ")[1])) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	private void gruopByRange(List<Pair<String, List<String>>> cards, String key, String udm) {
@@ -151,7 +206,7 @@ public class AllPlantsFragment extends Fragment {
 			udm = tmp;
 			cards.add(new Pair<>(title, new ArrayList<>()));
 		}
-		for (String ortaggio : Db.ortaggiNames) {
+		for (String ortaggio : filteredOrtaggi()) {
 			System.err.println(ortaggio);
 			int d = ((Long) Db.ortaggi.get(ortaggio).get(key)).intValue();
 			for (int i = 0; i < groups.get(key).size(); i++) {
@@ -167,14 +222,14 @@ public class AllPlantsFragment extends Fragment {
 		for (char c = 'A'; c <= 'Z'; c++) {
 			cards.add(new Pair<>("" + c, new ArrayList<>()));
 		}
-		for (String ortaggio : Db.ortaggiNames) {
+		for (String ortaggio : filteredOrtaggi()) {
 			cards.get(ortaggio.charAt(0) - 'A').second.add(ortaggio);
 		}
 	}
 	
 	private void gruopByFamiglia(List<Pair<String, List<String>>> cards) {
 		HashMap<String, List<String>> famiglieMap = new HashMap<>();
-		for (String ortaggio : Db.ortaggiNames) {
+		for (String ortaggio : filteredOrtaggi()) {
 			String famiglia = (String) Db.ortaggi.get(ortaggio).get(Db.VARIETA_TASSONOMIA_FAMIGLIA);
 			if (famiglieMap.get(famiglia) == null) {
 				famiglieMap.put(famiglia, new ArrayList<>());
@@ -183,42 +238,64 @@ public class AllPlantsFragment extends Fragment {
 		}
 		List<String> altro = new ArrayList<>();
 		for (String famiglia : Db.famiglie) {
-			if (Objects.equals(famiglia, "Crucifere")) {
-				famiglieMap.get(famiglia).remove("Altri cavoli");
-				famiglieMap.get(famiglia).add("Altri cavoli");
-			}
-			if (famiglieMap.get(famiglia).size() == 1) {
-				altro.add(famiglieMap.get(famiglia).get(0));
-				famiglieMap.remove(famiglia);
-			} else if (famiglieMap.get(famiglia).size() > 1) {
+			if (famiglieMap.get(famiglia) != null) {
+//				if (Objects.equals(famiglia, "Crucifere")) {  // fixme ?
+//					famiglieMap.get(famiglia).remove("Altri cavoli");
+//					famiglieMap.get(famiglia).add("Altri cavoli");
+//				}
+//				if (famiglieMap.get(famiglia).size() == 1) {
+//					altro.add(famiglieMap.get(famiglia).get(0));
+//					famiglieMap.remove(famiglia);
+//				} else if (famiglieMap.get(famiglia).size() > 1) {
 				cards.add(new Pair<>(famiglia, famiglieMap.get(famiglia)));
+//				}
 			}
 		}
 		Collections.sort(altro);
 		cards.add(new Pair<>("Altro", altro));
 	}
 	
+	private double number(Object num) {  // FIXME
+		switch (num.getClass().getName()) {
+			case "java.lang.Double":
+				return (Double) num;
+			case "java.lang.Long":
+				return ((Long) num).doubleValue();
+		}
+		return 0;
+	}
+	
+	private List<String> filteredOrtaggi() {
+		List<String> filtered = new ArrayList<>();
+		for (String ortaggioName : Db.ortaggiNames) {
+			HashMap<String, Object> ortaggio = Db.ortaggi.get(ortaggioName);
+			if (respectsFilters(ortaggio)) filtered.add(ortaggioName);
+		}
+		return filtered;
+	}
+	
 	private void setupContent() {
-		String activeGroup = (new ArrayList<>(activeFilters.get(INFO_RAGGRUPPA))).get(0);
-		((TextView) view.findViewById(R.id.all_plants_fl_title)).setText(activeGroup);
+		String activeGroup = (new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0);
+//		System.out.println(activeGroup);
+		((TextView) view.findViewById(R.id.all_plants_fl_header_title)).setText(titles.get(activeGroup));
 		ArrayList<Pair<String, List<String>>> cards = new ArrayList<>();
 		switch (activeGroup) {
-			case INFO_FAMIGLIA:
+			case Db.VARIETA_TASSONOMIA_FAMIGLIA:
 				gruopByFamiglia(cards);
 				break;
-			case INFO_NOME:
+			case Db.VARIETA_TASSONOMIA_SPECIE:
 				gruopByNome(cards);
 				break;
-			case INFO_RACCOLTA:
+			case Db.VARIETA_RACCOLTA_AVG:
 				gruopByRange(cards, Db.VARIETA_RACCOLTA_AVG, " giorni");
 				break;
-			case INFO_DIST_PIANTE:
+			case Db.VARIETA_DISTANZE_PIANTE:
 				gruopByRange(cards, Db.VARIETA_DISTANZE_PIANTE, " cm");
 				break;
-			case INFO_DIST_FILE:
+			case Db.VARIETA_DISTANZE_FILE:
 				gruopByRange(cards, Db.VARIETA_DISTANZE_FILE, " cm");
 				break;
-			case INFO_PACK:
+			case Db.VARIETA_ALTRO_PACK:
 				gruopByRange(cards, Db.VARIETA_ALTRO_PACK, " piante");
 				break;
 		}
@@ -231,8 +308,12 @@ public class AllPlantsFragment extends Fragment {
 	private void setupFilters() {
 		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_drawer_recycler);
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		AllPlantsDrawerAdapter drawerAdapter = new AllPlantsDrawerAdapter(getContext(), chips, activeFilters, INFO_RAGGRUPPA);
+		AllPlantsDrawerAdapter drawerAdapter = new AllPlantsDrawerAdapter(getContext(), chips, activeFilters, RAGGRUPPA, this);
 		drawerRecyclerView.setAdapter(drawerAdapter);
+	}
+	
+	public void showResultsNumber() {
+		((TextView) view.findViewById(R.id.all_plants_fl_header_title)).setText("Mostra " + filteredOrtaggi().size() + " risultati");
 	}
 	
 	private void setupToolbar() {
@@ -263,12 +344,13 @@ public class AllPlantsFragment extends Fragment {
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		
 		menu.findItem(R.id.filter).setOnMenuItemClickListener(menuItem -> backdropAnimation());
+		view.findViewById(R.id.all_plants_fl_header).setOnClickListener(view -> backdropAnimation());
 	}
 	
 	private boolean backdropAnimation() {
 		
 		int translateY = displayMetrics.heightPixels - Utils.dp2px(56 + 48 + 8, getContext());
-		int interval = 300;
+		int interval = 200;
 		
 		backdropShown = !backdropShown;
 		
@@ -286,18 +368,23 @@ public class AllPlantsFragment extends Fragment {
 		animator.start();
 		
 		// FIXME double click
-		Handler handler = new Handler();
-		Runnable runnable;
+//		Handler handler = new Handler();
+//		Runnable runnable;
 		if (backdropShown) {
-			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.VISIBLE);
-			interval = 20;
+//			interval = 20;
+//			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
+			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.GONE);
+			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
+			showResultsNumber();
 		} else {
-			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
-			interval -= 20;
+//			interval -= 20;
+//			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
+			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
+			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.VISIBLE);
 		}
-		handler.postAtTime(runnable, System.currentTimeMillis() + interval);
-		handler.postDelayed(runnable, interval);
-		System.out.println(activeFilters);
+//		handler.postAtTime(runnable, System.currentTimeMillis() + interval);
+//		handler.postDelayed(runnable, interval);
+//		System.out.println(activeFilters);
 		if (!backdropShown) {
 			setupContent();
 		}

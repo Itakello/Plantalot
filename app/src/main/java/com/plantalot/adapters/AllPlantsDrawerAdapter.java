@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.plantalot.R;
+import com.plantalot.fragments.AllPlantsFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,17 +28,21 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 	
 	private final List<Pair<String, List<String>>> mData;
 	private final LayoutInflater mInflater;
-	private final String INFO_RAGGRUPPA;
+	private final String RAGGRUPPA;
 	private final Context context;
+	private final AllPlantsFragment fragment;
 	private final HashMap<String, Set<String>> activeFilters;
 	
 	// data is passed into the constructor
-	public AllPlantsDrawerAdapter(Context context, List<Pair<String, List<String>>> data, HashMap<String, Set<String>> activeFilters, String info_raggruppa) {
-		this.mInflater = LayoutInflater.from(context);
+	public AllPlantsDrawerAdapter(Context context, List<Pair<String, List<String>>> data,
+	                              HashMap<String, Set<String>> activeFilters, String raggruppa,
+	                              AllPlantsFragment fragment) {
 		this.mData = data;
+		this.mInflater = LayoutInflater.from(context);
 		this.context = context;
+		this.fragment = fragment;
 		this.activeFilters = activeFilters;
-		this.INFO_RAGGRUPPA = info_raggruppa;
+		this.RAGGRUPPA = raggruppa;
 		System.out.println(activeFilters);
 	}
 	
@@ -54,10 +60,11 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 		String title = mData.get(position).first;
 		List<String> chips = mData.get(position).second;
 		viewHolder.title.setText(title);
-		if (Objects.equals(title, INFO_RAGGRUPPA)) {
+		if (Objects.equals(title, RAGGRUPPA)) {
 			viewHolder.chipGroup.setSingleSelection(true);
 			viewHolder.chipGroup.setSelectionRequired(true);
 		}
+		System.out.println("----------" + chips);
 		for (String c : chips) {
 			if (c.isEmpty()) {
 				viewHolder.chipGroup.addView(mInflater.inflate(R.layout.component_chips_divider, null, false));
@@ -65,7 +72,7 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 				Chip chip = new Chip(context);
 				chip.setText(c);
 				chip.setCheckable(true);
-				if (Objects.equals(title, INFO_RAGGRUPPA)) {
+				if (Objects.equals(title, RAGGRUPPA)) {
 					if (Objects.equals((new ArrayList<>(activeFilters.get(title))).get(0), c)) {
 						chip.setChecked(true);
 					}
@@ -76,6 +83,7 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 					} else {
 						activeFilters.get(title).add(c);
 					}
+					fragment.showResultsNumber();
 				});
 				viewHolder.chipGroup.addView(chip);
 			}

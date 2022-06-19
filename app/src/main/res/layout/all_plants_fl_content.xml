@@ -19,15 +19,35 @@
 		android:orientation="vertical"
 		>
 		
-		<TextView
-			android:id="@+id/all_plants_fl_title"
+		<LinearLayout
+			android:id="@+id/all_plants_fl_header"
 			android:layout_width="match_parent"
 			android:layout_height="48dp"
-			android:paddingHorizontal="16dp"
-			android:gravity="center_vertical"
-			tools:text="Famiglie"
-			android:textAppearance="?attr/textAppearanceTitleMedium"
-			/>
+			android:clickable="true"
+			android:focusable="true"
+			android:paddingHorizontal="8dp"
+			>
+			
+			<ImageView
+				android:id="@+id/all_plants_fl_header_arrow"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/ic_round_keyboard_arrow_up_24"
+				android:visibility="gone"
+				android:paddingHorizontal="2dp"
+				/>
+			
+			<TextView
+				android:id="@+id/all_plants_fl_header_title"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center_vertical"
+				android:paddingHorizontal="8dp"
+				android:textAppearance="?attr/textAppearanceTitleMedium"
+				tools:text="Famiglie"
+				/>
+		</LinearLayout>
 		
 		<View
 			android:layout_width="match_parent"
