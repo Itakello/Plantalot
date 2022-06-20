@@ -56,64 +56,65 @@ public class Db {
 		Resources res = activity.getResources();
 		defaultImageId = res.getIdentifier("plant_mushroom_3944308".split("\\.")[0], "mipmap", activity.getPackageName());
 		
-		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
-		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
-		
-		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-		DatabaseReference db = FirebaseDatabase.getInstance().getReference("ortomio");
-		db.keepSynced(true);
-		
-		FirebaseFirestore.getInstance().collection("ortomio").document("ortaggi").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+		// FIXME local db !!!!!!!!!!?
+//		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//		DatabaseReference db = FirebaseDatabase.getInstance().getReference("ortomio");
+//		db.keepSynced(true);
+
+		DatabaseReference dbRefOrtaggi = FirebaseDatabase.getInstance().getReference("ortomio/ortaggi");
+		dbRefOrtaggi.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
-			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-				if (task.isSuccessful()) {
-					ortaggi.putAll((HashMap) task.getResult().getData());
-					Set<String> famiglieSet = new HashSet<>();
-					for (Object ortaggio : ortaggi.values()) {
-						famiglieSet.add((String) ((HashMap) ortaggio).get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
+			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+				ortaggi.putAll((HashMap) taskSnapshot.getValue());
+				Set<String> famiglieSet = new HashSet<>();
+				for (Object ortaggio : ortaggi.values()) {
+					famiglieSet.add((String) ((HashMap) ortaggio).get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
+				}
+				famiglie.addAll(famiglieSet);
+				Collections.sort(famiglie);
+				ortaggiNames.addAll(ortaggi.keySet());
+				Collections.sort(ortaggiNames);
+				
+				
+				DatabaseReference dbRefIcons = FirebaseDatabase.getInstance().getReference("ortomio/icons");
+				dbRefIcons.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+						HashMap<String, String> iconsMap = (HashMap) taskSnapshot.getValue();
+						setIcons(activity, iconsMap);
+						setColors(activity);
 					}
-					famiglie.addAll(famiglieSet);
-					Collections.sort(famiglie);
-					ortaggiNames.addAll(ortaggi.keySet());
-					Collections.sort(ortaggiNames);
 					
-					
-					DatabaseReference dbRefIcons = FirebaseDatabase.getInstance().getReference("ortomio/icons");
-					dbRefIcons.addListenerForSingleValueEvent(new ValueEventListener() {
-						@Override
-						public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
-							HashMap<String, String> iconsMap = (HashMap) taskSnapshot.getValue();
-							setIcons(activity, iconsMap);
-							setColors(activity);
-						}
-						
-						@Override
-						public void onCancelled(@NonNull DatabaseError error) {
-							Log.e("firebase", "onCancelled " + error.getMessage());
-						}
-					});
-					
-					DatabaseReference dbRefVarieta = FirebaseDatabase.getInstance().getReference("ortomio/varieta");
-					dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
-						@Override
-						public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
-							varieta.putAll((HashMap) taskSnapshot.getValue());
-							for (String ortaggio : varieta.keySet()) {
-								for (String var : varieta.get(ortaggio).keySet()) {
-									varietaNames.put(var, ortaggio);
-								}
+					@Override
+					public void onCancelled(@NonNull DatabaseError error) {
+						Log.e("firebase", "onCancelled " + error.getMessage());
+					}
+				});
+				
+				DatabaseReference dbRefVarieta = FirebaseDatabase.getInstance().getReference("ortomio/varieta");
+				dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+						varieta.putAll((HashMap) taskSnapshot.getValue());
+						for (String ortaggio : varieta.keySet()) {
+							for (String var : varieta.get(ortaggio).keySet()) {
+								varietaNames.put(var, ortaggio);
 							}
 						}
-						
-						@Override
-						public void onCancelled(@NonNull DatabaseError error) {
-							Log.e("firebase", "onCancelled " + error.getMessage());
-						}
-					});
-				} else {
-					System.out.println("firebase ERROR ======================================================");
-				}
+					}
+					
+					@Override
+					public void onCancelled(@NonNull DatabaseError error) {
+						Log.e("firebase", "onCancelled " + error.getMessage());
+					}
+				});
 			}
+			
+			@Override
+			public void onCancelled(@NonNull DatabaseError error) {
+				System.out.println("firebase ERROR ======================================================");
+			}
+			
 		});
 		
 		DatabaseReference dbRefPiante = FirebaseDatabase.getInstance().getReference("ortomio/piante");
