@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.plantalot.R;
 
 
-public class NuovoGiardinoFragment extends Fragment {
+public class NewGardenFragment extends Fragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

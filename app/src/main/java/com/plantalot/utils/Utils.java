@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -23,5 +25,18 @@ public class Utils {
 		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
-	
+
+	public static ImageButton getToolbarNavigationButton(Toolbar toolbar) {
+		int size = toolbar.getChildCount();
+		for (int i = 0; i < size; i++) {
+			View child = toolbar.getChildAt(i);
+			if (child instanceof ImageButton) {
+				ImageButton btn = (ImageButton) child;
+				if (btn.getDrawable() == toolbar.getNavigationIcon()) {
+					return btn;
+				}
+			}
+		}
+		return null;
+	}
 }

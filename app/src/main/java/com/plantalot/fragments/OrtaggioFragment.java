@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +40,7 @@ import com.plantalot.R;
 import com.plantalot.adapters.CircleButtonsAdapter;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
+import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.components.CircleButton;
 import com.plantalot.components.OrtaggioSpecs;
 import com.plantalot.database.Db;
@@ -92,6 +96,16 @@ public class OrtaggioFragment extends Fragment {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+
+		ImageButton close_button = Utils.getToolbarNavigationButton(toolbar);
+		close_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int prev_frag_id = getArguments().getInt("prev_fragment");
+				NavController navController = Navigation.findNavController(v);
+				navController.popBackStack(prev_frag_id, false);
+			}
+		});
 		
 		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
 		dropdown.setText(dropdownItems.get(0));
@@ -308,15 +322,17 @@ public class OrtaggioFragment extends Fragment {
 								new Pair<>("Rotazioni utili", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_POS)),
 								new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_NEG))
 						));
+
+						int prev_fragment = getArguments().getInt("prev_fragment");
 						
 						RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
 						cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-						OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1);
+						OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1, prev_fragment);
 						cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
 						
 						RecyclerView cardsRecyclerView2 = view.findViewById(R.id.ortaggio_bl_card_list_recycler2);
 						cardsRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-						OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2);
+						OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2, prev_fragment);
 						cardsRecyclerView2.setAdapter(ortaggioCardListAdapter2);
 						
 					}
@@ -326,7 +342,6 @@ public class OrtaggioFragment extends Fragment {
 						Log.e("firebase", "onCancelled " + error.getMessage());
 					}
 				});
-				
 			}
 			
 			@Override

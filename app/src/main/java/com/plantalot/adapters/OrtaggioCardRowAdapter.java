@@ -26,11 +26,13 @@ public class OrtaggioCardRowAdapter extends RecyclerView.Adapter<OrtaggioCardRow
 	private final List<String> mData;
 	private final Boolean good;
 	private final Context context;
+	private final int prev_fragment;
 	
-	public OrtaggioCardRowAdapter(@NonNull List<String> data, Boolean good, Context context) {
+	public OrtaggioCardRowAdapter(@NonNull List<String> data, Boolean good, Context context, int prev_fragment) {
 		this.mData = data;
 		this.good = good;
 		this.context = context;
+		this.prev_fragment = prev_fragment;
 	}
 	
 	@NonNull
@@ -64,6 +66,7 @@ public class OrtaggioCardRowAdapter extends RecyclerView.Adapter<OrtaggioCardRow
 			public void onClick(View view) {  // fixme best practice ???
 				Bundle bundle = new Bundle();
 				bundle.putString("ortaggio", ortaggio);
+				bundle.putInt("prev_fragment", prev_fragment);
 				Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
 			}
 		});

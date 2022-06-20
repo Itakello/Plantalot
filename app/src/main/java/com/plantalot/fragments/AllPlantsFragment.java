@@ -301,7 +301,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
 		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(cards);
+		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(cards, R.id.allPlantsFragment);
 		cardsRecyclerView.setAdapter(ortaggioCardListAdapter);
 	}
 	

@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment {
 		mButtons.add(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24));
 		Bundle bundle = new Bundle();
 		bundle.putString("ortaggio", "Aglio");
+		bundle.putInt("prev_fragment", R.id.homeFragment);
 		mButtons.add(new CircleButton("Casuale", R.drawable.ic_round_casino_24, R.id.action_goto_ortaggio, bundle));
 	}
 

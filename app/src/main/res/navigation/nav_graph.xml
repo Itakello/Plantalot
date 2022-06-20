@@ -16,12 +16,11 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			>
+			app:launchSingleTop="false">
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
-				app:argType="string"
-				/>
+				app:argType="string" />
 		</action>
 		<action
 			android:id="@+id/action_goto_all_plants"
@@ -59,16 +58,15 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			>
+			app:launchSingleTop="false">
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
-				app:argType="string"
-				/>
+				app:argType="string" />
 		</action>
 	</fragment>
 	<fragment
 		android:id="@+id/nuovoGiardinoFragment"
-		android:name="com.plantalot.fragments.NuovoGiardinoFragment"
+		android:name="com.plantalot.fragments.NewGardenFragment"
 		android:label="NuovoGiardinoFragment" />
 </navigation>

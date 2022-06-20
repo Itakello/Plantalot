@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
 import com.plantalot.fragments.HomeFragment;
+import com.plantalot.utils.Utils;
 
 import java.util.List;
 
@@ -50,20 +51,6 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	public int getItemCount() {
 		return mData.size();
 	}
-
-	private ImageButton getToolbarNavigationButton(Toolbar toolbar) {
-		int size = toolbar.getChildCount();
-		for (int i = 0; i < size; i++) {
-			View child = toolbar.getChildAt(i);
-			if (child instanceof ImageButton) {
-				ImageButton btn = (ImageButton) child;
-				if (btn.getDrawable() == toolbar.getNavigationIcon()) {
-					return btn;
-				}
-			}
-		}
-		return null;
-	}
 	
 	// stores and recycles views as they are scrolled off screen
 	public class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,7 +65,7 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 					System.out.println("Hai premuto il pulsante " + button.getText().toString());
 //					HomeFragment.setUpGiardino(fragView, button.getText().toString());
 					Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
-					ImageButton img_button = getToolbarNavigationButton(toolbar);
+					ImageButton img_button = Utils.getToolbarNavigationButton(toolbar);
 
 					// Add delay for smooth animation
 					final Handler handler = new Handler();
@@ -87,9 +74,7 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 						public void run() {
 							img_button.performClick();
 						}
-					}, 300);
-
-
+					}, 100);
 				}
 			});
 		}

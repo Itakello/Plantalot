@@ -25,10 +25,12 @@ import java.util.List;
 public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardListAdapter.ViewHolder> {
 	
 	private final List<Pair<String, List<String>>> mData;
+	private final int prev_fragment;
 	Context context;
 	
-	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data) {
+	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data, int prev_fragment) {
 		this.mData = (List<Pair<String, List<String>>>) ((ArrayList) data).clone();
+		this.prev_fragment = prev_fragment;
 		for (Pair<String, List<String>> p : data) {
 			if (p.second.isEmpty()) {
 				mData.remove(p);
@@ -50,7 +52,7 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 		
 		viewHolder.mTextView.setText(row.first);
 		
-		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context);
+		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context, prev_fragment);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 		viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
 		
