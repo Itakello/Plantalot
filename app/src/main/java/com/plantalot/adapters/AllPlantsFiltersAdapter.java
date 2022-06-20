@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
@@ -24,7 +23,7 @@ import java.util.Set;
 
 
 // Cambia il contenuto del backlyer
-public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawerAdapter.ViewHolder> {
+public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFiltersAdapter.ViewHolder> {
 	
 	private final List<Pair<String, List<String>>> mData;
 	private final LayoutInflater mInflater;
@@ -35,9 +34,9 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 	private final HashMap<String, String> titles;
 	
 	// data is passed into the constructor
-	public AllPlantsDrawerAdapter(Context context, List<Pair<String, List<String>>> data,
-	                              HashMap<String, Set<String>> activeFilters, String raggruppa,
-	                              AllPlantsFragment fragment,  HashMap<String, String> titles) {
+	public AllPlantsFiltersAdapter(Context context, HashMap<String, Set<String>> activeFilters,
+	                               List<Pair<String, List<String>>> data, String raggruppa,
+	                               AllPlantsFragment fragment, HashMap<String, String> titles) {
 		this.mData = data;
 		this.mInflater = LayoutInflater.from(context);
 		this.context = context;
@@ -46,6 +45,7 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 		this.activeFilters = activeFilters;
 		this.RAGGRUPPA = raggruppa;
 		System.out.println(activeFilters);
+		System.out.println(mData);
 	}
 	
 	// inflates the row layout from xml when needed
@@ -67,6 +67,7 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 			viewHolder.chipGroup.setSelectionRequired(true);
 		}
 		System.out.println("----------" + chips);
+		viewHolder.chipGroup.removeAllViews();
 		for (String c : chips) {
 			if (c.isEmpty()) {
 				viewHolder.chipGroup.addView(mInflater.inflate(R.layout.component_chips_divider, null, false));

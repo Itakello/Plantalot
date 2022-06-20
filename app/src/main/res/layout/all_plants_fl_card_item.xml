@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/all_plants_card_item"
-	style="card"
+	style="?attr/materialCardViewOutlinedStyle"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginHorizontal="8dp"
+	android:layout_marginHorizontal="6dp"
 	android:clickable="true"
 	android:focusable="true"
 	android:gravity="center"
-	android:orientation="vertical"
+	android:layout_marginBottom="12dp"
 	>
 	
-	<com.google.android.material.card.MaterialCardView
-		android:layout_width="wrap_content"
+	<LinearLayout
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:clickable="false"
+		android:orientation="vertical"
+			android:background="#88ffffff"
 		>
+		
 		
 		<ImageView
 			android:id="@+id/all_plants_card_image"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:adjustViewBounds="true"
-			android:padding="24dp"
-			android:paddingHorizontal="12dp"
+			android:paddingHorizontal="24dp"
+			android:paddingVertical="16dp"
 			android:src="@mipmap/plant_basil_3944343"
 			/>
 		
-	</com.google.android.material.card.MaterialCardView>
+		<TextView
+			android:background="#88ffffff"
+			android:id="@+id/all_plants_card_label"
+			android:layout_width="match_parent"
+			android:layout_height="36dp"
+			android:gravity="center"
+			android:lineHeight="12dp"
+			android:text="Zucca"
+			android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+			android:textColor="?attr/colorOnSecondaryContainer"
+			/>
 	
-	<TextView
-		android:id="@+id/all_plants_card_label"
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-		android:layout_marginTop="4dp"
-		android:gravity="top|center"
-		android:lineHeight="16dp"
-		android:text="Zucca"
-		android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-		/>
-
-</LinearLayout>
+	</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

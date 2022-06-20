@@ -2,6 +2,10 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.database.Db;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardRowAdapter.ViewHolder> {
 	
@@ -41,15 +50,8 @@ public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardR
 		String ortaggio = mData.get(position);
 		viewHolder.mTextView.setText(ortaggio);
 		
-		String imageFile = Db.icons.get(ortaggio);
-		if (imageFile != null) {
-			Resources res = context.getResources();
-			int imageId = res.getIdentifier(imageFile.split("\\.")[0], "mipmap", context.getPackageName());
-			if (imageId > 0) {
-				viewHolder.mImageView.setImageResource(imageId);
-			}
-		}
-		
+		viewHolder.mImageView.setImageResource(Db.getImageId(context, ortaggio));
+		viewHolder.mCardView.setCardBackgroundColor(Db.iconColors.get(ortaggio));
 		viewHolder.mCardView.setOnClickListener(view -> {  // fixme best practice ???
 			Bundle bundle = new Bundle();
 			bundle.putString("ortaggio", ortaggio);
@@ -64,7 +66,7 @@ public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardR
 	
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		
-		private final LinearLayout mCardView;
+		private final MaterialCardView mCardView;
 		private final TextView mTextView;
 		private final ImageView mImageView;
 		

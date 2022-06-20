@@ -45,14 +45,7 @@ public class OrtaggioCardRowAdapter extends RecyclerView.Adapter<OrtaggioCardRow
 		String ortaggio = mData.get(position);
 		viewHolder.mTextView.setText(ortaggio);
 		
-		String imageFile = Db.icons.get(ortaggio);
-		if (imageFile != null) {
-			Resources res = context.getResources();
-			int imageId = res.getIdentifier(imageFile.split("\\.")[0], "mipmap", context.getPackageName());
-			if (imageId > 0) {
-				viewHolder.mImageView.setImageResource(imageId);
-			}
-		}
+		viewHolder.mImageView.setImageResource(Db.getImageId(context, ortaggio));
 		
 		if (!good) {
 //			viewHolder.mCardView.setAlpha(0.5f);

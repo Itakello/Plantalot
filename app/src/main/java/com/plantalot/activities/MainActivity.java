@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {//implements NavigationHost
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		Db.init();
+		Db.init(this);
 		
 		// Activity never existed before
 //		if (savedInstanceState == null) {

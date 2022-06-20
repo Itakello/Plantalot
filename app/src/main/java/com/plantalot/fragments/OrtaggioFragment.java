@@ -26,6 +26,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -73,6 +74,7 @@ public class OrtaggioFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DynamicColors.applyToActivitiesIfAvailable(getActivity().getApplication());
 	}
 	
 	@Override
@@ -260,21 +262,8 @@ public class OrtaggioFragment extends Fragment {
 				HashMap varieta = (HashMap) snapshotVarieta.child(defaultVar).getValue();
 				System.out.println("====================================================== " + varieta);
 				
-				String imageFile = Db.icons.get((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
 				ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-				boolean hasImage = false;
-				if (imageFile != null) {
-					Context context = getContext();
-					Resources res = context.getResources();
-					int imageId = res.getIdentifier(imageFile.split("\\.")[0], "mipmap", context.getPackageName());
-					if (imageId > 0) {
-						img.setImageResource(imageId);
-						hasImage = true;
-					}
-				}
-				if (!hasImage) {
-					img.setImageResource(R.mipmap.plant_basil_3944343);
-				}
+				img.setImageResource(Db.getImageId(getContext(), (String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO)));
 				
 				TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
 				TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);

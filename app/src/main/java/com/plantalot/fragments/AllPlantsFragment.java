@@ -3,12 +3,10 @@ package com.plantalot.fragments;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -20,13 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
 import com.plantalot.adapters.AllPlantsCardListAdapter;
-import com.plantalot.adapters.AllPlantsDrawerAdapter;
-import com.plantalot.adapters.OrtaggioCardListAdapter;
+import com.plantalot.adapters.AllPlantsFiltersAdapter;
+import com.plantalot.adapters.AllPlantsSearchAdapter;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.database.Db;
@@ -38,18 +37,23 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class AllPlantsFragment extends Fragment {
 	
-	private Giardino giardino;
 	private static User user;
+	private Giardino giardino;
 	private View view;
 	private final HashMap<String, Set<String>> activeFilters = new HashMap<>();
-	private boolean backdropShown = false;
-	DisplayMetrics displayMetrics = new DisplayMetrics();
+	private boolean isBackdropShown = false;
+	private boolean isSearchShown = false;
+	private DisplayMetrics displayMetrics = new DisplayMetrics();
+	private AllPlantsFiltersAdapter filterAdapter;
+	private Toolbar toolbar;
 	
 	private static final HashMap<String, String> titles = new HashMap<>();
 	
@@ -159,8 +163,9 @@ public class AllPlantsFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.view = inflater.inflate(R.layout.all_plants_fragment, container, false);
-		setupContent();
+		toolbar = view.findViewById(R.id.all_plants_bl_toolbar);
 		setupToolbar();
+		setupContent();
 		setupFilters();
 		return view;
 	}
@@ -307,10 +312,10 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void setupFilters() {
-		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_drawer_recycler);
+		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_filters_recycler);
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		AllPlantsDrawerAdapter drawerAdapter = new AllPlantsDrawerAdapter(getContext(), chips, activeFilters, RAGGRUPPA, this, titles);
-		drawerRecyclerView.setAdapter(drawerAdapter);
+		filterAdapter = new AllPlantsFiltersAdapter(getContext(), activeFilters, chips, RAGGRUPPA, this, titles);
+		drawerRecyclerView.setAdapter(filterAdapter);
 	}
 	
 	public void showResultsNumber() {
@@ -318,15 +323,19 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void setupToolbar() {
-		Toolbar toolbar = view.findViewById(R.id.all_plants_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		if (activity != null) {
 			activity.setSupportActionBar(toolbar);
 		}
+		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
 	}
+	
+	private Menu menu;
 	
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
+		
+		this.menu = menu;
 		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
 //		menu.findItem(R.id.search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
 //			@Override
@@ -339,21 +348,133 @@ public class AllPlantsFragment extends Fragment {
 //				return true;
 //			}
 //		});
-		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-		searchView.setQueryHint("Cerca un ortaggio");
 		
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		
-		menu.findItem(R.id.filter).setOnMenuItemClickListener(menuItem -> backdropAnimation());
-		view.findViewById(R.id.all_plants_fl_header).setOnClickListener(view -> backdropAnimation());
+		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+		searchView.setQueryHint("Cerca un ortaggio");
+		
+		
+		Pair<List<String>, HashMap<String, List<String>>> filteredOrtaggi = new Pair<>(new ArrayList<>(), new HashMap<>());
+		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
+		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		AllPlantsSearchAdapter drawerAdapter = new AllPlantsSearchAdapter(getContext(), filteredOrtaggi);
+		drawerRecyclerView.setAdapter(drawerAdapter);
+		
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				System.out.println(query);
+				return false;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				
+				List<String> results = new ArrayList<>(Db.ortaggiNames
+						.stream()
+						.filter(o -> newText.isEmpty() || (o.toLowerCase()).contains(newText.toLowerCase()))
+						.collect(Collectors.toList()));
+				List<String> resultsVarieta = new ArrayList<>();
+				if (true || newText.length() > 1) {  // fixme ?
+					resultsVarieta.addAll(Db.varietaNames.keySet()
+							.stream()
+							.filter(v -> !results.contains(Db.varietaNames.get(v)) && (v.toLowerCase()).contains(newText.toLowerCase()))
+							.collect(Collectors.toList()));
+				}
+				List<String> sorted = new ArrayList<>();
+				List<String> basket = new ArrayList<>();
+				List<String> varieta = new ArrayList<>();
+				
+				HashMap<String, List<String>> varietaMap = new HashMap<>();
+				
+				for (String ortaggio : results) {
+					if ((ortaggio.toLowerCase()).startsWith(newText.toLowerCase())) {
+						sorted.add(ortaggio);
+					} else if (true || newText.length() > 1) {
+						basket.add(ortaggio);
+					}
+					varietaMap.put(ortaggio, new ArrayList<>());
+				}
+				if (true || newText.length() > 1) {
+					for (String varietaName : resultsVarieta) {
+						String ortaggio = Db.varietaNames.get(varietaName);
+						if (varietaMap.get(ortaggio) == null) {
+							varieta.add(ortaggio);
+							varietaMap.put(ortaggio, new ArrayList<>());
+						}
+						varietaMap.get(ortaggio).add(varietaName);
+					}
+				}
+				filteredOrtaggi.first.clear();
+				filteredOrtaggi.first.addAll(sorted);
+				filteredOrtaggi.first.addAll(basket);
+				filteredOrtaggi.first.addAll(varieta);
+				filteredOrtaggi.second.clear();
+				filteredOrtaggi.second.putAll(varietaMap);
+				
+				drawerAdapter.notifyDataSetChanged();
+				drawerAdapter.notifyItemChanged(0);
+				return true;
+			}
+		});
+		
+		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
+		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
+		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
+		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
+		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
+		
+		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
+			if (!isSearchShown) {
+				isSearchShown = true;
+				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
+				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
+				toolbar.setTitle("Ricerca");
+				toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
+				toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
+				backdropBehaviour();
+			}
+			return true;
+		});
+		menu.findItem(R.id.filter).setOnMenuItemClickListener(menuItem -> {
+			toolbar.setTitle("Filtra");
+			toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
+			toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
+			return backdropBehaviour();
+		});
+		menu.findItem(R.id.done).setOnMenuItemClickListener(menuItem -> backdropBehaviour());
+		menu.findItem(R.id.reset).setOnMenuItemClickListener(menuItem -> {
+			boolean isChanged = false;
+			for (String filter : activeFilters.keySet()) {
+				if (!activeFilters.get(filter).isEmpty() && !Objects.equals(filter, RAGGRUPPA)) {
+					isChanged = true;
+					activeFilters.get(filter).clear();
+				}
+			}
+			if (isChanged) {
+				showResultsNumber();
+				filterAdapter.notifyItemRangeChanged(1, chips.size() - 1);
+			}
+			return true;
+		});
+		view.findViewById(R.id.all_plants_fl_header).setOnClickListener(view -> backdropBehaviour(true));
 	}
 	
-	private boolean backdropAnimation() {
+	private boolean backdropBehaviour() {
+		return backdropBehaviour(false);
+	}
+	
+	private boolean backdropBehaviour(boolean closeOnly) {
+		
+		if (!isBackdropShown && closeOnly) return false;
 		
 		int translateY = displayMetrics.heightPixels - Utils.dp2px(56 + 48 + 8, getContext());
 		int interval = 200;
 		
-		backdropShown = !backdropShown;
+		isBackdropShown = !isBackdropShown;
+		getActivity().invalidateOptionsMenu();
 		
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.removeAllListeners();
@@ -362,16 +483,17 @@ public class AllPlantsFragment extends Fragment {
 		
 		Interpolator interpolator = new AccelerateDecelerateInterpolator();
 		View frontLayer = view.findViewById(R.id.all_plants_backdrop_frontlayer);
-		ObjectAnimator animator = ObjectAnimator.ofFloat(frontLayer, "translationY", backdropShown ? translateY : 0);
+		ObjectAnimator animator = ObjectAnimator.ofFloat(frontLayer, "translationY", isBackdropShown ? translateY : 0);
 		animator.setDuration(interval);
 		animator.setInterpolator(interpolator);
 		animatorSet.play(animator);
 		animator.start();
 		
+		
 		// FIXME double click
 //		Handler handler = new Handler();
 //		Runnable runnable;
-		if (backdropShown) {
+		if (isBackdropShown) {
 //			interval = 20;
 //			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
 //			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.GONE);
@@ -382,14 +504,23 @@ public class AllPlantsFragment extends Fragment {
 //			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
 //			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
+			isSearchShown = false;
+			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.VISIBLE);
+			view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.GONE);
+			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
+			toolbar.setTitle("Piante");
+			toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
 		}
+
+
 //		handler.postAtTime(runnable, System.currentTimeMillis() + interval);
 //		handler.postDelayed(runnable, interval);
 //		System.out.println(activeFilters);
-		if (!backdropShown) {
+		if (!isBackdropShown) {
 			setupContent();
 		}
 		
 		return false;
 	}
+	
 }
