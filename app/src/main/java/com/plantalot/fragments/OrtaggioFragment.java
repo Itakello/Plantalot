@@ -78,12 +78,12 @@ public class OrtaggioFragment extends Fragment {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-
-toolbar.setNavigationOnClickListener(view -> {
-	int prev_frag_id = getArguments().getInt("prev_fragment");
-	NavController navController = Navigation.findNavController(view);
-	navController.popBackStack(prev_frag_id, false);
-});
+		
+		toolbar.setNavigationOnClickListener(view -> {
+			int prev_frag_id = getArguments().getInt("prev_fragment");
+			NavController navController = Navigation.findNavController(view);
+			navController.popBackStack(prev_frag_id, false);
+		});
 		
 		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
 		dropdown.setText(dropdownItems.get(0));
