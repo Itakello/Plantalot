@@ -2,6 +2,7 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.plantalot.R;
 import com.plantalot.database.Db;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,16 +29,18 @@ import java.util.List;
 public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearchAdapter.ViewHolder> {
 	
 	private final List<String> mData;
+	private final List<String> mSearchText;
 	private final HashMap<String, List<String>> mMap;
 	private final LayoutInflater mInflater;
-	private final Context context;
+	private final Context mContext;
 	
 	// data is passed into the constructor
-	public AllPlantsSearchAdapter(Context context, Pair<List<String>, HashMap<String, List<String>>> data) {
-		this.mData = data.first;
-		this.mMap = data.second;
+	public AllPlantsSearchAdapter(Context context, List<String> data, HashMap<String, List<String>> map, List<String> searchText) {
+		this.mData = data;
+		this.mMap = map;
 		this.mInflater = LayoutInflater.from(context);
-		this.context = context;
+		this.mContext = context;
+		this.mSearchText = searchText;
 	}
 	
 	// inflates the row layout from xml when needed
@@ -46,14 +51,42 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		return new ViewHolder(view);
 	}
 	
-	// binds the data to the TextView in each row
 	@Override
-	public void onBindViewHolder(ViewHolder viewHolder, int position) {
+	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+//		onBindViewHolder(viewHolder, position, new ArrayList<>(Collections.singletonList("")));
+//	}
+//	@Override
+//	public void onBindViewHolder(ViewHolder viewHolder, int position, List<Object> payload) {
 		String ortaggio = mData.get(position);
-		viewHolder.mOrtaggioTv.setText(ortaggio);
+//		String mSearchText = (String) payload.get(0);
+//		String mSearchText = payload.toString();
 		viewHolder.mVarietaTv.setVisibility(mMap.get(ortaggio).isEmpty() ? View.GONE : View.VISIBLE);
-		viewHolder.mVarietaTv.setText(String.join("\n", mMap.get(ortaggio)));
-		viewHolder.mImage.setImageResource(Db.getImageId(context, ortaggio));
+		String searchText = mSearchText.get(position);
+		System.out.println("##### " + searchText);
+		if (!searchText.isEmpty()) {
+			String ortaggioTv = ortaggio.toLowerCase().replaceFirst(searchText, "<b>" + searchText + "</b>");
+			if (ortaggioTv.charAt(0) != '<') {
+				ortaggioTv = ortaggioTv.substring(0, 1).toUpperCase() + ortaggioTv.substring(1);
+			} else {
+				ortaggioTv = ortaggioTv.substring(0, 3) + ortaggioTv.substring(3, 4).toUpperCase() + ortaggioTv.substring(4);
+			}
+			viewHolder.mOrtaggioTv.setText(Html.fromHtml(ortaggioTv));
+			
+			StringBuilder varietaTv = new StringBuilder();
+			for (String varieta : mMap.get(ortaggio)) {
+				String tmp = varieta.toLowerCase().replaceFirst(searchText, "<b>" + searchText + "</b>");
+				if (tmp.charAt(0) != '<') {
+					tmp = tmp.substring(0, 1).toUpperCase() + tmp.substring(1);
+				} else {
+					tmp = tmp.substring(0, 3) + tmp.substring(3, 4).toUpperCase() + tmp.substring(4);
+				}
+				varietaTv.append(tmp).append("<br>");
+			}
+			viewHolder.mVarietaTv.setText(Html.fromHtml(varietaTv.toString()));
+		} else {
+			viewHolder.mOrtaggioTv.setText(ortaggio);
+		}
+		viewHolder.mImage.setImageResource(Db.getImageId(mContext, ortaggio));
 		viewHolder.mContent.setOnClickListener(view -> {  // fixme best practice ???
 			Bundle bundle = new Bundle();
 			bundle.putString("ortaggio", ortaggio);

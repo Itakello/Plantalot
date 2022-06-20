@@ -24,4 +24,14 @@ public class Utils {
 		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 	
+	public static double number(Object num) {  // FIXME
+		switch (num.getClass().getName()) {
+			case "java.lang.Double":
+				return (Double) num;
+			case "java.lang.Long":
+				return ((Long) num).doubleValue();
+		}
+		return 0;
+	}
+	
 }

@@ -131,7 +131,6 @@ public class OrtaggioFragment extends Fragment {
 	}
 	
 	private void setupStats(HashMap varieta, HashMap pianta) {
-		System.out.println("====================================================== " + varieta);
 		
 		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
 		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
@@ -238,8 +237,6 @@ public class OrtaggioFragment extends Fragment {
 		assert getArguments() != null;
 		String ortaggio = getArguments().getString("ortaggio");
 		DatabaseReference dbRefVarieta = FirebaseDatabase.getInstance().getReference("ortomio/varieta/" + ortaggio);
-		System.out.println("firebase OK ====================================================== " + ortaggio);
-		System.out.println("firebase OK ====================================================== " + dbRefVarieta);
 		
 		dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -260,7 +257,6 @@ public class OrtaggioFragment extends Fragment {
 				setupToolbar(snapshotVarieta, null);
 				
 				HashMap varieta = (HashMap) snapshotVarieta.child(defaultVar).getValue();
-				System.out.println("====================================================== " + varieta);
 				
 				ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
 				img.setImageResource(Db.getImageId(getContext(), (String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO)));
@@ -276,7 +272,6 @@ public class OrtaggioFragment extends Fragment {
 				
 				// Pianta
 				DatabaseReference dbRefPianta = FirebaseDatabase.getInstance().getReference("ortomio/piante/" + varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
-				System.out.println("firebase OK ====================================================== " + dbRefPianta);
 				
 				dbRefPianta.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
@@ -285,8 +280,6 @@ public class OrtaggioFragment extends Fragment {
 						
 						setupStats(varieta, pianta);
 						setupToolbar(snapshotVarieta, pianta);
-						
-						System.out.println("===================== " + pianta);
 						
 						// Cards
 						List<Pair<String, List<String>>> cards1 = new ArrayList<>(Collections.singletonList(
