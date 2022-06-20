@@ -1,6 +1,7 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +67,6 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 			viewHolder.chipGroup.setSingleSelection(true);
 			viewHolder.chipGroup.setSelectionRequired(true);
 		}
-		System.out.println("----------" + chips);
 		viewHolder.chipGroup.removeAllViews();
 		for (String c : chips) {
 			if (c.isEmpty()) {
@@ -80,13 +80,19 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 						chip.setChecked(true);
 					}
 				}
-				chip.setOnCheckedChangeListener((compoundButton, b) -> {
-					if (activeFilters.get(title).contains(c)) {
-						activeFilters.get(title).remove(c);
-					} else {
+				chip.setOnCheckedChangeListener((changedChip, b) -> {
+					if (changedChip.isChecked()) {
 						activeFilters.get(title).add(c);
+					} else {
+						activeFilters.get(title).remove(c);
 					}
-					fragment.showResultsNumber();
+				});
+				chip.setOnClickListener(l -> {
+					System.out.println(l.getClass().getName());
+					if (!(Objects.equals(title, RAGGRUPPA) && activeFilters.get(title).size() != 1)) {
+						Handler handler = new Handler();
+						handler.post(fragment::setupContent);
+					}
 				});
 				viewHolder.chipGroup.addView(chip);
 			}

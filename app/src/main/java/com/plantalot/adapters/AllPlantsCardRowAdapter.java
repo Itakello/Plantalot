@@ -1,17 +1,11 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,11 +16,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.database.Db;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardRowAdapter.ViewHolder> {
 	
@@ -49,7 +39,6 @@ public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardR
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		String ortaggio = mData.get(position);
 		viewHolder.mTextView.setText(ortaggio);
-		
 		viewHolder.mImageView.setImageResource(Db.getImageId(context, ortaggio));
 		viewHolder.mCardView.setCardBackgroundColor(Db.iconColors.get(ortaggio));
 		viewHolder.mCardView.setOnClickListener(view -> {  // fixme best practice ???

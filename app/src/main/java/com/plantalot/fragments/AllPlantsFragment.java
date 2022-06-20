@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -48,10 +49,12 @@ public class AllPlantsFragment extends Fragment {
 	private View view;
 	private Toolbar toolbar;
 	private AllPlantsFiltersAdapter filterAdapter;
+	private AllPlantsCardListAdapter cardAdapter;
 	
 	private boolean isBackdropShown = false;
 	private boolean isSearchShown = false;
 	
+	private final ArrayList<Pair<String, List<String>>> cards = new ArrayList<>();
 	private final HashMap<String, Set<String>> activeFilters = new HashMap<>();
 	private final DisplayMetrics displayMetrics = new DisplayMetrics();
 	
@@ -76,7 +79,7 @@ public class AllPlantsFragment extends Fragment {
 	
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
-		titles.put(Db.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglia");
+		titles.put(Db.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
 		titles.put(Db.VARIETA_TASSONOMIA_SPECIE, "Nome");
 		titles.put(Db.VARIETA_TRAPIANTI_MESI, "Mesi per il trapianto");
 		titles.put(Db.VARIETA_RACCOLTA_AVG, "Giorni alla raccolta");
@@ -155,13 +158,22 @@ public class AllPlantsFragment extends Fragment {
 		activeFilters.get(RAGGRUPPA).add(Db.VARIETA_TASSONOMIA_FAMIGLIA);
 	}
 	
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.view = inflater.inflate(R.layout.all_plants_fragment, container, false);
 		toolbar = view.findViewById(R.id.all_plants_bl_toolbar);
+		
+		cardAdapter = new AllPlantsCardListAdapter(cards);
+		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
+		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		cardsRecyclerView.setAdapter(cardAdapter);
+		
 		setupToolbar();
-		setupContent();
-		setupFilters();
+		setupSubheader();
+		Handler handler = new Handler();
+		handler.post(this::setupContent);
+		handler.postDelayed(this::setupFilters, 100);
 		return view;
 	}
 	
@@ -213,7 +225,7 @@ public class AllPlantsFragment extends Fragment {
 		return true;
 	}
 	
-	private void gruopByRange(List<Pair<String, List<String>>> cards, String key, String udm) {
+	private void gruopByRange(String key, String udm) {
 		for (Pair<Integer, Integer> dists : groups.get(key)) {
 			String tmp = udm;
 			if (Objects.equals(udm, " piante") && Objects.equals(dists.first, 1)) {
@@ -234,7 +246,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void gruopByNome(List<Pair<String, List<String>>> cards) {
+	private void gruopByNome() {
 		for (char c = 'A'; c <= 'Z'; c++) {
 			cards.add(new Pair<>("" + c, new ArrayList<>()));
 		}
@@ -243,7 +255,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void gruopByString(List<Pair<String, List<String>>> cards, String field, List<String> strList) {
+	private void gruopByString(String field, List<String> strList) {
 		HashMap<String, List<String>> strMap = new HashMap<>();
 		for (String ortaggio : filteredOrtaggi()) {
 			String str = (String) Db.ortaggi.get(ortaggio).get(field);
@@ -257,37 +269,44 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void setupContent() {
+	@SuppressLint("NotifyDataSetChanged")
+	public void setupContent() {
+		setupSubheader();
 		String activeGroup = (new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0);
-		((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(titles.get(activeGroup));
-		ArrayList<Pair<String, List<String>>> cards = new ArrayList<>();
+		cards.clear();
 		switch (activeGroup) {
 			case Db.VARIETA_TASSONOMIA_FAMIGLIA:
-				gruopByString(cards, activeGroup, Db.famiglie);
+				gruopByString(activeGroup, Db.famiglie);
 				break;
 			case Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
-				gruopByString(cards, activeGroup, OMBRA);
+				gruopByString(activeGroup, OMBRA);
 				break;
 			case Db.VARIETA_TASSONOMIA_SPECIE:
-				gruopByNome(cards);
+				gruopByNome();
 				break;
 			case Db.VARIETA_RACCOLTA_AVG:
-				gruopByRange(cards, Db.VARIETA_RACCOLTA_AVG, " giorni");
+				gruopByRange(Db.VARIETA_RACCOLTA_AVG, " giorni");
 				break;
 			case Db.VARIETA_DISTANZE_PIANTE:
-				gruopByRange(cards, Db.VARIETA_DISTANZE_PIANTE, " cm");
+				gruopByRange(Db.VARIETA_DISTANZE_PIANTE, " cm");
 				break;
 			case Db.VARIETA_DISTANZE_FILE:
-				gruopByRange(cards, Db.VARIETA_DISTANZE_FILE, " cm");
+				gruopByRange(Db.VARIETA_DISTANZE_FILE, " cm");
 				break;
 			case Db.VARIETA_ALTRO_PACK:
-				gruopByRange(cards, Db.VARIETA_ALTRO_PACK, " piante");
+				gruopByRange(Db.VARIETA_ALTRO_PACK, " piante");
 				break;
 		}
-		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
-		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		AllPlantsCardListAdapter allPlantsCardListAdapter = new AllPlantsCardListAdapter(cards);
-		cardsRecyclerView.setAdapter(allPlantsCardListAdapter);
+		cardAdapter.notifyDataSetChanged();
+	}
+	
+	public void setupSubheader() {
+		if (isBackdropShown) {
+			String title = "Mostra " + filteredOrtaggi().size() + " risultati";
+			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
+		} else {
+			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
+		}
 	}
 	
 	private void setupFilters() {
@@ -295,11 +314,6 @@ public class AllPlantsFragment extends Fragment {
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		filterAdapter = new AllPlantsFiltersAdapter(getContext(), activeFilters, chips, RAGGRUPPA, this, titles);
 		drawerRecyclerView.setAdapter(filterAdapter);
-	}
-	
-	public void showResultsNumber() {
-		String title = "Mostra " + filteredOrtaggi().size() + " risultati";
-		((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
 	}
 	
 	private void setupToolbar() {
@@ -340,8 +354,10 @@ public class AllPlantsFragment extends Fragment {
 				}
 			}
 			if (isChanged) {
-				showResultsNumber();
 				filterAdapter.notifyItemRangeChanged(1, chips.size() - 1);
+				Handler handler = new Handler();
+				handler.post(this::setupContent);
+//				setupContent();
 			}
 			return true;
 		});
@@ -446,23 +462,29 @@ public class AllPlantsFragment extends Fragment {
 	private boolean backdropBehaviour(boolean closeOnly) {
 		
 		if (!isBackdropShown && closeOnly) return false;
+		isBackdropShown = !isBackdropShown;
+		
+		setupSubheader();
 		
 		int translateY = displayMetrics.heightPixels - Utils.dp2px(56 + 48 + 8, getContext());
 		int interval = 200;
+		AnimatorSet animatorSet = new AnimatorSet();
+		Interpolator interpolator = new AccelerateDecelerateInterpolator();
 		
-		isBackdropShown = !isBackdropShown;
 		getActivity().invalidateOptionsMenu();
 		
-		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.removeAllListeners();
 		animatorSet.end();
 		animatorSet.cancel();
 		
-		Interpolator interpolator = new AccelerateDecelerateInterpolator();
 		View frontLayer = view.findViewById(R.id.all_plants_backdrop_frontlayer);
+		
 		ObjectAnimator animator = ObjectAnimator.ofFloat(frontLayer, "translationY", isBackdropShown ? translateY : 0);
 		animator.setDuration(interval);
-		animator.setInterpolator(interpolator);
+		animator.start();
+		if (interpolator != null) {
+			animator.setInterpolator(interpolator);
+		}
 		animatorSet.play(animator);
 		animator.start();
 
@@ -470,7 +492,7 @@ public class AllPlantsFragment extends Fragment {
 //.		Runnable runnable;
 		if (isBackdropShown) {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
-			showResultsNumber();
+//			setupContent();
 //.			interval = 20;
 //.			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
 //.			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.GONE);
@@ -486,8 +508,7 @@ public class AllPlantsFragment extends Fragment {
 //.			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
 //.			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.VISIBLE);
 		}
-		
-		if (!isBackdropShown) setupContent();  // fixme adapter ?
+
 
 //.		handler.postAtTime(runnable, System.currentTimeMillis() + interval);
 //.		handler.postDelayed(runnable, interval);
