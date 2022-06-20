@@ -43,12 +43,18 @@ public class Db {
 	public static final HashMap<String, Integer> icons = new HashMap<>();
 	public static final HashMap<String, Integer> iconColors = new HashMap<>();
 	public static final HashMap<String, HashMap<String, Object>> ortaggi = new HashMap<>();
+	public static final HashMap<String, HashMap<String, Object>> piante = new HashMap<>();
+	public static final HashMap<String, HashMap<String, HashMap<String, Object>>> varieta = new HashMap<>();
 	public static final HashMap<String, String> varietaNames = new HashMap<>();
 	public static final List<String> ortaggiNames = new ArrayList<>();
 	private static final String defaultFile = "plant_weed_3944340";
+	private static int defaultImageId;
 //	private static final String defaultFile = "plant_basil_3944343.png";
 	
 	public static void init(Activity activity) {
+		
+		Resources res = activity.getResources();
+		defaultImageId = res.getIdentifier("plant_mushroom_3944308".split("\\.")[0], "mipmap", activity.getPackageName());
 		
 		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
 		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
@@ -61,10 +67,7 @@ public class Db {
 			@Override
 			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 				if (task.isSuccessful()) {
-					HashMap<String, Object> ortaggiRaw = (HashMap<String, Object>) task.getResult().getData();
-					for (String ortaggio : ortaggiRaw.keySet()) {
-						ortaggi.put(ortaggio, (HashMap<String, Object>) ortaggiRaw.get(ortaggio));
-					}
+					ortaggi.putAll((HashMap) task.getResult().getData());
 					Set<String> famiglieSet = new HashSet<>();
 					for (Object ortaggio : ortaggi.values()) {
 						famiglieSet.add((String) ((HashMap) ortaggio).get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
@@ -94,10 +97,10 @@ public class Db {
 					dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
 						@Override
 						public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
-							HashMap<String, HashMap<String, Object>> snapMap = (HashMap) taskSnapshot.getValue();
-							for (String ortaggio : snapMap.keySet()) {
-								for (String varieta : snapMap.get(ortaggio).keySet()) {
-									varietaNames.put(varieta, ortaggio);
+							varieta.putAll((HashMap) taskSnapshot.getValue());
+							for (String ortaggio : varieta.keySet()) {
+								for (String var : varieta.get(ortaggio).keySet()) {
+									varietaNames.put(var, ortaggio);
 								}
 							}
 						}
@@ -112,13 +115,23 @@ public class Db {
 				}
 			}
 		});
+		
+		DatabaseReference dbRefPiante = FirebaseDatabase.getInstance().getReference("ortomio/piante");
+		dbRefPiante.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+				piante.putAll((HashMap) taskSnapshot.getValue());
+			}
+			
+			@Override
+			public void onCancelled(@NonNull DatabaseError error) {
+				Log.e("firebase", "onCancelled " + error.getMessage());
+			}
+		});
 	}
 	
 	public static int getImageId(Context context, String ortaggio) {
-		if (icons.get(ortaggio) == null || icons.get(ortaggio) == 0) {
-			Resources res = context.getResources();
-			return res.getIdentifier("plant_mushroom_3944308".split("\\.")[0], "mipmap", context.getPackageName());
-		}
+		if (icons.get(ortaggio) == null || icons.get(ortaggio) == 0) return defaultImageId;
 		return icons.get(ortaggio);
 	}
 	

@@ -60,8 +60,6 @@ public class OrtaggioFragment extends Fragment {
 	private long dropdownDismissTime = 0;
 	
 	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
-	//	private final static String[] months = {"G","F","M","A","M","G", "L", "A", "S", "O", "N", "D"};
-//	List<String> ortaggi_list = Arrays.asList("Peperoncino");
 	private LinkedList<String> dropdownItems;
 	
 	private final List<CircleButton> mButtons = Arrays.asList(
@@ -85,7 +83,7 @@ public class OrtaggioFragment extends Fragment {
 		return view;
 	}
 	
-	private void setupToolbar(@NonNull DataSnapshot snapshot, HashMap<String, Object> pianta) {
+	private void setupToolbar(HashMap<String, HashMap<String, Object>> ortaggio, HashMap<String, Object> pianta) {
 		MaterialToolbar toolbar = view.findViewById(R.id.ortaggio_fl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		assert activity != null;
@@ -100,14 +98,8 @@ public class OrtaggioFragment extends Fragment {
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
 		dropdown.setAdapter(adapter);
 		
-		dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Object result = snapshot.child(dropdownItems.get(position)).getValue();
-				if (result != null && result.getClass().getName().equals("java.util.HashMap")) {
-					setupStats((HashMap<String, Object>) result, pianta);  // fixme
-				}
-			}
+		dropdown.setOnItemClickListener((parent, view, position, id) -> {
+			setupStats(ortaggio.get(dropdownItems.get(position)), pianta);
 		});
 		
 		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
@@ -130,7 +122,7 @@ public class OrtaggioFragment extends Fragment {
 		});
 	}
 	
-	private void setupStats(HashMap varieta, HashMap pianta) {
+	private void setupStats(HashMap<String, Object> varieta, HashMap<String, Object> pianta) {
 		
 		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
 		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
@@ -138,7 +130,7 @@ public class OrtaggioFragment extends Fragment {
 		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
 		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
 		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-		sub1.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + (String) varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
+		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
 		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
 		
 		// Expandable Text View
@@ -232,92 +224,62 @@ public class OrtaggioFragment extends Fragment {
 	}
 	
 	private void setupContent() {
+		final String GENERICO = "Generico";
 		
 		// Specs
 		assert getArguments() != null;
 		String ortaggio = getArguments().getString("ortaggio");
-		DatabaseReference dbRefVarieta = FirebaseDatabase.getInstance().getReference("ortomio/varieta/" + ortaggio);
+		String defaultVar = (Db.varieta.get(ortaggio).keySet()).size() == 1
+				? new ArrayList<>(Db.varieta.get(ortaggio).keySet()).get(0)
+				: "Generico";
+		HashMap<String, Object> varieta = Db.varieta.get(ortaggio).get(defaultVar);
 		
-		dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot snapshotVarieta) {
-				if (snapshotVarieta.getValue() == null) {
-					return;  // FIXME !!!!
-				}
-				String defaultVar = ((HashMap) snapshotVarieta.getValue()).size() == 1
-						? snapshotVarieta.getChildren().iterator().next().getKey()
-						: "Generico";
-				
-				dropdownItems = new LinkedList<String>(((HashMap) snapshotVarieta.getValue()).keySet());
-				Collections.sort(dropdownItems);
-				if (dropdownItems.contains("Generico")) {
-					dropdownItems.remove("Generico");
-					dropdownItems.add(0, "Generico");
-				}
-				setupToolbar(snapshotVarieta, null);
-				
-				HashMap varieta = (HashMap) snapshotVarieta.child(defaultVar).getValue();
-				
-				ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-				img.setImageResource(Db.getImageId(getContext(), (String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO)));
-				
-				TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
-				TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
-				TextView sub1 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
-				TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
-				title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-				subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-				sub1.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + (String) varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
-				sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
-				
-				// Pianta
-				DatabaseReference dbRefPianta = FirebaseDatabase.getInstance().getReference("ortomio/piante/" + varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
-				
-				dbRefPianta.addListenerForSingleValueEvent(new ValueEventListener() {
-					@Override
-					public void onDataChange(@NonNull DataSnapshot snapshotPianta) {
-						HashMap pianta = (HashMap) snapshotPianta.getValue();
-						
-						setupStats(varieta, pianta);
-						setupToolbar(snapshotVarieta, pianta);
-						
-						// Cards
-						List<Pair<String, List<String>>> cards1 = new ArrayList<>(Collections.singletonList(
-								new Pair<>("Consociazioni utili", (ArrayList) pianta.get(Db.PIANTE_CONSOCIAZIONI_POS))
-						));
-						
-						List<Pair<String, List<String>>> cards2 = new ArrayList<>(Arrays.asList(
-								new Pair<>("Rotazioni utili", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_POS)),
-								new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_NEG))
-						));
-						
-						RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
-						cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-						OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1);
-						cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
-						
-						RecyclerView cardsRecyclerView2 = view.findViewById(R.id.ortaggio_bl_card_list_recycler2);
-						cardsRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-						OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2);
-						cardsRecyclerView2.setAdapter(ortaggioCardListAdapter2);
-						
-					}
-					
-					@Override
-					public void onCancelled(@NonNull DatabaseError error) {
-						Log.e("firebase", "onCancelled " + error.getMessage());
-					}
-				});
-				
-			}
-			
-			@Override
-			public void onCancelled(@NonNull DatabaseError error) {
-				Log.e("firebase", "onCancelled " + error.getMessage());
-			}
-		});
+		dropdownItems = new LinkedList<>(Db.varieta.get(ortaggio).keySet());
+		Collections.sort(dropdownItems);
+		if (dropdownItems.contains(GENERICO)) {
+			dropdownItems.remove(GENERICO);
+			dropdownItems.add(0, GENERICO);
+		}
+		
+		ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
+		img.setImageResource(Db.getImageId(getContext(), ortaggio));
+		
+		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
+		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
+		TextView sub1 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
+		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
+		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
+		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
+		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + (String) varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
+		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
+		
+		HashMap pianta = Db.piante.get(varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
+		setupStats(varieta, pianta);
+		setupToolbar(Db.varieta.get(ortaggio), pianta);
+		
+		// Cards
+		List<Pair<String, List<String>>> cards1 = new ArrayList<>(Collections.singletonList(
+				new Pair<>("Consociazioni utili", (ArrayList) pianta.get(Db.PIANTE_CONSOCIAZIONI_POS))
+		));
+		
+		List<Pair<String, List<String>>> cards2 = new ArrayList<>(Arrays.asList(
+				new Pair<>("Rotazioni utili", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_POS)),
+				new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_NEG))
+		));
+		
+		RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
+		cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1);
+		cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
+		
+		RecyclerView cardsRecyclerView2 = view.findViewById(R.id.ortaggio_bl_card_list_recycler2);
+		cardsRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
+		OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2);
+		cardsRecyclerView2.setAdapter(ortaggioCardListAdapter2);
 		
 	}
+	
+}
 
 
 //	// Show appbar right menu
@@ -326,4 +288,4 @@ public class OrtaggioFragment extends Fragment {
 //		getActivity().getMenuInflater().inflate(R.menu.ortaggio_fl_toolbar_menu, menu);
 //	}
 	
-}
+
