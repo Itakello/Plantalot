@@ -63,6 +63,7 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 				} else if (viewHolder.getAdapterPosition() == 4) {
 					Bundle bundle = new Bundle();
 					bundle.putString("ortaggio", ortaggi_list.get(iter++));
+					bundle.putInt("prev_fragment", R.id.homeFragment);
 					Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
 				}
 			}

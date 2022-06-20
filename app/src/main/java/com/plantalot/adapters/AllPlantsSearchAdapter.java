@@ -27,13 +27,15 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 	private final HashMap<String, List<String>> mMap;
 	private final LayoutInflater mInflater;
 	private final Context mContext;
+	private final int prev_fragment;
 	
-	public AllPlantsSearchAdapter(Context context, List<String> data, HashMap<String, List<String>> map, List<String> searchText) {
+	public AllPlantsSearchAdapter(Context context, List<String> data, HashMap<String, List<String>> map, List<String> searchText, int prev_fragment) {
 		this.mData = data;
 		this.mMap = map;
 		this.mInflater = LayoutInflater.from(context);
 		this.mContext = context;
 		this.mSearchText = searchText;
+		this.prev_fragment = prev_fragment;
 	}
 	
 	@NonNull
@@ -62,6 +64,7 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		viewHolder.mContent.setOnClickListener(view -> {
 			Bundle bundle = new Bundle();
 			bundle.putString("ortaggio", ortaggio);
+			bundle.putInt("prev_fragment", prev_fragment);
 			Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
 		});
 	}

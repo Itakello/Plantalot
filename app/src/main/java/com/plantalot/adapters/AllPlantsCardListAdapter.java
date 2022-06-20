@@ -41,7 +41,7 @@ public class AllPlantsCardListAdapter extends RecyclerView.Adapter<AllPlantsCard
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Pair<String, List<String>> row = mData.get(position);
 		viewHolder.mTextView.setText(row.first);
-		AllPlantsCardRowAdapter allPlantsCardRowAdapter = new AllPlantsCardRowAdapter(row.second, context);
+		AllPlantsCardRowAdapter allPlantsCardRowAdapter = new AllPlantsCardRowAdapter(row.second, context, R.id.allPlantsFragment);
 		viewHolder.mRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
 		viewHolder.mRecyclerView.setAdapter(allPlantsCardRowAdapter);
 	}

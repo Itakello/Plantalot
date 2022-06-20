@@ -423,7 +423,7 @@ public class AllPlantsFragment extends Fragment {
 		
 		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		AllPlantsSearchAdapter searchAdapter = new AllPlantsSearchAdapter(getContext(), filteredOrtaggi, filteredVarieta, searchTextList);
+		AllPlantsSearchAdapter searchAdapter = new AllPlantsSearchAdapter(getContext(), filteredOrtaggi, filteredVarieta, searchTextList, R.id.allPlantsFragment);
 		drawerRecyclerView.setAdapter(searchAdapter);
 		
 		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);

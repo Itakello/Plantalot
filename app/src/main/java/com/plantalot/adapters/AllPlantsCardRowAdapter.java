@@ -22,10 +22,12 @@ public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardR
 	
 	private final List<String> mData;
 	private final Context context;
+	private final int prev_fragment;
 	
-	public AllPlantsCardRowAdapter(@NonNull List<String> data, Context context) {
+	public AllPlantsCardRowAdapter(@NonNull List<String> data, Context context, int prev_fragment) {
 		this.mData = data;
 		this.context = context;
+		this.prev_fragment = prev_fragment;
 	}
 	
 	@NonNull
@@ -44,6 +46,7 @@ public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardR
 		viewHolder.mCardView.setOnClickListener(view -> {  // fixme best practice ???
 			Bundle bundle = new Bundle();
 			bundle.putString("ortaggio", ortaggio);
+			bundle.putInt("prev_fragment", prev_fragment);
 			Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
 		});
 	}

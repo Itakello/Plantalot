@@ -16,17 +16,25 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+			app:launchSingleTop="false"
 			>
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
 				app:argType="string"
 				/>
+<!--			<argument-->
+<!--				android:name="prev_fragment"-->
+<!--				android:defaultValue=""-->
+<!--				app:argType="integer"-->
+<!--				/>-->
 		</action>
+		
 		<action
 			android:id="@+id/action_select_giardino"
 			app:destination="@id/homeFragment"
 			/>
+		
 		<action
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
@@ -48,6 +56,11 @@
 				android:defaultValue=""
 				app:argType="string"
 				/>
+<!--			<argument-->
+<!--				android:name="prev_fragment"-->
+<!--				android:defaultValue=""-->
+<!--				app:argType="integer"-->
+<!--				/>-->
 		</action>
 		<action
 			android:id="@+id/action_goto_home"
@@ -64,12 +77,18 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+			app:launchSingleTop="false"
 			>
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
 				app:argType="string"
 				/>
+<!--			<argument-->
+<!--				android:name="prev_fragment"-->
+<!--				android:defaultValue=""-->
+<!--				app:argType="integer"-->
+<!--				/>-->
 		</action>
 	</fragment>
 </navigation>

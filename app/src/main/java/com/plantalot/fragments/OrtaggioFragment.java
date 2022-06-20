@@ -1,15 +1,11 @@
 package com.plantalot.fragments;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -19,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,16 +24,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.color.DynamicColors;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
-import com.plantalot.adapters.CircleButtonsAdapter;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.components.CircleButton;
@@ -52,12 +42,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 
 public class OrtaggioFragment extends Fragment {
-	
-	private long dropdownDismissTime = 0;
 	
 	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
 	private LinkedList<String> dropdownItems;
@@ -72,7 +59,6 @@ public class OrtaggioFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DynamicColors.applyToActivitiesIfAvailable(getActivity().getApplication());
 	}
 	
 	@Override
@@ -92,32 +78,33 @@ public class OrtaggioFragment extends Fragment {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+
+toolbar.setNavigationOnClickListener(view -> {
+	int prev_frag_id = getArguments().getInt("prev_fragment");
+	NavController navController = Navigation.findNavController(view);
+	navController.popBackStack(prev_frag_id, false);
+});
 		
 		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
 		dropdown.setText(dropdownItems.get(0));
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
 		dropdown.setAdapter(adapter);
 		
-		dropdown.setOnItemClickListener((parent, view, position, id) -> {
-			setupStats(ortaggio.get(dropdownItems.get(position)), pianta);
-		});
+		dropdown.setOnItemClickListener((parent, view, position, id) -> setupStats(ortaggio.get(dropdownItems.get(position)), pianta));
 		
 		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
 	}
 	
 	private void setupTexField() {
 		AutoCompleteTextView autocomplete = view.findViewById(R.id.ortaggio_bl_autocomplete);
-		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
-		autocomplete.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
+//		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
+		autocomplete.setOnFocusChangeListener((v, hasFocus) -> {
+			if (!hasFocus) {
 //					textfield.setEndIconMode(TextInputLayout.END_ICON_DROPDOWN_MENU);
-					Utils.hideSoftKeyboard(v, getActivity());
-					// todo reset last input
-				} else {
+				Utils.hideSoftKeyboard(v, getActivity());
+				// todo reset last input
+//				} else {
 //					textfield.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
-				}
 			}
 		});
 	}
@@ -155,7 +142,7 @@ public class OrtaggioFragment extends Fragment {
 			
 			month.setText(months[i]);
 			month.setRippleColor(null);
-			Object isMonthOk = ((ArrayList) varieta.get(Db.VARIETA_TRAPIANTI_MESI)).get(i);
+			Object isMonthOk = ((ArrayList<?>) varieta.get(Db.VARIETA_TRAPIANTI_MESI)).get(i);
 			if (isMonthOk.getClass().getName().equals("java.lang.Long")) {
 				isMonthOk = Double.valueOf((Long) isMonthOk);
 			}
@@ -163,7 +150,7 @@ public class OrtaggioFragment extends Fragment {
 			month.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimary, getContext(), (int) ((Double) isMonthOk * 50)));
 			month.jumpDrawablesToCurrentState();
 			
-			if (i == cal.get(Calendar.MONTH)) {
+			if (cal.get(Calendar.MONTH) == i) {
 				month.setTypeface(null, Typeface.BOLD);
 				month.setStrokeWidth(Utils.dp2px(3, getContext()));
 			}
@@ -250,10 +237,10 @@ public class OrtaggioFragment extends Fragment {
 		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
 		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
 		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + (String) varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
+		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
 		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
 		
-		HashMap pianta = Db.piante.get(varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
+		HashMap<String, Object> pianta = Db.piante.get(varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
 		setupStats(varieta, pianta);
 		setupToolbar(Db.varieta.get(ortaggio), pianta);
 		
@@ -267,25 +254,17 @@ public class OrtaggioFragment extends Fragment {
 				new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_NEG))
 		));
 		
+		int prev_fragment = getArguments().getInt("prev_fragment");
 		RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
 		cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1);
+		OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1, prev_fragment);
 		cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
 		
 		RecyclerView cardsRecyclerView2 = view.findViewById(R.id.ortaggio_bl_card_list_recycler2);
 		cardsRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2);
+		OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2, prev_fragment);
 		cardsRecyclerView2.setAdapter(ortaggioCardListAdapter2);
 		
 	}
 	
 }
-
-
-//	// Show appbar right menu
-//	@Override
-//	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
-//		getActivity().getMenuInflater().inflate(R.menu.ortaggio_fl_toolbar_menu, menu);
-//	}
-	
-
