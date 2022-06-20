@@ -49,6 +49,10 @@
 				app:argType="string"
 				/>
 		</action>
+		<action
+			android:id="@+id/action_goto_home"
+			app:destination="@id/homeFragment"
+			/>
 	</fragment>
 	
 	<fragment

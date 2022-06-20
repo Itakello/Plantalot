@@ -1,5 +1,10 @@
 package com.plantalot.database;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.util.Pair;
 
@@ -9,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.color.MaterialColors;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -33,40 +40,34 @@ import java.util.concurrent.TimeUnit;
 public class Db {
 	
 	public static final List<String> famiglie = new ArrayList<>();
-	public static final HashMap<String, String> icons = new HashMap<>();
+	public static final HashMap<String, Integer> icons = new HashMap<>();
+	public static final HashMap<String, Integer> iconColors = new HashMap<>();
 	public static final HashMap<String, HashMap<String, Object>> ortaggi = new HashMap<>();
+	public static final HashMap<String, HashMap<String, Object>> piante = new HashMap<>();
+	public static final HashMap<String, HashMap<String, HashMap<String, Object>>> varieta = new HashMap<>();
+	public static final HashMap<String, String> varietaNames = new HashMap<>();
 	public static final List<String> ortaggiNames = new ArrayList<>();
+	private static final String defaultFile = "plant_weed_3944340";
+	private static int defaultImageId;
+//	private static final String defaultFile = "plant_basil_3944343.png";
 	
-	static {
+	public static void init(Activity activity) {
+		
+		Resources res = activity.getResources();
+		defaultImageId = res.getIdentifier("plant_mushroom_3944308".split("\\.")[0], "mipmap", activity.getPackageName());
+		
+		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
+		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 		
 		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		DatabaseReference db = FirebaseDatabase.getInstance().getReference("ortomio");
 		db.keepSynced(true);
-		DatabaseReference dbRefIcons = FirebaseDatabase.getInstance().getReference("ortomio/icons");
-		dbRefIcons.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
-				HashMap<String, String> snapMap = (HashMap<String, String>) taskSnapshot.getValue();
-				for (String ortaggio : snapMap.keySet()){
-					icons.put(ortaggio, snapMap.get(ortaggio));
-				}
-			}
-			@Override
-			public void onCancelled(@NonNull DatabaseError error) {
-				Log.e("firebase", "onCancelled " + error.getMessage());
-			}
-		});
 		
-		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
-		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 		FirebaseFirestore.getInstance().collection("ortomio").document("ortaggi").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 			@Override
 			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 				if (task.isSuccessful()) {
-					HashMap<String, Object> ortaggiRaw = (HashMap<String, Object>) task.getResult().getData();
-					for (String ortaggio : ortaggiRaw.keySet()) {
-						ortaggi.put(ortaggio, (HashMap<String, Object>) ortaggiRaw.get(ortaggio));
-					}
+					ortaggi.putAll((HashMap) task.getResult().getData());
 					Set<String> famiglieSet = new HashSet<>();
 					for (Object ortaggio : ortaggi.values()) {
 						famiglieSet.add((String) ((HashMap) ortaggio).get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
@@ -75,15 +76,98 @@ public class Db {
 					Collections.sort(famiglie);
 					ortaggiNames.addAll(ortaggi.keySet());
 					Collections.sort(ortaggiNames);
+					
+					
+					DatabaseReference dbRefIcons = FirebaseDatabase.getInstance().getReference("ortomio/icons");
+					dbRefIcons.addListenerForSingleValueEvent(new ValueEventListener() {
+						@Override
+						public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+							HashMap<String, String> iconsMap = (HashMap) taskSnapshot.getValue();
+							setIcons(activity, iconsMap);
+							setColors(activity);
+						}
+						
+						@Override
+						public void onCancelled(@NonNull DatabaseError error) {
+							Log.e("firebase", "onCancelled " + error.getMessage());
+						}
+					});
+					
+					DatabaseReference dbRefVarieta = FirebaseDatabase.getInstance().getReference("ortomio/varieta");
+					dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
+						@Override
+						public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+							varieta.putAll((HashMap) taskSnapshot.getValue());
+							for (String ortaggio : varieta.keySet()) {
+								for (String var : varieta.get(ortaggio).keySet()) {
+									varietaNames.put(var, ortaggio);
+								}
+							}
+						}
+						
+						@Override
+						public void onCancelled(@NonNull DatabaseError error) {
+							Log.e("firebase", "onCancelled " + error.getMessage());
+						}
+					});
 				} else {
 					System.out.println("firebase ERROR ======================================================");
 				}
 			}
 		});
+		
+		DatabaseReference dbRefPiante = FirebaseDatabase.getInstance().getReference("ortomio/piante");
+		dbRefPiante.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
+				piante.putAll((HashMap) taskSnapshot.getValue());
+			}
+			
+			@Override
+			public void onCancelled(@NonNull DatabaseError error) {
+				Log.e("firebase", "onCancelled " + error.getMessage());
+			}
+		});
 	}
 	
-	public static void init() {
-		// Rimane vuoto, alla chiamata inizializza le variabili nel blocco static
+	public static int getImageId(Context context, String ortaggio) {
+		if (icons.get(ortaggio) == null || icons.get(ortaggio) == 0) return defaultImageId;
+		return icons.get(ortaggio);
+	}
+	
+	private static void setIcons(Activity mActivity, HashMap<String, String> iconsMap) {
+		Resources res = mActivity.getResources();
+		for (String ortaggio : ortaggiNames) {
+			String imageFile = iconsMap.get(ortaggio);
+			if (imageFile != null) {
+				int imageId = res.getIdentifier(imageFile.split("\\.")[0], "mipmap", mActivity.getPackageName());
+				icons.put(ortaggio, imageId);
+			}
+		}
+	}
+	
+	private static void setColors(Activity mActivity) {
+		for (String ortaggio : ortaggiNames) {
+			Bitmap image = BitmapFactory.decodeResource(mActivity.getResources(), getImageId(mActivity, ortaggio));
+			Map<Integer, Integer> color2counter = new HashMap<>();
+			int height = image.getHeight();
+			int width = image.getWidth();
+			for (int y = (int) (0.5 * height); y < (int) (1.0 * height); y++) {
+				for (int x = (int) (0.25 * width); x < (int) (0.75 * width); x++) {
+					int color = image.getPixel(x, y);
+					if (color2counter.get(color) == null) {
+						color2counter.put(color, 0);
+					}
+					int occurrences = color2counter.get(color);
+					color2counter.put(color, occurrences + 1);
+				}
+			}
+			color2counter.remove(0);
+			color2counter.remove(-13948117);
+			int color = Collections.max(color2counter.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey();
+			color = MaterialColors.harmonizeWithPrimary(mActivity, color);
+			iconColors.put(ortaggio, color);
+		}
 	}
 	
 	public static final String DB_NAME = "PLANTALOT";

@@ -1,6 +1,7 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
@@ -24,7 +24,7 @@ import java.util.Set;
 
 
 // Cambia il contenuto del backlyer
-public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawerAdapter.ViewHolder> {
+public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFiltersAdapter.ViewHolder> {
 	
 	private final List<Pair<String, List<String>>> mData;
 	private final LayoutInflater mInflater;
@@ -32,18 +32,21 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 	private final Context context;
 	private final AllPlantsFragment fragment;
 	private final HashMap<String, Set<String>> activeFilters;
+	private final HashMap<String, String> titles;
 	
 	// data is passed into the constructor
-	public AllPlantsDrawerAdapter(Context context, List<Pair<String, List<String>>> data,
-	                              HashMap<String, Set<String>> activeFilters, String raggruppa,
-	                              AllPlantsFragment fragment) {
+	public AllPlantsFiltersAdapter(Context context, HashMap<String, Set<String>> activeFilters,
+	                               List<Pair<String, List<String>>> data, String raggruppa,
+	                               AllPlantsFragment fragment, HashMap<String, String> titles) {
 		this.mData = data;
 		this.mInflater = LayoutInflater.from(context);
 		this.context = context;
 		this.fragment = fragment;
+		this.titles = titles;
 		this.activeFilters = activeFilters;
 		this.RAGGRUPPA = raggruppa;
 		System.out.println(activeFilters);
+		System.out.println(mData);
 	}
 	
 	// inflates the row layout from xml when needed
@@ -59,31 +62,37 @@ public class AllPlantsDrawerAdapter extends RecyclerView.Adapter<AllPlantsDrawer
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		String title = mData.get(position).first;
 		List<String> chips = mData.get(position).second;
-		viewHolder.title.setText(title);
+		viewHolder.title.setText(titles.get(title));
 		if (Objects.equals(title, RAGGRUPPA)) {
 			viewHolder.chipGroup.setSingleSelection(true);
 			viewHolder.chipGroup.setSelectionRequired(true);
 		}
-		System.out.println("----------" + chips);
+		viewHolder.chipGroup.removeAllViews();
 		for (String c : chips) {
 			if (c.isEmpty()) {
 				viewHolder.chipGroup.addView(mInflater.inflate(R.layout.component_chips_divider, null, false));
 			} else {
 				Chip chip = new Chip(context);
-				chip.setText(c);
+				chip.setText(Objects.equals(title, RAGGRUPPA) ? titles.get(c) : c);
 				chip.setCheckable(true);
 				if (Objects.equals(title, RAGGRUPPA)) {
 					if (Objects.equals((new ArrayList<>(activeFilters.get(title))).get(0), c)) {
 						chip.setChecked(true);
 					}
 				}
-				chip.setOnCheckedChangeListener((compoundButton, b) -> {
-					if (activeFilters.get(title).contains(c)) {
-						activeFilters.get(title).remove(c);
-					} else {
+				chip.setOnCheckedChangeListener((changedChip, b) -> {
+					if (changedChip.isChecked()) {
 						activeFilters.get(title).add(c);
+					} else {
+						activeFilters.get(title).remove(c);
 					}
-					fragment.showResultsNumber();
+				});
+				chip.setOnClickListener(l -> {
+					System.out.println(l.getClass().getName());
+					if (!(Objects.equals(title, RAGGRUPPA) && activeFilters.get(title).size() != 1)) {
+						Handler handler = new Handler();
+						handler.post(fragment::setupContent);
+					}
 				});
 				viewHolder.chipGroup.addView(chip);
 			}
