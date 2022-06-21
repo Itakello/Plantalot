@@ -1,5 +1,6 @@
 package com.plantalot.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,10 +48,21 @@ public class HomeFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		if(savedInstanceState != null){ //FIXME
+//			String message = savedInstanceState.getString("message");
+//			Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
+//		}
 		setHasOptionsMenu(true);
+
 		mAuth = FirebaseAuth.getInstance();
 //		mAuth.useEmulator("0.0.0.0", 9099);
 	}
+
+//	@Override
+//	public void onSaveInstanceState(Bundle outState) {
+//		outState.putString("message", "This is my message to be reloaded");
+//		super.onSaveInstanceState(outState);
+//	}
 
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

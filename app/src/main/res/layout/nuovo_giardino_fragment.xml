@@ -63,7 +63,7 @@
 			android:text="Nuovo giardino"
 			android:textAppearance="?attr/textAppearanceDisplaySmall"
 			/>
-		
+
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -118,9 +118,14 @@
 					android:layout_height="wrap_content"
 					/>
 			</com.google.android.material.textfield.TextInputLayout>
+
 		</LinearLayout>
-		
-		
+
+		<com.google.android.gms.maps.MapView
+			android:id="@+id/map"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
 	</LinearLayout>
 
 </LinearLayout>
