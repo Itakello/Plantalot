@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/ortaggio_card_item"
+	style="?attr/materialCardViewOutlinedStyle"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginHorizontal="6dp"
+	android:layout_marginBottom="12dp"
+	android:clickable="true"
+	android:focusable="true"
+	android:gravity="center"
+	>
+	
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="#88ffffff"
+		android:clickable="false"
+		android:orientation="vertical"
+		>
+		
+		
+		<ImageView
+			android:id="@+id/ortaggio_card_image"
+			android:layout_width="104dp"
+			android:layout_height="96dp"
+			android:adjustViewBounds="true"
+			android:paddingVertical="12dp"
+			android:src="@mipmap/plant_basil_3944343"
+			/>
+		
+		<TextView
+			android:id="@+id/ortaggio_card_label"
+			android:layout_width="match_parent"
+			android:layout_height="32dp"
+			android:background="#88ffffff"
+			android:gravity="center"
+			android:text="Zucca"
+			android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+			android:textColor="?attr/colorOnSecondaryContainer"
+			/>
+	
+	</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

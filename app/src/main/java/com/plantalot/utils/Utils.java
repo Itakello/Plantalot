@@ -25,6 +25,16 @@ public class Utils {
 		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
+	
+	public static double number(Object num) {  // FIXME
+		switch (num.getClass().getName()) {
+			case "java.lang.Double":
+				return (Double) num;
+			case "java.lang.Long":
+				return ((Long) num).doubleValue();
+		}
+		return 0;
+	}
 
 	public static ImageButton getToolbarNavigationButton(Toolbar toolbar) {
 		int size = toolbar.getChildCount();
