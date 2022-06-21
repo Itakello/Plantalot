@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
 import com.plantalot.database.Db;
+import com.plantalot.navigation.Nav;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,13 +61,8 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		} else {
 			viewHolder.mOrtaggioTv.setText(ortaggio);
 		}
-		viewHolder.mImage.setImageResource(Db.getImageId(mContext, ortaggio));
-		viewHolder.mContent.setOnClickListener(view -> {
-			Bundle bundle = new Bundle();
-			bundle.putString("ortaggio", ortaggio);
-			bundle.putInt("prev_fragment", prev_fragment);
-			Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
-		});
+		viewHolder.mImage.setImageResource(Db.getImageId(ortaggio));
+		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, view));
 	}
 	
 	@Override

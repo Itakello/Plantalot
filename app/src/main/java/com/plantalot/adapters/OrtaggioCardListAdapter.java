@@ -1,12 +1,10 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,13 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
-import com.plantalot.database.Db;
-import com.plantalot.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Riempe la card con le icone
 public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardListAdapter.ViewHolder> {
 	
 	private final List<Pair<String, List<String>>> mData;
@@ -52,7 +47,7 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 		
 		viewHolder.mTextView.setText(row.first);
 		
-		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, position % 2 == 0, context, prev_fragment);
+		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, context, prev_fragment);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 		viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
 		

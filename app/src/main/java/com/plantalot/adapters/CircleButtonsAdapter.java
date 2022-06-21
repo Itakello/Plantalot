@@ -16,6 +16,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.components.CircleButton;
+import com.plantalot.navigation.Nav;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,17 +56,11 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
-		viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
-				if (viewHolder.getAdapterPosition() == 0) {
-					Navigation.findNavController(view).navigate(R.id.action_goto_all_plants);
-				} else if (viewHolder.getAdapterPosition() == 4) {
-					Bundle bundle = new Bundle();
-					bundle.putString("ortaggio", ortaggi_list.get(iter++));
-					bundle.putInt("prev_fragment", R.id.homeFragment);
-					Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
-				}
+		viewHolder.mCard.setOnClickListener(view -> {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
+			if (viewHolder.getAdapterPosition() == 0) {
+				Navigation.findNavController(view).navigate(R.id.action_goto_all_plants);
+			} else if (viewHolder.getAdapterPosition() == 4) {
+				Nav.gotoOrtaggio(ortaggi_list.get(iter++), R.id.homeFragment, view);
 			}
 		});
 	}

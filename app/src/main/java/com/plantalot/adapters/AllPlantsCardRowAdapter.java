@@ -1,7 +1,6 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.database.Db;
+import com.plantalot.navigation.Nav;
 
 import java.util.List;
+
 
 public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardRowAdapter.ViewHolder> {
 	
@@ -41,14 +41,9 @@ public class AllPlantsCardRowAdapter extends RecyclerView.Adapter<AllPlantsCardR
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		String ortaggio = mData.get(position);
 		viewHolder.mTextView.setText(ortaggio);
-		viewHolder.mImageView.setImageResource(Db.getImageId(context, ortaggio));
-		viewHolder.mCardView.setCardBackgroundColor(Db.iconColors.get(ortaggio));
-		viewHolder.mCardView.setOnClickListener(view -> {  // fixme best practice ???
-			Bundle bundle = new Bundle();
-			bundle.putString("ortaggio", ortaggio);
-			bundle.putInt("prev_fragment", prev_fragment);
-			Navigation.findNavController(view).navigate(R.id.action_goto_ortaggio, bundle);
-		});
+		viewHolder.mImageView.setImageResource(Db.getImageId(ortaggio));
+		viewHolder.mCardView.setCardBackgroundColor(Db.getIconColor(ortaggio));
+		viewHolder.mCardView.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, view));
 	}
 	
 	@Override

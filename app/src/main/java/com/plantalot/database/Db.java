@@ -57,11 +57,11 @@ public class Db {
 		defaultImageId = res.getIdentifier("plant_mushroom_3944308".split("\\.")[0], "mipmap", activity.getPackageName());
 		
 		// FIXME local db !!!!!!!!!!?
-//		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-//		DatabaseReference db = FirebaseDatabase.getInstance().getReference("ortomio");
+		FirebaseDatabase db = FirebaseDatabase.getInstance();
+//		db.setPersistenceEnabled(true);
 //		db.keepSynced(true);
 
-		DatabaseReference dbRefOrtaggi = FirebaseDatabase.getInstance().getReference("ortomio/ortaggi");
+		DatabaseReference dbRefOrtaggi = db.getReference("ortomio/ortaggi");
 		dbRefOrtaggi.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
@@ -76,7 +76,7 @@ public class Db {
 				Collections.sort(ortaggiNames);
 				
 				
-				DatabaseReference dbRefIcons = FirebaseDatabase.getInstance().getReference("ortomio/icons");
+				DatabaseReference dbRefIcons = db.getReference("ortomio/icons");
 				dbRefIcons.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
@@ -91,7 +91,7 @@ public class Db {
 					}
 				});
 				
-				DatabaseReference dbRefVarieta = FirebaseDatabase.getInstance().getReference("ortomio/varieta");
+				DatabaseReference dbRefVarieta = db.getReference("ortomio/varieta");
 				dbRefVarieta.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
@@ -117,7 +117,7 @@ public class Db {
 			
 		});
 		
-		DatabaseReference dbRefPiante = FirebaseDatabase.getInstance().getReference("ortomio/piante");
+		DatabaseReference dbRefPiante = db.getReference("ortomio/piante");
 		dbRefPiante.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot taskSnapshot) {
@@ -131,14 +131,21 @@ public class Db {
 		});
 	}
 	
-	public static int getImageId(Context context, String ortaggio) {
+	public static int getImageId(String ortaggio) {
 		if (icons.get(ortaggio) == null || icons.get(ortaggio) == 0) return defaultImageId;
 		return icons.get(ortaggio);
 	}
 	
+	
+	// TODO persistent
+	public static int getIconColor(String ortaggio) {
+		if (iconColors.get(ortaggio) == null) ortaggio = "Rapa";
+		return iconColors.get(ortaggio);
+	}
+	
 	private static void setIcons(Activity mActivity, HashMap<String, String> iconsMap) {
 		Resources res = mActivity.getResources();
-		for (String ortaggio : ortaggiNames) {
+		for (String ortaggio : iconsMap.keySet()) {
 			String imageFile = iconsMap.get(ortaggio);
 			if (imageFile != null) {
 				int imageId = res.getIdentifier(imageFile.split("\\.")[0], "mipmap", mActivity.getPackageName());
@@ -149,7 +156,7 @@ public class Db {
 	
 	private static void setColors(Activity mActivity) {
 		for (String ortaggio : ortaggiNames) {
-			Bitmap image = BitmapFactory.decodeResource(mActivity.getResources(), getImageId(mActivity, ortaggio));
+			Bitmap image = BitmapFactory.decodeResource(mActivity.getResources(), getImageId(ortaggio));
 			Map<Integer, Integer> color2counter = new HashMap<>();
 			int height = image.getHeight();
 			int width = image.getWidth();

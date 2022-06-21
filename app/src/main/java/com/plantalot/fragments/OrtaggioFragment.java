@@ -216,6 +216,7 @@ public class OrtaggioFragment extends Fragment {
 		// Specs
 		assert getArguments() != null;
 		String ortaggio = getArguments().getString("ortaggio");
+		System.out.println(ortaggio);
 		String defaultVar = (Db.varieta.get(ortaggio).keySet()).size() == 1
 				? new ArrayList<>(Db.varieta.get(ortaggio).keySet()).get(0)
 				: "Generico";
@@ -229,7 +230,7 @@ public class OrtaggioFragment extends Fragment {
 		}
 		
 		ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-		img.setImageResource(Db.getImageId(getContext(), ortaggio));
+		img.setImageResource(Db.getImageId(ortaggio));
 		
 		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
 		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
