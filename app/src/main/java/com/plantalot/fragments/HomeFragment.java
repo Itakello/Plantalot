@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
 			new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24),
 			new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24),
 //			new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24),
-			new CircleButton("Casuale", R.drawable.ic_round_casino_24));  // FIXME
+			new CircleButton("Casuale\n", R.drawable.ic_round_casino_24));  // FIXME
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
