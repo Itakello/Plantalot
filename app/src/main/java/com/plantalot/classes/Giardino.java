@@ -29,9 +29,9 @@ public class Giardino {
         this.zPos = zPos;
 
         orti = new ArrayList<>();
-        orti.add(new Orto("Orto 1", 100, 100));
-        orti.add(new Orto("Orto 2", 100, 100));
-        orti.add(new Orto("Orto 3", 100, 100));
+//        orti.add(new Orto("Orto 1", 100, 100));
+//        orti.add(new Orto("Orto 2", 100, 100));
+//        orti.add(new Orto("Orto 3", 100, 100));
     }
 
     @NonNull

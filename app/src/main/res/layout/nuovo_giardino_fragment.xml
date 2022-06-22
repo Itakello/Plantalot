@@ -40,6 +40,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Salva"
+			android:id="@+id/temp_ask_location"
 			app:icon="@drawable/ic_round_done_24"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
@@ -121,10 +122,11 @@
 
 		</LinearLayout>
 
-		<com.google.android.gms.maps.MapView
-			android:id="@+id/map"
+		<FrameLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
+			android:layout_height="match_parent"
+			android:name="com.google.android.gms.maps.SupportMapFragment"
+			android:id="@+id/frame_layout_map"/>
 
 	</LinearLayout>
 

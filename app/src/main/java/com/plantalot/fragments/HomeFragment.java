@@ -2,6 +2,8 @@ package com.plantalot.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -24,6 +26,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.classes.Giardino;
@@ -31,6 +38,7 @@ import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.components.CircleButton;
+import com.plantalot.database.DbUsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +47,8 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 	private static final String TAG = "HomeFragment";
-	private static Giardino giardino;
-	private static User user;
-	private FirebaseAuth mAuth;
 
-	private List<CircleButton> mButtons;
+	private static List<Pair<CircleButton, Boolean>> mButtons;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,9 +58,7 @@ public class HomeFragment extends Fragment {
 //			Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
 //		}
 		setHasOptionsMenu(true);
-
-		mAuth = FirebaseAuth.getInstance();
-//		mAuth.useEmulator("0.0.0.0", 9099);
+//		Log.d(TAG, "User retrieved from DB with username " + user.getUsername());
 	}
 
 //	@Override
@@ -67,18 +70,10 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
+		// TODO add loading bar
 		initializeUI(view);
+		DbUsers.init(view);
 
-		// Check if user is signed in (non-null) and update UI accordingly.
-		mAuth.signInAnonymously()
-				.addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-					@Override
-					public void onComplete(@NonNull Task<AuthResult> task) {
-						FirebaseUser currentUser = mAuth.getCurrentUser();
-						User user = new User("Giacomo");
-						updateUI(view, currentUser, user, "Belluno");
-					}
-				});
 		return view;
 	}
 
@@ -131,38 +126,64 @@ public class HomeFragment extends Fragment {
 
 	private void setUpCircleButtons(){
 		mButtons = new ArrayList<>();
-		mButtons.add(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants));
-		mButtons.add(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24));
-		mButtons.add(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24));
-		mButtons.add(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24));
-		mButtons.add(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24));
+		mButtons.add(new Pair(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true));
+		mButtons.add(new Pair(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false));
+		mButtons.add(new Pair(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false));
+		mButtons.add(new Pair(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false));
+		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true));
 		Bundle bundle = new Bundle();
 		bundle.putString("ortaggio", "Aglio");
 		bundle.putInt("prev_fragment", R.id.homeFragment);
-		mButtons.add(new CircleButton("Casuale", R.drawable.ic_round_casino_24, R.id.action_goto_ortaggio, bundle));
+		mButtons.add(new Pair(new CircleButton("Casuale", R.drawable.ic_round_casino_24, R.id.action_goto_ortaggio, bundle), true));
 	}
 
-	public void updateUI(@NonNull View view, FirebaseUser fUser, User user, String nomeGiardino){ //FIXME delete 1 user
-		giardino = user.getGiardinoByName(nomeGiardino);
+	public static void updateUI(@NonNull View view, User user){
+		if(user == null)
+			return;
+//		View view = this.getView();
+		Log.d(TAG, "Updating user " + user.getUsername());
 
+		Log.d(TAG, view.toString());
+
+		FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 		TextView idView = view.findViewById(R.id.anonymousStatusId);
-		idView.setText("User ID: " + fUser.getUid());
+		idView.setText("User ID: " + firebaseUser.getUid());
 
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
-		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(getActivity(), user.getGiardiniNames(), view));
+		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(view.getContext(), user.getGiardiniNames(), view));
 
 		TextView instructions = view.findViewById(R.id.instructions);
+		TextView title = view.findViewById(R.id.home_fl_title_giardino);
+
+		Giardino giardino = user.getCurrentGiardino();
 		if(giardino == null){
-			instructions.setText("NO giardino");
+			instructions.setText(R.string.instruction_no_giardini);
+			title.setVisibility(View.INVISIBLE); // FIXME
 		}else{
-			instructions.setText("SI giardino");
-			CircleButton.setRecycler(mButtons, view.findViewById(R.id.home_fl_recycler_navbuttons), getContext());
-			TextView title = view.findViewById(R.id.home_fl_title_giardino);
+			boolean no_orti = giardino.orti.size() == 0;
+
+			if(no_orti)
+				instructions.setText(R.string.instruction_no_orti);
+			else
+				instructions.setVisibility(View.INVISIBLE); // FIXME
+
+			List<CircleButton> buttonList = getCircleButtons(mButtons, !no_orti);
+			CircleButton.setRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
+
 			title.setText(giardino.getNome());
 
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
 			ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		}
+	}
+
+	public static List<CircleButton> getCircleButtons(List<Pair<CircleButton, Boolean>> mButtons, boolean has_orti){
+		List<CircleButton> tmpList = new ArrayList<>();
+		for(Pair<CircleButton, Boolean> button : mButtons){
+			if(has_orti || button.second)
+				tmpList.add(button.first);
+		}
+		return tmpList;
 	}
 }

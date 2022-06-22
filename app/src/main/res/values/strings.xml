@@ -4,4 +4,6 @@
     <string name="garden_name">Giardino</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="instruction_no_giardini">Benvenuto! Non hai ancora giardini, è l\'ora di crearne uno!</string>
+    <string name="instruction_no_orti">Crea il primo orto\ndi questo giardino</string>
 </resources>
