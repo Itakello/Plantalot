@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.common.api.ResultTransform;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,10 +33,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.plantalot.R;
+import com.plantalot.classes.Giardino;
+import com.plantalot.database.DbUsers;
 
 import java.sql.SQLOutput;
 import java.util.concurrent.Executor;
@@ -46,6 +51,7 @@ public class NewGardenFragment extends Fragment implements OnMapReadyCallback {
 	private final static String TAG = "MAPPA";
 	private GoogleMap map;
 	private CameraPosition cameraPosition;
+	private Marker currMarker;
 
 	// The entry point to the Fused Location Provider.
 	private FusedLocationProviderClient fusedLocationProviderClient;
@@ -99,6 +105,21 @@ public class NewGardenFragment extends Fragment implements OnMapReadyCallback {
 		if (mapFragment != null)
 			mapFragment.getMapAsync(this);
 
+		Button save_btn = (Button) view.findViewById(R.id.save_giardino);
+		save_btn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO check giardino esistente + lunghezza nome giardino (lunghezza < 15)
+				String giardino_name = String.valueOf(((TextInputEditText)view.findViewById(R.id.nome_giardino)).getText());
+				Log.d(TAG, "Adding :" + giardino_name);
+				LatLng markerLoc = currMarker.getPosition();
+				DbUsers.writeNewGiardino(giardino_name, markerLoc);
+				Bundle b = new Bundle();
+				b.putString("giardino", giardino_name);
+				Navigation.findNavController(v).navigate(R.id.action_goto_home, b);
+			}
+		});
+
 		return view;
 	}
 
@@ -111,7 +132,7 @@ public class NewGardenFragment extends Fragment implements OnMapReadyCallback {
 			@Override
 			public void onMapClick(LatLng point) {
 				map.clear();
-				map.addMarker(new MarkerOptions().position(point));
+				currMarker = map.addMarker(new MarkerOptions().position(point));
 			}
 		});
 
@@ -173,7 +194,7 @@ public class NewGardenFragment extends Fragment implements OnMapReadyCallback {
 							if (lastKnownLocation != null) {
 								LatLng currLoc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 								map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLoc, DEFAULT_ZOOM));
-								map.addMarker(new MarkerOptions().position(currLoc));
+								currMarker = map.addMarker(new MarkerOptions().position(currLoc));
 							}
 						} else {
 							Log.d(TAG, "Current location is null. Using defaults.");

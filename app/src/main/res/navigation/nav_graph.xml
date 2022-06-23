@@ -68,5 +68,9 @@
 	<fragment
 		android:id="@+id/nuovoGiardinoFragment"
 		android:name="com.plantalot.fragments.NewGardenFragment"
-		android:label="NuovoGiardinoFragment" />
+		android:label="NuovoGiardinoFragment" >
+		<action
+			android:id="@+id/action_goto_home"
+			app:destination="@id/homeFragment" />
+	</fragment>
 </navigation>

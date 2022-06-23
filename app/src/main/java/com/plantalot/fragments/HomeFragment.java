@@ -1,6 +1,7 @@
 package com.plantalot.fragments;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,16 +21,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.plantalot.R;
 import com.plantalot.adapters.HomeDrawerAdapter;
 import com.plantalot.classes.Giardino;
@@ -47,7 +39,8 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 	private static final String TAG = "HomeFragment";
-
+	private SharedPreferences sharedPref;
+	private Giardino giardino;
 	private static List<Pair<CircleButton, Boolean>> mButtons;
 
 	@Override
@@ -58,7 +51,7 @@ public class HomeFragment extends Fragment {
 //			Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
 //		}
 		setHasOptionsMenu(true);
-//		Log.d(TAG, "User retrieved from DB with username " + user.getUsername());
+		sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 	}
 
 //	@Override
@@ -72,7 +65,11 @@ public class HomeFragment extends Fragment {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		// TODO add loading bar
 		initializeUI(view);
-		DbUsers.init(view);
+		String giardinoName = null;
+		if(savedInstanceState != null){
+			giardinoName = savedInstanceState.getString("giardino");
+		}
+		DbUsers.init(view, giardinoName);
 
 		return view;
 	}
@@ -81,6 +78,13 @@ public class HomeFragment extends Fragment {
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if(giardino != null)
+			sharedPref.edit().putString("giardino", giardino.getName());
 	}
 
 	private void initializeUI(@NonNull View view){
@@ -137,13 +141,10 @@ public class HomeFragment extends Fragment {
 		mButtons.add(new Pair(new CircleButton("Casuale", R.drawable.ic_round_casino_24, R.id.action_goto_ortaggio, bundle), true));
 	}
 
-	public static void updateUI(@NonNull View view, User user){
+	public static void updateUI(@NonNull View view, User user, String nomeGiardino){
 		if(user == null)
 			return;
-//		View view = this.getView();
 		Log.d(TAG, "Updating user " + user.getUsername());
-
-		Log.d(TAG, view.toString());
 
 		FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 		TextView idView = view.findViewById(R.id.anonymousStatusId);
@@ -155,7 +156,11 @@ public class HomeFragment extends Fragment {
 		TextView instructions = view.findViewById(R.id.instructions);
 		TextView title = view.findViewById(R.id.home_fl_title_giardino);
 
-		Giardino giardino = user.getCurrentGiardino();
+		Giardino giardino = user.getGiardino(nomeGiardino);
+
+		title.setVisibility(View.VISIBLE); // FIXME
+		instructions.setVisibility(View.VISIBLE); // FIXME
+
 		if(giardino == null){
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.INVISIBLE); // FIXME
@@ -169,8 +174,8 @@ public class HomeFragment extends Fragment {
 
 			List<CircleButton> buttonList = getCircleButtons(mButtons, !no_orti);
 			CircleButton.setRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
-
-			title.setText(giardino.getNome());
+			Log.d(TAG, "Giardino name: " + giardino.getName());
+			title.setText(giardino.getName());
 
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);

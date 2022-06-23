@@ -40,7 +40,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Salva"
-			android:id="@+id/temp_ask_location"
+			android:id="@+id/save_giardino"
 			app:icon="@drawable/ic_round_done_24"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +89,7 @@
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:id="@+id/nome_giardino"
 					/>
 			</com.google.android.material.textfield.TextInputLayout>
 		</LinearLayout>

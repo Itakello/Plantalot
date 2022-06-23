@@ -1,29 +1,22 @@
 package com.plantalot.classes;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
-import com.plantalot.R;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-public class User{// implements Parcelable {
+public class User {
     private final String TAG = "User";
     private String username;
     private String email;
-    private int giardino_selected = -1;
-    private static ArrayList<Giardino> giardini;
+    private Map<String, Giardino> giardini;
 
     public User(){
-        giardini = new ArrayList<>();
+        giardini = new HashMap<>();
     }
 
     public User(String username, String email){
-        giardini = new ArrayList<>();
+        this();
         this.username = username;
         this.email = email;
     }
@@ -36,21 +29,14 @@ public class User{// implements Parcelable {
         return email;
     }
 
-    public Giardino getCurrentGiardino(){
-        if(giardino_selected == -1)
-            return null;
-        return giardini.get(giardino_selected);
+    public Giardino getGiardino(String nome){
+        return giardini.get(nome);
     }
 
-    public Giardino getGiardinoByName(String name){
-        for (int i=0; i<giardini.size(); i++) {
-            Giardino g = giardini.get(i);
-            if (g.getNome().equals(name)){
-                giardino_selected = i;
-                return g;
-            }
-        }
-        return null;
+    public Giardino getFirstGiardino(){
+        if(giardini.size() == 0)
+            return null;
+        return giardini.entrySet().iterator().next().getValue();
     }
 
     public void setUsername(String username) {
@@ -62,46 +48,15 @@ public class User{// implements Parcelable {
     }
 
     public void addGiardino(Giardino giardino) {
-        giardini.add(giardino);
-        giardino_selected = giardini.size()-1;
+        giardini.put(giardino.getName(), giardino);
     }
-
-    //    protected User(Parcel in) {
-//        name = in.readString();
-//        email = in.readString();
-//        password = in.readString();
-//    }
 
     public List<String> getGiardiniNames(){
-        List<String> names = new ArrayList<>();
-        for (Giardino g :
-                giardini) {
-            names.add(g.getNome());
-        }
-        return names;
+        return new ArrayList<>(giardini.keySet());
     }
 
-//    public static final Creator<User> CREATOR = new Creator<User>() {
-//        @Override
-//        public User createFromParcel(Parcel in) {
-//            return new User(in);
-//        }
-//
-//        @Override
-//        public User[] newArray(int size) {
-//            return new User[size];
-//        }
-//    };
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(name);
-//        dest.writeString(email);
-//        dest.writeString(password);
-//    }
+
+    public Map<String, Giardino> getGiardini() {
+        return giardini;
+    }
 }
