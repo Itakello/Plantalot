@@ -66,9 +66,9 @@ public class HomeFragment extends Fragment {
 		// TODO add loading bar
 		initializeUI(view);
 		String giardinoName = null;
-		if(savedInstanceState != null){
-			giardinoName = savedInstanceState.getString("giardino");
-		}
+//		if(savedInstanceState != null){
+//			giardinoName = savedInstanceState.getString("giardino");
+//		}
 		DbUsers.init(view, giardinoName);
 
 		return view;

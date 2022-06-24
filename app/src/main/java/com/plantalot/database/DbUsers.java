@@ -52,7 +52,10 @@ public class DbUsers {
                                     user = snapshot.getValue(User.class);
                                     Log.d(TAG, "Num giardini: " + user.getGiardiniNames().size());
                                     if(nomeGiardino == null)
-                                        HomeFragment.updateUI(view, user, user.getFirstGiardino().getName());
+                                        if(user.getFirstGiardino() != null)
+                                            HomeFragment.updateUI(view, user, user.getFirstGiardino().getName());
+                                        else
+                                            HomeFragment.updateUI(view, user, null);
                                     else
                                         HomeFragment.updateUI(view,user,nomeGiardino);
                                 }else{
