@@ -5,10 +5,18 @@
 		<!--		<item name="colorPrimaryDark">?attr/colorPrimaryContainer</item>-->
 		<item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
 		<item name="android:listPopupWindowStyle">@style/Widget.App.Dropdown.Popup</item>
+  <item name="chipStyle">@style/Widget.App.Chip.Filter</item>
 		<!--		<item name="popupMenuBackground">@drawable/bkg_popupmenu</item>-->
 		
 		<!--		<item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>-->
 	</style>
+	
+	
+	<style name="Widget.App.Chip.Filter" parent="Widget.Material3.Chip.Assist">
+		<item name="chipBackgroundColor">@color/chip_background_color</item>
+		<item name="android:textColor">@color/chip_text_color</item>
+	</style>
+	
 	
 	<style name="TextAppearance.None" parent="">
 		<item name="android:textSize">0sp</item>
@@ -20,7 +28,6 @@
 	<style name="TextAppearance.Short" parent="">
 		<item name="lineHeight">10sp</item>
 	</style>
-	
 	
 	<style name="Widget.App.Card.FullWidth" parent="Widget.Material3.CardView.Outlined">
 		<item name="strokeWidth">0dp</item>
@@ -90,7 +97,7 @@
 	<!--	</style>-->
 	
 	<style name="ThemeOverlay.App.BackLayer" parent="Theme.App">
-		<item name="colorSurface">?attr/colorPrimaryContainer</item>
+		<item name="colorSurface">?attr/colorSecondaryContainer</item>
 		<item name="colorOnSurface">?attr/colorOnPrimaryContainer</item>
 	</style>
 	

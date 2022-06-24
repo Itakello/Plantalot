@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <com.google.android.material.card.MaterialCardView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/home_fl_card"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:layout_marginVertical="8dp"
@@ -11,6 +14,7 @@
 	>
 	
 	<LinearLayout
+		android:id="@+id/home_fl_card_linear_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
@@ -31,8 +35,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
+				tools:itemCount="2"
+				tools:listitem="@layout/home_fl_imageview"
 				/>
-		
+			
 		</FrameLayout>
 		
 		
