@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		>
+		
+		<!--		<View-->
+		<!--			android:layout_width="match_parent"-->
+		<!--			android:layout_height="1dp"-->
+		<!--			android:layout_marginStart="56dp"-->
+		<!--			android:background="?attr/colorOutline"-->
+		<!--			/>-->
+		
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/all_plants_bl_search_recycler"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center_horizontal"
+			android:orientation="vertical"
+			android:overScrollMode="never"
+			android:paddingVertical="8dp"
+			tools:itemCount="0"
+			tools:listitem="@layout/carriola_ortaggio"
+			/>
+		
+		<include layout="@layout/carriola_ortaggio" />
+		
+		<LinearLayout
+			android:id="@+id/all_plants_bl_search_result"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingHorizontal="24dp"
+			android:paddingVertical="10dp"
+			>
+			
+			<!-- TODO add carriola / preferiti -->
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:orientation="horizontal"
+				>
+				
+				<ImageView
+					android:id="@+id/carriola_ortaggio_image"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					android:src="@mipmap/plant_beet_3944102"
+					/>
+				
+				<LinearLayout
+					android:id="@+id/linearLayout2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:orientation="vertical"
+					app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					android:layout_marginStart="16dp"
+					>
+					
+					<TextView
+						android:id="@+id/all_plants_bl_search_result_ortaggio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?attr/textAppearanceTitleMedium"
+						android:text="Ortaggio"
+						/>
+				
+				</LinearLayout>
+				
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_round_keyboard_arrow_up_24"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					/>
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingVertical="4dp">
+				
+				<TextView
+					android:id="@+id/textView2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="56dp"
+					android:text="Tonda di Chioggia"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_round_remove_circle_outline_24"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingVertical="4dp">
+				
+				<TextView
+					android:id="@+id/textView2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="56dp"
+					android:text="Detroit"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_round_remove_circle_outline_24"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingVertical="4dp">
+				
+				<TextView
+					android:id="@+id/textView2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="56dp"
+					android:text="Generica"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_round_remove_circle_outline_24"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		</LinearLayout>
+		
+		<include layout="@layout/carriola_ortaggio" />
+		
+		<LinearLayout
+			android:id="@+id/all_plants_bl_search_result"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingHorizontal="24dp"
+			android:paddingVertical="10dp"
+			>
+			
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:orientation="horizontal"
+				>
+				
+				<ImageView
+					android:id="@+id/carriola_ortaggio_image"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:src="@mipmap/plant_beet_3944102"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<LinearLayout
+					android:id="@+id/linearLayout2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginStart="16dp"
+					android:orientation="vertical"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
+					app:layout_constraintTop_toTopOf="parent"
+					>
+					
+					<TextView
+						android:id="@+id/all_plants_bl_search_result_ortaggio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Ortaggio"
+						android:textAppearance="?attr/textAppearanceTitleMedium"
+						/>
+					
+					<com.google.android.material.chip.ChipGroup
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:singleLine="true"
+						>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Tonda di Chioggia"
+							/>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Detroit"
+							/>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Generica"
+							/>
+					</com.google.android.material.chip.ChipGroup>
+				</LinearLayout>
+			
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:orientation="horizontal"
+				>
+				
+				<ImageView
+					android:id="@+id/carriola_ortaggio_image"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:src="@mipmap/plant_beet_3944102"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<LinearLayout
+					android:id="@+id/linearLayout2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginStart="16dp"
+					android:orientation="vertical"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
+					app:layout_constraintTop_toTopOf="parent"
+					>
+					
+					<TextView
+						android:id="@+id/all_plants_bl_search_result_ortaggio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Ortaggio"
+						android:textAppearance="?attr/textAppearanceTitleMedium"
+						/>
+					
+					<com.google.android.material.chip.ChipGroup
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:singleLine="true"
+						>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Tonda di Chioggia"
+							/>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Detroit"
+							/>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Generica"
+							/>
+					</com.google.android.material.chip.ChipGroup>
+				</LinearLayout>
+			
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:orientation="horizontal"
+				>
+				
+				<ImageView
+					android:id="@+id/carriola_ortaggio_image"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:src="@mipmap/plant_beet_3944102"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<LinearLayout
+					android:id="@+id/linearLayout2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginStart="16dp"
+					android:orientation="vertical"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
+					app:layout_constraintTop_toTopOf="parent"
+					>
+					
+					<TextView
+						android:id="@+id/all_plants_bl_search_result_ortaggio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Ortaggio"
+						android:textAppearance="?attr/textAppearanceTitleMedium"
+						/>
+					
+					<com.google.android.material.chip.ChipGroup
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:singleLine="true"
+						>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Tonda di Chioggia"
+							/>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Detroit"
+							/>
+						
+						<com.google.android.material.chip.Chip
+							style="@style/Widget.Material3.Chip.Input"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Generica"
+							/>
+					</com.google.android.material.chip.ChipGroup>
+				</LinearLayout>
+			
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		</LinearLayout>
+		
+		
+		<!--		<View-->
+		<!--			android:layout_width="match_parent"-->
+		<!--			android:layout_height="1dp"-->
+		<!--			android:layout_marginHorizontal="80dp"-->
+		<!--			android:layout_marginVertical="24dp"-->
+		<!--			android:background="?attr/colorOutline"-->
+		<!--			/>-->
+		
+		<com.google.android.material.card.MaterialCardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="64dp"
+			android:layout_marginTop="24dp"
+			>
+			
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:paddingHorizontal="24dp"
+				android:paddingVertical="16dp"
+				>
+				
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="TOTALE"
+						android:textAppearance="?attr/textAppearanceSubtitle2"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+					
+					<TextView
+						android:id="@+id/textView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="12 varietà"
+						android:textAppearance="?attr/textAppearanceSubtitle2"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+				</androidx.constraintlayout.widget.ConstraintLayout>
+				
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="4dp"
+					>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Leguminose"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="4 varietà"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+				</androidx.constraintlayout.widget.ConstraintLayout>
+				
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="4dp"
+					>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Leguminose"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="4 varietà"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+				</androidx.constraintlayout.widget.ConstraintLayout>
+				
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="4dp"
+					>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Leguminose"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="4 varietà"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+				</androidx.constraintlayout.widget.ConstraintLayout>
+				
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Leguminose"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+					
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="4 varietà"
+						android:textAppearance="?attr/textAppearanceBodyMedium"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						/>
+				</androidx.constraintlayout.widget.ConstraintLayout>
+			
+			</LinearLayout>
+		
+		</com.google.android.material.card.MaterialCardView>
+	
+	</LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

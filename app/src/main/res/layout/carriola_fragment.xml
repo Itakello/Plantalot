@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -8,19 +8,16 @@
 	android:fitsSystemWindows="true"
 	android:focusable="true"
 	android:focusableInTouchMode="true"
+	android:orientation="vertical"
 	>
 	
 	<include
-		layout="@layout/ortaggio_fl_appbar"
+		layout="@layout/carriola_appbar"
 		android:clickable="true"
 		android:focusable="true"
 		android:focusableInTouchMode="true"
 		/>
 	
-	<include layout="@layout/ortaggio_fl_appbar_image" />
-	
-	<include layout="@layout/ortaggio_fl_appbar_title" />
-	
-	<include layout="@layout/ortaggio_bl_content" />
+	<include layout="@layout/carriola_content" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
