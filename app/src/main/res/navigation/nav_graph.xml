@@ -38,6 +38,11 @@
 			app:destination="@id/nuovoGiardinoFragment"
 			/>
 		
+		<action
+			android:id="@+id/action_goto_carriola"
+			app:destination="@id/carriolaFragment"
+			/>
+		
 	</fragment>
 	
 	<fragment
@@ -98,7 +103,22 @@
 		android:id="@+id/nuovoGiardinoFragment"
 		android:name="com.plantalot.fragments.NewGardenFragment"
 		android:label="NuovoGiardinoFragment"
+		tools:layout="@layout/nuovo_giardino_fragment"
 		>
+		<action
+			android:id="@+id/action_goto_home"
+			app:destination="@id/homeFragment"
+			/>
+	
+	</fragment>
+	
+	<fragment
+		android:id="@+id/carriolaFragment"
+		android:name="com.plantalot.fragments.CarriolaFragment"
+		android:label="CarriolaFragment"
+		tools:layout="@layout/carriola_fragment"
+		>
+		
 		<action
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"

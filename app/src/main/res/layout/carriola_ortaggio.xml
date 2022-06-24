@@ -82,22 +82,17 @@
 		
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		
-		<LinearLayout
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/carriola_varieta_recycler"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:paddingHorizontal="16dp"
 			android:paddingVertical="8dp"
-			>
+			tools:listitem="@layout/carriola_varieta"
+			tools:itemCount="2"
+			/>
 			
-			<include layout="@layout/carriola_varieta" />
-			
-			<!--			<include layout="@layout/carriola_varieta" />-->
-			<!--			-->
-			<!--			<include layout="@layout/carriola_varieta" />-->
-		
-		</LinearLayout>
-	
 	</LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -30,9 +30,12 @@ import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.components.CircleButton;
+import com.plantalot.database.Db;
 import com.plantalot.database.DbUsers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -42,7 +45,7 @@ public class HomeFragment extends Fragment {
 	private SharedPreferences sharedPref;
 	private Giardino giardino;
 	private static List<Pair<CircleButton, Boolean>> mButtons;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,13 +62,13 @@ public class HomeFragment extends Fragment {
 //		outState.putString("message", "This is my message to be reloaded");
 //		super.onSaveInstanceState(outState);
 //	}
-
+	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		// TODO add loading bar
 		initializeUI(view);
-
+		
 		String giardinoName = null;
 //		if(savedInstanceState != null){
 //			giardinoName = savedInstanceState.getString("giardino");
@@ -79,15 +82,15 @@ public class HomeFragment extends Fragment {
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
 	}
-
+	
 	@Override
 	public void onPause() {
 		super.onPause();
-		if(giardino != null)
+		if (giardino != null)
 			sharedPref.edit().putString("giardino", giardino.getName());
 	}
-
-	private void initializeUI(@NonNull View view){
+	
+	private void initializeUI(@NonNull View view) {
 		// Setup giardini recycler view
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -97,7 +100,7 @@ public class HomeFragment extends Fragment {
 		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+		
 		// Add link to new_garden fragment
 		Button new_garden = view.findViewById(R.id.nuovo_giardino);
 		new_garden.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +109,7 @@ public class HomeFragment extends Fragment {
 				Navigation.findNavController(view).navigate(R.id.action_goto_newGarden);
 			}
 		});
-
+		
 		setUpCircleButtons();
 	}
 	
@@ -127,62 +130,62 @@ public class HomeFragment extends Fragment {
 				R.drawable.ic_round_close_24,
 				view.findViewById(R.id.home_bl_drawer)));
 	}
-
-	private void setUpCircleButtons(){
+	
+	private void setUpCircleButtons() {
 		mButtons = new ArrayList<>();
 		mButtons.add(new Pair(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true));
-//		mButtons.add(new Pair(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, R.id.action_goto_carriola), true));
+		mButtons.add(new Pair(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, R.id.action_goto_carriola), true));
 		mButtons.add(new Pair(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false));
 		mButtons.add(new Pair(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false));
 		mButtons.add(new Pair(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false));
 		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true));
 	}
-
-	public static void updateUI(@NonNull View view, User user, String nomeGiardino){
-		if(user == null)
+	
+	public static void updateUI(@NonNull View view, User user, String nomeGiardino) {
+		if (user == null)
 			return;
 		Log.d(TAG, "Updating user " + user.getUsername());
-
+		
 		FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 		TextView idView = view.findViewById(R.id.anonymousStatusId);
 		idView.setText("User ID: " + firebaseUser.getUid());
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(view.getContext(), user.getGiardiniNames(), view));
-
+		
 		TextView instructions = view.findViewById(R.id.instructions);
 		TextView title = view.findViewById(R.id.home_fl_title_giardino);
-
+		
 		Giardino giardino = user.getGiardino(nomeGiardino);
-
+		
 		title.setVisibility(View.VISIBLE); // FIXME
 		instructions.setVisibility(View.VISIBLE); // FIXME
-
-		if(giardino == null){
+		
+		if (giardino == null) {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.INVISIBLE); // FIXME
-		}else{
+		} else {
 			boolean no_orti = giardino.orti.size() == 0;
-
-			if(no_orti)
+			
+			if (no_orti)
 				instructions.setText(R.string.instruction_no_orti);
 			else
 				instructions.setVisibility(View.INVISIBLE); // FIXME
-
+			
 			List<CircleButton> buttonList = getCircleButtons(mButtons, !no_orti);
 			CircleButton.setRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
 			Log.d(TAG, "Giardino name: " + giardino.getName());
 			title.setText(giardino.getName());
-
+			
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
 			ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		}
 	}
-
-	public static List<CircleButton> getCircleButtons(List<Pair<CircleButton, Boolean>> mButtons, boolean has_orti){
+	
+	public static List<CircleButton> getCircleButtons(List<Pair<CircleButton, Boolean>> mButtons, boolean has_orti) {
 		List<CircleButton> tmpList = new ArrayList<>();
-		for(Pair<CircleButton, Boolean> button : mButtons){
-			if(has_orti || button.second)
+		for (Pair<CircleButton, Boolean> button : mButtons) {
+			if (has_orti || button.second)
 				tmpList.add(button.first);
 		}
 		return tmpList;

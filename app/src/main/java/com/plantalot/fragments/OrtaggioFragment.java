@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,8 +28,6 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
-import com.plantalot.animations.NavigationIconClickListener;
-import com.plantalot.components.CircleButton;
 import com.plantalot.components.OrtaggioSpecs;
 import com.plantalot.database.Db;
 import com.plantalot.utils.ColorUtils;
