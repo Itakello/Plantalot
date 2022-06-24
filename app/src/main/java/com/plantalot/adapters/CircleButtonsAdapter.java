@@ -59,6 +59,8 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		viewHolder.mCard.setOnClickListener(view -> {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
 			if (viewHolder.getAdapterPosition() == 0) {
 				Navigation.findNavController(view).navigate(R.id.action_goto_all_plants);
+			} else if (viewHolder.getAdapterPosition() == 2) {
+				Navigation.findNavController(view).navigate(R.id.action_goto_carriola);
 			} else if (viewHolder.getAdapterPosition() == 4) {
 				Nav.gotoOrtaggio(ortaggi_list.get(iter++), R.id.homeFragment, view);
 			}

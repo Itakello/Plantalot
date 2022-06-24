@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.appbar.AppBarLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:fitsSystemWindows="true"
+	tools:showIn="@layout/carriola_fragment"
+	>
+	
+	<com.google.android.material.appbar.MaterialToolbar
+		android:id="@+id/carriola_bl_toolbar"
+		style="@style/Widget.App.Toolbar.BackLayer"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		app:menu="@menu/carriola_bl_toolbar_menu"
+		app:navigationIcon="@drawable/ic_round_close_24"
+		app:subtitle="12 varietà"
+		app:title="Carriola"
+		app:subtitleTextAppearance="?attr/subtitle"
+		>
+		
+		<!--		<TextView-->
+		<!--			android:layout_width="wrap_content"-->
+		<!--			android:layout_height="wrap_content"-->
+		<!--			tools:text="12 varietà"-->
+		<!--			android:layout_marginStart="12dp"-->
+		<!--			/>-->
+	
+	</com.google.android.material.appbar.MaterialToolbar>
+
+</com.google.android.material.appbar.AppBarLayout>

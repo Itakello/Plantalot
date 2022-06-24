@@ -39,8 +39,20 @@
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
 			/>
+		
+		<action
+			android:id="@+id/action_goto_carriola"
+			app:destination="@id/carriolaFragment"
+			/>
 	</fragment>
 	
+	<fragment
+		android:id="@+id/carriolaFragment"
+		android:name="com.plantalot.fragments.CarriolaFragment"
+		android:label="CarriolaFragment"
+		tools:layout="@layout/carriola_fragment"
+		>
+	</fragment>
 	<fragment
 		android:id="@+id/allPlantsFragment"
 		android:name="com.plantalot.fragments.AllPlantsFragment"

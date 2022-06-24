@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
 					public void onComplete(@NonNull Task<AuthResult> task) {
 						FirebaseUser currentUser = mAuth.getCurrentUser();
 						User user = new User("Giacomo");
-						updateUI(view, currentUser, user, "Belluno");
+						updateUI(view, currentUser, user, "Trento");
 					}
 				});
 		

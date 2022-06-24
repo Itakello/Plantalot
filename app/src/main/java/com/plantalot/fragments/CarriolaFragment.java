@@ -44,15 +44,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class OrtaggioFragment extends Fragment {
-	
-	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
-	private LinkedList<String> dropdownItems;
-	
-	private final List<CircleButton> mButtons = Arrays.asList(
-			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24),
-			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24),
-			new CircleButton("Modifica", R.drawable.ic_round_edit_24));
+public class CarriolaFragment extends Fragment {
 	
 	private View view;
 	
@@ -63,9 +55,8 @@ public class OrtaggioFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.ortaggio_fragment, container, false);
-		setupTexField();
-		setupContent();
+		view = inflater.inflate(R.layout.carriola_fragment, container, false);
+//		setupContent();
 		return view;
 	}
 	
@@ -85,28 +76,14 @@ public class OrtaggioFragment extends Fragment {
 			navController.popBackStack(prev_frag_id, false);
 		});
 		
-		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
-		dropdown.setText(dropdownItems.get(0));
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
-		dropdown.setAdapter(adapter);
-		
-		dropdown.setOnItemClickListener((parent, view, position, id) -> setupStats(ortaggio.get(dropdownItems.get(position)), pianta));
-		
-		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
-	}
-	
-	private void setupTexField() {
-		AutoCompleteTextView autocomplete = view.findViewById(R.id.ortaggio_bl_autocomplete);
-//		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
-		autocomplete.setOnFocusChangeListener((v, hasFocus) -> {
-			if (!hasFocus) {
-//					textfield.setEndIconMode(TextInputLayout.END_ICON_DROPDOWN_MENU);
-				Utils.hideSoftKeyboard(v, getActivity());
-				// todo reset last input
-//				} else {
-//					textfield.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
-			}
-		});
+//		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
+//		dropdown.setText(dropdownItems.get(0));
+//		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
+//		dropdown.setAdapter(adapter);
+//
+//		dropdown.setOnItemClickListener((parent, view, position, id) -> setupStats(ortaggio.get(dropdownItems.get(position)), pianta));
+//
+//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
 	}
 	
 	private void setupStats(HashMap<String, Object> varieta, HashMap<String, Object> pianta) {
@@ -129,33 +106,6 @@ public class OrtaggioFragment extends Fragment {
 			descriptionExpand.setText(description);
 		} else {
 			descriptionCard.setVisibility(View.GONE);
-		}
-		
-		// Calendar
-		MaterialButtonToggleGroup calendar = view.findViewById(R.id.ortaggio_bl_calendar);
-		calendar.removeAllViews();
-		for (int i = 0; i < 12; i++) {
-			MaterialButton month = (MaterialButton) getLayoutInflater().inflate(R.layout.ortaggio_bl_calendar_item, calendar, false);
-			Date date = new Date();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			
-			month.setText(months[i]);
-			month.setRippleColor(null);
-			Object isMonthOk = ((ArrayList<?>) varieta.get(Db.VARIETA_TRAPIANTI_MESI)).get(i);
-			if (isMonthOk.getClass().getName().equals("java.lang.Long")) {
-				isMonthOk = Double.valueOf((Long) isMonthOk);
-			}
-			month.setChecked(false);
-			month.setBackgroundColor(ColorUtils.attrColor(com.google.android.material.R.attr.colorPrimary, getContext(), (int) ((Double) isMonthOk * 50)));
-			month.jumpDrawablesToCurrentState();
-			
-			if (cal.get(Calendar.MONTH) == i) {
-				month.setTypeface(null, Typeface.BOLD);
-				month.setStrokeWidth(Utils.dp2px(3, getContext()));
-			}
-			
-			calendar.addView(month);
 		}
 		
 		List<OrtaggioSpecs> specs = Arrays.asList(
@@ -192,15 +142,16 @@ public class OrtaggioFragment extends Fragment {
 				new OrtaggioSpecs(
 						"Concimazione",
 						pianta.get(Db.PIANTE_CONCIMAZIONE_ORGANICA) + " (organica)"
-								+ ((Long) pianta.get(Db.PIANTE_CONCIMAZIONE_TRAPIANTO) == 1 ? "\nIn buca al trapianto" : "")
-								+ ((Long) pianta.get(Db.PIANTE_CONCIMAZIONE_MENSILE) == 1 ? "\nMensile dopo il trapianto" : ""),
+								+ (pianta.get(Db.PIANTE_CONCIMAZIONE_TRAPIANTO) == "1" ? "\n" + "In buca al trapianto" : "")
+								+ (pianta.get(Db.PIANTE_CONCIMAZIONE_MENSILE) == "1" ? "\n" + "Mensile dopo il trapianto" : ""),
 						R.mipmap.specs_concimazione_1670075,
 						true),
 				new OrtaggioSpecs(
 						"Irrigazione",
+						
 						pianta.get(Db.PIANTE_IRRIGAZIONE_ATTECCHIMENTO)
-								+ ((Long) pianta.get(Db.PIANTE_IRRIGAZIONE_RIDUZIONE) == 1 ? "\nRidurre prima della raccolta" : "")
-								+ ((Long) pianta.get(Db.PIANTE_IRRIGAZIONE_SOSPENSIONE) == 1 ? "\nSospendere prima della raccolta" : ""),
+								+ (pianta.get(Db.PIANTE_IRRIGAZIONE_RIDUZIONE) == "1" ? "\n" + "Ridurre prima della raccolta" : "")
+								+ (pianta.get(Db.PIANTE_IRRIGAZIONE_SOSPENSIONE) == "1" ? "\n" + "Sospendere prima della raccolta" : ""),
 						R.mipmap.specs_irrigazione_3319229,
 						true));
 		RecyclerView specsRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
@@ -220,13 +171,6 @@ public class OrtaggioFragment extends Fragment {
 				? new ArrayList<>(Db.varieta.get(ortaggio).keySet()).get(0)
 				: "Generico";
 		HashMap<String, Object> varieta = Db.varieta.get(ortaggio).get(defaultVar);
-		
-		dropdownItems = new LinkedList<>(Db.varieta.get(ortaggio).keySet());
-		Collections.sort(dropdownItems);
-		if (dropdownItems.contains(GENERICO)) {
-			dropdownItems.remove(GENERICO);
-			dropdownItems.add(0, GENERICO);
-		}
 		
 		ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
 		img.setImageResource(Db.getImageId(ortaggio));
