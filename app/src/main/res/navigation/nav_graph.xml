@@ -13,23 +13,31 @@
 		android:label="home_fragment"
 		tools:layout="@layout/home_fragment"
 		>
+		
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			app:launchSingleTop="false">
+			app:launchSingleTop="false"
+			>
+			
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
-				app:argType="string" />
+				app:argType="string"
+				/>
+		
 		</action>
 		
 		<action
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
 			/>
+		
 		<action
 			android:id="@+id/action_goto_newGarden"
-			app:destination="@id/nuovoGiardinoFragment" />
+			app:destination="@id/nuovoGiardinoFragment"
+			/>
+		
 	</fragment>
 	
 	<fragment
@@ -38,25 +46,29 @@
 		android:label="AllPlantsFragment"
 		tools:layout="@layout/all_plants_fragment"
 		>
+		
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
 			>
+			
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
 				app:argType="string"
 				/>
-<!--			<argument-->
-<!--				android:name="prev_fragment"-->
-<!--				android:defaultValue=""-->
-<!--				app:argType="integer"-->
-<!--				/>-->
+			<!--			<argument-->
+			<!--				android:name="prev_fragment"-->
+			<!--				android:defaultValue=""-->
+			<!--				app:argType="integer"-->
+			<!--				/>-->
 		</action>
+		
 		<action
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
 			/>
+	
 	</fragment>
 	
 	<fragment
@@ -65,22 +77,33 @@
 		android:label="OrtaggioFragment"
 		tools:layout="@layout/ortaggio_fragment"
 		>
+		
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			app:launchSingleTop="false">
+			app:launchSingleTop="false"
+			>
+			
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
-				app:argType="string" />
+				app:argType="string"
+				/>
+		
 		</action>
+	
 	</fragment>
+	
 	<fragment
 		android:id="@+id/nuovoGiardinoFragment"
 		android:name="com.plantalot.fragments.NewGardenFragment"
-		android:label="NuovoGiardinoFragment" >
+		android:label="NuovoGiardinoFragment"
+		>
 		<action
 			android:id="@+id/action_goto_home"
-			app:destination="@id/homeFragment" />
+			app:destination="@id/homeFragment"
+			/>
+	
 	</fragment>
+	
 </navigation>

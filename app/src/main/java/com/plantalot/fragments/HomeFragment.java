@@ -131,14 +131,11 @@ public class HomeFragment extends Fragment {
 	private void setUpCircleButtons(){
 		mButtons = new ArrayList<>();
 		mButtons.add(new Pair(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true));
+//		mButtons.add(new Pair(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, R.id.action_goto_carriola), true));
 		mButtons.add(new Pair(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false));
 		mButtons.add(new Pair(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false));
 		mButtons.add(new Pair(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false));
 		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true));
-		Bundle bundle = new Bundle();
-		bundle.putString("ortaggio", "Aglio");
-		bundle.putInt("prev_fragment", R.id.homeFragment);
-		mButtons.add(new Pair(new CircleButton("Casuale", R.drawable.ic_round_casino_24, R.id.action_goto_ortaggio, bundle), true));
 	}
 
 	public static void updateUI(@NonNull View view, User user, String nomeGiardino){
