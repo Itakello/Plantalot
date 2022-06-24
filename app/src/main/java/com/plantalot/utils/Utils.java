@@ -35,7 +35,6 @@ public class Utils {
 		}
 		return 0;
 	}
-<<<<<<< HEAD
 
 	public static ImageButton getToolbarNavigationButton(Toolbar toolbar) {
 		int size = toolbar.getChildCount();
@@ -50,7 +49,4 @@ public class Utils {
 		}
 		return null;
 	}
-=======
-	
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 }

@@ -53,7 +53,6 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
-<<<<<<< HEAD
 		if(id_fragment != -1)
 			viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -61,15 +60,6 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 					Navigation.findNavController(view).navigate(id_fragment, bundle);
 				}
 			});
-=======
-		viewHolder.mCard.setOnClickListener(view -> {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
-			if (viewHolder.getAdapterPosition() == 0) {
-				Navigation.findNavController(view).navigate(R.id.action_goto_all_plants);
-			} else if (viewHolder.getAdapterPosition() == 4) {
-				Nav.gotoOrtaggio(ortaggi_list.get(iter++), R.id.homeFragment, view);
-			}
-		});
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 	}
 	
 	@Override

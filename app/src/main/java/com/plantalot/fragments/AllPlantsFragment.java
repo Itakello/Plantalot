@@ -297,12 +297,6 @@ public class AllPlantsFragment extends Fragment {
 				gruopByRange(Db.VARIETA_ALTRO_PACK, " piante");
 				break;
 		}
-<<<<<<< HEAD
-		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
-		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter = new OrtaggioCardListAdapter(cards, R.id.allPlantsFragment);
-		cardsRecyclerView.setAdapter(ortaggioCardListAdapter);
-=======
 		cardAdapter.notifyDataSetChanged();
 	}
 	
@@ -313,7 +307,6 @@ public class AllPlantsFragment extends Fragment {
 		} else {
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
 		}
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 	}
 	
 	private void setupFilters() {

@@ -1,10 +1,6 @@
 package com.plantalot.database;
 
 import android.app.Activity;
-<<<<<<< HEAD
-=======
-import android.content.Context;
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,11 +8,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-<<<<<<< HEAD
-=======
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 import com.google.android.material.color.MaterialColors;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,10 +21,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
-=======
-import java.util.Objects;
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 import java.util.Set;
 
 public class Db {
@@ -59,11 +46,7 @@ public class Db {
 		FirebaseDatabase db = FirebaseDatabase.getInstance();
 //		db.setPersistenceEnabled(true);
 //		db.keepSynced(true);
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 		DatabaseReference dbRefOrtaggi = db.getReference("ortomio/ortaggi");
 		dbRefOrtaggi.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
