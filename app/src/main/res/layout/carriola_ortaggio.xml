@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.google.android.material.card.MaterialCardView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,15 +6,15 @@
 	android:id="@+id/all_plants_bl_search_result"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginHorizontal="24dp"
 	android:layout_marginVertical="8dp"
-	android:orientation="vertical"
+	tools:showIn="@layout/carriola_content"
+	android:backgroundTint="#ffe3e3"
 	>
 	
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:padding="16dp"
+		android:orientation="vertical"
 		>
 		
 		<!-- TODO add carriola / preferiti -->
@@ -23,8 +22,11 @@
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:background="@drawable/bkg_card_media"
+			android:backgroundTint="#fec4c4"
 			android:gravity="top"
 			android:orientation="horizontal"
+			android:padding="16dp"
 			>
 			
 			<ImageView
@@ -53,7 +55,7 @@
 					android:id="@+id/all_plants_bl_search_result_ortaggio"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="Ortaggio"
+					android:text="Barbabietola"
 					android:textAppearance="?attr/textAppearanceTitleMedium"
 					/>
 				
@@ -62,7 +64,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="4dp"
-					android:text="3 varietà"
+					android:text="3 varietà  |  18 piante"
 					android:textAppearance="?attr/textAppearanceBodySmall"
 					/>
 			
@@ -71,21 +73,30 @@
 			<ImageView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_round_keyboard_arrow_down_24"
+				android:src="@drawable/ic_round_keyboard_arrow_right_24"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				/>
 		
 		</androidx.constraintlayout.widget.ConstraintLayout>
-	
-		<ExpandableListView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-			
-			
-		</ExpandableListView>
 		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingHorizontal="16dp"
+			android:paddingVertical="8dp"
+			>
+			
+			<include layout="@layout/carriola_varieta" />
+			
+<!--			<include layout="@layout/carriola_varieta" />-->
+<!--			-->
+<!--			<include layout="@layout/carriola_varieta" />-->
+		
+		</LinearLayout>
+	
 	</LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
