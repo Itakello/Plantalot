@@ -1,75 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<com.google.android.material.card.MaterialCardView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/all_plants_bl_search_result"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:layout_marginHorizontal="24dp"
+	android:layout_marginVertical="8dp"
 	android:orientation="vertical"
-	android:paddingHorizontal="24dp"
-	android:paddingVertical="10dp"
 	>
 	
-	<!-- TODO add carriola / preferiti -->
-	
-	<androidx.constraintlayout.widget.ConstraintLayout
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="top"
-		android:orientation="horizontal"
+		android:padding="16dp"
 		>
 		
-		<ImageView
-			android:id="@+id/carriola_ortaggio_image"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			android:src="@mipmap/plant_beet_3944102"
-			/>
+		<!-- TODO add carriola / preferiti -->
 		
-		<LinearLayout
-			android:id="@+id/linearLayout2"
-			android:layout_width="wrap_content"
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:orientation="vertical"
-			app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			android:layout_marginStart="16dp"
+			android:gravity="top"
+			android:orientation="horizontal"
 			>
 			
-			<TextView
-				android:id="@+id/all_plants_bl_search_result_ortaggio"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:textAppearance="?attr/textAppearanceTitleMedium"
-				android:text="Ortaggio"
+			<ImageView
+				android:id="@+id/carriola_ortaggio_image"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:src="@mipmap/plant_beet_3944102"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
 				/>
 			
-			<TextView
-				android:id="@+id/all_plants_bl_search_result_varieta"
-				android:layout_width="match_parent"
+			<LinearLayout
+				android:id="@+id/linearLayout2"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-				android:textAppearance="?attr/textAppearanceBodySmall"
-				android:text="3 varietà"
+				android:layout_gravity="center_vertical"
+				android:layout_marginStart="16dp"
+				android:orientation="vertical"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
+				app:layout_constraintTop_toTopOf="parent"
+				>
+				
+				<TextView
+					android:id="@+id/all_plants_bl_search_result_ortaggio"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Ortaggio"
+					android:textAppearance="?attr/textAppearanceTitleMedium"
+					/>
+				
+				<TextView
+					android:id="@+id/all_plants_bl_search_result_varieta"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="4dp"
+					android:text="3 varietà"
+					android:textAppearance="?attr/textAppearanceBodySmall"
+					/>
+			
+			</LinearLayout>
+			
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_round_keyboard_arrow_down_24"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
 				/>
 		
-		</LinearLayout>
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	
+		<ExpandableListView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			
+			
+		</ExpandableListView>
 		
-		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/ic_round_keyboard_arrow_down_24"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			/>
-		
-	</androidx.constraintlayout.widget.ConstraintLayout>
+	</LinearLayout>
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
