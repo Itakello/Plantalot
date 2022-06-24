@@ -3,15 +3,16 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/all_plants_bl_search_result"
+	android:id="@+id/carriola_ortaggio_card"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:layout_marginVertical="8dp"
-	tools:showIn="@layout/carriola_content"
-	android:backgroundTint="#ffe3e3"
+	android:backgroundTint="#fff"
+	tools:showIn="@layout/carriola_fragment"
 	>
 	
 	<LinearLayout
+		android:id="@+id/carriola_ortaggio_background"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
@@ -20,10 +21,10 @@
 		<!-- TODO add carriola / preferiti -->
 		
 		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/carriola_ortaggio_card_header"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="@drawable/bkg_card_media"
-			android:backgroundTint="#fec4c4"
 			android:gravity="top"
 			android:orientation="horizontal"
 			android:padding="16dp"
@@ -52,16 +53,16 @@
 				>
 				
 				<TextView
-					android:id="@+id/all_plants_bl_search_result_ortaggio"
-					android:layout_width="match_parent"
+					android:id="@+id/carriola_ortaggio_name"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="Barbabietola"
 					android:textAppearance="?attr/textAppearanceTitleMedium"
+					tools:text="Barbabietola"
 					/>
 				
 				<TextView
-					android:id="@+id/all_plants_bl_search_result_varieta"
-					android:layout_width="match_parent"
+					android:id="@+id/carriola_ortaggio_subtitle"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="4dp"
 					android:text="3 varietà  |  18 piante"
@@ -91,9 +92,9 @@
 			
 			<include layout="@layout/carriola_varieta" />
 			
-<!--			<include layout="@layout/carriola_varieta" />-->
-<!--			-->
-<!--			<include layout="@layout/carriola_varieta" />-->
+			<!--			<include layout="@layout/carriola_varieta" />-->
+			<!--			-->
+			<!--			<include layout="@layout/carriola_varieta" />-->
 		
 		</LinearLayout>
 	

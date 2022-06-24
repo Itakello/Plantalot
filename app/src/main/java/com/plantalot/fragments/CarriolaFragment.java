@@ -26,6 +26,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
+import com.plantalot.adapters.CarriolaOrtaggiAdapter;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.components.CircleButton;
@@ -40,6 +41,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,159 +58,42 @@ public class CarriolaFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.carriola_fragment, container, false);
-//		setupContent();
+		setupContent();
 		return view;
 	}
 	
-	private void setupToolbar(HashMap<String, HashMap<String, Object>> ortaggio, HashMap<String, Object> pianta) {
-		MaterialToolbar toolbar = view.findViewById(R.id.ortaggio_fl_toolbar);
-		AppCompatActivity activity = (AppCompatActivity) getActivity();
-		assert activity != null;
-		activity.setSupportActionBar(toolbar);
-		final ActionBar actionBar = activity.getSupportActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
-		
-		toolbar.setNavigationOnClickListener(view -> {
-			int prev_frag_id = getArguments().getInt("prev_fragment");
-			NavController navController = Navigation.findNavController(view);
-			navController.popBackStack(prev_frag_id, false);
-		});
-		
-//		AutoCompleteTextView dropdown = view.findViewById(R.id.ortaggio_bl_autocomplete);
-//		dropdown.setText(dropdownItems.get(0));
-//		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
-//		dropdown.setAdapter(adapter);
-//
-//		dropdown.setOnItemClickListener((parent, view, position, id) -> setupStats(ortaggio.get(dropdownItems.get(position)), pianta));
-//
-//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());
-	}
-	
-	private void setupStats(HashMap<String, Object> varieta, HashMap<String, Object> pianta) {
-		
-		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
-		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
-		TextView sub1 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
-		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
-		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
-		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
-		
-		// Expandable Text View
-		MaterialCardView descriptionCard = view.findViewById(R.id.ortaggio_bl_specs_description);
-		String description = (String) varieta.get(Db.VARIETA_INFO_DESCRIZIONE);
-		if (description != null && !description.isEmpty()) {
-			descriptionCard.setVisibility(View.VISIBLE);
-			ExpandableTextView descriptionExpand = view.findViewById(R.id.expand_text_view);
-			descriptionExpand.setText(description);
-		} else {
-			descriptionCard.setVisibility(View.GONE);
-		}
-		
-		List<OrtaggioSpecs> specs = Arrays.asList(
-				new OrtaggioSpecs(
-						"Distanze",
-						varieta.get(Db.VARIETA_DISTANZE_PIANTE) + " × " + varieta.get(Db.VARIETA_DISTANZE_FILE) + " cm",
-						R.mipmap.specs_distanze_1462005,
-						false),
-				new OrtaggioSpecs(
-						"Mezz'ombra",
-						"" + varieta.get(Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA),
-						R.mipmap.specs_mezzombra_4496245,
-						false),
-				new OrtaggioSpecs(
-						"Raccolta",
-						varieta.get(Db.VARIETA_RACCOLTA_MIN) + (varieta.get(Db.VARIETA_RACCOLTA_MAX) != varieta.get(Db.VARIETA_RACCOLTA_MIN) ? "-" + varieta.get(Db.VARIETA_RACCOLTA_MAX) : "") + " giorni",
-						R.mipmap.specs_raccolta_3078971,
-						false),
-				new OrtaggioSpecs(
-						"Produzione",
-						varieta.get(Db.VARIETA_PRODUZIONE_PESO) + " " + varieta.get(Db.VARIETA_PRODUZIONE_UDM),
-						R.mipmap.specs_produzione_741366,
-						false),
-				new OrtaggioSpecs(
-						"Rotazione",
-						pianta.get(Db.PIANTE_ROTAZIONI_ANNI) + " anni",
-						R.mipmap.specs_rotazione_4496256,
-						false),
-				new OrtaggioSpecs(
-						"Vaschetta",
-						varieta.get(Db.VARIETA_ALTRO_PACK) + " piante",
-						R.mipmap.specs_vaschetta_1655603,
-						false),
-				new OrtaggioSpecs(
-						"Concimazione",
-						pianta.get(Db.PIANTE_CONCIMAZIONE_ORGANICA) + " (organica)"
-								+ (pianta.get(Db.PIANTE_CONCIMAZIONE_TRAPIANTO) == "1" ? "\n" + "In buca al trapianto" : "")
-								+ (pianta.get(Db.PIANTE_CONCIMAZIONE_MENSILE) == "1" ? "\n" + "Mensile dopo il trapianto" : ""),
-						R.mipmap.specs_concimazione_1670075,
-						true),
-				new OrtaggioSpecs(
-						"Irrigazione",
-						
-						pianta.get(Db.PIANTE_IRRIGAZIONE_ATTECCHIMENTO)
-								+ (pianta.get(Db.PIANTE_IRRIGAZIONE_RIDUZIONE) == "1" ? "\n" + "Ridurre prima della raccolta" : "")
-								+ (pianta.get(Db.PIANTE_IRRIGAZIONE_SOSPENSIONE) == "1" ? "\n" + "Sospendere prima della raccolta" : ""),
-						R.mipmap.specs_irrigazione_3319229,
-						true));
-		RecyclerView specsRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
-		specsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioSpecsAdapter ortaggioSpecsAdapter = new OrtaggioSpecsAdapter(specs);
-		specsRecyclerView.setAdapter(ortaggioSpecsAdapter);
-	}
-	
 	private void setupContent() {
-		final String GENERICO = "Generico";
-		
-		// Specs
-		assert getArguments() != null;
-		String ortaggio = getArguments().getString("ortaggio");
-		System.out.println(ortaggio);
-		String defaultVar = (Db.varieta.get(ortaggio).keySet()).size() == 1
-				? new ArrayList<>(Db.varieta.get(ortaggio).keySet()).get(0)
-				: "Generico";
-		HashMap<String, Object> varieta = Db.varieta.get(ortaggio).get(defaultVar);
-		
-		ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-		img.setImageResource(Db.getImageId(ortaggio));
-		
-		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
-		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
-		TextView sub1 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
-		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
-		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
-		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
-		
-		HashMap<String, Object> pianta = Db.piante.get(varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
-		setupStats(varieta, pianta);
-		setupToolbar(Db.varieta.get(ortaggio), pianta);
-		
-		// Cards
-		List<Pair<String, List<String>>> cards1 = new ArrayList<>(Collections.singletonList(
-				new Pair<>("Consociazioni utili", (ArrayList) pianta.get(Db.PIANTE_CONSOCIAZIONI_POS))
+		// FIXME
+//		HashMap<String, HashSet<String>> ortaggi = new HashMap<>();
+		List<Pair<String, List<String>>> ortaggi = new ArrayList<>(Arrays.asList(
+				new Pair<>("Barbabietola", new ArrayList<>(Arrays.asList("Detroit"))),
+				new Pair<>("Peperoncino", new ArrayList<>(Arrays.asList("Fatalii", "Habanero"))),
+				new Pair<>("Aglio", new ArrayList<>(Arrays.asList("Rosso"))),
+				new Pair<>("Zucca", new ArrayList<>(Arrays.asList("Marina"))),
+				new Pair<>("Bietola", new ArrayList<>(Arrays.asList("Multicolor")))
 		));
 		
-		List<Pair<String, List<String>>> cards2 = new ArrayList<>(Arrays.asList(
-				new Pair<>("Rotazioni utili", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_POS)),
-				new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_NEG))
-		));
-		
-		int prev_fragment = getArguments().getInt("prev_fragment");
-		RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
-		cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1, prev_fragment);
-		cardsRecyclerView1.setAdapter(ortaggioCardListAdapter1);
-		
-		RecyclerView cardsRecyclerView2 = view.findViewById(R.id.ortaggio_bl_card_list_recycler2);
-		cardsRecyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-		OrtaggioCardListAdapter ortaggioCardListAdapter2 = new OrtaggioCardListAdapter(cards2, prev_fragment);
-		cardsRecyclerView2.setAdapter(ortaggioCardListAdapter2);
-		
+		RecyclerView ortaggiRecyclerView = view.findViewById(R.id.carriola_ortaggi_recycler);
+		ortaggiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		CarriolaOrtaggiAdapter carriolaOrtaggiAdapter = new CarriolaOrtaggiAdapter(ortaggi);
+		ortaggiRecyclerView.setAdapter(carriolaOrtaggiAdapter);
+	}
+	
+	private void setupToolbar(HashMap<String, HashMap<String, Object>> ortaggio, HashMap<String, Object> pianta) {
+//		MaterialToolbar toolbar = view.findViewById(R.id.ortaggio_fl_toolbar);
+//		AppCompatActivity activity = (AppCompatActivity) getActivity();
+//		assert activity != null;
+//		activity.setSupportActionBar(toolbar);
+//		final ActionBar actionBar = activity.getSupportActionBar();
+//		if (actionBar != null) {
+//			actionBar.setDisplayHomeAsUpEnabled(true);
+//		}
+
+//		toolbar.setNavigationOnClickListener(view -> {
+//			int prev_frag_id = getArguments().getInt("prev_fragment");
+//			NavController navController = Navigation.findNavController(view);
+//			navController.popBackStack(prev_frag_id, false);
+//		});
 	}
 	
 }
