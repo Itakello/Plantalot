@@ -1,15 +1,11 @@
 package com.plantalot.fragments;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
@@ -31,7 +27,6 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
-import com.plantalot.adapters.CircleButtonsAdapter;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.animations.NavigationIconClickListener;
@@ -49,16 +44,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 
 public class OrtaggioFragment extends Fragment {
 	
-	private long dropdownDismissTime = 0;
-	
 	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
-	//	private final static String[] months = {"G","F","M","A","M","G", "L", "A", "S", "O", "N", "D"};
-//	List<String> ortaggi_list = Arrays.asList("Peperoncino");
 	private LinkedList<String> dropdownItems;
 	
 //	private final List<CircleButton> mButtons = Arrays.asList(

@@ -13,6 +13,10 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+<<<<<<< HEAD
 //		Db.init(this);
+=======
+		Db.init(this);
+>>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 	}
 }

@@ -16,13 +16,37 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+<<<<<<< HEAD
 			app:launchSingleTop="false">
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
 				app:argType="string" />
+=======
+			app:launchSingleTop="false"
+			>
+			<argument
+				android:name="ortaggio"
+				android:defaultValue=""
+				app:argType="string"
+				/>
+<!--			<argument-->
+<!--				android:name="prev_fragment"-->
+<!--				android:defaultValue=""-->
+<!--				app:argType="integer"-->
+<!--				/>-->
+>>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 		</action>
+		
 		<action
+<<<<<<< HEAD
+=======
+			android:id="@+id/action_select_giardino"
+			app:destination="@id/homeFragment"
+			/>
+		
+		<action
+>>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
 			/>
@@ -46,7 +70,16 @@
 				android:defaultValue=""
 				app:argType="string"
 				/>
+<!--			<argument-->
+<!--				android:name="prev_fragment"-->
+<!--				android:defaultValue=""-->
+<!--				app:argType="integer"-->
+<!--				/>-->
 		</action>
+		<action
+			android:id="@+id/action_goto_home"
+			app:destination="@id/homeFragment"
+			/>
 	</fragment>
 	
 	<fragment
@@ -58,11 +91,26 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+<<<<<<< HEAD
 			app:launchSingleTop="false">
 			<argument
 				android:name="ortaggio"
 				android:defaultValue=""
 				app:argType="string" />
+=======
+			app:launchSingleTop="false"
+			>
+			<argument
+				android:name="ortaggio"
+				android:defaultValue=""
+				app:argType="string"
+				/>
+<!--			<argument-->
+<!--				android:name="prev_fragment"-->
+<!--				android:defaultValue=""-->
+<!--				app:argType="integer"-->
+<!--				/>-->
+>>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
 		</action>
 	</fragment>
 	<fragment

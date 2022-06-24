@@ -3,6 +3,10 @@ package com.plantalot.adapters;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +14,19 @@ import android.widget.ImageView;
 
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.material.card.MaterialCardView;
 import com.plantalot.utils.Consts;
 import com.plantalot.R;
 
 import java.util.List;
 
 // Riempe la card con le icone
-public class HomeThumbnailAdapter extends RecyclerView.Adapter<HomeThumbnailAdapter.ViewHolder> {
+public class HomeThumbnailsAdapter extends RecyclerView.Adapter<HomeThumbnailsAdapter.ViewHolder> {
 	
 	private final List<Integer> mData;
 	private final int width;
 	
-	public HomeThumbnailAdapter(@NonNull List<Integer> data, int width) {
+	public HomeThumbnailsAdapter(@NonNull List<Integer> data, int width) {
 		this.mData = data.subList(0, Math.min(Consts.CARD_PLANTS, data.size()));
 		this.width = width;
 	}

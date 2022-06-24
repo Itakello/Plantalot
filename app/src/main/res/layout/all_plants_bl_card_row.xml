@@ -7,7 +7,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:paddingBottom="16dp"
+	android:paddingVertical="8dp"
 	android:id="@+id/ortaggio_bl_card_row"
 	>
 	
@@ -18,7 +18,7 @@
 		android:layout_marginHorizontal="16dp"
 		android:layout_marginBottom="12dp"
 		android:text="Consociazioni"
-		android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+		android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
 		/>
 	
 	<androidx.recyclerview.widget.RecyclerView
@@ -26,10 +26,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:clipToPadding="false"
-		android:paddingHorizontal="12dp"
-		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+		android:paddingHorizontal="10dp"
+		app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 		tools:itemCount="5"
-		tools:listitem="@layout/ortaggio_bl_card_item"
+		tools:listitem="@layout/all_plants_fl_card_item"
 		tools:orientation="horizontal"
 		/>
 </LinearLayout>

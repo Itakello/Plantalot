@@ -3,45 +3,43 @@
 <com.google.android.material.card.MaterialCardView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/ortaggio_card_item"
+	android:id="@+id/all_plants_card_item"
 	style="?attr/materialCardViewOutlinedStyle"
-	android:layout_width="wrap_content"
+	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-<<<<<<< HEAD
 	android:layout_marginHorizontal="6dp"
-=======
-	android:layout_marginHorizontal="4dp"
->>>>>>> 1d6e065b4633e9abbdc6d4fa44fb7a1bdf38a59f
-	android:layout_marginBottom="12dp"
 	android:clickable="true"
 	android:focusable="true"
 	android:gravity="center"
+	android:layout_marginBottom="12dp"
 	>
 	
 	<LinearLayout
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="#88ffffff"
 		android:clickable="false"
 		android:orientation="vertical"
+			android:background="#88ffffff"
 		>
 		
 		
 		<ImageView
-			android:id="@+id/ortaggio_card_image"
-			android:layout_width="104dp"
-			android:layout_height="96dp"
+			android:id="@+id/all_plants_card_image"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			android:adjustViewBounds="true"
-			android:paddingVertical="12dp"
+			android:paddingHorizontal="24dp"
+			android:paddingVertical="16dp"
 			android:src="@mipmap/plant_basil_3944343"
 			/>
 		
 		<TextView
-			android:id="@+id/ortaggio_card_label"
-			android:layout_width="match_parent"
-			android:layout_height="32dp"
 			android:background="#88ffffff"
+			android:id="@+id/all_plants_card_label"
+			android:layout_width="match_parent"
+			android:layout_height="36dp"
 			android:gravity="center"
+			android:lineHeight="12dp"
 			android:text="Zucca"
 			android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
 			android:textColor="?attr/colorOnSecondaryContainer"
