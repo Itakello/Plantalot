@@ -18,69 +18,75 @@
 		android:orientation="vertical"
 		>
 		
-		<!-- TODO add carriola / preferiti -->
-		
-		<androidx.constraintlayout.widget.ConstraintLayout
+		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/carriola_ortaggio_card_header"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:background="@drawable/bkg_card_media"
-			android:gravity="top"
-			android:orientation="horizontal"
-			android:padding="16dp"
+			android:clickable="true"
+			android:focusable="true"
+			style="@style/Widget.Material3.CardView.Filled"
 			>
 			
-			<ImageView
-				android:id="@+id/carriola_ortaggio_image"
-				android:layout_width="40dp"
-				android:layout_height="40dp"
-				android:src="@mipmap/plant_beet_3944102"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				/>
-			
-			<LinearLayout
-				android:id="@+id/linearLayout2"
-				android:layout_width="wrap_content"
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_gravity="center_vertical"
-				android:layout_marginStart="16dp"
-				android:orientation="vertical"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
-				app:layout_constraintTop_toTopOf="parent"
+				android:padding="16dp"
 				>
+				<!--				android:background="@drawable/bkg_card_media"-->
 				
-				<TextView
-					android:id="@+id/carriola_ortaggio_name"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textAppearance="?attr/textAppearanceTitleMedium"
-					tools:text="Barbabietola"
+				<ImageView
+					android:id="@+id/carriola_ortaggio_image"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:src="@mipmap/plant_beet_3944102"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
 					/>
 				
-				<TextView
-					android:id="@+id/carriola_ortaggio_subtitle"
+				<LinearLayout
+					android:id="@+id/linearLayout2"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="4dp"
-					android:text="3 varietà  |  18 piante"
-					android:textAppearance="?attr/textAppearanceBodySmall"
+					android:layout_gravity="center_vertical"
+					android:layout_marginStart="16dp"
+					android:orientation="vertical"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
+					app:layout_constraintTop_toTopOf="parent"
+					>
+					
+					<TextView
+						android:id="@+id/carriola_ortaggio_name"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?attr/textAppearanceTitleMedium"
+						tools:text="Barbabietola"
+						/>
+					
+					<TextView
+						android:id="@+id/carriola_ortaggio_subtitle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="4dp"
+						android:text="3 varietà  |  18 piante"
+						android:textAppearance="?attr/textAppearanceBodySmall"
+						/>
+				
+				</LinearLayout>
+				
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_round_keyboard_arrow_right_24"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
 					/>
 			
-			</LinearLayout>
-			
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/ic_round_keyboard_arrow_right_24"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
 		
-		</androidx.constraintlayout.widget.ConstraintLayout>
+		</com.google.android.material.card.MaterialCardView>
 		
 		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/carriola_varieta_recycler"
@@ -89,10 +95,12 @@
 			android:orientation="vertical"
 			android:paddingHorizontal="16dp"
 			android:paddingVertical="8dp"
-			tools:listitem="@layout/carriola_varieta"
 			tools:itemCount="2"
+			tools:listitem="@layout/carriola_varieta"
+			android:overScrollMode="never"
+			android:nestedScrollingEnabled="false"
 			/>
-			
+	
 	</LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,9 +1,25 @@
 <resources>
-    <string name="app_name">Plantalot</string>
-    <string name="new_garden">Nuovo giardino</string>
-    <string name="garden_name">Giardino</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="instruction_no_giardini">Benvenuto! Non hai ancora giardini, è l\'ora di crearne uno!</string>
-    <string name="instruction_no_orti">Crea il primo orto\ndi questo giardino</string>
+	<string name="app_name" translatable="false">Plantalot</string>
+	<string name="new_garden">Nuovo giardino</string>
+	<string name="garden_name">Giardino</string>
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="instruction_no_giardini">Benvenuto! Non hai ancora giardini, è l\'ora di crearne uno!</string>
+	<string name="instruction_no_orti">Crea il primo orto\ndi questo giardino</string>
+	
+	<plurals name="n_piante">
+		<item quantity="one">%d pianta</item>
+		<item quantity="other">%d piante</item>
+	</plurals>
+	
+	<plurals name="n_varieta">
+		<item quantity="one">%d varietà</item>
+		<item quantity="other">%d varietà</item>
+	</plurals>
+	
+	<plurals name="n_piante_per_pack">
+		<item quantity="one">%d pianta per pack</item>
+		<item quantity="other">%d piante per pack</item>
+	</plurals>
+	
 </resources>

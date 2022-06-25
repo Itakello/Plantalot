@@ -210,4 +210,5 @@ public class Db {
 	public static final String VARIETA_ALTRO_MEZZOMBRA = "altro_mezzombra";
 	public static final String VARIETA_ALTRO_PERENNE = "altro_perenne";
 	public static final String VARIETA_ALTRO_F1 = "altro_f1";
+	
 }

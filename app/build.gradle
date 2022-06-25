@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.google.firebase:firebase-database:20.0.5'
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'androidx.compose.ui:ui-text:1.0.0-rc01'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:core:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -65,4 +66,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.5'
     // Maps
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    // Chart and graph library
+    implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
 }

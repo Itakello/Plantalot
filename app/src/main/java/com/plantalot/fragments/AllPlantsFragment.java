@@ -30,6 +30,7 @@ import com.plantalot.R;
 import com.plantalot.adapters.AllPlantsCardListAdapter;
 import com.plantalot.adapters.AllPlantsFiltersAdapter;
 import com.plantalot.adapters.AllPlantsSearchAdapter;
+import com.plantalot.classes.User;
 import com.plantalot.database.Db;
 import com.plantalot.utils.Utils;
 
@@ -50,6 +51,7 @@ public class AllPlantsFragment extends Fragment {
 	private Toolbar toolbar;
 	private AllPlantsFiltersAdapter filterAdapter;
 	private AllPlantsCardListAdapter cardAdapter;
+	private AllPlantsSearchAdapter searchAdapter;
 	
 	private boolean isBackdropShown = false;
 	private boolean isSearchShown = false;
@@ -57,6 +59,11 @@ public class AllPlantsFragment extends Fragment {
 	private final ArrayList<Pair<String, List<String>>> cards = new ArrayList<>();
 	private final HashMap<String, Set<String>> activeFilters = new HashMap<>();
 	private final DisplayMetrics displayMetrics = new DisplayMetrics();
+	
+	private final List<String> filteredOrtaggi = new ArrayList<>();
+	private final List<String> searchTextList = new ArrayList<>(Collections.nCopies(Db.ortaggiNames.size(), ""));
+	private final HashMap<String, List<String>> filteredVarieta = new HashMap<>();
+	
 	
 	public static final String RAGGRUPPA = "Raggruppa";
 	private static final HashMap<String, String> titles = new HashMap<>();
@@ -173,7 +180,9 @@ public class AllPlantsFragment extends Fragment {
 		setupSubheader();
 		Handler handler = new Handler();
 		handler.post(this::setupContent);
-		handler.postDelayed(this::setupFilters, 100);
+		handler.postDelayed(this::setupFilters, 300);
+		handler.post(this::setupSearch);
+		handler.postDelayed(this::searchTextInit, 300);
 		return view;
 	}
 	
@@ -326,7 +335,6 @@ public class AllPlantsFragment extends Fragment {
 		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
 			if (!isSearchShown) {
 				isSearchShown = true;
-				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
 				toolbar.setTitle("Ricerca");
 				toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
@@ -337,6 +345,7 @@ public class AllPlantsFragment extends Fragment {
 		});
 		
 		menu.findItem(R.id.filter).setOnMenuItemClickListener(menuItem -> {
+			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.VISIBLE);
 			toolbar.setTitle("Filtra");
 			toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 			toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
@@ -357,7 +366,6 @@ public class AllPlantsFragment extends Fragment {
 				filterAdapter.notifyItemRangeChanged(1, chips.size() - 1);
 				Handler handler = new Handler();
 				handler.post(this::setupContent);
-//				setupContent();
 			}
 			return true;
 		});
@@ -367,8 +375,23 @@ public class AllPlantsFragment extends Fragment {
 	
 	@SuppressLint("NotifyDataSetChanged")
 	@RequiresApi(api = Build.VERSION_CODES.N)  // fixme ???
-	private void searchTextChange(String searchText, List<String> filteredOrtaggi, HashMap<String, List<String>> filteredVarieta, AllPlantsSearchAdapter searchAdapter) {
-		
+	private void setupSearch() {
+		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
+		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		searchAdapter = new AllPlantsSearchAdapter(getContext(), filteredOrtaggi, filteredVarieta, searchTextList, R.id.allPlantsFragment);
+		drawerRecyclerView.setAdapter(searchAdapter);
+		searchTextInit();
+	}
+	
+	@SuppressLint("NotifyDataSetChanged")
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	private void searchTextInit() {
+		searchTextChange("");
+	}
+	
+	@SuppressLint("NotifyDataSetChanged")
+	@RequiresApi(api = Build.VERSION_CODES.N)  // fixme ???
+	private void searchTextChange(String searchText) {
 		List<String> results = Db.ortaggiNames
 				.stream()
 				.filter(o -> searchText.isEmpty() || (o.toLowerCase()).contains(searchText.toLowerCase()))
@@ -417,15 +440,6 @@ public class AllPlantsFragment extends Fragment {
 		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		
-		List<String> filteredOrtaggi = new ArrayList<>();
-		List<String> searchTextList = new ArrayList<>(Collections.nCopies(Db.ortaggiNames.size(), ""));
-		HashMap<String, List<String>> filteredVarieta = new HashMap<>();
-		
-		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
-		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		AllPlantsSearchAdapter searchAdapter = new AllPlantsSearchAdapter(getContext(), filteredOrtaggi, filteredVarieta, searchTextList, R.id.allPlantsFragment);
-		drawerRecyclerView.setAdapter(searchAdapter);
-		
 		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
 		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
 		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
@@ -434,7 +448,6 @@ public class AllPlantsFragment extends Fragment {
 		setOnMenuItemsClickListeners(menu);
 		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
 		
-		searchTextChange("", filteredOrtaggi, filteredVarieta, searchAdapter);
 		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 		searchView.setQueryHint("Cerca un ortaggio");
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -442,7 +455,7 @@ public class AllPlantsFragment extends Fragment {
 			public boolean onQueryTextChange(String newText) {
 				searchTextList.clear();
 				searchTextList.addAll(Collections.nCopies(Db.ortaggiNames.size(), newText.toLowerCase()));
-				searchTextChange(newText, filteredOrtaggi, filteredVarieta, searchAdapter);
+				searchTextChange(newText);
 				return true;
 			}
 			
@@ -487,31 +500,21 @@ public class AllPlantsFragment extends Fragment {
 		}
 		animatorSet.play(animator);
 		animator.start();
-
-//.		Handler handler = new Handler();
-//.		Runnable runnable;
+		
 		if (isBackdropShown) {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
-//			setupContent();
-//.			interval = 20;
-//.			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
-//.			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.GONE);
 		} else {
 			isSearchShown = false;
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
-			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.VISIBLE);
+//			Handler handler = new Handler();
+//			handler.postDelayed(() -> {
+			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
 			view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.GONE);
 			toolbar.setTitle("Piante");
 			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
 			toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
-//.			interval -= 20;
-//.			runnable = () -> view.findViewById(R.id.all_plants_bl_drawer_top_divider).setVisibility(View.INVISIBLE);
-//.			view.findViewById(R.id.all_plants_bl_toolbar).setVisibility(View.VISIBLE);
+//			}, interval);
 		}
-
-
-//.		handler.postAtTime(runnable, System.currentTimeMillis() + interval);
-//.		handler.postDelayed(runnable, interval);
 		
 		return false;
 	}
