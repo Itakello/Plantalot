@@ -26,11 +26,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.plantalot.R;
 import com.plantalot.adapters.AllPlantsCardListAdapter;
 import com.plantalot.adapters.AllPlantsFiltersAdapter;
 import com.plantalot.adapters.AllPlantsSearchAdapter;
-import com.plantalot.classes.User;
 import com.plantalot.database.Db;
 import com.plantalot.utils.Utils;
 
@@ -42,10 +44,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 public class AllPlantsFragment extends Fragment {
+	
+	private FirebaseFirestore db = FirebaseFirestore.getInstance();
+	private Query query;
 	
 	private View view;
 	private Toolbar toolbar;
@@ -60,20 +67,20 @@ public class AllPlantsFragment extends Fragment {
 	private final HashMap<String, Set<String>> activeFilters = new HashMap<>();
 	private final DisplayMetrics displayMetrics = new DisplayMetrics();
 	
-	private final List<String> filteredOrtaggi = new ArrayList<>();
-	private final List<String> searchTextList = new ArrayList<>(Collections.nCopies(Db.ortaggiNames.size(), ""));
-	private final HashMap<String, List<String>> filteredVarieta = new HashMap<>();
-	
+	private final List<String> filteredOrtaggi = new ArrayList<>(/*Db.getOrtaggiNames()*/);
+	private final List<String> searchTextList = new ArrayList<>(Collections.nCopies(Db.getOrtaggiNames().size(), ""));
+	private final List<String> searchResultsOrtaggi = new ArrayList<>();
+	private final HashMap<String, List<String>> searchResultsVarieta = new HashMap<>();
 	
 	public static final String RAGGRUPPA = "Raggruppa";
 	private static final HashMap<String, String> titles = new HashMap<>();
-	private static final HashMap<String, List<Pair<Integer, Integer>>> groups = new HashMap<>();
-	private static final List<String> MONTHS = new ArrayList<>(Arrays.asList("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"));
+	private static final HashMap<String, List<Pair<Integer, Integer>>> ranges = new HashMap<>();
 	private static final List<String> OMBRA = new ArrayList<>(Arrays.asList("Consigliata", "Tollerata", "Tollerata in estate", "Non tollerata"));
+	private static final List<String> MONTHS = new ArrayList<>(Arrays.asList("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"));
 	
 	private static final List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
 			new Pair<>(RAGGRUPPA, new ArrayList<>()),  /*, "Produzione", "Anni di rotazione", "Piante per pack"*/
-			new Pair<>(Db.VARIETA_TASSONOMIA_FAMIGLIA, Db.famiglie),
+			new Pair<>(Db.VARIETA_TASSONOMIA_FAMIGLIA, Db.getFamiglieNames()),
 			new Pair<>(Db.VARIETA_TRAPIANTI_MESI, MONTHS),
 			new Pair<>(Db.VARIETA_RACCOLTA_AVG, new ArrayList<>()),
 			new Pair<>(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>()),
@@ -96,27 +103,27 @@ public class AllPlantsFragment extends Fragment {
 		titles.put(Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA, "Mezz'ombra");
 //.		titles.put(Db.ROTAZIONE, "Anni di rotazione");  // TODO
 		
-		groups.put(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>(Arrays.asList(
+		ranges.put(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>(Arrays.asList(
 				new Pair<>(5, 10),
 				new Pair<>(15, 20),
 				new Pair<>(25, 30),
 				new Pair<>(40, 45),
 				new Pair<>(70, 100)
 		)));
-		groups.put(Db.VARIETA_DISTANZE_FILE, new ArrayList<>(Arrays.asList(
+		ranges.put(Db.VARIETA_DISTANZE_FILE, new ArrayList<>(Arrays.asList(
 				new Pair<>(15, 30),
 				new Pair<>(35, 40),
 				new Pair<>(45, 50),
 				new Pair<>(100, 200)
 		)));
-		groups.put(Db.VARIETA_RACCOLTA_AVG, new ArrayList<>(Arrays.asList(
+		ranges.put(Db.VARIETA_RACCOLTA_AVG, new ArrayList<>(Arrays.asList(
 				new Pair<>(10, 40),
 				new Pair<>(45, 60),
 				new Pair<>(65, 80),
 				new Pair<>(85, 95),
 				new Pair<>(100, 150)
 		)));
-		groups.put(Db.VARIETA_ALTRO_PACK, new ArrayList<>(Arrays.asList(
+		ranges.put(Db.VARIETA_ALTRO_PACK, new ArrayList<>(Arrays.asList(
 				new Pair<>(1, 1),
 				new Pair<>(4, 4),
 				new Pair<>(6, 6),
@@ -147,7 +154,7 @@ public class AllPlantsFragment extends Fragment {
 					setChip(chip, Db.VARIETA_RACCOLTA_AVG);
 					break;
 				case Db.VARIETA_ALTRO_PACK:
-					for (Pair<Integer, Integer> pair : groups.get(Db.VARIETA_ALTRO_PACK)) {
+					for (Pair<Integer, Integer> pair : ranges.get(Db.VARIETA_ALTRO_PACK)) {
 						chip.second.add(pair.first.toString());
 					}
 					break;
@@ -168,10 +175,10 @@ public class AllPlantsFragment extends Fragment {
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		this.view = inflater.inflate(R.layout.all_plants_fragment, container, false);
+		view = inflater.inflate(R.layout.all_plants_fragment, container, false);
 		toolbar = view.findViewById(R.id.all_plants_bl_toolbar);
 		
-		cardAdapter = new AllPlantsCardListAdapter(cards);
+		cardAdapter = new AllPlantsCardListAdapter(cards, view.findViewById(R.id.all_plants_fl_progressBar));
 		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
 		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		cardsRecyclerView.setAdapter(cardAdapter);
@@ -179,34 +186,35 @@ public class AllPlantsFragment extends Fragment {
 		setupToolbar();
 		setupSubheader();
 		Handler handler = new Handler();
-		handler.post(this::setupContent);
-		handler.postDelayed(this::setupFilters, 300);
+		handler.post(this::queryDb);  // FIXME !!!!
 		handler.post(this::setupSearch);
+		handler.postDelayed(this::setupFilters, 300);
 		handler.postDelayed(this::searchTextInit, 300);
+//		view.findViewById(R.id.all_plants_fl_progressBar).setVisibility(View.VISIBLE);
 		return view;
 	}
 	
-	private static void setChip(Pair<String, List<String>> chip, String key) {
-		for (Pair<Integer, Integer> pair : groups.get(key)) {
+	private static void setChip(Pair<String, List<String>> chip, String field) {
+		for (Pair<Integer, Integer> pair : ranges.get(field)) {
 			chip.second.add(pair.first + " - " + pair.second);
 		}
 	}
-	
-	@NonNull
-	private List<String> filteredOrtaggi() {
-		List<String> filtered = new ArrayList<>();
-		for (String ortaggioName : Db.ortaggiNames) {
-			HashMap<String, Object> ortaggio = Db.ortaggi.get(ortaggioName);
-			if (respectsFilters(ortaggio)) filtered.add(ortaggioName);
-		}
-		return filtered;
-	}
+
+//	@NonNull
+//	private List<String> filteredOrtaggi() {
+//		List<String> filtered = new ArrayList<>();
+//		for (String ortaggioName : Db.getOrtaggiNames()) {
+//			HashMap<String, Object> ortaggio = Db.ortaggi.get(ortaggioName);
+//			if (respectsFilters(ortaggio)) filtered.add(ortaggioName);
+//		}
+//		return filtered;
+//	}
 	
 	private boolean respectsFilters(HashMap<String, Object> ortaggio) {
-		if (!(activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).isEmpty()
-				|| activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).contains((String) ortaggio.get(Db.VARIETA_TASSONOMIA_FAMIGLIA)))) {
-			return false;
-		}
+//		if (!(activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).isEmpty()
+//				|| activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).contains((String) ortaggio.get(Db.VARIETA_TASSONOMIA_FAMIGLIA)))) {
+//			return false;
+//		}
 		boolean ok = activeFilters.get(Db.VARIETA_TRAPIANTI_MESI).isEmpty();
 		if (!ok) {
 			for (String month : activeFilters.get(Db.VARIETA_TRAPIANTI_MESI)) {
@@ -223,72 +231,136 @@ public class AllPlantsFragment extends Fragment {
 				|| activeFilters.get(Db.VARIETA_ALTRO_PACK).contains(ortaggio.get(Db.VARIETA_ALTRO_PACK).toString());
 	}
 	
-	private boolean filterByRange(HashMap<String, Object> ortaggio, String key) {
-		if (activeFilters.get(key).isEmpty()) return false;
-		for (String range : activeFilters.get(key)) {
-			if (((Long) ortaggio.get(key)).intValue() >= Integer.parseInt(range.split(" - ")[0])
-					&& ((Long) ortaggio.get(key)).intValue() <= Integer.parseInt(range.split(" - ")[1])) {
+	private boolean filterByRange(HashMap<String, Object> ortaggio, String field) {
+		if (activeFilters.get(field).isEmpty()) return false;
+		for (String range : activeFilters.get(field)) {
+			if (((Long) ortaggio.get(field)).intValue() >= Integer.parseInt(range.split(" - ")[0])
+					&& ((Long) ortaggio.get(field)).intValue() <= Integer.parseInt(range.split(" - ")[1])) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	private void gruopByRange(String key, String udm) {
-		for (Pair<Integer, Integer> dists : groups.get(key)) {
-			String tmp = udm;
-			if (Objects.equals(udm, " piante") && Objects.equals(dists.first, 1)) {
-				udm = " pianta";
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	public void queryDb() {
+		query = db.collection("ortaggi");
+		
+		for (String field : new ArrayList<>(Arrays.asList(
+				Db.VARIETA_TASSONOMIA_FAMIGLIA,
+				Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA,
+				Db.VARIETA_ALTRO_PACK))) {
+			if (!activeFilters.get(field).isEmpty()) {
+				query = query.whereIn(field, new ArrayList<>(activeFilters.get(field)));
 			}
-			String title = dists.first + (!Objects.equals(dists.second, dists.first) ? " - " + dists.second : "") + udm;
-			udm = tmp;
-			cards.add(new Pair<>(title, new ArrayList<>()));
 		}
-		for (String ortaggio : filteredOrtaggi()) {
-			int d = ((Long) Db.ortaggi.get(ortaggio).get(key)).intValue();
-			for (int i = 0; i < groups.get(key).size(); i++) {
-				Pair<Integer, Integer> dists = groups.get(key).get(i);
-				if (d >= dists.first && d <= dists.second) {
-					cards.get(i).second.add(ortaggio);
+		
+		for (String field : new ArrayList<>(Arrays.asList(
+				Db.VARIETA_RACCOLTA_AVG,
+				Db.VARIETA_DISTANZE_PIANTE,
+				Db.VARIETA_DISTANZE_FILE))) {
+			if (!activeFilters.get(field).isEmpty()) {
+				List<Integer> multiRange = new ArrayList<>();
+				for (String range : activeFilters.get(field)) {  // FIXME ?
+					int start = Integer.parseInt(range.split(" - ")[0]);
+					int end = Integer.parseInt(range.split(" - ")[1]);
+					multiRange.addAll(IntStream.rangeClosed(start, end).filter(x -> x % 5 == 0).boxed().collect(Collectors.toList()));
 				}
+				query = query.whereIn(field, multiRange);
 			}
 		}
+		
+		if (!activeFilters.get(Db.VARIETA_TRAPIANTI_MESI).isEmpty()) {
+			query = query.whereArrayContainsAny(Db.VARIETA_TRAPIANTI_MESI, new ArrayList<>(activeFilters.get(Db.VARIETA_TRAPIANTI_MESI)));
+		}
+		
+		query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+			filteredOrtaggi.clear();
+			for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+				filteredOrtaggi.add(document.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO).toString());
+			}
+			setupContent();
+		});
 	}
 	
 	private void gruopByNome() {
 		for (char c = 'A'; c <= 'Z'; c++) {
 			cards.add(new Pair<>("" + c, new ArrayList<>()));
 		}
-		for (String ortaggio : filteredOrtaggi()) {
+		for (String ortaggio : filteredOrtaggi) {
 			cards.get(ortaggio.charAt(0) - 'A').second.add(ortaggio);
+		}
+		cardAdapter.notifyDataSetChanged();
+	}
+	
+	AtomicInteger counter = new AtomicInteger();
+	
+	private void gruopByRange(String field, String udm) {
+		for (Pair<Integer, Integer> dists : ranges.get(field)) {
+			String tmp = udm;
+			if (Objects.equals(udm, " piante") && Objects.equals(dists.first, 1)) {  // FIXME plurals
+				udm = " pianta";
+			}
+			String title = dists.first + (!Objects.equals(dists.second, dists.first) ? " - " + dists.second : "") + udm;
+			udm = tmp;
+			cards.add(new Pair<>(title, new ArrayList<>()));
+		}
+		counter.set(0);
+		for (int i = 0; i < ranges.get(field).size(); i++) {
+			Pair<Integer, Integer> range = ranges.get(field).get(i);
+			Query q = query.whereGreaterThanOrEqualTo(field, range.first)
+					.whereLessThanOrEqualTo(field, range.second);
+			addToGroup(q, i, ranges.get(field).size());
 		}
 	}
 	
-	private void gruopByString(String field, List<String> strList) {
-		HashMap<String, List<String>> strMap = new HashMap<>();
-		for (String ortaggio : filteredOrtaggi()) {
-			String str = (String) Db.ortaggi.get(ortaggio).get(field);
-			if (strMap.get(str) == null) strMap.put(str, new ArrayList<>());
-			strMap.get(str).add(ortaggio);
-		}
-		for (String str : strList) {
-			if (strMap.get(str) != null) {
-				cards.add(new Pair<>(str, strMap.get(str)));
+	private void gruopByField(String field) {
+		for (Pair<String, List<String>> chip : chips) {
+			if (Objects.equals(chip.first, field)) {
+				counter.set(0);
+				for (int i = 0; i < chip.second.size(); i++) {
+					String value = chip.second.get(i);
+					cards.add(new Pair<>(value, new ArrayList<>()));
+					Query q = query.whereEqualTo(field, value);
+					addToGroup(q, i, chip.second.size());
+				}
 			}
 		}
 	}
 	
+	private void addToGroup(Query q, int row, int size) {
+		q.get().addOnSuccessListener(queryDocumentSnapshots -> {
+			List<String> group = new ArrayList<>();
+			for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+				group.add((String) document.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
+			}
+			cards.get(row).second.addAll(group);
+			counter.getAndIncrement();
+			if (counter.get() == size) {             // FIXME !!
+				cardAdapter.notifyDataSetChanged();  // FIXME !!
+			}
+		});
+	}
+	
+	public void setupSubheader() {
+		if (isBackdropShown) {
+			String title = "Mostra " + filteredOrtaggi.size() + " risultati";
+			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
+		} else {
+			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
+		}
+	}
+	
 	@SuppressLint("NotifyDataSetChanged")
-	public void setupContent() {
+	private void setupContent() {
 		setupSubheader();
 		String activeGroup = (new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0);
 		cards.clear();
+		
 		switch (activeGroup) {
 			case Db.VARIETA_TASSONOMIA_FAMIGLIA:
-				gruopByString(activeGroup, Db.famiglie);
-				break;
 			case Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
-				gruopByString(activeGroup, OMBRA);
+				gruopByField(activeGroup);
 				break;
 			case Db.VARIETA_TASSONOMIA_SPECIE:
 				gruopByNome();
@@ -306,16 +378,6 @@ public class AllPlantsFragment extends Fragment {
 				gruopByRange(Db.VARIETA_ALTRO_PACK, " piante");
 				break;
 		}
-		cardAdapter.notifyDataSetChanged();
-	}
-	
-	public void setupSubheader() {
-		if (isBackdropShown) {
-			String title = "Mostra " + filteredOrtaggi().size() + " risultati";
-			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
-		} else {
-			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
-		}
 	}
 	
 	private void setupFilters() {
@@ -331,6 +393,7 @@ public class AllPlantsFragment extends Fragment {
 		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
 	}
 	
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void setOnMenuItemsClickListeners(Menu menu) {
 		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
 			if (!isSearchShown) {
@@ -365,7 +428,7 @@ public class AllPlantsFragment extends Fragment {
 			if (isChanged) {
 				filterAdapter.notifyItemRangeChanged(1, chips.size() - 1);
 				Handler handler = new Handler();
-				handler.post(this::setupContent);
+				handler.post(this::queryDb);
 			}
 			return true;
 		});
@@ -374,11 +437,11 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	@SuppressLint("NotifyDataSetChanged")
-	@RequiresApi(api = Build.VERSION_CODES.N)  // fixme ???
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void setupSearch() {
 		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		searchAdapter = new AllPlantsSearchAdapter(getContext(), filteredOrtaggi, filteredVarieta, searchTextList, R.id.allPlantsFragment);
+		searchAdapter = new AllPlantsSearchAdapter(getContext(), searchResultsOrtaggi, searchResultsVarieta, searchTextList, R.id.allPlantsFragment);
 		drawerRecyclerView.setAdapter(searchAdapter);
 		searchTextInit();
 	}
@@ -390,15 +453,15 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	@SuppressLint("NotifyDataSetChanged")
-	@RequiresApi(api = Build.VERSION_CODES.N)  // fixme ???
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void searchTextChange(String searchText) {
-		List<String> results = Db.ortaggiNames
+		List<String> results = Db.getOrtaggiNames()
 				.stream()
 				.filter(o -> searchText.isEmpty() || (o.toLowerCase()).contains(searchText.toLowerCase()))
 				.collect(Collectors.toList());
-		List<String> resultsVarieta = Db.varietaNames.keySet()
+		List<String> resultsVarieta = Db.getVarietaNames().keySet()
 				.stream()
-				.filter(v -> !results.contains(Db.varietaNames.get(v)) && (v.toLowerCase()).contains(searchText.toLowerCase()))
+				.filter(v -> !results.contains(Db.getVarietaNames().get(v)) && (v.toLowerCase()).contains(searchText.toLowerCase()))
 				.collect(Collectors.toList());
 		
 		List<String> sorted = new ArrayList<>();
@@ -415,7 +478,7 @@ public class AllPlantsFragment extends Fragment {
 			varietaMap.put(ortaggio, new ArrayList<>());
 		}
 		for (String varietaName : resultsVarieta) {
-			String ortaggio = Db.varietaNames.get(varietaName);
+			String ortaggio = Db.getVarietaNames().get(varietaName);
 			if (varietaMap.get(ortaggio) == null) {
 				varieta.add(ortaggio);
 				varietaMap.put(ortaggio, new ArrayList<>());
@@ -423,17 +486,17 @@ public class AllPlantsFragment extends Fragment {
 			varietaMap.get(ortaggio).add(varietaName);
 		}
 		
-		filteredOrtaggi.clear();
-		filteredOrtaggi.addAll(sorted);
-		filteredOrtaggi.addAll(basket);
-		filteredOrtaggi.addAll(varieta);
-		filteredVarieta.clear();
-		filteredVarieta.putAll(varietaMap);
+		searchResultsOrtaggi.clear();
+		searchResultsOrtaggi.addAll(sorted);
+		searchResultsOrtaggi.addAll(basket);
+		searchResultsOrtaggi.addAll(varieta);
+		searchResultsVarieta.clear();
+		searchResultsVarieta.putAll(varietaMap);
 		
 		searchAdapter.notifyDataSetChanged();
 	}
 	
-	@RequiresApi(api = Build.VERSION_CODES.N)  // fixme ???
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		
@@ -454,7 +517,7 @@ public class AllPlantsFragment extends Fragment {
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				searchTextList.clear();
-				searchTextList.addAll(Collections.nCopies(Db.ortaggiNames.size(), newText.toLowerCase()));
+				searchTextList.addAll(Collections.nCopies(Db.getOrtaggiNames().size(), newText.toLowerCase()));
 				searchTextChange(newText);
 				return true;
 			}

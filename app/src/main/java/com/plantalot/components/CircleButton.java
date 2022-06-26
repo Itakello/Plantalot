@@ -28,6 +28,7 @@ public class CircleButton {
 		this.icon = icon;
 		this.id_fragment = id_fragment;
 	}
+	
 	public CircleButton(String label, int icon, int id_fragment, Bundle bundle) {
 		this(label, icon, id_fragment);
 		this.bundle = bundle;

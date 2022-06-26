@@ -1,6 +1,7 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
@@ -58,6 +60,7 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 	}
 	
 	// binds the data to the TextView in each row
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		String title = mData.get(position).first;
@@ -91,7 +94,7 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 					System.out.println(l.getClass().getName());
 					if (!(Objects.equals(title, RAGGRUPPA) && activeFilters.get(title).size() != 1)) {
 						Handler handler = new Handler();
-						handler.post(fragment::setupContent);
+						handler.post(fragment::queryDb);  // FIXME !!!???
 					}
 				});
 				viewHolder.chipGroup.addView(chip);

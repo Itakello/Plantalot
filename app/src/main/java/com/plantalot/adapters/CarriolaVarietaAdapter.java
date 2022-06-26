@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.classes.User;
+import com.plantalot.classes.Varieta;
 import com.plantalot.database.Db;
 import com.plantalot.utils.ColorUtils;
 
@@ -29,13 +30,13 @@ import java.util.Locale;
 
 public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarietaAdapter.ViewHolder> {
 	
-	private final List<Pair<HashMap<String, Object>, Integer>> mData;
+	private final List<Pair<Varieta, Integer>> mData;
 	private final CarriolaOrtaggiAdapter mParentAdapter;
 	private Context context;
 	private final int DELAY = 600;
 	private boolean holding = false;
 	
-	public CarriolaVarietaAdapter(@NonNull List<Pair<HashMap<String, Object>, Integer>> data, CarriolaOrtaggiAdapter parentAdapter) {
+	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, CarriolaOrtaggiAdapter parentAdapter) {
 		this.mData = data;
 		this.mParentAdapter = parentAdapter;
 		System.out.println(data);
@@ -54,11 +55,11 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Resources res = context.getResources();
-		Pair<HashMap<String, Object>, Integer> row = mData.get(position);
-		int pack = ((Long) row.first.get(Db.VARIETA_ALTRO_PACK)).intValue();
+		Pair<Varieta, Integer> row = mData.get(position);
+		int pack = row.first.getAltro_pack();
 		
-		String ortaggio = (String) row.first.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO);
-		String varieta = (String) row.first.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA);
+		String ortaggio = row.first.getClassificazione_ortaggio();
+		String varieta = row.first.getClassificazione_varieta();
 		viewHolder.mTvName.setText(varieta);
 		viewHolder.mTvPack.setText(res.getQuantityString(R.plurals.n_piante_per_pack, pack, pack));
 		viewHolder.mTvCount.setText(String.format(Locale.ITALIAN, "%d", row.second));
@@ -69,12 +70,18 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 		viewHolder.mBtnInc.setBackground(mBtnBkg);
 		
 		viewHolder.mBtnDec.setOnClickListener(view -> {
-			if (!holding) viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, -1, viewHolder));
-			else holding = false;
+			if (!holding) {
+				viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, -1, viewHolder));
+			} else {
+				holding = false;
+			}
 		});
 		viewHolder.mBtnInc.setOnClickListener(view -> {
-			if (!holding) viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, +1, viewHolder));
-			else holding = false;
+			if (!holding) {
+				viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, +1, viewHolder));
+			} else {
+				holding = false;
+			}
 		});
 		
 		viewHolder.mBtnDec.setOnTouchListener(new View.OnTouchListener() {

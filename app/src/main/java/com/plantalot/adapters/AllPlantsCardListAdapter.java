@@ -6,6 +6,8 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,18 +23,21 @@ import java.util.List;
 public class AllPlantsCardListAdapter extends RecyclerView.Adapter<AllPlantsCardListAdapter.ViewHolder> {
 	
 	private final List<Pair<String, List<String>>> mData;
+	private final ProgressBar mProgressBar;
 	Context context;
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	public AllPlantsCardListAdapter(@NonNull List<Pair<String, List<String>>> data) {
+	public AllPlantsCardListAdapter(@NonNull List<Pair<String, List<String>>> data, ProgressBar progressBar) {
 		this.mData = data;
-		mData.removeIf(p -> p.second.isEmpty());
+		this.mProgressBar = progressBar;
+//		this.mData.removeIf(p -> p.second.isEmpty());
 	}
 	
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		context = viewGroup.getContext();
+		mProgressBar.setVisibility(View.GONE);
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.all_plants_bl_card_row, viewGroup, false);
 		return new ViewHolder(view);
 	}
@@ -40,10 +45,14 @@ public class AllPlantsCardListAdapter extends RecyclerView.Adapter<AllPlantsCard
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Pair<String, List<String>> row = mData.get(position);
-		viewHolder.mTextView.setText(row.first);
-		AllPlantsCardRowAdapter allPlantsCardRowAdapter = new AllPlantsCardRowAdapter(row.second, context, R.id.allPlantsFragment);
-		viewHolder.mRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-		viewHolder.mRecyclerView.setAdapter(allPlantsCardRowAdapter);
+		if (!row.second.isEmpty()) {
+			viewHolder.mTextView.setText(row.first);
+			AllPlantsCardRowAdapter allPlantsCardRowAdapter = new AllPlantsCardRowAdapter(row.second, context, R.id.allPlantsFragment);
+			viewHolder.mRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+			viewHolder.mRecyclerView.setAdapter(allPlantsCardRowAdapter);
+		} else {
+			viewHolder.mRow.setLayoutParams(viewHolder.params);
+		}
 	}
 	
 	@Override
@@ -55,11 +64,14 @@ public class AllPlantsCardListAdapter extends RecyclerView.Adapter<AllPlantsCard
 		
 		private final TextView mTextView;
 		private final RecyclerView mRecyclerView;
+		private final LinearLayout mRow;
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, 0);
 		
 		ViewHolder(View view) {
 			super(view);
-			mTextView = view.findViewById(R.id.ortaggio_bl_card_row_title);
-			mRecyclerView = view.findViewById(R.id.ortaggio_bl_card_row_recycler);
+			mRow = view.findViewById(R.id.all_plants_bl_card_row);
+			mTextView = view.findViewById(R.id.all_plants_bl_card_row_title);
+			mRecyclerView = view.findViewById(R.id.all_plants_bl_card_row_recycler);
 		}
 	}
 }

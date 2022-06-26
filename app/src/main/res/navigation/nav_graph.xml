@@ -15,6 +15,7 @@
 		>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
 			app:launchSingleTop="false"
@@ -29,16 +30,19 @@
 		</action>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
 			/>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_newGarden"
 			app:destination="@id/nuovoGiardinoFragment"
 			/>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_carriola"
 			app:destination="@id/carriolaFragment"
 			/>
@@ -55,6 +59,7 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			>
 			
@@ -63,11 +68,7 @@
 				android:defaultValue=""
 				app:argType="string"
 				/>
-			<!--			<argument-->
-			<!--				android:name="prev_fragment"-->
-			<!--				android:defaultValue=""-->
-			<!--				app:argType="integer"-->
-			<!--				/>-->
+		
 		</action>
 		
 		<action
@@ -85,6 +86,7 @@
 		>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
 			app:launchSingleTop="false"
@@ -97,6 +99,13 @@
 				/>
 		
 		</action>
+		
+		<action
+			app:enterAnim="@android:anim/fade_out"
+			android:id="@+id/action_goto_all_plants"
+			app:destination="@id/allPlantsFragment"
+			app:launchSingleTop="false"
+			/>
 	
 	</fragment>
 	
@@ -107,6 +116,7 @@
 		tools:layout="@layout/nuovo_giardino_fragment"
 		>
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
 			/>
@@ -121,11 +131,13 @@
 		>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
 			/>
 		
 		<action
+			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
 			app:launchSingleTop="false"

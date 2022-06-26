@@ -1,6 +1,7 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.plantalot.R;
 import com.plantalot.adapters.CarriolaOrtaggiAdapter;
 import com.plantalot.classes.User;
+import com.plantalot.classes.Varieta;
 import com.plantalot.database.Db;
 
 import java.util.ArrayList;
@@ -43,23 +48,37 @@ public class CarriolaFragment extends Fragment {
 	}
 	
 	private void setupContent() {
-		List<Pair<String, List<Pair<HashMap<String, Object>, Integer>>>> carriola = new ArrayList<>();
+		List<Pair<String, List<Pair<Varieta, Integer>>>> carriola = new ArrayList<>();
 		List<String> ortaggi = new ArrayList<>(User.carriola.keySet());
 		Collections.sort(ortaggi);
+		FirebaseFirestore db = FirebaseFirestore.getInstance();
 		for (String ortaggio : ortaggi) {
-			List<Pair<HashMap<String, Object>, Integer>> carriolaVarieta = new ArrayList<>();
+			List<Pair<Varieta, Integer>> carriolaVarieta = new ArrayList<>();
 			List<String> varietas = new ArrayList<>(User.carriola.get(ortaggio).keySet());
 			Collections.sort(varietas);
-			for (String varieta : varietas) {
-				carriolaVarieta.add(new Pair<>(Db.varieta.get(ortaggio).get(varieta), User.carriola.get(ortaggio).get(varieta)));
-			}
-			carriola.add(new Pair<>(ortaggio, carriolaVarieta));
+			db.collection("varieta")
+					.whereEqualTo(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO, ortaggio)
+					.whereIn(Db.VARIETA_CLASSIFICAZIONE_VARIETA, varietas)
+					.get().addOnSuccessListener(queryDocumentSnapshots -> {
+						for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+							Varieta varietaObj = document.toObject(Varieta.class);
+							carriolaVarieta.add(
+									new Pair<>(varietaObj,
+											User.carriola.get(ortaggio).get(varietaObj.getClassificazione_varieta()))
+							);
+						}
+						carriola.add(new Pair<>(ortaggio, carriolaVarieta));
+					});
 		}
 		
-		RecyclerView ortaggiRecyclerView = view.findViewById(R.id.carriola_ortaggi_recycler);
-		ortaggiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		CarriolaOrtaggiAdapter carriolaOrtaggiAdapter = new CarriolaOrtaggiAdapter(carriola);
-		ortaggiRecyclerView.setAdapter(carriolaOrtaggiAdapter);
+		Handler handler = new Handler();
+		handler.postDelayed(() -> {
+			RecyclerView ortaggiRecyclerView = view.findViewById(R.id.carriola_ortaggi_recycler);
+			ortaggiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+			CarriolaOrtaggiAdapter carriolaOrtaggiAdapter = new CarriolaOrtaggiAdapter(carriola);
+			ortaggiRecyclerView.setAdapter(carriolaOrtaggiAdapter);
+		}, 1000);  // FIXME !!!!!!!!!!!!!!
+		
 	}
 	
 	private void setupToolbar() {

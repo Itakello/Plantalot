@@ -33,9 +33,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
+				android:paddingHorizontal="2dp"
 				android:src="@drawable/ic_round_keyboard_arrow_up_24"
 				android:visibility="gone"
-				android:paddingHorizontal="2dp"
 				/>
 			
 			<TextView
@@ -54,29 +54,43 @@
 			android:layout_height="1dp"
 			android:background="?attr/colorSurfaceVariant"
 			/>
+	
 	</LinearLayout>
 	
 	
-	<androidx.core.widget.NestedScrollView
-		android:id="@+id/nested"
+	<FrameLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:scrollbars="none"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		android:layout_height="match_parent"
 		>
 		
-		
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/all_plants_fl_card_list_recycler"
+		<androidx.core.widget.NestedScrollView
+			android:id="@+id/nested"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:nestedScrollingEnabled="false"
-			android:overScrollMode="never"
-			android:paddingVertical="16dp"
-			tools:itemCount="7"
-			tools:listitem="@layout/ortaggio_bl_card_row"
+			android:scrollbars="none"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			>
+			
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/all_plants_fl_card_list_recycler"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:nestedScrollingEnabled="false"
+				android:overScrollMode="never"
+				android:paddingVertical="16dp"
+				tools:itemCount="7"
+				tools:listitem="@layout/ortaggio_bl_card_row"
+				/>
+		</androidx.core.widget.NestedScrollView>
+		
+		<ProgressBar
+			android:id="@+id/all_plants_fl_progressBar"
+			style="?android:attr/progressBarStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
 			/>
 	
-	</androidx.core.widget.NestedScrollView>
+	</FrameLayout>
 
 </LinearLayout>

@@ -139,6 +139,10 @@ public class HomeFragment extends Fragment {
 		mButtons.add(new Pair(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false));
 		mButtons.add(new Pair(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false));
 		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true));
+		Bundle bundle = new Bundle();
+		bundle.putInt("prev_fragment", R.id.homeFragment);
+		bundle.putString("ortaggio", "Zucca");
+		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_close_24, R.id.action_goto_ortaggio, bundle), true));
 	}
 	
 	public static void updateUI(@NonNull View view, User user, String nomeGiardino) {

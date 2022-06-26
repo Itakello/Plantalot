@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.classes.User;
+import com.plantalot.classes.Varieta;
 import com.plantalot.database.Db;
 import com.plantalot.navigation.Nav;
 import com.plantalot.utils.ColorUtils;
@@ -30,10 +31,10 @@ import java.util.List;
 
 public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggiAdapter.ViewHolder> {
 	
-	private final List<Pair<String, List<Pair<HashMap<String, Object>, Integer>>>> mData;
+	private final List<Pair<String, List<Pair<Varieta, Integer>>>> mData;
 	Context context;
 	
-	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<HashMap<String, Object>, Integer>>>> data) {
+	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data) {
 		this.mData = data;
 	}
 	

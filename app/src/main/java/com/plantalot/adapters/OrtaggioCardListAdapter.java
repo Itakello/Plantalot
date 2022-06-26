@@ -45,20 +45,24 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Pair<String, List<String>> row = mData.get(position);
 		
-		viewHolder.mTextView.setText(row.first);
-		
-		OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, context, prev_fragment);
-		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-		viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
-		
-		if (position == 1) {  // FIXME ?
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT
-			);
-			viewHolder.mRecyclerView.setLayoutParams(params);
+		if (!row.second.isEmpty()) {
+			
+			viewHolder.mTextView.setText(row.first);
+			
+			OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, context, prev_fragment);
+			viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+			viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
+			
+			if (position == 1) {  // FIXME ?
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT
+				);
+				viewHolder.mRecyclerView.setLayoutParams(params);
+			}
+		} else {
+			viewHolder.mRow.setLayoutParams(viewHolder.params);
 		}
-		
 	}
 	
 	@Override
@@ -68,11 +72,14 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		
+		private final LinearLayout mRow;
 		private final TextView mTextView;
 		private final RecyclerView mRecyclerView;
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, 0);
 		
 		ViewHolder(View view) {
 			super(view);
+			mRow = view.findViewById(R.id.ortaggio_bl_card_row);
 			mTextView = view.findViewById(R.id.ortaggio_bl_card_row_title);
 			mRecyclerView = view.findViewById(R.id.ortaggio_bl_card_row_recycler);
 		}
