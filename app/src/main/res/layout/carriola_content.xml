@@ -1,41 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
+	android:layout_height="match_parent"
 	tools:showIn="@layout/carriola_fragment"
 	>
 	
-	<LinearLayout
+	<TextView
+		android:id="@+id/carriola_text_vuota"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
+		android:layout_marginTop="64dp"
+		android:layout_marginHorizontal="16dp"
+    android:gravity="center"
+		android:text="La tua carriola è vuota.\nVai in 'Tutti gli ortaggi' per aggiungere nuove varietà."
+		android:textAppearance="?attr/textAppearanceHeadlineSmall"
+		/>
+	
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
 		>
 		
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/carriola_ortaggi_recycler"
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginHorizontal="16dp"
-			android:layout_marginVertical="8dp"
 			android:orientation="vertical"
-			android:overScrollMode="never"
-			android:nestedScrollingEnabled="false"
-			tools:itemCount="2"
-			tools:listitem="@layout/carriola_ortaggio"
-			/>
-		
-		<com.google.android.material.card.MaterialCardView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			>
 			
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/carriola_ortaggi_recycler"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="16dp"
+				android:layout_marginVertical="8dp"
+				android:nestedScrollingEnabled="false"
+				android:orientation="vertical"
+				android:overScrollMode="never"
+				tools:itemCount="2"
+				tools:listitem="@layout/carriola_ortaggio"
+				/>
 			
-		</com.google.android.material.card.MaterialCardView>
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				>
+			
+			</com.google.android.material.card.MaterialCardView>
+			
+			<!--		<include layout="@layout/carriola_pie_chart"/>-->
 		
-		<include layout="@layout/carriola_pie_chart"/>
-		
-	</LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+		</LinearLayout>
+	
+	</androidx.core.widget.NestedScrollView>
+	
+	<ProgressBar
+		android:id="@+id/carriola_progressBar"
+		style="?android:attr/progressBarStyle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:visibility="gone"
+		/>
+</FrameLayout>

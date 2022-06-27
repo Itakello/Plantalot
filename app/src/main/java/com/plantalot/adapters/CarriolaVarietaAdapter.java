@@ -24,7 +24,6 @@ import com.plantalot.classes.Varieta;
 import com.plantalot.database.Db;
 import com.plantalot.utils.ColorUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,7 +60,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 		String ortaggio = row.first.getClassificazione_ortaggio();
 		String varieta = row.first.getClassificazione_varieta();
 		viewHolder.mTvName.setText(varieta);
-		viewHolder.mTvPack.setText(res.getQuantityString(R.plurals.n_piante_per_pack, pack, pack));
+		viewHolder.mTvDist.setText(row.first.getDistanze_piante() + " × " + row.first.getDistanze_file() + " cm");
 		viewHolder.mTvCount.setText(String.format(Locale.ITALIAN, "%d", row.second));
 		
 		Drawable mBtnBkg = viewHolder.mBtnDec.getBackground();
@@ -168,7 +167,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	private String updateCount(String ortaggio, String varieta, int step, ViewHolder viewHolder) {
 		Integer newCount = Math.max(0, User.carriola.get(ortaggio).get(varieta) + step);
 		User.carriola.get(ortaggio).put(varieta, newCount);
-		mParentAdapter.updateCount(((View) viewHolder.mView.getParent().getParent()).findViewById(R.id.carriola_ortaggio_subtitle), ortaggio);
+		mParentAdapter.updateCount(((View) viewHolder.mView.getParent().getParent()).findViewById(R.id.carriola_ortaggio_info), ortaggio);
 		return newCount.toString();
 	}
 	
@@ -181,7 +180,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 		
 		private final View mView;
 		private final TextView mTvName;
-		private final TextView mTvPack;
+		private final TextView mTvDist;
 		private final TextView mTvCount;
 		private final MaterialCardView mBtnDec;
 		private final MaterialCardView mBtnInc;
@@ -190,7 +189,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 			super(view);
 			mView = view.findViewById(R.id.carriola_varieta);
 			mTvName = view.findViewById(R.id.carriola_varieta_name);
-			mTvPack = view.findViewById(R.id.carriola_varieta_pack);
+			mTvDist = view.findViewById(R.id.carriola_varieta_dist);
 			mTvCount = view.findViewById(R.id.carriola_varieta_count);
 			mBtnDec = view.findViewById(R.id.carriola_varieta_decrement);
 			mBtnInc = view.findViewById(R.id.carriola_varieta_increment);

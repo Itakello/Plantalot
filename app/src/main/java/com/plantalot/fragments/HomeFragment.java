@@ -30,12 +30,10 @@ import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.components.CircleButton;
-import com.plantalot.database.Db;
 import com.plantalot.database.DbUsers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -44,12 +42,20 @@ public class HomeFragment extends Fragment {
 	private static final String TAG = "HomeFragment";
 	private SharedPreferences sharedPref;
 	private Giardino giardino;
-	private static List<Pair<CircleButton, Boolean>> mButtons;
+	
+	private static final List<Pair<CircleButton, Boolean>> mButtons = new ArrayList<>(Arrays.asList(
+			new Pair<>(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true),
+			new Pair<>(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, R.id.action_goto_carriola), true),
+			new Pair<>(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false),
+			new Pair<>(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false),
+			new Pair<>(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false),
+			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true)
+	));
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		if(savedInstanceState != null){ //FIXME
+//		if(savedInstanceState != null){ // FIXME
 //			String message = savedInstanceState.getString("message");
 //			Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
 //		}
@@ -77,7 +83,6 @@ public class HomeFragment extends Fragment {
 		return view;
 	}
 	
-	// Show appbar right menu
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
@@ -86,8 +91,7 @@ public class HomeFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (giardino != null)
-			sharedPref.edit().putString("giardino", giardino.getName());
+		if (giardino != null) sharedPref.edit().putString("giardino", giardino.getName());
 	}
 	
 	private void initializeUI(@NonNull View view) {
@@ -103,23 +107,14 @@ public class HomeFragment extends Fragment {
 		
 		// Add link to new_garden fragment
 		Button new_garden = view.findViewById(R.id.nuovo_giardino);
-		new_garden.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Navigation.findNavController(view).navigate(R.id.action_goto_newGarden);
-			}
-		});
-		
-		setUpCircleButtons();
+		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_newGarden));
 	}
 	
 	private void setUpToolbar(@NonNull View view) {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
-		if (activity != null) {
-			activity.setSupportActionBar(toolbar);
-		}
+		if (activity != null) activity.setSupportActionBar(toolbar);
 		
 		// Setup listener + animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
@@ -128,26 +123,12 @@ public class HomeFragment extends Fragment {
 				new AccelerateDecelerateInterpolator(),
 				R.drawable.ic_round_menu_24,
 				R.drawable.ic_round_close_24,
-				view.findViewById(R.id.home_bl_drawer)));
-	}
-	
-	private void setUpCircleButtons() {
-		mButtons = new ArrayList<>();
-		mButtons.add(new Pair(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true));
-		mButtons.add(new Pair(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, R.id.action_goto_carriola), true));
-		mButtons.add(new Pair(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false));
-		mButtons.add(new Pair(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false));
-		mButtons.add(new Pair(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false));
-		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true));
-		Bundle bundle = new Bundle();
-		bundle.putInt("prev_fragment", R.id.homeFragment);
-		bundle.putString("ortaggio", "Zucca");
-		mButtons.add(new Pair(new CircleButton("Aggiungi orto", R.drawable.ic_round_close_24, R.id.action_goto_ortaggio, bundle), true));
+				view.findViewById(R.id.home_bl_drawer)
+		));
 	}
 	
 	public static void updateUI(@NonNull View view, User user, String nomeGiardino) {
-		if (user == null)
-			return;
+		if (user == null) return;
 		Log.d(TAG, "Updating user " + user.getUsername());
 		
 		FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -166,17 +147,18 @@ public class HomeFragment extends Fragment {
 		
 		if (giardino == null) {
 			instructions.setText(R.string.instruction_no_giardini);
-			title.setVisibility(View.INVISIBLE); // FIXME
+			title.setVisibility(View.GONE); // FIXME
 		} else {
-			boolean no_orti = giardino.orti.size() == 0;
-			
-			if (no_orti)
+			if (giardino.orti.isEmpty()) {
 				instructions.setText(R.string.instruction_no_orti);
-			else
-				instructions.setVisibility(View.INVISIBLE); // FIXME
-			
-			List<CircleButton> buttonList = getCircleButtons(mButtons, !no_orti);
-			CircleButton.setRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
+			} else {
+				instructions.setVisibility(View.GONE); // FIXME
+			}
+			List<CircleButton> buttonList = new ArrayList<>();
+			for (Pair<CircleButton, Boolean> button : mButtons) {
+				if (button.second) buttonList.add(button.first);
+			}
+			CircleButton.setupRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
 			Log.d(TAG, "Giardino name: " + giardino.getName());
 			title.setText(giardino.getName());
 			
@@ -184,14 +166,5 @@ public class HomeFragment extends Fragment {
 			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
 			ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		}
-	}
-	
-	public static List<CircleButton> getCircleButtons(List<Pair<CircleButton, Boolean>> mButtons, boolean has_orti) {
-		List<CircleButton> tmpList = new ArrayList<>();
-		for (Pair<CircleButton, Boolean> button : mButtons) {
-			if (has_orti || button.second)
-				tmpList.add(button.first);
-		}
-		return tmpList;
 	}
 }

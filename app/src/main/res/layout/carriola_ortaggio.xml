@@ -8,8 +8,8 @@
 	android:layout_height="wrap_content"
 	android:layout_marginVertical="8dp"
 	android:backgroundTint="#fff"
-	tools:showIn="@layout/carriola_fragment"
 	>
+	<!--	tools:showIn="@layout/carriola_fragment"-->
 	
 	<LinearLayout
 		android:id="@+id/carriola_ortaggio_background"
@@ -20,24 +20,25 @@
 		
 		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/carriola_ortaggio_card_header"
+			style="@style/Widget.Material3.CardView.Filled"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:clickable="true"
 			android:focusable="true"
-			style="@style/Widget.Material3.CardView.Filled"
 			>
 			
 			<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:padding="16dp"
+				android:paddingHorizontal="16dp"
+				android:paddingVertical="8dp"
 				>
 				<!--				android:background="@drawable/bkg_card_media"-->
 				
 				<ImageView
 					android:id="@+id/carriola_ortaggio_image"
-					android:layout_width="40dp"
-					android:layout_height="40dp"
+					android:layout_width="48dp"
+					android:layout_height="48dp"
 					android:src="@mipmap/plant_beet_3944102"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -64,15 +65,59 @@
 						tools:text="Barbabietola"
 						/>
 					
-					<TextView
-						android:id="@+id/carriola_ortaggio_subtitle"
+					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="4dp"
-						android:text="3 varietà  |  18 piante"
-						android:textAppearance="?attr/textAppearanceBodySmall"
-						/>
-				
+						android:layout_marginTop="2dp"
+						android:orientation="horizontal"
+						>
+						
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:orientation="vertical"
+							>
+							
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Pack:"
+								android:textAppearance="?attr/textAppearanceLabelMedium"
+								/>
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Totale:"
+								android:textAppearance="?attr/textAppearanceLabelMedium"
+								/>
+							
+						
+						</LinearLayout>
+						
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:orientation="vertical"
+							android:paddingStart="4dp"
+							>
+							
+							<TextView
+								android:id="@+id/carriola_ortaggio_pack"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:textAppearance="?attr/textAppearanceBodySmall"
+								tools:text="6 piante"
+								/>
+							<TextView
+								android:id="@+id/carriola_ortaggio_info"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:textAppearance="?attr/textAppearanceBodySmall"
+								tools:text="3 varietà, 18 piante"
+								/>
+							
+						</LinearLayout>
+					</LinearLayout>
 				</LinearLayout>
 				
 				<ImageView
@@ -92,13 +137,13 @@
 			android:id="@+id/carriola_varieta_recycler"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:nestedScrollingEnabled="false"
 			android:orientation="vertical"
+			android:overScrollMode="never"
 			android:paddingHorizontal="16dp"
 			android:paddingVertical="8dp"
 			tools:itemCount="2"
 			tools:listitem="@layout/carriola_varieta"
-			android:overScrollMode="never"
-			android:nestedScrollingEnabled="false"
 			/>
 	
 	</LinearLayout>

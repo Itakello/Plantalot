@@ -16,20 +16,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.components.CircleButton;
-import com.plantalot.navigation.Nav;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 
 public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdapter.ViewHolder> {
 	
 	private final List<CircleButton> mData;
-	
-	// FIXME
-	private List<String> ortaggi_list = Arrays.asList("Aglio", "Anguria", "Arachide", "Barbabietola", "Basilico", "Bietola", "Broccolo", "Carosello", "Carota", "Catalogna", "Cavolfiore", "Cavolo cappuccio", "Cavolo cinese", "Cavolo di Bruxelles", "Cavolo nero", "Cavolo riccio", "Cece", "Cetriolo", "Cicoria", "Cima di rapa", "Cipolla", "Cipollotto", "Erba cipollina", "Fagiolino", "Fagiolo", "Fava", "Finocchio", "Indivia", "Lattuga", "Mais", "Melanzana", "Melone", "Okra gombo", "Peperoncino", "Peperone", "Pisello", "Pomodoro", "Porro", "Prezzemolo", "Puntarelle", "Radicchio", "Rapa", "Ravanello", "Rucola", "Scalogno", "Sedano", "Sedano rapa", "Spinacio", "Valeriana", "Verza", "Zucca", "Zucchino");
 	
 	public CircleButtonsAdapter(List<CircleButton> data) {
 		this.mData = data;
@@ -46,20 +39,20 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		int icon = mData.get(position).getIcon();
 		String label = mData.get(position).getLabel();
-		int id_fragment = mData.get(position).getId_fragment();
+		int idFragment = mData.get(position).getIdFragment();
 		Bundle bundle = mData.get(position).getBundle();
-
+//		int iconOn = mData.get(position).getIconOn();
+//		int collection = mData.get(position).getCollection();
+		
 		viewHolder.mButton.setIconResource(icon);
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
-		if(id_fragment != -1)
-			viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {  // FIXME !!!! [ Max trova la best practice per collegare un'azione diversa ad ogni bottone, che non sia necessariamente di navigazione ]
-					Navigation.findNavController(view).navigate(id_fragment, bundle);
-				}
+		if (idFragment != -1) {
+			viewHolder.mCard.setOnClickListener(view -> {
+				Navigation.findNavController(view).navigate(idFragment, bundle);
 			});
+		}
 	}
 	
 	@Override

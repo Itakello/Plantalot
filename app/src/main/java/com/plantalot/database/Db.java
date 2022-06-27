@@ -123,7 +123,7 @@ public class Db {
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	private static void setColors(Activity mActivity) {
+	private static void setColors(Activity mActivity) {  // FIXME persistent !!!!!!
 		for (String ortaggio : ortaggiNames) {
 			Bitmap image = BitmapFactory.decodeResource(
 					mActivity.getResources(),

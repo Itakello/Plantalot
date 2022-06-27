@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class CarriolaFragment extends Fragment {
@@ -42,16 +43,19 @@ public class CarriolaFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.carriola_fragment, container, false);
-		setupContent();
 		setupToolbar();
+		if (!User.carriola.isEmpty()) fetchDb();
 		return view;
 	}
 	
-	private void setupContent() {
+	private void fetchDb() {
+		view.findViewById(R.id.carriola_progressBar).setVisibility(View.VISIBLE);
+		view.findViewById(R.id.carriola_text_vuota).setVisibility(View.GONE);
 		List<Pair<String, List<Pair<Varieta, Integer>>>> carriola = new ArrayList<>();
 		List<String> ortaggi = new ArrayList<>(User.carriola.keySet());
 		Collections.sort(ortaggi);
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
+		AtomicInteger counter = new AtomicInteger();
 		for (String ortaggio : ortaggi) {
 			List<Pair<Varieta, Integer>> carriolaVarieta = new ArrayList<>();
 			List<String> varietas = new ArrayList<>(User.carriola.get(ortaggio).keySet());
@@ -62,23 +66,28 @@ public class CarriolaFragment extends Fragment {
 					.get().addOnSuccessListener(queryDocumentSnapshots -> {
 						for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 							Varieta varietaObj = document.toObject(Varieta.class);
-							carriolaVarieta.add(
-									new Pair<>(varietaObj,
-											User.carriola.get(ortaggio).get(varietaObj.getClassificazione_varieta()))
+							carriolaVarieta.add(new Pair<>(
+									varietaObj,
+									User.carriola.get(ortaggio).get(varietaObj.getClassificazione_varieta()))
 							);
 						}
 						carriola.add(new Pair<>(ortaggio, carriolaVarieta));
+						
+						// FIXME !!?
+						if (counter.incrementAndGet() == ortaggi.size()) setupContent(carriola);
 					});
 		}
-		
+	}
+	
+	private void setupContent(List<Pair<String, List<Pair<Varieta, Integer>>>> carriola) {
 		Handler handler = new Handler();
-		handler.postDelayed(() -> {
+		handler.post(() -> {
+			view.findViewById(R.id.carriola_progressBar).setVisibility(View.GONE);
 			RecyclerView ortaggiRecyclerView = view.findViewById(R.id.carriola_ortaggi_recycler);
 			ortaggiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 			CarriolaOrtaggiAdapter carriolaOrtaggiAdapter = new CarriolaOrtaggiAdapter(carriola);
 			ortaggiRecyclerView.setAdapter(carriolaOrtaggiAdapter);
-		}, 1000);  // FIXME !!!!!!!!!!!!!!
-		
+		});
 	}
 	
 	private void setupToolbar() {

@@ -246,19 +246,29 @@ public class AllPlantsFragment extends Fragment {
 	public void queryDb() {
 		query = db.collection("ortaggi");
 		
+		
+		
 		for (String field : new ArrayList<>(Arrays.asList(
 				Db.VARIETA_TASSONOMIA_FAMIGLIA,
-				Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA,
-				Db.VARIETA_ALTRO_PACK))) {
+				Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA
+		))) {
 			if (!activeFilters.get(field).isEmpty()) {
 				query = query.whereIn(field, new ArrayList<>(activeFilters.get(field)));
 			}
 		}
 		
+		String fieldTmp = Db.VARIETA_ALTRO_PACK;
+		ArrayList<Integer> activeFiltersPack = new ArrayList<>();
+		for (String str : activeFilters.get(fieldTmp)) activeFiltersPack.add(Integer.parseInt(str));
+		if (!activeFilters.get(fieldTmp).isEmpty()) {
+			query = query.whereIn(fieldTmp, new ArrayList<>(activeFiltersPack));
+		}
+		
 		for (String field : new ArrayList<>(Arrays.asList(
 				Db.VARIETA_RACCOLTA_AVG,
 				Db.VARIETA_DISTANZE_PIANTE,
-				Db.VARIETA_DISTANZE_FILE))) {
+				Db.VARIETA_DISTANZE_FILE
+		))) {
 			if (!activeFilters.get(field).isEmpty()) {
 				List<Integer> multiRange = new ArrayList<>();
 				for (String range : activeFilters.get(field)) {  // FIXME ?
@@ -335,10 +345,7 @@ public class AllPlantsFragment extends Fragment {
 				group.add((String) document.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
 			}
 			cards.get(row).second.addAll(group);
-			counter.getAndIncrement();
-			if (counter.get() == size) {             // FIXME !!
-				cardAdapter.notifyDataSetChanged();  // FIXME !!
-			}
+			if (counter.incrementAndGet() == size) cardAdapter.notifyDataSetChanged();  // FIXME !!?
 		});
 	}
 	
@@ -399,7 +406,7 @@ public class AllPlantsFragment extends Fragment {
 			if (!isSearchShown) {
 				isSearchShown = true;
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
-				toolbar.setTitle("Ricerca");
+				toolbar.setTitle("Cerca");
 				toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 				toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
 				backdropBehaviour();
@@ -569,14 +576,14 @@ public class AllPlantsFragment extends Fragment {
 		} else {
 			isSearchShown = false;
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
-//			Handler handler = new Handler();
-//			handler.postDelayed(() -> {
-			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
-			view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.GONE);
 			toolbar.setTitle("Piante");
 			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
 			toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
-//			}, interval);
+			Handler handler = new Handler();
+			handler.postDelayed(() -> {
+				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
+				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.GONE);
+			}, interval);
 		}
 		
 		return false;

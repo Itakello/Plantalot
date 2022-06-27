@@ -21,7 +21,7 @@
 		android:paddingVertical="12dp"
 		>
 		
-		<Button
+		<com.google.android.material.button.MaterialButton
 			android:id="@+id/component_circle_button_icon"
 			style="@style/Widget.App.Button.NavButton"
 			android:layout_width="56dp"

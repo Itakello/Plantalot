@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.common.base.Joiner;
 import com.plantalot.R;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
@@ -26,13 +26,16 @@ import com.plantalot.navigation.Nav;
 import com.plantalot.utils.ColorUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggiAdapter.ViewHolder> {
 	
 	private final List<Pair<String, List<Pair<Varieta, Integer>>>> mData;
-	Context context;
+	private Resources res;
+	private Context context;
 	
 	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data) {
 		this.mData = data;
@@ -43,6 +46,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.carriola_ortaggio, viewGroup, false);
 		this.context = viewGroup.getContext();
+		this.res = context.getResources();
 		return new ViewHolder(view);
 	}
 	
@@ -57,21 +61,29 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		viewHolder.mBackground.setBackgroundColor(ColorUtils.alphaColor(Db.getIconColor(ortaggio), 25));
 		viewHolder.mImage.setImageResource(Db.getImageId(ortaggio));
 		viewHolder.mTvName.setText(ortaggio);
-		updateCount(viewHolder.mTvSubtitle, ortaggio);
+		updateCount(viewHolder.mTvInfo, ortaggio);
 		
 		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, this);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 		viewHolder.mRecyclerView.setAdapter(carriolaVarietaAdapter);
 		
 		viewHolder.mCardHeader.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, R.id.carriolaFragment, view));
+		
+		Set<Integer> packSet = new HashSet<>();
+		for (Pair<Varieta, Integer> varietaPair : mData.get(position).second) {
+			packSet.add(varietaPair.first.getAltro_pack());
+		}
+		List<Integer> pack = new ArrayList<>(packSet);
+		Collections.sort(pack);
+		viewHolder.mTvPack.setText(Joiner.on(", ").join(pack) + " " + res.getQuantityString(R.plurals.piante, pack.get(pack.size() - 1)));
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	public void updateCount(TextView tv, String ortaggio) {
-		Resources res = context.getResources();
 		int n_varieta = User.carriola.get(ortaggio).size();
 		int count = (new ArrayList<>(User.carriola.get(ortaggio).values())).stream().mapToInt(Integer::intValue).sum();
-		tv.setText(res.getQuantityString(R.plurals.n_varieta, n_varieta, n_varieta) + "   |   " + res.getQuantityString(R.plurals.n_piante, count, count));
+		tv.setText(res.getQuantityString(R.plurals.n_varieta, n_varieta, n_varieta)
+				+ ", " + res.getQuantityString(R.plurals.n_piante, count, count));
 	}
 	
 	@Override
@@ -85,7 +97,8 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		private final MaterialCardView mCardHeader;
 		private final ImageView mImage;
 		private final TextView mTvName;
-		private final TextView mTvSubtitle;
+		private final TextView mTvInfo;
+		private final TextView mTvPack;
 		private final RecyclerView mRecyclerView;
 		
 		ViewHolder(View view) {
@@ -94,7 +107,8 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 			mCardHeader = view.findViewById(R.id.carriola_ortaggio_card_header);
 			mImage = view.findViewById(R.id.carriola_ortaggio_image);
 			mTvName = view.findViewById(R.id.carriola_ortaggio_name);
-			mTvSubtitle = view.findViewById(R.id.carriola_ortaggio_subtitle);
+			mTvInfo = view.findViewById(R.id.carriola_ortaggio_info);
+			mTvPack = view.findViewById(R.id.carriola_ortaggio_pack);
 			mRecyclerView = view.findViewById(R.id.carriola_varieta_recycler);
 		}
 	}

@@ -44,14 +44,6 @@
 			/>
 	</LinearLayout>
 	
-	<!--	<com.google.android.material.card.MaterialCardView-->
-	<!--		android:layout_width="wrap_content"-->
-	<!--		android:layout_height="wrap_content"-->
-	<!--		android:layout_marginHorizontal="64dp"-->
-	<!--		android:layout_marginTop="16dp"-->
-	<!--		app:strokeWidth="0dp"-->
-	<!--		>-->
-	
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/ortaggio_bl_textfield"
 		style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
@@ -81,20 +73,43 @@
 	
 	</com.google.android.material.textfield.TextInputLayout>
 	
-	<!--	</com.google.android.material.card.MaterialCardView>-->
+	<!--	<androidx.recyclerview.widget.RecyclerView-->
+	<!--		android:id="@+id/ortaggio_bl_buttons"-->
+	<!--		android:layout_width="wrap_content"-->
+	<!--		android:layout_height="wrap_content"-->
+	<!--		android:nestedScrollingEnabled="false"-->
+	<!--		android:overScrollMode="never"-->
+	<!--		android:paddingTop="24dp"-->
+	<!--		android:paddingBottom="8dp"-->
+	<!--		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+	<!--		tools:itemCount="3"-->
+	<!--		tools:listitem="@layout/component_circle_button"-->
+	<!--		tools:orientation="horizontal"-->
+	<!--		/>-->
 	
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/ortaggio_bl_buttons"
+	<LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:nestedScrollingEnabled="false"
+		android:orientation="horizontal"
 		android:overScrollMode="never"
 		android:paddingTop="24dp"
 		android:paddingBottom="8dp"
 		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 		tools:itemCount="3"
-		tools:listitem="@layout/component_circle_button"
-		tools:orientation="horizontal"
-		/>
+		>
+		
+		<include
+			android:id="@+id/ortaggio_fl_button_carriola"
+			layout="@layout/component_circle_button"
+			android:visibility="gone"
+			/>
+		
+<!--		<include-->
+<!--			android:id="@+id/ortaggio_fl_button_preferiti"-->
+<!--			layout="@layout/component_circle_button"-->
+<!--			/>-->
+		
+	</LinearLayout>
 
 </LinearLayout>

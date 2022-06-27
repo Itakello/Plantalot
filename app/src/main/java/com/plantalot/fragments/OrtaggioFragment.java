@@ -32,6 +32,7 @@ import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.Pianta;
+import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.components.OrtaggioSpecs;
 import com.plantalot.database.Db;
@@ -55,8 +56,9 @@ public class OrtaggioFragment extends Fragment {
 	private LinkedList<String> dropdownItems;
 
 //	private final List<CircleButton> mButtons = Arrays.asList(  // FIXME !!!
-//			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24),
-//			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24),
+//			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24, R.drawable.ic_round_wheelbarrow_24, CircleButton.CARRIOLA),
+//			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24, R.drawable.ic_round_favorite_24, CircleButton.PREFERITI)
+//	);
 //			new CircleButton("Modifica", R.drawable.ic_round_edit_24));
 	
 	private View view;
@@ -76,7 +78,7 @@ public class OrtaggioFragment extends Fragment {
 		return view;
 	}
 	
-	private void setupToolbar(Pianta pianta) {
+	private void setupHeader(Pianta pianta) {
 		MaterialToolbar toolbar = view.findViewById(R.id.ortaggio_fl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		assert activity != null;
@@ -97,9 +99,39 @@ public class OrtaggioFragment extends Fragment {
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), R.layout.ortaggio_fl_dropdown_item, dropdownItems);
 		dropdown.setAdapter(adapter);
 		
-		dropdown.setOnItemClickListener((parent, view, position, id) -> setupContentVarieta(pianta, ortaggioDocuments.get(dropdownItems.get(position))));
+		dropdown.setOnItemClickListener((parent, view, position, id) ->
+				setupContentVarieta(pianta, ortaggioDocuments.get(dropdownItems.get(position)))
+		);
 
-//		CircleButton.setRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());  // FIXME
+//		CircleButton.setupRecycler(mButtons, view.findViewById(R.id.ortaggio_bl_buttons), getContext());  // FIXME
+	}
+	
+	private void setupButton(Varieta varieta) {
+		String ortaggioName = varieta.getClassificazione_ortaggio();
+		String varietaName = varieta.getClassificazione_varieta();
+		View buttonCarriola = view.findViewById(R.id.ortaggio_fl_button_carriola);
+		boolean isIn = User.carriola.get(ortaggioName) != null
+				&& User.carriola.get(ortaggioName).get(varietaName) != null;
+		int icon = isIn ? R.drawable.ic_round_wheelbarrow_24
+				: R.drawable.ic_round_wheelbarrow_border_24;
+		String label = isIn ? "Togli dalla carriola" : "Metti in carriola";
+		((MaterialButton) buttonCarriola.findViewById(R.id.component_circle_button_icon)).setIconResource(icon);
+		((TextView) buttonCarriola.findViewById(R.id.component_circle_button_label)).setText(label);
+		buttonCarriola.setOnClickListener(view1 -> {
+			if (isIn) {
+				User.carriola.get(ortaggioName).remove(varietaName);
+				if (User.carriola.get(ortaggioName).isEmpty()) {
+					User.carriola.remove(ortaggioName);
+				}
+			} else {
+				if (User.carriola.get(ortaggioName) == null) {
+					User.carriola.put(ortaggioName, new HashMap<>());
+				}
+				User.carriola.get(ortaggioName).put(varietaName, varieta.getAltro_pack());
+			}
+			setupButton(varieta);
+		});
+		buttonCarriola.setVisibility(View.VISIBLE);
 	}
 	
 	private void setupDropdown() {
@@ -127,6 +159,7 @@ public class OrtaggioFragment extends Fragment {
 		subtitle.setText(varieta.getClassificazione_varieta());
 		sub1.setText(varieta.getTassonomia_genere() + " " + varieta.getTassonomia_specie());
 		sub2.setText(varieta.getTassonomia_famiglia());
+		setupButton(varieta);
 		
 		// Expandable Text View
 		MaterialCardView descriptionCard = view.findViewById(R.id.ortaggio_bl_specs_description);
@@ -248,7 +281,7 @@ public class OrtaggioFragment extends Fragment {
 							.get().addOnSuccessListener(document -> {
 								if (!document.exists()) return;
 								ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-								img.setImageResource(Db.getImageId(ortaggio));  // FIXME
+								img.setImageResource(Db.getImageId(ortaggio));
 							});
 					
 					db.collection("piante")
@@ -257,7 +290,7 @@ public class OrtaggioFragment extends Fragment {
 								if (!document.exists()) return;
 								Pianta pianta = document.toObject(Pianta.class);
 								setupContentVarieta(pianta, varieta);
-								setupToolbar(pianta);
+								setupHeader(pianta);
 								setupCompanions(pianta);
 							});
 				});
