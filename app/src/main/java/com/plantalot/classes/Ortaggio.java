@@ -12,6 +12,7 @@ public class Ortaggio {
 	private String classificazione_pianta;
 	private int distanze_file;
 	private int distanze_piante;
+	private int distanze_piante_range;
 	private int produzione_peso;
 	private int produzione_range;
 	private String produzione_udm;
@@ -20,7 +21,7 @@ public class Ortaggio {
 	private int raccolta_min;
 	private String raccolta_udm;
 	private String tassonomia_famiglia;
-	private ArrayList<Double> trapianti_mesi;
+	private ArrayList<String> trapianti_mesi;
 	
 	
 	public Ortaggio() {
@@ -59,6 +60,10 @@ public class Ortaggio {
 		return distanze_piante;
 	}
 	
+	public int getDistanze_piante_range() {
+		return distanze_piante_range;
+	}
+	
 	public int getProduzione_peso() {
 		return produzione_peso;
 	}
@@ -91,8 +96,51 @@ public class Ortaggio {
 		return tassonomia_famiglia;
 	}
 	
-	public ArrayList<Double> getTrapianti_mesi() {
+	public ArrayList<String> getTrapianti_mesi() {
 		return trapianti_mesi;
+	}
+	
+	
+	public Object get(String field) {  // FIXME !!??
+		switch (field) {
+			case "altro_f1":
+				return getAltro_f1();
+			case "altro_pack":
+				return getAltro_pack();
+			case "altro_perenne":
+				return getAltro_perenne();
+			case "altro_tollera_mezzombra":
+				return getAltro_tollera_mezzombra();
+			case "classificazione_ortaggio":
+				return getClassificazione_ortaggio();
+			case "classificazione_pianta":
+				return getClassificazione_pianta();
+			case "distanze_file":
+				return getDistanze_file();
+			case "distanze_piante":
+				return getDistanze_piante();
+			case "distanze_piante_range":
+				return getDistanze_piante_range();
+			case "produzione_peso":
+				return getProduzione_peso();
+			case "produzione_range":
+				return getProduzione_range();
+			case "produzione_udm":
+				return getProduzione_udm();
+			case "raccolta_avg":
+				return getRaccolta_avg();
+			case "raccolta_max":
+				return getRaccolta_max();
+			case "raccolta_min":
+				return getRaccolta_min();
+			case "raccolta_udm":
+				return getRaccolta_udm();
+			case "tassonomia_famiglia":
+				return getTassonomia_famiglia();
+			case "trapianti_mesi":
+				return getTrapianti_mesi();
+		}
+		return null;
 	}
 	
 }

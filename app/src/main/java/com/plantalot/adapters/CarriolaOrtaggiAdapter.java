@@ -82,8 +82,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	public void updateCount(TextView tv, String ortaggio) {
 		int n_varieta = User.carriola.get(ortaggio).size();
 		int count = (new ArrayList<>(User.carriola.get(ortaggio).values())).stream().mapToInt(Integer::intValue).sum();
-		tv.setText(res.getQuantityString(R.plurals.n_varieta, n_varieta, n_varieta)
-				+ ", " + res.getQuantityString(R.plurals.n_piante, count, count));
+		tv.setText(res.getQuantityString(R.plurals.n_varieta, n_varieta, n_varieta) + ", " + res.getQuantityString(R.plurals.n_piante, count, count));
 	}
 	
 	@Override

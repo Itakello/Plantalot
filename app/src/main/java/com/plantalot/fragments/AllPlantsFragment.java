@@ -1,3 +1,6 @@
+// TODO savedInstanceState !!!!!!!
+// TODO separate fragments (filter, search)
+
 package com.plantalot.fragments;
 
 import android.animation.AnimatorSet;
@@ -33,6 +36,7 @@ import com.plantalot.R;
 import com.plantalot.adapters.AllPlantsCardListAdapter;
 import com.plantalot.adapters.AllPlantsFiltersAdapter;
 import com.plantalot.adapters.AllPlantsSearchAdapter;
+import com.plantalot.classes.Ortaggio;
 import com.plantalot.database.Db;
 import com.plantalot.utils.Utils;
 
@@ -42,17 +46,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
 public class AllPlantsFragment extends Fragment {
 	
-	private FirebaseFirestore db = FirebaseFirestore.getInstance();
-	private Query query;
+	// FIXME global to local variables
+	
+	private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 	
 	private View view;
 	private Toolbar toolbar;
@@ -67,7 +72,7 @@ public class AllPlantsFragment extends Fragment {
 	private final HashMap<String, Set<String>> activeFilters = new HashMap<>();
 	private final DisplayMetrics displayMetrics = new DisplayMetrics();
 	
-	private final List<String> filteredOrtaggi = new ArrayList<>(/*Db.getOrtaggiNames()*/);
+	private List<Ortaggio> filteredOrtaggi = new ArrayList<>();
 	private final List<String> searchTextList = new ArrayList<>(Collections.nCopies(Db.getOrtaggiNames().size(), ""));
 	private final List<String> searchResultsOrtaggi = new ArrayList<>();
 	private final HashMap<String, List<String>> searchResultsVarieta = new HashMap<>();
@@ -75,8 +80,10 @@ public class AllPlantsFragment extends Fragment {
 	public static final String RAGGRUPPA = "Raggruppa";
 	private static final HashMap<String, String> titles = new HashMap<>();
 	private static final HashMap<String, List<Pair<Integer, Integer>>> ranges = new HashMap<>();
-	private static final List<String> OMBRA = new ArrayList<>(Arrays.asList("Consigliata", "Tollerata", "Tollerata in estate", "Non tollerata"));
-	private static final List<String> MONTHS = new ArrayList<>(Arrays.asList("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"));
+	private static final List<String> OMBRA = new ArrayList<>(Arrays.asList(
+			"Consigliata", "Tollerata", "Tollerata in estate", "Non tollerata"));
+	private static final List<String> MONTHS = new ArrayList<>(Arrays.asList(
+			"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"));
 	
 	private static final List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
 			new Pair<>(RAGGRUPPA, new ArrayList<>()),  /*, "Produzione", "Anni di rotazione", "Piante per pack"*/
@@ -90,6 +97,12 @@ public class AllPlantsFragment extends Fragment {
 //			new Pair<>(CHIP_ROTAZIONE, Arrays.asList("2", "3", "4", "5", "7")),          // TODO
 //			new Pair<>("Giardini e preferiti", Arrays.asList("Tutto", "", "Preferiti"))  // TODO
 	));
+	
+	private static final Map<String, Integer> filtersCount = new HashMap<>();
+	private static final HashMap<String, String> UDM = new HashMap<>();
+	
+	private int translateY;
+	
 	
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
@@ -160,7 +173,17 @@ public class AllPlantsFragment extends Fragment {
 					break;
 			}
 		}
+		
+		for (Pair<String, List<String>> chip : chips) {
+			filtersCount.put(chip.first, chip.second.size());
+		}
+		
+		UDM.put(Db.VARIETA_RACCOLTA_AVG, "giorni");
+		UDM.put(Db.VARIETA_DISTANZE_PIANTE, "cm");
+		UDM.put(Db.VARIETA_DISTANZE_FILE, "cm");
+		UDM.put(Db.VARIETA_ALTRO_PACK, "piante");
 	}
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -183,85 +206,137 @@ public class AllPlantsFragment extends Fragment {
 		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		cardsRecyclerView.setAdapter(cardAdapter);
 		
-		setupToolbar();
-		setupSubheader();
+		view.findViewById(R.id.all_plants_backdrop_frontlayer).post(
+				() -> translateY = view.getHeight() - Utils.dp2px(56 + 48 + 8, getContext())
+		);
+		
 		Handler handler = new Handler();
-		handler.post(this::queryDb);  // FIXME !!!!
+		handler.post(this::setupToolbar);
+		handler.post(this::setupSubheader);
+		handler.post(this::queryDb);
 		handler.post(this::setupSearch);
 		handler.postDelayed(this::setupFilters, 300);
 		handler.postDelayed(this::searchTextInit, 300);
-//		view.findViewById(R.id.all_plants_fl_progressBar).setVisibility(View.VISIBLE);
 		return view;
 	}
+	
+// FIXME !!!!
+//	@Override
+//	public void onResume() {
+//		super.onResume();
+//		if (isSearchShown) {
+//			System.out.println("EEEEEEEEEEEEEEEEE");
+//			view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
+//			isBackdropShown = false;
+//			backdropBehaviour();
+//		}
+//	}
 	
 	private static void setChip(Pair<String, List<String>> chip, String field) {
 		for (Pair<Integer, Integer> pair : ranges.get(field)) {
 			chip.second.add(pair.first + " - " + pair.second);
 		}
 	}
-
-//	@NonNull
-//	private List<String> filteredOrtaggi() {
-//		List<String> filtered = new ArrayList<>();
-//		for (String ortaggioName : Db.getOrtaggiNames()) {
-//			HashMap<String, Object> ortaggio = Db.ortaggi.get(ortaggioName);
-//			if (respectsFilters(ortaggio)) filtered.add(ortaggioName);
-//		}
-//		return filtered;
-//	}
 	
-	private boolean respectsFilters(HashMap<String, Object> ortaggio) {
-//		if (!(activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).isEmpty()
-//				|| activeFilters.get(Db.VARIETA_TASSONOMIA_FAMIGLIA).contains((String) ortaggio.get(Db.VARIETA_TASSONOMIA_FAMIGLIA)))) {
-//			return false;
-//		}
-		boolean ok = activeFilters.get(Db.VARIETA_TRAPIANTI_MESI).isEmpty();
-		if (!ok) {
-			for (String month : activeFilters.get(Db.VARIETA_TRAPIANTI_MESI)) {
-				if (!ok && Utils.number(((List<?>) ortaggio.get(Db.VARIETA_TRAPIANTI_MESI)).get(MONTHS.indexOf(month))) == 1) {
-					ok = true;
-				}
+	
+	//========[ FILTERS ]========//
+	
+	// Firestore ha troppe restrizioni sulle queries D:
+	// Questo metodo applica, se possibile, soltanto la query legata al field con il minor numero
+	// di fitri attivi rapportati al numero di filtri totali per quel field, quindi quella che
+	// presumibilmente restituisce il minor numero di risultati.
+	// I restanti filtri sono applicati client-side sui risultati della query.
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	public void queryDb() {
+		Query query = db.collection("ortaggi");
+		
+		double minActiveFilters = 9999;
+		String minField = "";
+		for (String field : activeFilters.keySet()) {
+			double ratio = (double) activeFilters.get(field).size() / (double) filtersCount.get(field);
+			if (!Objects.equals(field, RAGGRUPPA) && !activeFilters.get(field).isEmpty() && ratio < minActiveFilters) {
+				minActiveFilters = ratio;
+				minField = field;
 			}
 		}
-		if (!ok) return false;
-		if (filterByRange(ortaggio, Db.VARIETA_RACCOLTA_AVG)) return false;
-		if (filterByRange(ortaggio, Db.VARIETA_DISTANZE_PIANTE)) return false;
-		if (filterByRange(ortaggio, Db.VARIETA_DISTANZE_FILE)) return false;
-		return activeFilters.get(Db.VARIETA_ALTRO_PACK).isEmpty()
-				|| activeFilters.get(Db.VARIETA_ALTRO_PACK).contains(ortaggio.get(Db.VARIETA_ALTRO_PACK).toString());
-	}
-	
-	private boolean filterByRange(HashMap<String, Object> ortaggio, String field) {
-		if (activeFilters.get(field).isEmpty()) return false;
-		for (String range : activeFilters.get(field)) {
-			if (((Long) ortaggio.get(field)).intValue() >= Integer.parseInt(range.split(" - ")[0])
-					&& ((Long) ortaggio.get(field)).intValue() <= Integer.parseInt(range.split(" - ")[1])) {
-				return false;
+		
+		if (!minField.isEmpty() && activeFilters.get(minField).size() <= 10) {
+			switch (minField) {
+				case Db.VARIETA_TASSONOMIA_FAMIGLIA:
+				case Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
+					query = query.whereIn(minField, new ArrayList<>(activeFilters.get(minField)));
+					break;
+				case Db.VARIETA_ALTRO_PACK:
+					ArrayList<Integer> activeFiltersPack = new ArrayList<>();
+					for (String str : activeFilters.get(minField)) {
+						activeFiltersPack.add(Integer.parseInt(str));
+					}
+					query = query.whereIn(minField, new ArrayList<>(activeFiltersPack));
+					break;
+				case Db.VARIETA_RACCOLTA_AVG:
+				case Db.VARIETA_DISTANZE_PIANTE:
+				case Db.VARIETA_DISTANZE_FILE:
+					List<Integer> multiRange = new ArrayList<>();
+					for (String range : activeFilters.get(minField)) {
+						int start = Integer.parseInt(range.split(" - ")[0]);
+						int end = Integer.parseInt(range.split(" - ")[1]);
+						multiRange.addAll(IntStream
+								.rangeClosed(start, end)
+								.filter(x -> x % 5 == 0)
+								.boxed().collect(Collectors.toList()));
+					}
+					if (multiRange.size() <= 10) {
+						query = query.whereIn(minField, multiRange);
+					} else {
+						minField = "";
+					}
+					break;
+				case Db.VARIETA_TRAPIANTI_MESI:
+					List<String> months = new ArrayList<>();  // FIXME
+					for (String month : activeFilters.get(minField)) {
+						months.add("" + MONTHS.indexOf(month));
+					}
+					query = query.whereArrayContainsAny(minField, months);
+					break;
 			}
+		} else {
+			minField = "";
 		}
-		return true;
+		
+		String finalMinField = minField;
+		query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+			filteredOrtaggi.clear();
+			for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+				filteredOrtaggi.add(document.toObject(Ortaggio.class));
+			}
+			filterOrtaggi(finalMinField);
+			setupGroups();
+		});
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	public void queryDb() {
-		query = db.collection("ortaggi");
-		
-		
+	private void filterOrtaggi(String minField) {
 		
 		for (String field : new ArrayList<>(Arrays.asList(
 				Db.VARIETA_TASSONOMIA_FAMIGLIA,
 				Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA
 		))) {
-			if (!activeFilters.get(field).isEmpty()) {
-				query = query.whereIn(field, new ArrayList<>(activeFilters.get(field)));
+			if (!activeFilters.get(field).isEmpty() && !Objects.equals(field, minField)) {
+				filteredOrtaggi = filteredOrtaggi.stream()
+						.filter(o -> activeFilters.get(field).contains((String) o.get(field)))
+						.collect(Collectors.toList());
 			}
 		}
 		
 		String fieldTmp = Db.VARIETA_ALTRO_PACK;
 		ArrayList<Integer> activeFiltersPack = new ArrayList<>();
-		for (String str : activeFilters.get(fieldTmp)) activeFiltersPack.add(Integer.parseInt(str));
-		if (!activeFilters.get(fieldTmp).isEmpty()) {
-			query = query.whereIn(fieldTmp, new ArrayList<>(activeFiltersPack));
+		for (String str : activeFilters.get(fieldTmp))
+			activeFiltersPack.add(Integer.parseInt(str));
+		if (!activeFilters.get(fieldTmp).isEmpty() && !Objects.equals(fieldTmp, minField)) {
+			String finalFieldTmp = fieldTmp;
+			filteredOrtaggi = filteredOrtaggi.stream()
+					.filter(o -> activeFiltersPack.contains((Integer) o.get(finalFieldTmp)))
+					.collect(Collectors.toList());
 		}
 		
 		for (String field : new ArrayList<>(Arrays.asList(
@@ -269,97 +344,103 @@ public class AllPlantsFragment extends Fragment {
 				Db.VARIETA_DISTANZE_PIANTE,
 				Db.VARIETA_DISTANZE_FILE
 		))) {
-			if (!activeFilters.get(field).isEmpty()) {
-				List<Integer> multiRange = new ArrayList<>();
-				for (String range : activeFilters.get(field)) {  // FIXME ?
+			if (!activeFilters.get(field).isEmpty() && !Objects.equals(field, minField)) {
+				Set<Integer> multiRange = new HashSet<>();
+				for (String range : activeFilters.get(field)) {
 					int start = Integer.parseInt(range.split(" - ")[0]);
 					int end = Integer.parseInt(range.split(" - ")[1]);
-					multiRange.addAll(IntStream.rangeClosed(start, end).filter(x -> x % 5 == 0).boxed().collect(Collectors.toList()));
+					multiRange.addAll(IntStream.rangeClosed(start, end).filter(x -> x % 5 == 0)  // FIXME !!!
+							.boxed().collect(Collectors.toSet()));
 				}
-				query = query.whereIn(field, multiRange);
+				filteredOrtaggi = filteredOrtaggi.stream()
+						.filter(o -> multiRange.contains((Integer) o.get(field)))  // FIXME !!!
+						.collect(Collectors.toList());
 			}
 		}
 		
-		if (!activeFilters.get(Db.VARIETA_TRAPIANTI_MESI).isEmpty()) {
-			query = query.whereArrayContainsAny(Db.VARIETA_TRAPIANTI_MESI, new ArrayList<>(activeFilters.get(Db.VARIETA_TRAPIANTI_MESI)));
-		}
-		
-		query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-			filteredOrtaggi.clear();
-			for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-				filteredOrtaggi.add(document.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO).toString());
+		fieldTmp = Db.VARIETA_TRAPIANTI_MESI;
+		if (!activeFilters.get(fieldTmp).isEmpty() && !Objects.equals(fieldTmp, minField)) {
+			String finalFieldTmp = fieldTmp;
+			List<String> months = new ArrayList<>();
+			for (String month : activeFilters.get(minField)) {
+				months.add("" + MONTHS.indexOf(month));
 			}
-			setupContent();
-		});
+			filteredOrtaggi = filteredOrtaggi.stream()
+					.filter(o -> Collections.disjoint(months, (ArrayList<?>) o.get(finalFieldTmp)))
+					.collect(Collectors.toList());
+		}
+	}
+	
+	
+	//========[ GROUPS ]========//
+	
+	private void gruopByRange(String field) {
+		String udm = UDM.get(field);
+		for (Pair<Integer, Integer> dists : ranges.get(field)) {
+			String tmp = udm;
+			if (Objects.equals(udm, "piante") && Objects.equals(dists.first, 1)) {
+				udm = "pianta";  // FIXME plurals
+			}
+			String title = dists.first + (!Objects.equals(dists.second, dists.first) ? " - " + dists.second : "") + " " + udm;
+			udm = tmp;
+			cards.add(new Pair<>(title, new ArrayList<>()));
+		}
+		for (Ortaggio ortaggio : filteredOrtaggi) {
+			int d = (Integer) ortaggio.get(field);
+			for (int i = 0; i < ranges.get(field).size(); i++) {
+				Pair<Integer, Integer> dists = ranges.get(field).get(i);
+				if (d >= dists.first && d <= dists.second) {
+					cards.get(i).second.add(ortaggio.getClassificazione_ortaggio());
+				}
+			}
+		}
 	}
 	
 	private void gruopByNome() {
 		for (char c = 'A'; c <= 'Z'; c++) {
 			cards.add(new Pair<>("" + c, new ArrayList<>()));
 		}
-		for (String ortaggio : filteredOrtaggi) {
-			cards.get(ortaggio.charAt(0) - 'A').second.add(ortaggio);
-		}
-		cardAdapter.notifyDataSetChanged();
-	}
-	
-	AtomicInteger counter = new AtomicInteger();
-	
-	private void gruopByRange(String field, String udm) {
-		for (Pair<Integer, Integer> dists : ranges.get(field)) {
-			String tmp = udm;
-			if (Objects.equals(udm, " piante") && Objects.equals(dists.first, 1)) {  // FIXME plurals
-				udm = " pianta";
-			}
-			String title = dists.first + (!Objects.equals(dists.second, dists.first) ? " - " + dists.second : "") + udm;
-			udm = tmp;
-			cards.add(new Pair<>(title, new ArrayList<>()));
-		}
-		counter.set(0);
-		for (int i = 0; i < ranges.get(field).size(); i++) {
-			Pair<Integer, Integer> range = ranges.get(field).get(i);
-			Query q = query.whereGreaterThanOrEqualTo(field, range.first)
-					.whereLessThanOrEqualTo(field, range.second);
-			addToGroup(q, i, ranges.get(field).size());
+		for (Ortaggio ortaggio : filteredOrtaggi) {
+			String ortaggioName = ortaggio.getClassificazione_ortaggio();
+			cards.get(ortaggioName.charAt(0) - 'A').second.add(ortaggioName);
 		}
 	}
 	
 	private void gruopByField(String field) {
+		HashMap<String, List<String>> strMap = new HashMap<>();
+		for (Ortaggio ortaggio : filteredOrtaggi) {
+			String str = (String) ortaggio.get(field);
+			if (strMap.get(str) == null) strMap.put(str, new ArrayList<>());
+			strMap.get(str).add(ortaggio.getClassificazione_ortaggio());
+		}
 		for (Pair<String, List<String>> chip : chips) {
 			if (Objects.equals(chip.first, field)) {
-				counter.set(0);
 				for (int i = 0; i < chip.second.size(); i++) {
 					String value = chip.second.get(i);
-					cards.add(new Pair<>(value, new ArrayList<>()));
-					Query q = query.whereEqualTo(field, value);
-					addToGroup(q, i, chip.second.size());
+					if (strMap.get(value) != null) {
+						cards.add(new Pair<>(value, strMap.get(value)));
+					}
 				}
+				return;
 			}
 		}
 	}
 	
-	private void addToGroup(Query q, int row, int size) {
-		q.get().addOnSuccessListener(queryDocumentSnapshots -> {
-			List<String> group = new ArrayList<>();
-			for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-				group.add((String) document.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-			}
-			cards.get(row).second.addAll(group);
-			if (counter.incrementAndGet() == size) cardAdapter.notifyDataSetChanged();  // FIXME !!?
-		});
-	}
+	
+	//========[ SETUP UI ]========//
 	
 	public void setupSubheader() {
 		if (isBackdropShown) {
 			String title = "Mostra " + filteredOrtaggi.size() + " risultati";
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
 		} else {
-			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
+			((TextView) view.findViewById(R.id.all_plants_fl_subheader))
+					.setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
 		}
 	}
 	
 	@SuppressLint("NotifyDataSetChanged")
-	private void setupContent() {
+	private void setupGroups() {
 		setupSubheader();
 		String activeGroup = (new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0);
 		cards.clear();
@@ -373,18 +454,14 @@ public class AllPlantsFragment extends Fragment {
 				gruopByNome();
 				break;
 			case Db.VARIETA_RACCOLTA_AVG:
-				gruopByRange(Db.VARIETA_RACCOLTA_AVG, " giorni");
-				break;
 			case Db.VARIETA_DISTANZE_PIANTE:
-				gruopByRange(Db.VARIETA_DISTANZE_PIANTE, " cm");
-				break;
 			case Db.VARIETA_DISTANZE_FILE:
-				gruopByRange(Db.VARIETA_DISTANZE_FILE, " cm");
-				break;
 			case Db.VARIETA_ALTRO_PACK:
-				gruopByRange(Db.VARIETA_ALTRO_PACK, " piante");
+				gruopByRange(activeGroup);
 				break;
 		}
+		
+		new Handler().postDelayed(() -> cardAdapter.notifyDataSetChanged(), 500);  // FIXME !!!!!!!?!?!?!
 	}
 	
 	private void setupFilters() {
@@ -397,7 +474,41 @@ public class AllPlantsFragment extends Fragment {
 	private void setupToolbar() {
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		if (activity != null) activity.setSupportActionBar(toolbar);
-		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
+		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));
+	}
+	
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	@Override
+	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
+		
+		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		
+		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
+		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
+		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
+		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
+		
+		setOnMenuItemsClickListeners(menu);
+		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
+		
+		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+		searchView.setQueryHint("Cerca un ortaggio");
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				searchTextList.clear();
+				searchTextList.addAll(Collections.nCopies(Db.getOrtaggiNames().size(), newText.toLowerCase()));
+				searchTextChange(newText);
+				return true;
+			}
+			
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				System.out.println(query);
+				return false;
+			}
+		});
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
@@ -448,10 +559,18 @@ public class AllPlantsFragment extends Fragment {
 	private void setupSearch() {
 		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
 		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		searchAdapter = new AllPlantsSearchAdapter(getContext(), searchResultsOrtaggi, searchResultsVarieta, searchTextList, R.id.allPlantsFragment);
+		searchAdapter = new AllPlantsSearchAdapter(
+				getContext(),
+				searchResultsOrtaggi,
+				searchResultsVarieta,
+				searchTextList,
+				R.id.allPlantsFragment);
 		drawerRecyclerView.setAdapter(searchAdapter);
 		searchTextInit();
 	}
+	
+	
+	//========[ SEARCH ]========//
 	
 	@SuppressLint("NotifyDataSetChanged")
 	@RequiresApi(api = Build.VERSION_CODES.N)
@@ -464,11 +583,13 @@ public class AllPlantsFragment extends Fragment {
 	private void searchTextChange(String searchText) {
 		List<String> results = Db.getOrtaggiNames()
 				.stream()
-				.filter(o -> searchText.isEmpty() || (o.toLowerCase()).contains(searchText.toLowerCase()))
+				.filter(o -> searchText.isEmpty()
+						|| (o.toLowerCase()).contains(searchText.toLowerCase()))
 				.collect(Collectors.toList());
 		List<String> resultsVarieta = Db.getVarietaNames().keySet()
 				.stream()
-				.filter(v -> !results.contains(Db.getVarietaNames().get(v)) && (v.toLowerCase()).contains(searchText.toLowerCase()))
+				.filter(v -> !results.contains(Db.getVarietaNames().get(v))
+						&& (v.toLowerCase()).contains(searchText.toLowerCase()))
 				.collect(Collectors.toList());
 		
 		List<String> sorted = new ArrayList<>();
@@ -503,39 +624,8 @@ public class AllPlantsFragment extends Fragment {
 		searchAdapter.notifyDataSetChanged();
 	}
 	
-	@RequiresApi(api = Build.VERSION_CODES.N)
-	@Override
-	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
-		
-		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		
-		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
-		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
-		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
-		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
-		
-		setOnMenuItemsClickListeners(menu);
-		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
-		
-		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-		searchView.setQueryHint("Cerca un ortaggio");
-		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				searchTextList.clear();
-				searchTextList.addAll(Collections.nCopies(Db.getOrtaggiNames().size(), newText.toLowerCase()));
-				searchTextChange(newText);
-				return true;
-			}
-			
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-				System.out.println(query);
-				return false;
-			}
-		});
-	}
+	
+	//========[ BACKDROP ]========//
 	
 	private boolean backdropBehaviour() {
 		return backdropBehaviour(false);
@@ -549,7 +639,6 @@ public class AllPlantsFragment extends Fragment {
 		
 		setupSubheader();
 		
-		int translateY = displayMetrics.heightPixels - Utils.dp2px(56 + 48 + 8, getContext());
 		int interval = 200;
 		AnimatorSet animatorSet = new AnimatorSet();
 		Interpolator interpolator = new AccelerateDecelerateInterpolator();
@@ -562,7 +651,10 @@ public class AllPlantsFragment extends Fragment {
 		
 		View frontLayer = view.findViewById(R.id.all_plants_backdrop_frontlayer);
 		
-		ObjectAnimator animator = ObjectAnimator.ofFloat(frontLayer, "translationY", isBackdropShown ? translateY : 0);
+		ObjectAnimator animator = ObjectAnimator.ofFloat(
+				frontLayer,
+				"translationY",
+				isBackdropShown ? translateY : 0);
 		animator.setDuration(interval);
 		animator.start();
 		if (interpolator != null) {
@@ -578,7 +670,9 @@ public class AllPlantsFragment extends Fragment {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
 			toolbar.setTitle("Piante");
 			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
-			toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));  // FIXME best practice ?
+			toolbar.setNavigationOnClickListener(
+					view -> Navigation.findNavController(view).navigate(R.id.action_goto_home)
+			);
 			Handler handler = new Handler();
 			handler.postDelayed(() -> {
 				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);

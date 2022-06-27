@@ -28,7 +28,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingVertical="24dp"
-			android:text="Nome giardino"
+			tools:text="Nome giardino"
 			android:textAppearance="?attr/textAppearanceHeadline5"
 			/>
 		
@@ -38,7 +38,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:text="anonymousStatusId"
+			tools:text="anonymousStatusId"
 			android:visibility="gone"
 			/>
 		
@@ -58,7 +58,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:text="Instructions"
+			tools:text="Instructions"
 			android:textSize="24sp"
 			/>
 		

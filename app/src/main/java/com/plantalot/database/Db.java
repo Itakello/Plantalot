@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -105,6 +106,7 @@ public class Db {
 	// TODO persistent
 	public static int getIconColor(String ortaggio) {
 		if (iconColors.get(ortaggio) == null || famiglieNames.contains(ortaggio)) ortaggio = "Rapa";
+		if (Objects.equals(ortaggio, "Peperoncino")) ortaggio = "Pomodoro";
 		return iconColors.get(ortaggio);
 	}
 	

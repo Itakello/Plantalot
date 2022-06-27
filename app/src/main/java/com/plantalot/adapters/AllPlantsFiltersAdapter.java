@@ -18,7 +18,6 @@ import com.google.android.material.chip.ChipGroup;
 import com.plantalot.R;
 import com.plantalot.fragments.AllPlantsFragment;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -78,10 +77,9 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 				Chip chip = new Chip(context);
 				chip.setText(Objects.equals(title, RAGGRUPPA) ? titles.get(c) : c);
 				chip.setCheckable(true);
-				if (Objects.equals(title, RAGGRUPPA)) {
-					if (Objects.equals((new ArrayList<>(activeFilters.get(title))).get(0), c)) {
-						chip.setChecked(true);
-					}
+//				if (Objects.equals(title, RAGGRUPPA)) {
+				for (String value : activeFilters.get(title)) {
+					if (Objects.equals(value, c)) chip.setChecked(true);
 				}
 				chip.setOnCheckedChangeListener((changedChip, b) -> {
 					if (changedChip.isChecked()) {
@@ -93,8 +91,7 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 				chip.setOnClickListener(l -> {
 					System.out.println(l.getClass().getName());
 					if (!(Objects.equals(title, RAGGRUPPA) && activeFilters.get(title).size() != 1)) {
-						Handler handler = new Handler();
-						handler.post(fragment::queryDb);  // FIXME !!!???
+						new Handler().post(fragment::queryDb);  // FIXME !!!???
 					}
 				});
 				viewHolder.chipGroup.addView(chip);
