@@ -1,11 +1,13 @@
 package com.plantalot.database;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.fragments.HomeFragment;
+import com.plantalot.utils.Consts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,62 +31,33 @@ import java.util.Map;
 public class DbUsers {
 
     private static final String TAG = "Users_DB";
-    private static FirebaseAuth mAuth;
-    private static User user;
-    private static DatabaseReference dbUser;
+    private static DatabaseReference dbUsers;
 
-    public static void init(@NonNull View view, String nomeGiardino){
-        mAuth = FirebaseAuth.getInstance();
-//		mAuth.useEmulator("0.0.0.0", 9099);
-
-        mAuth.signInAnonymously()
-                .addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "Signed in anonymously");
-                        String userUid = mAuth.getCurrentUser().getUid();
-                        dbUser = FirebaseDatabase.getInstance().getReference("users/"+userUid).getRef();
-
-                        dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
-                                    Log.d(TAG, "User already stored in DB");
-                                    user = snapshot.getValue(User.class);
-                                    Log.d(TAG, "Num giardini: " + user.getGiardiniNames().size());
-                                    if(nomeGiardino == null)
-                                        if(user.getFirstGiardino() != null)
-                                            HomeFragment.updateUI(view, user, user.getFirstGiardino().getName());
-                                        else
-                                            HomeFragment.updateUI(view, user, null);
-                                    else
-                                        HomeFragment.updateUI(view,user,nomeGiardino);
-                                }else{
-                                    Log.d(TAG, "Generating new user in DB");
-                                    writeNewUser("default_username", "default_email");
-                                    HomeFragment.updateUI(view, user, null);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Log.w(TAG, "Error on checking existence user", error.toException());
-                            }
-                        });
-                    }
-                });
+    public static void init(){
+        dbUsers = FirebaseDatabase.getInstance().getReference().child("users");
     }
 
-    private static void writeNewUser(String username, String email){
+    public static User writeNewUser(String username, String email){
         Log.d(TAG, "Writing new user");
-        user = new User(username, email);
-        dbUser.setValue(user);
+        User user = new User(username, email);
+        dbUsers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+        return user;
+    }
+
+    public static void updateGiardinoSelected(String nome_giardino){
+        HashMap<String,Object> u_map = new HashMap<>();
+        u_map.put("nome_giardino_selected", nome_giardino);
+        dbUsers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(u_map);
     }
 
     public static void writeNewGiardino(String nome_giardino, LatLng location){
         Log.d(TAG, "Writing new giardino");
         HashMap<String,Object> g_map = new HashMap<>();
         g_map.put(nome_giardino, new Giardino(nome_giardino, location));
+        DatabaseReference dbUser = dbUsers.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         dbUser.child("giardini").updateChildren(g_map);
+        HashMap<String,Object> u_map = new HashMap<>();
+        u_map.put("nome_giardino_selected", nome_giardino);
+        dbUser.updateChildren(u_map);
     }
 }

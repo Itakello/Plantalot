@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
+import com.plantalot.database.DbUsers;
 import com.plantalot.fragments.HomeFragment;
 import com.plantalot.utils.Utils;
 
@@ -62,8 +63,9 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					System.out.println("Hai premuto il pulsante " + button.getText().toString());
-//					HomeFragment.setUpGiardino(fragView, button.getText().toString());
+					String giardino_selected = button.getText().toString();
+					System.out.println("Hai premuto il pulsante " + giardino_selected);
+					DbUsers.updateGiardinoSelected(giardino_selected);
 					Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
 					ImageButton img_button = Utils.getToolbarNavigationButton(toolbar);
 

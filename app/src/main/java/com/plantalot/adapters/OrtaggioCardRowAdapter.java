@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.navigation.Nav;
 
 import java.util.List;
@@ -41,8 +41,8 @@ public class OrtaggioCardRowAdapter extends RecyclerView.Adapter<OrtaggioCardRow
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		String ortaggio = mData.get(position);
 		viewHolder.mTextView.setText(ortaggio);
-		viewHolder.mCardView.setCardBackgroundColor(Db.getIconColor(ortaggio));
-		viewHolder.mImageView.setImageResource(Db.getImageId(ortaggio));
+		viewHolder.mCardView.setCardBackgroundColor(DbPlants.getIconColor(ortaggio));
+		viewHolder.mImageView.setImageResource(DbPlants.getImageId(ortaggio));
 		viewHolder.mCardView.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, view));
 	}
 	
