@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Db {
+public class DbPlants {
 	
 	public static final List<String> famiglie = new ArrayList<>();
 	public static final HashMap<String, Integer> icons = new HashMap<>();
@@ -37,7 +37,7 @@ public class Db {
 	private static int defaultImageId;
 //	private static final String defaultFile = "plant_basil_3944343.png";
 	
-	public static void init(Activity activity) {
+	public static void init(@NonNull Activity activity) {
 		
 		Resources res = activity.getResources();
 		defaultImageId = res.getIdentifier("plant_mushroom_3944308".split("\\.")[0], "mipmap", activity.getPackageName());
@@ -54,7 +54,7 @@ public class Db {
 				ortaggi.putAll((HashMap) taskSnapshot.getValue());
 				Set<String> famiglieSet = new HashSet<>();
 				for (Object ortaggio : ortaggi.values()) {
-					famiglieSet.add((String) ((HashMap) ortaggio).get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
+					famiglieSet.add((String) ((HashMap) ortaggio).get(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA));
 				}
 				famiglie.addAll(famiglieSet);
 				Collections.sort(famiglie);

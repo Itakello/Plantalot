@@ -63,14 +63,15 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
-		// TODO add loading bar
+		// TODO add loading bar while loading
+
 		initializeUI(view);
 
 		String giardinoName = null;
 //		if(savedInstanceState != null){
 //			giardinoName = savedInstanceState.getString("giardino");
 //		}
-		DbUsers.init(view, giardinoName);
+//		DbUsers.init(view);
 		return view;
 	}
 	

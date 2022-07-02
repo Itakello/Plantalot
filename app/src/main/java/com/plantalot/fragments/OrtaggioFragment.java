@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,10 +28,8 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
-import com.plantalot.animations.NavigationIconClickListener;
-import com.plantalot.components.CircleButton;
 import com.plantalot.components.OrtaggioSpecs;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.utils.ColorUtils;
 import com.plantalot.utils.Utils;
 
@@ -117,14 +114,14 @@ public class OrtaggioFragment extends Fragment {
 		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
 		TextView sub1 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
 		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
-		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
-		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
+		title.setText((String) varieta.get(DbPlants.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
+		subtitle.setText((String) varieta.get(DbPlants.VARIETA_CLASSIFICAZIONE_VARIETA));
+		sub1.setText(varieta.get(DbPlants.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(DbPlants.VARIETA_TASSONOMIA_SPECIE));
+		sub2.setText((String) varieta.get(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA));
 		
 		// Expandable Text View
 		MaterialCardView descriptionCard = view.findViewById(R.id.ortaggio_bl_specs_description);
-		String description = (String) varieta.get(Db.VARIETA_INFO_DESCRIZIONE);
+		String description = (String) varieta.get(DbPlants.VARIETA_INFO_DESCRIZIONE);
 		if (description != null && !description.isEmpty()) {
 			descriptionCard.setVisibility(View.VISIBLE);
 			ExpandableTextView descriptionExpand = view.findViewById(R.id.expand_text_view);
@@ -144,7 +141,7 @@ public class OrtaggioFragment extends Fragment {
 			
 			month.setText(months[i]);
 			month.setRippleColor(null);
-			Object isMonthOk = ((ArrayList<?>) varieta.get(Db.VARIETA_TRAPIANTI_MESI)).get(i);
+			Object isMonthOk = ((ArrayList<?>) varieta.get(DbPlants.VARIETA_TRAPIANTI_MESI)).get(i);
 			if (isMonthOk.getClass().getName().equals("java.lang.Long")) {
 				isMonthOk = Double.valueOf((Long) isMonthOk);
 			}
@@ -163,47 +160,47 @@ public class OrtaggioFragment extends Fragment {
 		List<OrtaggioSpecs> specs = Arrays.asList(
 				new OrtaggioSpecs(
 						"Distanze",
-						varieta.get(Db.VARIETA_DISTANZE_PIANTE) + " × " + varieta.get(Db.VARIETA_DISTANZE_FILE) + " cm",
+						varieta.get(DbPlants.VARIETA_DISTANZE_PIANTE) + " × " + varieta.get(DbPlants.VARIETA_DISTANZE_FILE) + " cm",
 						R.mipmap.specs_distanze_1462005,
 						false),
 				new OrtaggioSpecs(
 						"Mezz'ombra",
-						"" + varieta.get(Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA),
+						"" + varieta.get(DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA),
 						R.mipmap.specs_mezzombra_4496245,
 						false),
 				new OrtaggioSpecs(
 						"Raccolta",
-						varieta.get(Db.VARIETA_RACCOLTA_MIN) + (varieta.get(Db.VARIETA_RACCOLTA_MAX) != varieta.get(Db.VARIETA_RACCOLTA_MIN) ? "-" + varieta.get(Db.VARIETA_RACCOLTA_MAX) : "") + " giorni",
+						varieta.get(DbPlants.VARIETA_RACCOLTA_MIN) + (varieta.get(DbPlants.VARIETA_RACCOLTA_MAX) != varieta.get(DbPlants.VARIETA_RACCOLTA_MIN) ? "-" + varieta.get(DbPlants.VARIETA_RACCOLTA_MAX) : "") + " giorni",
 						R.mipmap.specs_raccolta_3078971,
 						false),
 				new OrtaggioSpecs(
 						"Produzione",
-						varieta.get(Db.VARIETA_PRODUZIONE_PESO) + " " + varieta.get(Db.VARIETA_PRODUZIONE_UDM),
+						varieta.get(DbPlants.VARIETA_PRODUZIONE_PESO) + " " + varieta.get(DbPlants.VARIETA_PRODUZIONE_UDM),
 						R.mipmap.specs_produzione_741366,
 						false),
 				new OrtaggioSpecs(
 						"Rotazione",
-						pianta.get(Db.PIANTE_ROTAZIONI_ANNI) + " anni",
+						pianta.get(DbPlants.PIANTE_ROTAZIONI_ANNI) + " anni",
 						R.mipmap.specs_rotazione_4496256,
 						false),
 				new OrtaggioSpecs(
 						"Vaschetta",
-						varieta.get(Db.VARIETA_ALTRO_PACK) + " piante",
+						varieta.get(DbPlants.VARIETA_ALTRO_PACK) + " piante",
 						R.mipmap.specs_vaschetta_1655603,
 						false),
 				new OrtaggioSpecs(
 						"Concimazione",
-						pianta.get(Db.PIANTE_CONCIMAZIONE_ORGANICA) + " (organica)"
-								+ (pianta.get(Db.PIANTE_CONCIMAZIONE_TRAPIANTO) == "1" ? "\n" + "In buca al trapianto" : "")
-								+ (pianta.get(Db.PIANTE_CONCIMAZIONE_MENSILE) == "1" ? "\n" + "Mensile dopo il trapianto" : ""),
+						pianta.get(DbPlants.PIANTE_CONCIMAZIONE_ORGANICA) + " (organica)"
+								+ (pianta.get(DbPlants.PIANTE_CONCIMAZIONE_TRAPIANTO) == "1" ? "\n" + "In buca al trapianto" : "")
+								+ (pianta.get(DbPlants.PIANTE_CONCIMAZIONE_MENSILE) == "1" ? "\n" + "Mensile dopo il trapianto" : ""),
 						R.mipmap.specs_concimazione_1670075,
 						true),
 				new OrtaggioSpecs(
 						"Irrigazione",
 						
-						pianta.get(Db.PIANTE_IRRIGAZIONE_ATTECCHIMENTO)
-								+ (pianta.get(Db.PIANTE_IRRIGAZIONE_RIDUZIONE) == "1" ? "\n" + "Ridurre prima della raccolta" : "")
-								+ (pianta.get(Db.PIANTE_IRRIGAZIONE_SOSPENSIONE) == "1" ? "\n" + "Sospendere prima della raccolta" : ""),
+						pianta.get(DbPlants.PIANTE_IRRIGAZIONE_ATTECCHIMENTO)
+								+ (pianta.get(DbPlants.PIANTE_IRRIGAZIONE_RIDUZIONE) == "1" ? "\n" + "Ridurre prima della raccolta" : "")
+								+ (pianta.get(DbPlants.PIANTE_IRRIGAZIONE_SOSPENSIONE) == "1" ? "\n" + "Sospendere prima della raccolta" : ""),
 						R.mipmap.specs_irrigazione_3319229,
 						true));
 		RecyclerView specsRecyclerView = view.findViewById(R.id.ortaggio_bl_specs_recycler);
@@ -219,12 +216,12 @@ public class OrtaggioFragment extends Fragment {
 		assert getArguments() != null;
 		String ortaggio = getArguments().getString("ortaggio");
 		System.out.println(ortaggio);
-		String defaultVar = (Db.varieta.get(ortaggio).keySet()).size() == 1
-				? new ArrayList<>(Db.varieta.get(ortaggio).keySet()).get(0)
+		String defaultVar = (DbPlants.varieta.get(ortaggio).keySet()).size() == 1
+				? new ArrayList<>(DbPlants.varieta.get(ortaggio).keySet()).get(0)
 				: "Generico";
-		HashMap<String, Object> varieta = Db.varieta.get(ortaggio).get(defaultVar);
+		HashMap<String, Object> varieta = DbPlants.varieta.get(ortaggio).get(defaultVar);
 		
-		dropdownItems = new LinkedList<>(Db.varieta.get(ortaggio).keySet());
+		dropdownItems = new LinkedList<>(DbPlants.varieta.get(ortaggio).keySet());
 		Collections.sort(dropdownItems);
 		if (dropdownItems.contains(GENERICO)) {
 			dropdownItems.remove(GENERICO);
@@ -232,29 +229,29 @@ public class OrtaggioFragment extends Fragment {
 		}
 		
 		ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-		img.setImageResource(Db.getImageId(ortaggio));
+		img.setImageResource(DbPlants.getImageId(ortaggio));
 		
 		TextView title = view.findViewById(R.id.ortaggio_fl_appbar_title);
 		TextView subtitle = view.findViewById(R.id.ortaggio_fl_appbar_subtitle);
 		TextView sub1 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle1);
 		TextView sub2 = view.findViewById(R.id.ortaggio_fl_toolbar_subtitle2);
-		title.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
-		subtitle.setText((String) varieta.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA));
-		sub1.setText(varieta.get(Db.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(Db.VARIETA_TASSONOMIA_SPECIE));
-		sub2.setText((String) varieta.get(Db.VARIETA_TASSONOMIA_FAMIGLIA));
+		title.setText((String) varieta.get(DbPlants.VARIETA_CLASSIFICAZIONE_ORTAGGIO));
+		subtitle.setText((String) varieta.get(DbPlants.VARIETA_CLASSIFICAZIONE_VARIETA));
+		sub1.setText(varieta.get(DbPlants.VARIETA_TASSONOMIA_GENERE) + " " + varieta.get(DbPlants.VARIETA_TASSONOMIA_SPECIE));
+		sub2.setText((String) varieta.get(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA));
 		
-		HashMap<String, Object> pianta = Db.piante.get(varieta.get(Db.VARIETA_CLASSIFICAZIONE_PIANTA));
+		HashMap<String, Object> pianta = DbPlants.piante.get(varieta.get(DbPlants.VARIETA_CLASSIFICAZIONE_PIANTA));
 		setupStats(varieta, pianta);
-		setupToolbar(Db.varieta.get(ortaggio), pianta);
+		setupToolbar(DbPlants.varieta.get(ortaggio), pianta);
 		
 		// Cards
 		List<Pair<String, List<String>>> cards1 = new ArrayList<>(Collections.singletonList(
-				new Pair<>("Consociazioni utili", (ArrayList) pianta.get(Db.PIANTE_CONSOCIAZIONI_POS))
+				new Pair<>("Consociazioni utili", (ArrayList) pianta.get(DbPlants.PIANTE_CONSOCIAZIONI_POS))
 		));
 		
 		List<Pair<String, List<String>>> cards2 = new ArrayList<>(Arrays.asList(
-				new Pair<>("Rotazioni utili", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_POS)),
-				new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(Db.PIANTE_ROTAZIONI_NEG))
+				new Pair<>("Rotazioni utili", (ArrayList) pianta.get(DbPlants.PIANTE_ROTAZIONI_POS)),
+				new Pair<>("Rotazioni sconsigliate", (ArrayList) pianta.get(DbPlants.PIANTE_ROTAZIONI_NEG))
 		));
 		
 		int prev_fragment = getArguments().getInt("prev_fragment");

@@ -1,6 +1,7 @@
 package com.plantalot.database;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.fragments.HomeFragment;
+import com.plantalot.utils.Consts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +34,12 @@ public class DbUsers {
     private static User user;
     private static DatabaseReference dbUser;
 
-    public static void init(@NonNull View view, String nomeGiardino){
+    public static void init(@NonNull Activity activity){
+        SharedPreferences sharedPref = activity.getSharedPreferences(Consts.PREF_FILENAME, Consts.PREF_MODE);
         mAuth = FirebaseAuth.getInstance();
-//		mAuth.useEmulator("0.0.0.0", 9099);
 
         mAuth.signInAnonymously()
-                .addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "Signed in anonymously");
@@ -50,24 +52,15 @@ public class DbUsers {
                                 if(snapshot.exists()){
                                     Log.d(TAG, "User already stored in DB");
                                     user = snapshot.getValue(User.class);
-                                    Log.d(TAG, "Num giardini: " + user.getGiardiniNames().size());
-                                    if(nomeGiardino == null)
-                                        if(user.getFirstGiardino() != null)
-                                            HomeFragment.updateUI(view, user, user.getFirstGiardino().getName());
-                                        else
-                                            HomeFragment.updateUI(view, user, null);
-                                    else
-                                        HomeFragment.updateUI(view,user,nomeGiardino);
                                 }else{
                                     Log.d(TAG, "Generating new user in DB");
                                     writeNewUser("default_username", "default_email");
-                                    HomeFragment.updateUI(view, user, null);
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                Log.w(TAG, "Error on checking existence user", error.toException());
+                                Log.e(TAG, "Error on checking existence user", error.toException());
                             }
                         });
                     }
@@ -75,7 +68,6 @@ public class DbUsers {
     }
 
     private static void writeNewUser(String username, String email){
-        Log.d(TAG, "Writing new user");
         user = new User(username, email);
         dbUser.setValue(user);
     }

@@ -5,7 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plantalot.R;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
+import com.plantalot.database.DbUsers;
 
 public class MainActivity extends AppCompatActivity {
 	
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		Db.init(this);
+		DbPlants.init(this);
+		DbUsers.init(this);
 	}
 }

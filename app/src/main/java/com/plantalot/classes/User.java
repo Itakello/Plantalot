@@ -1,5 +1,10 @@
 package com.plantalot.classes;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Fts4;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +12,8 @@ import java.util.Map;
 
 public class User {
     private final String TAG = "User";
+
+    private int uid;
     private String username;
     private String email;
     private Map<String, Giardino> giardini;
