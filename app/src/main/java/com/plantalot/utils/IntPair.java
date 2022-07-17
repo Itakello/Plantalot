@@ -17,4 +17,12 @@ public class IntPair {
 	public String toString() {
 		return x + " × " + y;
 	}
+	
+	public int getMax() {
+		return Math.max(x, y);
+	}
+	
+	public int getMin() {
+		return Math.min(x, y);
+	}
 }

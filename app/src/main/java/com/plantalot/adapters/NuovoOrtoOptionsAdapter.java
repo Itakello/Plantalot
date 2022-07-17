@@ -104,7 +104,7 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 					mExpanded.setVisibility(View.INVISIBLE);
 					mRecycler.setVisibility(View.VISIBLE);
 					mExpanded.removeView(mChild);
-					viewHolder.mValue.setText(((NuovoOrtoNumberSelector) mChild).getValues().toString());
+					viewHolder.mValue.setText(((NuovoOrtoNumberSelector) mChild).getValues().toString());  // FIXME
 				});
 			} else {
 				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);

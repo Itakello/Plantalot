@@ -45,6 +45,8 @@
         <entry key="app/src/main/res/drawable/bkg_month.xml" value="0.105" />
         <entry key="app/src/main/res/drawable/bkg_ortaggio_detail.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bkg_orto_border.xml" value="0.2835" />
+        <entry key="app/src/main/res/drawable/bkg_orto_border_2.xml" value="0.2835" />
+        <entry key="app/src/main/res/drawable/bkg_orto_border_small.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/bkg_popupmenu.xml" value="0.105" />
         <entry key="app/src/main/res/drawable/bkg_sharp.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_carrot_24.xml" value="0.155" />
@@ -60,12 +62,15 @@
         <entry key="app/src/main/res/drawable/ic_round_done_24.xml" value="0.2385" />
         <entry key="app/src/main/res/drawable/ic_round_edit_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_round_fence_24.xml" value="0.2385" />
+        <entry key="app/src/main/res/drawable/ic_round_format_line_spacing_24.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/ic_round_location_on_24.xml" value="0.2385" />
         <entry key="app/src/main/res/drawable/ic_round_menu_24.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/ic_round_photo_camera_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_round_remove_24.xml" value="0.204" />
         <entry key="app/src/main/res/drawable/ic_round_search_24.xml" value="0.308" />
         <entry key="app/src/main/res/drawable/ic_round_settings_backup_restore_24.xml" value="0.1965" />
+        <entry key="app/src/main/res/drawable/ic_round_spacing_horizontal_24.xml" value="0.2835" />
+        <entry key="app/src/main/res/drawable/ic_round_table_rows_24.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/ic_round_tune_24.xml" value="0.308" />
         <entry key="app/src/main/res/drawable/ic_round_wheelbarrow_24.xml" value="0.1355" />
         <entry key="app/src/main/res/drawable/ic_round_wheelbarrow_border_24.xml" value="0.2315" />

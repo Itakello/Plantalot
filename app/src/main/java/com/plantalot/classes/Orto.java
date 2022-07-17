@@ -69,6 +69,10 @@ public class Orto {
 		return aiuoleDim;
 	}
 	
+	public IntPair getOrtoDim() {
+		return new IntPair(aiuoleDim.x * aiuoleCount.x, aiuoleDim.y * aiuoleCount.y);
+	}
+	
 	public IntPair getAiuoleCount() {
 		return aiuoleCount;
 	}
@@ -88,4 +92,5 @@ public class Orto {
 	public Orientamento getOrientamento() {
 		return orientamento;
 	}
+	
 }

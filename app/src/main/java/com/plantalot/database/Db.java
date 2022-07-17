@@ -153,7 +153,7 @@ public class Db {
 		}
 	}
 	
-	// Fields
+	// Fields (utility names)
 	public static final String PIANTA_PIANTA = "pianta";
 	public static final String PIANTE_FAMIGLIA = "famiglia";
 	public static final String PIANTE_CONSOCIAZIONI_POS = "consociazioni_pos";

@@ -2,16 +2,21 @@ package com.plantalot.fragments;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +27,7 @@ import com.plantalot.R;
 import com.plantalot.adapters.NuovoOrtoOptionsAdapter;
 import com.plantalot.classes.Orto;
 import com.plantalot.components.OrtoView;
+import com.plantalot.utils.IntPair;
 import com.plantalot.utils.Utils;
 
 import java.util.ArrayList;
@@ -35,10 +41,9 @@ public class NuovoOrtoFragment extends Fragment {
 	
 	private List<Triple<String, String, View>> options;
 	private Orto orto;
-	private View view;
 	private Context context;
 	private TableLayout table;
-	private int tableW, tableH;
+	private IntPair tableDim = new IntPair();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,13 +55,13 @@ public class NuovoOrtoFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.nuovo_orto_fragment, container, false);
+		View view = inflater.inflate(R.layout.nuovo_orto_fragment, container, false);
 		
 		table = view.findViewById(R.id.nuovo_orto_table);
 		View tableFrame = view.findViewById(R.id.nuovo_orto_table_frame);
 		tableFrame.post(() -> {
-			tableW = tableFrame.getWidth() - Utils.dp2px(24, context);   // FIXME margin
-			tableH = tableFrame.getHeight() - Utils.dp2px(12, context);  // FIXME margin
+			tableDim.x = tableFrame.getWidth() - Utils.dp2px(24, context);   // FIXME margin
+			tableDim.y = tableFrame.getHeight() - Utils.dp2px(12, context);  // FIXME margin
 			updateTable();
 		});
 		
@@ -76,26 +81,36 @@ public class NuovoOrtoFragment extends Fragment {
 	}
 	
 	public void updateTable() {
-		int ortoW = orto.getAiuoleDim().x * orto.getAiuoleCount().x;
-		int ortoH = orto.getAiuoleDim().y * orto.getAiuoleCount().y;
-		int aiuolaW;
-		int aiuolaH;
+		IntPair ortoDim = orto.getOrtoDim();
+		IntPair aiuolaDim = new IntPair();
 		
-		if ((double) ortoW / (double) ortoH > (double) tableW / (double) tableH) {
-			aiuolaW = tableW / orto.getAiuoleCount().x;
-			aiuolaH = aiuolaW * orto.getAiuoleDim().y / orto.getAiuoleDim().x;
+		if ((double) ortoDim.x / (double) ortoDim.y > (double) tableDim.x / (double) tableDim.y) {
+			aiuolaDim.x = tableDim.x / orto.getAiuoleCount().x;
+			aiuolaDim.y = aiuolaDim.x * orto.getAiuoleDim().y / orto.getAiuoleDim().x;
 		} else {
-			aiuolaH = tableH / orto.getAiuoleCount().y;
-			aiuolaW = aiuolaH * orto.getAiuoleDim().x / orto.getAiuoleDim().y;
+			aiuolaDim.y = tableDim.y / orto.getAiuoleCount().y;
+			aiuolaDim.x = aiuolaDim.y * orto.getAiuoleDim().x / orto.getAiuoleDim().y;
 		}
 		
-		table.removeAllViews();
-		for (int i = 0; i < orto.getAiuoleCount().y; i++) {
-			TableRow row = new TableRow(context);
-			for (int j = 0; j < orto.getAiuoleCount().x; j++) {
-				row.addView(new OrtoView(context, aiuolaW, aiuolaH));
+		if (table.getChildAt(0) != null
+				&& orto.getAiuoleCount().x == ((TableRow) table.getChildAt(0)).getChildCount()
+				&& orto.getAiuoleCount().y == table.getChildCount()) {
+			for (int i = 0; i < orto.getAiuoleCount().y; i++) {
+				TableRow row = (TableRow) table.getChildAt(i);
+				for (int j = 0; j < orto.getAiuoleCount().x; j++) {
+					OrtoView ortoView = (OrtoView) row.getChildAt(j);
+					ortoView.setSize(aiuolaDim);
+				}
 			}
-			table.addView(row);
+		} else {
+			table.removeAllViews();
+			for (int i = 0; i < orto.getAiuoleCount().y; i++) {
+				TableRow row = new TableRow(context);
+				for (int j = 0; j < orto.getAiuoleCount().x; j++) {
+					row.addView(new OrtoView(context, orto, aiuolaDim));
+				}
+				table.addView(row);
+			}
 		}
 	}
 	
@@ -111,13 +126,13 @@ public class NuovoOrtoFragment extends Fragment {
 						orto.getAiuoleDim().toString(),
 						new NuovoOrtoNumberSelector(
 								this, context, orto.getAiuoleDim(), 20, 1000,
-								R.drawable.ic_iconify_sprout_24, R.drawable.ic_round_casino_24)),
+								R.drawable.ic_round_spacing_horizontal_24, R.drawable.ic_round_spacing_vertical_24)),
 				new Triple<>(
 						res.getString(R.string.numero_aiuole),
 						orto.getAiuoleCount().toString(),
 						new NuovoOrtoNumberSelector(
 								this, context, orto.getAiuoleCount(), 1, 8,
-								R.drawable.ic_iconify_sprout_24, R.drawable.ic_round_casino_24)),
+								R.drawable.ic_round_table_columns_24, R.drawable.ic_round_table_rows_24)),
 				new Triple<>(
 						res.getString(R.string.esposizione),
 						orto.getEsposizione().toString(),
