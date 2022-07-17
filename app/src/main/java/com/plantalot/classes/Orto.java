@@ -1,86 +1,91 @@
 package com.plantalot.classes;
 
-import androidx.annotation.NonNull;
+import android.content.Context;
 
 import com.plantalot.R;
+import com.plantalot.utils.IntPair;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Orto {
-	final private String nome;
-	final private int larghezza, altezza;
-	final private int camminamenti_largezza, camminamenti_altezza;
-	final private int colonne_aiuole, righe_aiuole;
-	public ArrayList<Pianta> piante;
-//    Esposizione
-//    Orientamento
 	
-	public Orto(String nome, int larghezza, int altezza) {
+	public enum Esposizione {SOLE, MEZZOMBRA, OMBRA}
+	
+	public enum Orientamento {N, NE, E, SE, S, SO, O, NO}
+	
+	private String nome;
+	private IntPair aiuoleDim;
+	private IntPair aiuoleCount;
+	private ArrayList<Pianta> piante;
+	private Esposizione esposizione;
+	private Orientamento orientamento;
+	
+	public Orto(Context context) {
+		this.nome = context.getResources().getString(R.string.nuovo_orto);
+		this.aiuoleDim = new IntPair(120, 200);
+		this.aiuoleCount = new IntPair(3, 2);
+		this.esposizione = Esposizione.SOLE;
+		this.orientamento = Orientamento.N;
+	}
+	
+	public Orto(Context context, String nome, IntPair aiuoleDim, IntPair aiuoleCount, Esposizione esposizione, Orientamento orientamento) {
+		this(context);
 		this.nome = nome;
-		this.larghezza = larghezza;
-		this.altezza = altezza;
-		this.colonne_aiuole = 2;
-		this.righe_aiuole = 2;
-		this.camminamenti_altezza = 30;
-		this.camminamenti_largezza = 30;
-		
-		// Inizializzazione statica
-		piante = new ArrayList<>();
-		for (int i = 0; i < 6; i++) {
-//            piante.add(new Pianta("Carota", R.mipmap.plant_carrot_3944093));
-		}
-		System.out.println("Creato orto " + nome);
+		this.aiuoleDim = aiuoleDim;
+		this.aiuoleCount = aiuoleCount;
+		this.esposizione = esposizione;
+		this.orientamento = orientamento;
 	}
 	
-	public ArrayList<Integer> getImages() {
-		ArrayList<Integer> imgs = new ArrayList<>();
-		for (Pianta p : piante) {
-//			imgs.add(p.image);
-		}
-		return imgs;
+	
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
-	@NonNull
-	@Override
-	public String toString() {
-		return nome + ": (" + larghezza + " " + altezza + ")";// [" + c + "]";
+	public void setAiuoleDim(int x, int y) {
+		aiuoleDim.x = x;
+		aiuoleDim.y = y;
 	}
+	
+	public void setAiuoleCount(int x, int y) {
+		aiuoleCount.x = x;
+		aiuoleCount.y = y;
+	}
+	
+	public void setEsposizione(Esposizione esposizione) {
+		this.esposizione = esposizione;
+	}
+	
+	public void setOrientamento(Orientamento orientamento) {
+		this.orientamento = orientamento;
+	}
+	
 	
 	public String getNome() {
 		return nome;
 	}
 	
-	public int getLarghezza() {
-		return larghezza;
+	public IntPair getAiuoleDim() {
+		return aiuoleDim;
 	}
 	
-	public int getAltezza() {
-		return altezza;
+	public IntPair getAiuoleCount() {
+		return aiuoleCount;
 	}
 	
-	public int getCamminamenti_largezza() {
-		return camminamenti_largezza;
+	public ArrayList<Pianta> getPiante() {
+		return piante;
 	}
 	
-	public int getCamminamenti_altezza() {
-		return camminamenti_altezza;
+	public ArrayList<Integer> getImages() {  // TODO
+		return null;
 	}
 	
-	public int getColonne_aiuole() {
-		return colonne_aiuole;
+	public Esposizione getEsposizione() {
+		return esposizione;
 	}
 	
-	public int getRighe_aiuole() {
-		return righe_aiuole;
-	}
-	
-	int getAltezzaAiuole() {
-		return (this.altezza / righe_aiuole) - (camminamenti_altezza * (righe_aiuole - 1));
-	}
-	
-	int getLargezzaAiuole() {
-		return (this.larghezza / colonne_aiuole) - (camminamenti_largezza * (colonne_aiuole - 1));
+	public Orientamento getOrientamento() {
+		return orientamento;
 	}
 }

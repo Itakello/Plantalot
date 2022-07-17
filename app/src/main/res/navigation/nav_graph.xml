@@ -37,7 +37,7 @@
 		
 		<action
 			app:enterAnim="@android:anim/fade_in"
-			android:id="@+id/action_goto_newGarden"
+			android:id="@+id/action_goto_nuovo_giardino"
 			app:destination="@id/nuovoGiardinoFragment"
 			/>
 		
@@ -45,6 +45,12 @@
 			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_carriola"
 			app:destination="@id/carriolaFragment"
+			/>
+		
+		<action
+			app:enterAnim="@android:anim/fade_in"
+			android:id="@+id/action_goto_nuovo_orto"
+			app:destination="@id/nuovoOrtoFragment"
 			/>
 		
 	</fragment>
@@ -111,9 +117,23 @@
 	
 	<fragment
 		android:id="@+id/nuovoGiardinoFragment"
-		android:name="com.plantalot.fragments.NewGardenFragment"
+		android:name="com.plantalot.fragments.NuovoGiardinoFragment"
 		android:label="NuovoGiardinoFragment"
 		tools:layout="@layout/nuovo_giardino_fragment"
+		>
+		<action
+			app:enterAnim="@android:anim/fade_in"
+			android:id="@+id/action_goto_home"
+			app:destination="@id/homeFragment"
+			/>
+	
+	</fragment>
+	
+	<fragment
+		android:id="@+id/nuovoOrtoFragment"
+		android:name="com.plantalot.fragments.NuovoOrtoFragment"
+		android:label="NuovoOrtoFragment"
+		tools:layout="@layout/nuovo_orto_fragment"
 		>
 		<action
 			app:enterAnim="@android:anim/fade_in"

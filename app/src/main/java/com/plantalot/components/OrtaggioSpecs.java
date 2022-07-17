@@ -13,7 +13,7 @@ import com.plantalot.R;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class OrtaggioSpecs {
+public class OrtaggioSpecs {  // TODO extends View
 	
 	// FIXME
 	private final String title;

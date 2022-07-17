@@ -1,11 +1,22 @@
 <resources>
 	<string name="app_name" translatable="false">Plantalot</string>
-	<string name="new_garden">Nuovo giardino</string>
-	<string name="garden_name">Giardino</string>
+	
+	<string name="conferma">Conferma</string>
+	<string name="annulla">Annulla</string>
+	
+	<string name="nuovo_orto">Nuovo orto</string>
+	<string name="nuovo_giardino">Nuovo giardino</string>
+	<string name="giardino">Giardino</string>
 	<!-- TODO: Remove or change this placeholder text -->
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 	<string name="instruction_no_giardini">Benvenuto! Non hai ancora giardini, è l\'ora di crearne uno! Premi sul menu in alto a sinistra per iniziare.</string>
 	<string name="instruction_no_orti">Non hai ancora nessun orto. Aspetta che gli sviluppatori implementino questa funzionalità prima di crearne uno.</string>
+	
+	<string name="nome_orto">Nome dell\'orto</string>
+	<string name="dimensioni">Dimensioni aiuola (cm)</string>
+	<string name="numero_aiuole">Numero di aiuole</string>
+	<string name="esposizione">Esposizione</string>
+	<string name="orientamento">Orientamento</string>
 	
 	<plurals name="piante">
 		<item quantity="one">pianta</item>
@@ -26,5 +37,5 @@
 		<item quantity="one">%d pianta per pack</item>
 		<item quantity="other">%d piante per pack</item>
 	</plurals>
-	
+
 </resources>

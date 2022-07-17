@@ -50,7 +50,7 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 		
 		Orto o = giardino.orti.get(i);
 		String ortoName = o.getNome();
-		int specie = o.piante.size();
+		int specie = o.getPiante().size();
 		
 		viewHolder.mCardView.setOnClickListener(view -> System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXx"));
 		

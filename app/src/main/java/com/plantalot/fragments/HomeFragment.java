@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
 			new Pair<>(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false),
 			new Pair<>(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false),
 			new Pair<>(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false),
-			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true)
+			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24, R.id.action_goto_nuovo_orto), true)
 	));
 	
 	@Override
@@ -95,19 +95,16 @@ public class HomeFragment extends Fragment {
 	}
 	
 	private void initializeUI(@NonNull View view) {
-		// Setup giardini recycler view
+		setUpToolbar(view);
+		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		
-		setUpToolbar(view);
-		
-		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		
-		// Add link to new_garden fragment
 		Button new_garden = view.findViewById(R.id.nuovo_giardino);
-		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_newGarden));
+		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_nuovo_giardino));
 	}
 	
 	private void setUpToolbar(@NonNull View view) {
@@ -116,7 +113,6 @@ public class HomeFragment extends Fragment {
 		
 		if (activity != null) activity.setSupportActionBar(toolbar);
 		
-		// Setup listener + animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
 				view.findViewById(R.id.home_backdrop_frontlayer),

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:clickable="false"
+	android:elevation="2dp"
+	android:fitsSystemWindows="true"
+	android:orientation="vertical"
+	>
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/constraintLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="16dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		>
+		
+		<Button
+			style="@style/Widget.App.Button.ElevatedButton.IconOnly"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:insetLeft="0dp"
+			android:insetTop="0dp"
+			android:insetRight="0dp"
+			android:insetBottom="0dp"
+			android:text=""
+			app:icon="@drawable/ic_round_arrow_back_24"
+			app:iconGravity="textStart"
+			app:iconPadding="0dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+		
+		<Button
+			android:id="@+id/save_orto"
+			style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Salva"
+			app:icon="@drawable/ic_round_done_24"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+	
+	<FrameLayout
+		android:id="@+id/nuovo_orto_table_frame"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		app:layout_constraintBottom_toTopOf="@+id/nuovo_orto_options_card"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+		android:layout_marginBottom="12dp"
+		>
+		
+		<TableLayout
+			android:id="@+id/nuovo_orto_table"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			/>
+		
+	</FrameLayout>
+	
+	<com.google.android.material.card.MaterialCardView
+		android:id="@+id/nuovo_orto_options_card"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="16dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		>
+		
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/nuovo_orto_options_recycler"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:overScrollMode="never"
+			android:paddingHorizontal="16dp"
+			android:paddingVertical="4dp"
+			android:visibility="visible"
+			tools:itemCount="5"
+			tools:listitem="@layout/nuovo_orto_option_row"
+			/>
+		
+		<LinearLayout
+			android:id="@+id/nuovo_orto_card_expanded"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:visibility="invisible"
+			>
+			
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="52dp"
+				>
+				
+				<ImageView
+					android:id="@+id/nuovo_orto_card_back"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingHorizontal="12dp"
+					android:src="@drawable/ic_round_arrow_back_24"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					/>
+				
+				<TextView
+					android:id="@+id/nuovo_orto_card_header"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?attr/textAppearanceTitleMedium"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@+id/nuovo_orto_card_back"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="Header"
+					/>
+				
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="1px"
+					android:background="?attr/colorSecondary"
+					app:layout_constraintBottom_toBottomOf="parent"
+					/>
+			
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		
+		</LinearLayout>
+	
+	</com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

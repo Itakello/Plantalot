@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center"
+	android:orientation="horizontal"
+	>
+	
+	<ImageView
+		android:id="@+id/nuovo_orto_number_icon_left"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="8dp"
+		tools:src="@drawable/ic_iconify_carrot_24"
+		/>
+	
+	<NumberPicker
+		android:id="@+id/nuovo_orto_picker_aiuola_dim_x"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="24dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		/>
+	
+	<NumberPicker
+		android:id="@+id/nuovo_orto_picker_aiuola_dim_y"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="24dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		/>
+	
+	<ImageView
+		android:id="@+id/nuovo_orto_number_icon_right"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="8dp"
+		tools:src="@drawable/ic_iconify_carrot_24"
+		/>
+
+</LinearLayout>

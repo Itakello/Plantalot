@@ -59,23 +59,20 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 		public ViewHolder(View itemView) {
 			super(itemView);
 			button = itemView.findViewById(R.id.drawer_button_text);
-			button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					System.out.println("Hai premuto il pulsante " + button.getText().toString());
-//					HomeFragment.setUpGiardino(fragView, button.getText().toString());
-					Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
-					ImageButton img_button = Utils.getToolbarNavigationButton(toolbar);
-
-					// Add delay for smooth animation
-					final Handler handler = new Handler();
-					handler.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							img_button.performClick();
-						}
-					}, 100);
-				}
+			button.setOnClickListener(v -> {  // FIXME controllare il codice
+				System.out.println("Hai premuto il pulsante " + button.getText().toString());
+//				HomeFragment.setUpGiardino(fragView, button.getText().toString());
+				Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
+				ImageButton img_button = Utils.getToolbarNavigationButton(toolbar);  // FIXME controllare il codice
+				
+				// Add delay for smooth animation
+				final Handler handler = new Handler();
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						img_button.performClick();
+					}
+				}, 100);
 			});
 		}
 	}

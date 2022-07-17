@@ -11,7 +11,7 @@ import com.plantalot.adapters.CircleButtonsAdapter;
 
 import java.util.List;
 
-public class CircleButton {
+public class CircleButton {  // TODO extends View
 	
 	public static final int CARRIOLA = 0;
 	public static final int PREFERITI = 0;
@@ -28,7 +28,7 @@ public class CircleButton {
 	}
 
 	public CircleButton(String label, int icon, int idFragment) {
-		this(label, icon, idFragment, (Bundle) null);
+		this(label, icon, idFragment, null);
 	}
 	
 	public CircleButton(String label, int icon, int idFragment, Bundle bundle) {
