@@ -2,26 +2,23 @@ package com.plantalot.fragments;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.plantalot.classes.Giardino;
+import com.plantalot.classes.User;
 import com.plantalot.components.NuovoOrtoNumberSelector;
 import com.plantalot.R;
 import com.plantalot.adapters.NuovoOrtoOptionsAdapter;
@@ -75,7 +72,10 @@ public class NuovoOrtoFragment extends Fragment {
 		optionsRecycler.addItemDecoration(dividerItemDecoration);
 		
 		Button save_btn = view.findViewById(R.id.save_orto);
-		save_btn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_goto_home));
+		save_btn.setOnClickListener(v -> {
+			// giardino.addOrto(orto);  // FIXME MAX !!!!!!!!!!!!!!!!!!!!!!!
+			Navigation.findNavController(v).navigate(R.id.action_goto_home);
+		});
 		
 		return view;
 	}
@@ -125,7 +125,7 @@ public class NuovoOrtoFragment extends Fragment {
 						res.getString(R.string.dimensioni),
 						orto.getAiuoleDim().toString(),
 						new NuovoOrtoNumberSelector(
-								this, context, orto.getAiuoleDim(), 20, 1000,
+								this, context, orto.getAiuoleDim(), 40, 1000,
 								R.drawable.ic_round_spacing_horizontal_24, R.drawable.ic_round_spacing_vertical_24)),
 				new Triple<>(
 						res.getString(R.string.numero_aiuole),

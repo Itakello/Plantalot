@@ -16,7 +16,7 @@ public class Orto {
 	private String nome;
 	private IntPair aiuoleDim;
 	private IntPair aiuoleCount;
-	private ArrayList<Pianta> piante;
+	private ArrayList<Pianta> piante = new ArrayList<>();
 	private Esposizione esposizione;
 	private Orientamento orientamento;
 	
@@ -82,7 +82,7 @@ public class Orto {
 	}
 	
 	public ArrayList<Integer> getImages() {  // TODO
-		return null;
+		return new ArrayList<>();
 	}
 	
 	public Esposizione getEsposizione() {

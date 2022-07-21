@@ -15,23 +15,7 @@ public class User {
 	private String username;
 	private String email;
 	private Map<String, Giardino> giardini;
-	
 	public static HashMap<String, HashMap<String, Integer>> carriola = new HashMap<>();  // FIXME !!!!!
-	
-//	static {
-//		carriola.put("Barbabietola", new HashMap<>());
-//		carriola.put("Peperoncino", new HashMap<>());
-//		carriola.put("Aglio", new HashMap<>());
-//		carriola.put("Zucca", new HashMap<>());
-//		carriola.put("Bietola", new HashMap<>());
-//
-//		carriola.get("Barbabietola").put("Detroit", 6);
-//		carriola.get("Peperoncino").put("Fatalii", 1);
-//		carriola.get("Peperoncino").put("Habanero arancione", 2);
-//		carriola.get("Aglio").put("Rosso", 12);
-//		carriola.get("Zucca").put("Delica tonda", 4);
-//		carriola.get("Bietola").put("Multicolore", 6);
-//	}
 	
 	public User() {
 		giardini = new HashMap<>();
@@ -56,8 +40,7 @@ public class User {
 	}
 	
 	public Giardino getFirstGiardino() {
-		if (giardini.size() == 0)
-			return null;
+		if (giardini == null || giardini.size() == 0) return null;
 		return giardini.entrySet().iterator().next().getValue();
 	}
 	

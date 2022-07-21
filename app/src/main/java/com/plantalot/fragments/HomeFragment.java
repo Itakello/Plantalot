@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
 	private static final String TAG = "HomeFragment";
 	private SharedPreferences sharedPref;
 	private Giardino giardino;
+	private View view;
 	
 	private static final List<Pair<CircleButton, Boolean>> mButtons = new ArrayList<>(Arrays.asList(
 			new Pair<>(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true),
@@ -71,9 +72,9 @@ public class HomeFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.home_fragment, container, false);
+		view = inflater.inflate(R.layout.home_fragment, container, false);
 		// TODO add loading bar
-		initializeUI(view);
+		initializeUI();
 		
 		String giardinoName = null;
 //		if(savedInstanceState != null){
@@ -94,8 +95,8 @@ public class HomeFragment extends Fragment {
 		if (giardino != null) sharedPref.edit().putString("giardino", giardino.getName());
 	}
 	
-	private void initializeUI(@NonNull View view) {
-		setUpToolbar(view);
+	private void initializeUI() {
+		setUpToolbar();
 		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment {
 		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_nuovo_giardino));
 	}
 	
-	private void setUpToolbar(@NonNull View view) {
+	private void setUpToolbar() {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
@@ -145,7 +146,7 @@ public class HomeFragment extends Fragment {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.GONE); // FIXME
 		} else {
-			if (giardino.orti.isEmpty()) {
+			if (giardino.getOrti().isEmpty()) {
 				instructions.setText(R.string.instruction_no_orti);
 			} else {
 				instructions.setVisibility(View.GONE); // FIXME
@@ -159,7 +160,7 @@ public class HomeFragment extends Fragment {
 			title.setText(giardino.getName());
 			
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
-			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
+			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino.getOrti());
 			ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		}
 	}
