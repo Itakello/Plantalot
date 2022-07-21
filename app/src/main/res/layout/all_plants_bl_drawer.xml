@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<!-- FIXME paddingBottom -->
+<androidx.core.widget.NestedScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
@@ -11,47 +12,40 @@
 	android:orientation="vertical"
 	>
 	
-	<!-- FIXME paddingBottom -->
-	<androidx.core.widget.NestedScrollView
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:orientation="vertical"
 		>
 		
-		<LinearLayout
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/all_plants_bl_filters_recycler"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
 			android:orientation="vertical"
-			>
-			
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/all_plants_bl_filters_recycler"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center_horizontal"
-				android:orientation="vertical"
-				android:overScrollMode="never"
-				android:paddingTop="16dp"
-				tools:itemCount="5"
-				tools:listitem="@layout/all_plants_bl_drawer_chips"
-				android:paddingBottom="56dp"
-				android:visibility="gone"
-				/>
-			
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/all_plants_bl_search_recycler"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center_horizontal"
-				android:orientation="vertical"
-				android:overScrollMode="never"
-				android:paddingTop="24dp"
-				android:visibility="gone"
-				tools:itemCount="5"
-				tools:listitem="@layout/all_plants_bl_search_result"
-				android:paddingBottom="56dp"
-				/>
+			android:overScrollMode="never"
+			android:paddingTop="16dp"
+			android:paddingBottom="56dp"
+			android:visibility="gone"
+			tools:itemCount="5"
+			tools:listitem="@layout/all_plants_bl_drawer_chips"
+			/>
 		
-		</LinearLayout>
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/all_plants_bl_search_recycler"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:orientation="vertical"
+			android:overScrollMode="never"
+			android:paddingTop="24dp"
+			android:paddingBottom="56dp"
+			android:visibility="gone"
+			tools:itemCount="5"
+			tools:listitem="@layout/all_plants_bl_search_result"
+			/>
 	
-	</androidx.core.widget.NestedScrollView>
-</LinearLayout>
+	</FrameLayout>
+
+</androidx.core.widget.NestedScrollView>

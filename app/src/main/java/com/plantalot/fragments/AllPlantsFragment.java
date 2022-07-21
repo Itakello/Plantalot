@@ -60,6 +60,7 @@ public class AllPlantsFragment extends Fragment {
 	private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 	
 	private View view;
+	private Menu menu;
 	private Toolbar toolbar;
 	private AllPlantsFiltersAdapter filterAdapter;
 	private AllPlantsCardListAdapter cardAdapter;
@@ -214,12 +215,12 @@ public class AllPlantsFragment extends Fragment {
 		handler.post(this::setupToolbar);
 		handler.post(this::setupSubheader);
 		handler.post(this::queryDb);
-		handler.post(this::setupSearch);
 		handler.postDelayed(this::setupFilters, 300);
+		handler.postDelayed(this::setupSearch, 300);
 		handler.postDelayed(this::searchTextInit, 300);
 		return view;
 	}
-	
+
 // FIXME !!!!
 //	@Override
 //	public void onResume() {
@@ -465,10 +466,27 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void setupFilters() {
-		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_filters_recycler);
-		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		RecyclerView filterRecycler = view.findViewById(R.id.all_plants_bl_filters_recycler);
+		filterRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 		filterAdapter = new AllPlantsFiltersAdapter(getContext(), activeFilters, chips, RAGGRUPPA, this, titles);
-		drawerRecyclerView.setAdapter(filterAdapter);
+		filterRecycler.setAdapter(filterAdapter);
+		filterRecycler.setVisibility(View.GONE);
+	}
+	
+	@SuppressLint("NotifyDataSetChanged")
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	private void setupSearch() {
+		RecyclerView searchRecycler = view.findViewById(R.id.all_plants_bl_search_recycler);
+		searchRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+		searchAdapter = new AllPlantsSearchAdapter(
+				getContext(),
+				searchResultsOrtaggi,
+				searchResultsVarieta,
+				searchTextList,
+				R.id.allPlantsFragment);
+		searchRecycler.setAdapter(searchAdapter);
+		searchTextInit();
+		searchRecycler.setVisibility(View.GONE);
 	}
 	
 	private void setupToolbar() {
@@ -481,13 +499,9 @@ public class AllPlantsFragment extends Fragment {
 	@Override
 	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
 		
+		this.menu = menu;
 		getActivity().getMenuInflater().inflate(R.menu.all_plants_bl_toolbar_menu, menu);
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		
-		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
-		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
-		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
-		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
 		
 		setOnMenuItemsClickListeners(menu);
 		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
@@ -513,6 +527,7 @@ public class AllPlantsFragment extends Fragment {
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void setOnMenuItemsClickListeners(Menu menu) {
+		Handler handler = new Handler();
 		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
 			if (!isSearchShown) {
 				isSearchShown = true;
@@ -520,7 +535,7 @@ public class AllPlantsFragment extends Fragment {
 				toolbar.setTitle("Cerca");
 				toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 				toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
-				backdropBehaviour();
+				handler.post(this::backdropBehaviour);
 			}
 			return true;
 		});
@@ -530,7 +545,8 @@ public class AllPlantsFragment extends Fragment {
 			toolbar.setTitle("Filtra");
 			toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 			toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
-			return backdropBehaviour();
+			handler.post(this::backdropBehaviour);
+			return true;
 		});
 		
 		menu.findItem(R.id.done).setOnMenuItemClickListener(menuItem -> backdropBehaviour());
@@ -544,9 +560,10 @@ public class AllPlantsFragment extends Fragment {
 				}
 			}
 			if (isChanged) {
-				filterAdapter.notifyItemRangeChanged(1, chips.size() - 1);
-				Handler handler = new Handler();
-				handler.post(this::queryDb);
+				handler.post(() -> {
+					filterAdapter.notifyItemRangeChanged(1, chips.size() - 1);
+					queryDb();
+				});
 			}
 			return true;
 		});
@@ -554,19 +571,11 @@ public class AllPlantsFragment extends Fragment {
 		view.findViewById(R.id.all_plants_fl_header).setOnClickListener(view -> backdropBehaviour(true));
 	}
 	
-	@SuppressLint("NotifyDataSetChanged")
-	@RequiresApi(api = Build.VERSION_CODES.N)
-	private void setupSearch() {
-		RecyclerView drawerRecyclerView = view.findViewById(R.id.all_plants_bl_search_recycler);
-		drawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		searchAdapter = new AllPlantsSearchAdapter(
-				getContext(),
-				searchResultsOrtaggi,
-				searchResultsVarieta,
-				searchTextList,
-				R.id.allPlantsFragment);
-		drawerRecyclerView.setAdapter(searchAdapter);
-		searchTextInit();
+	private void updateMenuIcons(Menu menu) {
+		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
+		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
+		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
+		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
 	}
 	
 	
@@ -637,31 +646,27 @@ public class AllPlantsFragment extends Fragment {
 		if (!isBackdropShown && closeOnly) return false;
 		isBackdropShown = !isBackdropShown;
 		
-		setupSubheader();
+		final int DELAY = 200;
+		Handler handler = new Handler();
+		handler.post(this::setupSubheader);
 		
-		int interval = 200;
-		AnimatorSet animatorSet = new AnimatorSet();
-		Interpolator interpolator = new AccelerateDecelerateInterpolator();
-		
-		getActivity().invalidateOptionsMenu();
-		
-		animatorSet.removeAllListeners();
-		animatorSet.end();
-		animatorSet.cancel();
-		
-		View frontLayer = view.findViewById(R.id.all_plants_backdrop_frontlayer);
-		
-		ObjectAnimator animator = ObjectAnimator.ofFloat(
-				frontLayer,
-				"translationY",
-				isBackdropShown ? translateY : 0);
-		animator.setDuration(interval);
-		animator.start();
-		if (interpolator != null) {
+		handler.post(() -> {
+			AnimatorSet animatorSet = new AnimatorSet();
+			Interpolator interpolator = new AccelerateDecelerateInterpolator();
+			View frontLayer = view.findViewById(R.id.all_plants_backdrop_frontlayer);
+			ObjectAnimator animator = ObjectAnimator.ofFloat(
+					frontLayer,
+					"translationY",
+					isBackdropShown ? translateY : 0);
+			animator.setDuration(DELAY);
+			animator.start();
 			animator.setInterpolator(interpolator);
-		}
-		animatorSet.play(animator);
-		animator.start();
+			animatorSet.play(animator);
+			animator.start();
+			animatorSet.removeAllListeners();
+			animatorSet.end();
+			animatorSet.cancel();
+		});
 		
 		if (isBackdropShown) {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
@@ -673,12 +678,13 @@ public class AllPlantsFragment extends Fragment {
 			toolbar.setNavigationOnClickListener(
 					view -> Navigation.findNavController(view).navigate(R.id.action_goto_home)
 			);
-			Handler handler = new Handler();
 			handler.postDelayed(() -> {
 				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.GONE);
-			}, interval);
+			}, DELAY);
 		}
+		
+		updateMenuIcons(menu);
 		
 		return false;
 	}
