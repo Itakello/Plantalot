@@ -19,23 +19,36 @@
 		android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
 		/>
 	
-	<com.google.android.material.card.MaterialCardView
-		android:layout_width="match_parent"
+	<FrameLayout
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		app:cardCornerRadius="8dp"
-		app:strokeWidth="0dp"
-		android:clickable="false"
-		android:focusable="false"
 		>
 		
-		<com.google.android.material.button.MaterialButtonToggleGroup
-			android:id="@+id/ortaggio_bl_calendar"
+		<com.google.android.material.card.MaterialCardView
 			android:layout_width="match_parent"
-			android:layout_height="48dp"
-			android:clickable="false"
-			android:focusable="false"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:focusable="true"
+			app:cardCornerRadius="8dp"
+			app:strokeWidth="0dp"
+			>
+			
+			<com.google.android.material.button.MaterialButtonToggleGroup
+				android:id="@+id/ortaggio_bl_calendar"
+				android:layout_width="match_parent"
+				android:layout_height="48dp"
+				/>
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+		<!--	FIXME used to intercept touch event and prevent ripple effect on buttons	-->
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:clickable="true"
+			android:focusable="true"
 			/>
 	
-	</com.google.android.material.card.MaterialCardView>
+	</FrameLayout>
 
 </LinearLayout>
