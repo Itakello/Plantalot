@@ -4,18 +4,26 @@ import android.util.Pair;
 
 import com.plantalot.database.Db;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Fts4;
+import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class User {
+public class User implements Serializable {
 	private final String TAG = "User";
+	
 	private String username;
 	private String email;
 	private Map<String, Giardino> giardini;
 	public static HashMap<String, HashMap<String, Integer>> carriola = new HashMap<>();  // FIXME !!!!!
+	private String nome_giardino_selected;
 	
 	public User() {
 		giardini = new HashMap<>();
@@ -44,6 +52,11 @@ public class User {
 		return giardini.entrySet().iterator().next().getValue();
 	}
 	
+	
+	public Map<String, Giardino> getGiardini() {
+		return giardini;
+	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -56,12 +69,20 @@ public class User {
 		giardini.put(giardino.getName(), giardino);
 	}
 	
-	public List<String> getGiardiniNames() {
+	public List<String> getGiardiniNames(){
 		return new ArrayList<>(giardini.keySet());
 	}
 	
-	public Map<String, Giardino> getGiardini() {
-		return giardini;
+	public void setGiardini(Map<String, Giardino> giardini) {
+		this.giardini = giardini;
+	}
+	
+	public String getNome_giardino_selected() {
+		return nome_giardino_selected;
+	}
+	
+	public void setNome_giardino_selected(String nome_giardino_selected) {
+		this.nome_giardino_selected = nome_giardino_selected;
 	}
 	
 }

@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.Set;
 
 
-public class Db {
+public class DbPlants {
 	
 	private static final List<String> famiglieNames = new ArrayList<>();
 	private static final List<String> ortaggiNames = new ArrayList<>();
@@ -51,9 +51,9 @@ public class Db {
 	public static Map<String, String> getVarietaNames() {
 		return varietaNames;
 	}
-
+	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	public static void init(Activity activity) {
+	public static void init(@NonNull Activity activity) {
 		
 		Resources res = activity.getResources();
 		defaultImageId = res.getIdentifier(
@@ -61,7 +61,7 @@ public class Db {
 				"mipmap",
 				activity.getPackageName());
 		
-		// FIXME local db !!!!!!!!!!
+		// FIXME local/offline db !!!!!!!!!!
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
 //		db.setPersistenceEnabled(true);
 //		db.keepSynced(true);

@@ -35,7 +35,7 @@ import com.plantalot.classes.Pianta;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.components.OrtaggioSpecs;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.utils.ColorUtils;
 import com.plantalot.utils.Utils;
 
@@ -294,11 +294,9 @@ public class OrtaggioFragment extends Fragment {
 								setupCompanions(pianta);
 							});
 				});
-		
 	}
 	
 	private void setupCompanions(Pianta pianta) {
-		int prev_fragment = getArguments().getInt("prev_fragment");
 		
 		List<Pair<String, List<String>>> cards1 = new ArrayList<>(Collections.singletonList(
 				new Pair<>("Consociazioni utili", pianta.getConsociazioni_pos())
@@ -309,6 +307,7 @@ public class OrtaggioFragment extends Fragment {
 				new Pair<>("Rotazioni sconsigliate", pianta.getRotazioni_neg())
 		));
 		
+		int prev_fragment = getArguments().getInt("prev_fragment");
 		RecyclerView cardsRecyclerView1 = view.findViewById(R.id.ortaggio_bl_card_list_recycler1);
 		cardsRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
 		OrtaggioCardListAdapter ortaggioCardListAdapter1 = new OrtaggioCardListAdapter(cards1, prev_fragment);

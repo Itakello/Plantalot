@@ -1,7 +1,6 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.navigation.Nav;
 
 import java.util.HashMap;
@@ -61,7 +59,7 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		} else {
 			viewHolder.mOrtaggioTv.setText(ortaggio);
 		}
-		viewHolder.mImage.setImageResource(Db.getImageId(ortaggio));
+		viewHolder.mImage.setImageResource(DbPlants.getImageId(ortaggio));
 		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, view));
 	}
 	

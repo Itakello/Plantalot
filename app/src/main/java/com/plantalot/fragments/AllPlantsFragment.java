@@ -37,7 +37,7 @@ import com.plantalot.adapters.AllPlantsCardListAdapter;
 import com.plantalot.adapters.AllPlantsFiltersAdapter;
 import com.plantalot.adapters.AllPlantsSearchAdapter;
 import com.plantalot.classes.Ortaggio;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.utils.Utils;
 
 import java.util.ArrayList;
@@ -88,13 +88,13 @@ public class AllPlantsFragment extends Fragment {
 	
 	private static final List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
 			new Pair<>(RAGGRUPPA, new ArrayList<>()),  /*, "Produzione", "Anni di rotazione", "Piante per pack"*/
-			new Pair<>(Db.VARIETA_TASSONOMIA_FAMIGLIA, Db.getFamiglieNames()),
-			new Pair<>(Db.VARIETA_TRAPIANTI_MESI, MONTHS),
-			new Pair<>(Db.VARIETA_RACCOLTA_AVG, new ArrayList<>()),
-			new Pair<>(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>()),
-			new Pair<>(Db.VARIETA_DISTANZE_FILE, new ArrayList<>()),
-			new Pair<>(Db.VARIETA_ALTRO_PACK, new ArrayList<>()),
-			new Pair<>(Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA, OMBRA)
+			new Pair<>(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, DbPlants.getFamiglieNames()),
+			new Pair<>(DbPlants.VARIETA_TRAPIANTI_MESI, MONTHS),
+			new Pair<>(DbPlants.VARIETA_RACCOLTA_AVG, new ArrayList<>()),
+			new Pair<>(DbPlants.VARIETA_DISTANZE_PIANTE, new ArrayList<>()),
+			new Pair<>(DbPlants.VARIETA_DISTANZE_FILE, new ArrayList<>()),
+			new Pair<>(DbPlants.VARIETA_ALTRO_PACK, new ArrayList<>()),
+			new Pair<>(DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA, OMBRA)
 //			new Pair<>(CHIP_ROTAZIONE, Arrays.asList("2", "3", "4", "5", "7")),          // TODO
 //			new Pair<>("Giardini e preferiti", Arrays.asList("Tutto", "", "Preferiti"))  // TODO
 	));
@@ -107,37 +107,37 @@ public class AllPlantsFragment extends Fragment {
 	
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
-		titles.put(Db.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
-		titles.put(Db.VARIETA_TASSONOMIA_SPECIE, "Nome");
-		titles.put(Db.VARIETA_TRAPIANTI_MESI, "Mesi per il trapianto");
-		titles.put(Db.VARIETA_RACCOLTA_AVG, "Giorni alla raccolta");
-		titles.put(Db.VARIETA_DISTANZE_PIANTE, "Distanza fra piante");
-		titles.put(Db.VARIETA_DISTANZE_FILE, "Distanza fra file");
-		titles.put(Db.VARIETA_ALTRO_PACK, "Piante per pack");
-		titles.put(Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA, "Mezz'ombra");
+		titles.put(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
+		titles.put(DbPlants.VARIETA_TASSONOMIA_SPECIE, "Nome");
+		titles.put(DbPlants.VARIETA_TRAPIANTI_MESI, "Mesi per il trapianto");
+		titles.put(DbPlants.VARIETA_RACCOLTA_AVG, "Giorni alla raccolta");
+		titles.put(DbPlants.VARIETA_DISTANZE_PIANTE, "Distanza fra piante");
+		titles.put(DbPlants.VARIETA_DISTANZE_FILE, "Distanza fra file");
+		titles.put(DbPlants.VARIETA_ALTRO_PACK, "Piante per pack");
+		titles.put(DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA, "Mezz'ombra");
 //.		titles.put(Db.ROTAZIONE, "Anni di rotazione");  // TODO
 		
-		ranges.put(Db.VARIETA_DISTANZE_PIANTE, new ArrayList<>(Arrays.asList(
+		ranges.put(DbPlants.VARIETA_DISTANZE_PIANTE, new ArrayList<>(Arrays.asList(
 				new Pair<>(5, 10),
 				new Pair<>(15, 20),
 				new Pair<>(25, 30),
 				new Pair<>(40, 45),
 				new Pair<>(70, 100)
 		)));
-		ranges.put(Db.VARIETA_DISTANZE_FILE, new ArrayList<>(Arrays.asList(
+		ranges.put(DbPlants.VARIETA_DISTANZE_FILE, new ArrayList<>(Arrays.asList(
 				new Pair<>(15, 30),
 				new Pair<>(35, 40),
 				new Pair<>(45, 50),
 				new Pair<>(100, 200)
 		)));
-		ranges.put(Db.VARIETA_RACCOLTA_AVG, new ArrayList<>(Arrays.asList(
+		ranges.put(DbPlants.VARIETA_RACCOLTA_AVG, new ArrayList<>(Arrays.asList(
 				new Pair<>(10, 40),
 				new Pair<>(45, 60),
 				new Pair<>(65, 80),
 				new Pair<>(85, 95),
 				new Pair<>(100, 150)
 		)));
-		ranges.put(Db.VARIETA_ALTRO_PACK, new ArrayList<>(Arrays.asList(
+		ranges.put(DbPlants.VARIETA_ALTRO_PACK, new ArrayList<>(Arrays.asList(
 				new Pair<>(1, 1),
 				new Pair<>(4, 4),
 				new Pair<>(6, 6),
@@ -150,25 +150,25 @@ public class AllPlantsFragment extends Fragment {
 			switch (chip.first) {
 				case RAGGRUPPA:
 					chip.second.addAll(Arrays.asList(
-							Db.VARIETA_TASSONOMIA_FAMIGLIA,
-							Db.VARIETA_TASSONOMIA_SPECIE,
-							Db.VARIETA_RACCOLTA_AVG,
-							Db.VARIETA_DISTANZE_PIANTE,
-							Db.VARIETA_DISTANZE_FILE,
-							Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA,
-							Db.VARIETA_ALTRO_PACK));
+							DbPlants.VARIETA_TASSONOMIA_FAMIGLIA,
+							DbPlants.VARIETA_TASSONOMIA_SPECIE,
+							DbPlants.VARIETA_RACCOLTA_AVG,
+							DbPlants.VARIETA_DISTANZE_PIANTE,
+							DbPlants.VARIETA_DISTANZE_FILE,
+							DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA,
+							DbPlants.VARIETA_ALTRO_PACK));
 					break;
-				case Db.VARIETA_DISTANZE_PIANTE:
-					setChip(chip, Db.VARIETA_DISTANZE_PIANTE);
+				case DbPlants.VARIETA_DISTANZE_PIANTE:
+					setChip(chip, DbPlants.VARIETA_DISTANZE_PIANTE);
 					break;
-				case Db.VARIETA_DISTANZE_FILE:
-					setChip(chip, Db.VARIETA_DISTANZE_FILE);
+				case DbPlants.VARIETA_DISTANZE_FILE:
+					setChip(chip, DbPlants.VARIETA_DISTANZE_FILE);
 					break;
-				case Db.VARIETA_RACCOLTA_AVG:
-					setChip(chip, Db.VARIETA_RACCOLTA_AVG);
+				case DbPlants.VARIETA_RACCOLTA_AVG:
+					setChip(chip, DbPlants.VARIETA_RACCOLTA_AVG);
 					break;
-				case Db.VARIETA_ALTRO_PACK:
-					for (Pair<Integer, Integer> pair : ranges.get(Db.VARIETA_ALTRO_PACK)) {
+				case DbPlants.VARIETA_ALTRO_PACK:
+					for (Pair<Integer, Integer> pair : ranges.get(DbPlants.VARIETA_ALTRO_PACK)) {
 						chip.second.add(pair.first.toString());
 					}
 					break;
@@ -193,7 +193,7 @@ public class AllPlantsFragment extends Fragment {
 		for (Pair<String, List<String>> chip : chips) {
 			activeFilters.put(chip.first, new HashSet<>());
 		}
-		activeFilters.get(RAGGRUPPA).add(Db.VARIETA_TASSONOMIA_FAMIGLIA);
+		activeFilters.get(RAGGRUPPA).add(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA);
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
@@ -447,17 +447,17 @@ public class AllPlantsFragment extends Fragment {
 		cards.clear();
 		
 		switch (activeGroup) {
-			case Db.VARIETA_TASSONOMIA_FAMIGLIA:
-			case Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
+			case DbPlants.VARIETA_TASSONOMIA_FAMIGLIA:
+			case DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
 				gruopByField(activeGroup);
 				break;
-			case Db.VARIETA_TASSONOMIA_SPECIE:
+			case DbPlants.VARIETA_TASSONOMIA_SPECIE:
 				gruopByNome();
 				break;
-			case Db.VARIETA_RACCOLTA_AVG:
-			case Db.VARIETA_DISTANZE_PIANTE:
-			case Db.VARIETA_DISTANZE_FILE:
-			case Db.VARIETA_ALTRO_PACK:
+			case DbPlants.VARIETA_RACCOLTA_AVG:
+			case DbPlants.VARIETA_DISTANZE_PIANTE:
+			case DbPlants.VARIETA_DISTANZE_FILE:
+			case DbPlants.VARIETA_ALTRO_PACK:
 				gruopByRange(activeGroup);
 				break;
 		}
@@ -590,14 +590,14 @@ public class AllPlantsFragment extends Fragment {
 	@SuppressLint("NotifyDataSetChanged")
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void searchTextChange(String searchText) {
-		List<String> results = Db.getOrtaggiNames()
+		List<String> results = DbPlants.getOrtaggiNames()
 				.stream()
 				.filter(o -> searchText.isEmpty()
 						|| (o.toLowerCase()).contains(searchText.toLowerCase()))
 				.collect(Collectors.toList());
-		List<String> resultsVarieta = Db.getVarietaNames().keySet()
+		List<String> resultsVarieta = DbPlants.getVarietaNames().keySet()
 				.stream()
-				.filter(v -> !results.contains(Db.getVarietaNames().get(v))
+				.filter(v -> !results.contains(DbPlants.getVarietaNames().get(v))
 						&& (v.toLowerCase()).contains(searchText.toLowerCase()))
 				.collect(Collectors.toList());
 		
@@ -615,7 +615,7 @@ public class AllPlantsFragment extends Fragment {
 			varietaMap.put(ortaggio, new ArrayList<>());
 		}
 		for (String varietaName : resultsVarieta) {
-			String ortaggio = Db.getVarietaNames().get(varietaName);
+			String ortaggio = DbPlants.getVarietaNames().get(varietaName);
 			if (varietaMap.get(ortaggio) == null) {
 				varieta.add(ortaggio);
 				varietaMap.put(ortaggio, new ArrayList<>());

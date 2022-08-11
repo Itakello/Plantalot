@@ -38,9 +38,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.plantalot.R;
 import com.plantalot.classes.Giardino;
 import com.plantalot.database.DbUsers;
+import com.plantalot.utils.Consts;
 
 import java.sql.SQLOutput;
 import java.util.concurrent.Executor;
@@ -114,9 +117,10 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 				Log.d(TAG, "Adding :" + giardino_name);
 				LatLng markerLoc = currMarker.getPosition();
 				DbUsers.writeNewGiardino(giardino_name, markerLoc);
-				Bundle b = new Bundle();
-				b.putString("giardino", giardino_name);
-				Navigation.findNavController(v).navigate(R.id.action_goto_home, b);
+				// Select current garden in DB
+//				Bundle b = new Bundle();
+//				b.putString(Consts.KEY_GIARDINO, giardino_name);
+				Navigation.findNavController(v).navigate(R.id.action_goto_home);//, b);
 			}
 		});
 
