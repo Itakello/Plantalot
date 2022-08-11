@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
 	private static final String TAG = "HomeFragment";
 	private SharedPreferences sharedPref;
 	private Giardino giardino;
+	private View view;
 	
 	private static final List<Pair<CircleButton, Boolean>> mButtons = new ArrayList<>(Arrays.asList(
 			new Pair<>(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true),
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment {
 			new Pair<>(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false),
 			new Pair<>(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false),
 			new Pair<>(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false),
-			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24), true)
+			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24, R.id.action_goto_nuovo_orto), true)
 	));
 	
 	@Override
@@ -71,9 +72,9 @@ public class HomeFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.home_fragment, container, false);
+		view = inflater.inflate(R.layout.home_fragment, container, false);
 		// TODO add loading bar
-		initializeUI(view);
+		initializeUI();
 		
 		String giardinoName = null;
 //		if(savedInstanceState != null){
@@ -94,29 +95,25 @@ public class HomeFragment extends Fragment {
 		if (giardino != null) sharedPref.edit().putString("giardino", giardino.getName());
 	}
 	
-	private void initializeUI(@NonNull View view) {
-		// Setup giardini recycler view
+	private void initializeUI() {
+		setUpToolbar();
+		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		
-		setUpToolbar(view);
-		
-		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 		ortiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		
-		// Add link to new_garden fragment
 		Button new_garden = view.findViewById(R.id.nuovo_giardino);
-		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_newGarden));
+		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_nuovo_giardino));
 	}
 	
-	private void setUpToolbar(@NonNull View view) {
+	private void setUpToolbar() {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
 		if (activity != null) activity.setSupportActionBar(toolbar);
 		
-		// Setup listener + animation
 		toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
 				getContext(),
 				view.findViewById(R.id.home_backdrop_frontlayer),
@@ -149,7 +146,7 @@ public class HomeFragment extends Fragment {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.GONE); // FIXME
 		} else {
-			if (giardino.orti.isEmpty()) {
+			if (giardino.getOrti().isEmpty()) {
 				instructions.setText(R.string.instruction_no_orti);
 			} else {
 				instructions.setVisibility(View.GONE); // FIXME
@@ -163,7 +160,7 @@ public class HomeFragment extends Fragment {
 			title.setText(giardino.getName());
 			
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
-			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino);
+			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino.getOrti());
 			ortiRecyclerView.setAdapter(homeOrtiAdapter);
 		}
 	}

@@ -46,7 +46,7 @@ import java.sql.SQLOutput;
 import java.util.concurrent.Executor;
 
 
-public class NewGardenFragment extends Fragment implements OnMapReadyCallback {
+public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallback {
 
 	private final static String TAG = "MAPPA";
 	private GoogleMap map;

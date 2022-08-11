@@ -8,11 +8,9 @@ import android.content.Context;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -24,14 +22,16 @@ import com.plantalot.classes.Orto;
 import com.plantalot.utils.Consts;
 import com.plantalot.R;
 
+import java.util.ArrayList;
+
 public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHolder> {
 	
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-	private final Giardino giardino;
+	private final ArrayList<Orto> orti;
 	Context context;
 	
-	public HomeOrtiAdapter(Giardino g) {
-		this.giardino = g;
+	public HomeOrtiAdapter(ArrayList<Orto> orti) {
+		this.orti = orti;
 	}
 	
 	@NonNull
@@ -48,11 +48,9 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 		
-		Orto o = giardino.orti.get(i);
-		String ortoName = o.getNome();
-		int specie = o.piante.size();
-		
-		viewHolder.mCardView.setOnClickListener(view -> System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXx"));
+		Orto orto = orti.get(i);
+		String ortoName = orto.getNome();
+		int specie = orto.getPiante().size();
 		
 		// Card popup menu
 		viewHolder.buttonViewOption.setOnClickListener(view -> {
@@ -88,7 +86,7 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 			
 			FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
 			layoutManager.setJustifyContent(JustifyContent.CENTER);
-			HomeThumbnailsAdapter homeThumbnailAdapter = new HomeThumbnailsAdapter(o.getImages(), imgwidth);
+			HomeThumbnailsAdapter homeThumbnailAdapter = new HomeThumbnailsAdapter(orto.getImages(), imgwidth);
 			
 			viewHolder.mRecyclerView.setLayoutManager(layoutManager);
 			viewHolder.mRecyclerView.setAdapter(homeThumbnailAdapter);
@@ -109,7 +107,7 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	
 	@Override
 	public int getItemCount() {
-		return giardino.orti.size();
+		return orti.size();
 	}
 	
 	

@@ -16,7 +16,7 @@ public class Giardino {
 
     private String name;
     LatLngGiardino pos;
-    public ArrayList<Orto> orti;
+    public ArrayList<Orto> orti;  // FIXME !!!!
 //    Color c;
 
     public Giardino(){
@@ -27,9 +27,6 @@ public class Giardino {
         this();
         this.name = name;
         this.pos = new LatLngGiardino(pos);
-//        orti.add(new Orto("Orto 1", 100, 100));
-//        orti.add(new Orto("Orto 2", 100, 100));
-//        orti.add(new Orto("Orto 3", 100, 100));
     }
 
     public String getName() {
@@ -51,8 +48,8 @@ public class Giardino {
         result.put("orti", orti);
         return result;
     }
-
-//    public ArrayList<Orto> getOrti() {
-//        return orti;
-//    }
+    
+    public void addOrto(Orto orto) {
+        orti.add(orto);
+    }
 }

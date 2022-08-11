@@ -37,40 +37,37 @@ public class DbUsers {
 //		mAuth.useEmulator("0.0.0.0", 9099);
 		
 		mAuth.signInAnonymously()
-				.addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
-					@Override
-					public void onComplete(@NonNull Task<AuthResult> task) {
-						Log.d(TAG, "Signed in anonymously");
-						String userUid = mAuth.getCurrentUser().getUid();
-						dbUser = FirebaseDatabase.getInstance().getReference("users/" + userUid).getRef();
-						
-						dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
-							@Override
-							public void onDataChange(@NonNull DataSnapshot snapshot) {
-								if (snapshot.exists()) {
-									Log.d(TAG, "User already stored in DB");
-									user = snapshot.getValue(User.class);
-									Log.d(TAG, "Num giardini: " + user.getGiardiniNames().size());
-									if (nomeGiardino == null)
-										if (user.getFirstGiardino() != null)
-											HomeFragment.updateUI(view, user, user.getFirstGiardino().getName());
-										else
-											HomeFragment.updateUI(view, user, null);
+				.addOnCompleteListener((Activity) view.getContext(), task -> {
+					Log.d(TAG, "Signed in anonymously");
+					String userUid = mAuth.getCurrentUser().getUid();
+					dbUser = FirebaseDatabase.getInstance().getReference("users/" + userUid).getRef();
+					
+					dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
+						@Override
+						public void onDataChange(@NonNull DataSnapshot snapshot) {
+							if (snapshot.exists()) {
+								Log.d(TAG, "User already stored in DB");
+								user = snapshot.getValue(User.class);
+								Log.d(TAG, "Num giardini: " + user.getGiardiniNames().size());
+								if (nomeGiardino == null)
+									if (user.getFirstGiardino() != null)
+										HomeFragment.updateUI(view, user, user.getFirstGiardino().getName());
 									else
-										HomeFragment.updateUI(view, user, nomeGiardino);
-								} else {
-									Log.d(TAG, "Generating new user in DB");
-									writeNewUser("default_username", "default_email");
-									HomeFragment.updateUI(view, user, null);
-								}
+										HomeFragment.updateUI(view, user, null);
+								else
+									HomeFragment.updateUI(view, user, nomeGiardino);
+							} else {
+								Log.d(TAG, "Generating new user in DB");
+								writeNewUser("default_username", "default_email");
+								HomeFragment.updateUI(view, user, null);
 							}
-							
-							@Override
-							public void onCancelled(@NonNull DatabaseError error) {
-								Log.w(TAG, "Error on checking existence user", error.toException());
-							}
-						});
-					}
+						}
+						
+						@Override
+						public void onCancelled(@NonNull DatabaseError error) {
+							Log.w(TAG, "Error on checking existence user", error.toException());
+						}
+					});
 				});
 	}
 	
