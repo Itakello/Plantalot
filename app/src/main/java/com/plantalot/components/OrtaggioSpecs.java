@@ -1,6 +1,5 @@
 package com.plantalot.components;
 
-import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
@@ -12,6 +11,7 @@ import com.plantalot.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class OrtaggioSpecs {  // TODO extends View
 	

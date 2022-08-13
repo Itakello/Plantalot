@@ -17,8 +17,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.plantalot.classes.Giardino;
-import com.plantalot.classes.User;
 import com.plantalot.components.NuovoOrtoNumberSelector;
 import com.plantalot.R;
 import com.plantalot.adapters.NuovoOrtoOptionsAdapter;
@@ -71,9 +69,9 @@ public class NuovoOrtoFragment extends Fragment {
 		com.plantalot.utils.DividerItemDecoration dividerItemDecoration = new com.plantalot.utils.DividerItemDecoration(optionsRecycler.getContext(), RecyclerView.VERTICAL, false);
 		optionsRecycler.addItemDecoration(dividerItemDecoration);
 		
-		Button save_btn = view.findViewById(R.id.save_orto);
-		save_btn.setOnClickListener(v -> {
-			// giardino.addOrto(orto);  // FIXME MAX !!!!!!!!!!!!!!!!!!!!!!!
+		Button saveBtn = view.findViewById(R.id.save_orto);
+		saveBtn.setOnClickListener(v -> {
+			HomeFragment.user.getGiardinoCorrente().addOrto(orto);  // FIXME !!!!!!??
 			Navigation.findNavController(v).navigate(R.id.action_goto_home);
 		});
 		

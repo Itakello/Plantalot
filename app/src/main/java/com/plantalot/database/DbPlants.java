@@ -53,7 +53,7 @@ public class DbPlants {
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	public static void init(@NonNull Activity activity) {
+	public static void init(Activity activity) {
 		
 		Resources res = activity.getResources();
 		defaultImageId = res.getIdentifier(

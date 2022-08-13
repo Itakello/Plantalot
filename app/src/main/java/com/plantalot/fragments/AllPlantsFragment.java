@@ -74,7 +74,7 @@ public class AllPlantsFragment extends Fragment {
 	private final DisplayMetrics displayMetrics = new DisplayMetrics();
 	
 	private List<Ortaggio> filteredOrtaggi = new ArrayList<>();
-	private final List<String> searchTextList = new ArrayList<>(Collections.nCopies(Db.getOrtaggiNames().size(), ""));
+	private final List<String> searchTextList = new ArrayList<>(Collections.nCopies(DbPlants.getOrtaggiNames().size(), ""));
 	private final List<String> searchResultsOrtaggi = new ArrayList<>();
 	private final HashMap<String, List<String>> searchResultsVarieta = new HashMap<>();
 	
@@ -115,7 +115,7 @@ public class AllPlantsFragment extends Fragment {
 		titles.put(DbPlants.VARIETA_DISTANZE_FILE, "Distanza fra file");
 		titles.put(DbPlants.VARIETA_ALTRO_PACK, "Piante per pack");
 		titles.put(DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA, "Mezz'ombra");
-//.		titles.put(Db.ROTAZIONE, "Anni di rotazione");  // TODO
+//.		titles.put(DbPlants.ROTAZIONE, "Anni di rotazione");  // TODO
 		
 		ranges.put(DbPlants.VARIETA_DISTANZE_PIANTE, new ArrayList<>(Arrays.asList(
 				new Pair<>(5, 10),
@@ -179,10 +179,10 @@ public class AllPlantsFragment extends Fragment {
 			filtersCount.put(chip.first, chip.second.size());
 		}
 		
-		UDM.put(Db.VARIETA_RACCOLTA_AVG, "giorni");
-		UDM.put(Db.VARIETA_DISTANZE_PIANTE, "cm");
-		UDM.put(Db.VARIETA_DISTANZE_FILE, "cm");
-		UDM.put(Db.VARIETA_ALTRO_PACK, "piante");
+		UDM.put(DbPlants.VARIETA_RACCOLTA_AVG, "giorni");
+		UDM.put(DbPlants.VARIETA_DISTANZE_PIANTE, "cm");
+		UDM.put(DbPlants.VARIETA_DISTANZE_FILE, "cm");
+		UDM.put(DbPlants.VARIETA_ALTRO_PACK, "piante");
 	}
 	
 	
@@ -263,20 +263,20 @@ public class AllPlantsFragment extends Fragment {
 		
 		if (!minField.isEmpty() && activeFilters.get(minField).size() <= 10) {
 			switch (minField) {
-				case Db.VARIETA_TASSONOMIA_FAMIGLIA:
-				case Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
+				case DbPlants.VARIETA_TASSONOMIA_FAMIGLIA:
+				case DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
 					query = query.whereIn(minField, new ArrayList<>(activeFilters.get(minField)));
 					break;
-				case Db.VARIETA_ALTRO_PACK:
+				case DbPlants.VARIETA_ALTRO_PACK:
 					ArrayList<Integer> activeFiltersPack = new ArrayList<>();
 					for (String str : activeFilters.get(minField)) {
 						activeFiltersPack.add(Integer.parseInt(str));
 					}
 					query = query.whereIn(minField, new ArrayList<>(activeFiltersPack));
 					break;
-				case Db.VARIETA_RACCOLTA_AVG:
-				case Db.VARIETA_DISTANZE_PIANTE:
-				case Db.VARIETA_DISTANZE_FILE:
+				case DbPlants.VARIETA_RACCOLTA_AVG:
+				case DbPlants.VARIETA_DISTANZE_PIANTE:
+				case DbPlants.VARIETA_DISTANZE_FILE:
 					List<Integer> multiRange = new ArrayList<>();
 					for (String range : activeFilters.get(minField)) {
 						int start = Integer.parseInt(range.split(" - ")[0]);
@@ -292,7 +292,7 @@ public class AllPlantsFragment extends Fragment {
 						minField = "";
 					}
 					break;
-				case Db.VARIETA_TRAPIANTI_MESI:
+				case DbPlants.VARIETA_TRAPIANTI_MESI:
 					List<String> months = new ArrayList<>();  // FIXME
 					for (String month : activeFilters.get(minField)) {
 						months.add("" + MONTHS.indexOf(month));
@@ -319,8 +319,8 @@ public class AllPlantsFragment extends Fragment {
 	private void filterOrtaggi(String minField) {
 		
 		for (String field : new ArrayList<>(Arrays.asList(
-				Db.VARIETA_TASSONOMIA_FAMIGLIA,
-				Db.VARIETA_ALTRO_TOLLERA_MEZZOMBRA
+				DbPlants.VARIETA_TASSONOMIA_FAMIGLIA,
+				DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA
 		))) {
 			if (!activeFilters.get(field).isEmpty() && !Objects.equals(field, minField)) {
 				filteredOrtaggi = filteredOrtaggi.stream()
@@ -329,7 +329,7 @@ public class AllPlantsFragment extends Fragment {
 			}
 		}
 		
-		String fieldTmp = Db.VARIETA_ALTRO_PACK;
+		String fieldTmp = DbPlants.VARIETA_ALTRO_PACK;
 		ArrayList<Integer> activeFiltersPack = new ArrayList<>();
 		for (String str : activeFilters.get(fieldTmp))
 			activeFiltersPack.add(Integer.parseInt(str));
@@ -341,9 +341,9 @@ public class AllPlantsFragment extends Fragment {
 		}
 		
 		for (String field : new ArrayList<>(Arrays.asList(
-				Db.VARIETA_RACCOLTA_AVG,
-				Db.VARIETA_DISTANZE_PIANTE,
-				Db.VARIETA_DISTANZE_FILE
+				DbPlants.VARIETA_RACCOLTA_AVG,
+				DbPlants.VARIETA_DISTANZE_PIANTE,
+				DbPlants.VARIETA_DISTANZE_FILE
 		))) {
 			if (!activeFilters.get(field).isEmpty() && !Objects.equals(field, minField)) {
 				Set<Integer> multiRange = new HashSet<>();
@@ -359,7 +359,7 @@ public class AllPlantsFragment extends Fragment {
 			}
 		}
 		
-		fieldTmp = Db.VARIETA_TRAPIANTI_MESI;
+		fieldTmp = DbPlants.VARIETA_TRAPIANTI_MESI;
 		if (!activeFilters.get(fieldTmp).isEmpty() && !Objects.equals(fieldTmp, minField)) {
 			String finalFieldTmp = fieldTmp;
 			List<String> months = new ArrayList<>();
@@ -512,7 +512,7 @@ public class AllPlantsFragment extends Fragment {
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				searchTextList.clear();
-				searchTextList.addAll(Collections.nCopies(Db.getOrtaggiNames().size(), newText.toLowerCase()));
+				searchTextList.addAll(Collections.nCopies(DbPlants.getOrtaggiNames().size(), newText.toLowerCase()));
 				searchTextChange(newText);
 				return true;
 			}

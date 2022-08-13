@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
 import com.plantalot.database.DbUsers;
-import com.plantalot.fragments.HomeFragment;
 import com.plantalot.utils.Utils;
 
 import java.util.List;
@@ -61,20 +60,15 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 			super(itemView);
 			button = itemView.findViewById(R.id.drawer_button_text);
 			button.setOnClickListener(v -> {  // FIXME controllare il codice
-				String giardino_selected = button.getText().toString();
-				System.out.println("Hai premuto il pulsante " + giardino_selected);
-				DbUsers.updateGiardinoSelected(giardino_selected);
+				String giardinoCorrente = button.getText().toString();
+				System.out.println("Hai premuto il pulsante " + giardinoCorrente);
+				DbUsers.updateGiardinoCorrente(giardinoCorrente);
 				Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
-				ImageButton img_button = Utils.getToolbarNavigationButton(toolbar);
+				ImageButton imgButton = Utils.getToolbarNavigationButton(toolbar);
 				
 				// Add delay for smooth animation
 				final Handler handler = new Handler();
-				handler.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						img_button.performClick();
-					}
-				}, 100);
+				handler.postDelayed(() -> imgButton.performClick(), 100);
 			});
 		}
 	}

@@ -21,7 +21,7 @@ import com.google.common.base.Joiner;
 import com.plantalot.R;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.navigation.Nav;
 import com.plantalot.utils.ColorUtils;
 
@@ -56,10 +56,10 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		String ortaggio = mData.get(position).first;
 		
 		Drawable mCardHeaderBkg = viewHolder.mCardHeader.getBackground();
-		mCardHeaderBkg.setTint(ColorUtils.alphaColor(Db.getIconColor(ortaggio), 35));
+		mCardHeaderBkg.setTint(ColorUtils.alphaColor(DbPlants.getIconColor(ortaggio), 35));
 		viewHolder.mCardHeader.setBackground(mCardHeaderBkg);
-		viewHolder.mBackground.setBackgroundColor(ColorUtils.alphaColor(Db.getIconColor(ortaggio), 25));
-		viewHolder.mImage.setImageResource(Db.getImageId(ortaggio));
+		viewHolder.mBackground.setBackgroundColor(ColorUtils.alphaColor(DbPlants.getIconColor(ortaggio), 25));
+		viewHolder.mImage.setImageResource(DbPlants.getImageId(ortaggio));
 		viewHolder.mTvName.setText(ortaggio);
 		updateCount(viewHolder.mTvInfo, ortaggio);
 		

@@ -1,7 +1,5 @@
 package com.plantalot.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -50,9 +48,8 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 	
 	private static final String TAG = "HomeFragment";
-	private static String nome_giardino;
-	public static User user;
-	private static List<Pair<CircleButton, Boolean>> mButtons;
+	private static String nomeGiardinoCorrente;
+	public static User user;  // FIXME !!??
 	private View view;
 	
 	private static final List<Pair<CircleButton, Boolean>> mButtons = new ArrayList<>(Arrays.asList(
@@ -67,14 +64,14 @@ public class HomeFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString(Consts.KEY_GIARDINO, nome_giardino);
+		outState.putString(Consts.KEY_GIARDINO, nomeGiardinoCorrente);
 	}
 	
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if (savedInstanceState != null) {
-			nome_giardino = savedInstanceState.getString(Consts.KEY_GIARDINO);
+			nomeGiardinoCorrente = savedInstanceState.getString(Consts.KEY_GIARDINO);
 		}
 	}
 	
@@ -95,33 +92,26 @@ public class HomeFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(TAG, "On createView");
 		view = inflater.inflate(R.layout.home_fragment, container, false);
-		initializeUI(view);
+		initializeUI();
 		return view;
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		View v = this.requireView();
 		FirebaseAuth mAuth = FirebaseAuth.getInstance();
 		FirebaseUser currentUser = mAuth.getCurrentUser();
-		if (currentUser == null) {
-			// User not signed in
-			mAuth.signInAnonymously()
-					.addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
-						@Override
-						public void onComplete(@NonNull Task<AuthResult> task) {
-							Log.d(TAG, "Signed in anonymously");
-							getUserFromFirebase(mAuth.getCurrentUser(), v);
-						}
-					});
-		} else {
-			// User signed in
-			getUserFromFirebase(currentUser, v);
+		if (currentUser == null) {  // User not signed in
+			mAuth.signInAnonymously().addOnCompleteListener(this.getActivity(), task -> {
+				Log.d(TAG, "Signed in anonymously");
+				getUserFromFirebase(mAuth.getCurrentUser());
+			});
+		} else {  // User signed in
+			getUserFromFirebase(currentUser);
 		}
 	}
 	
-	private User getUserFromFirebase(FirebaseUser firebaseUser, View v) {
+	private void getUserFromFirebase(FirebaseUser firebaseUser) {
 		String uid = firebaseUser.getUid();
 		DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 		DatabaseReference userRef = rootRef.child("users").child(uid);
@@ -141,7 +131,6 @@ public class HomeFragment extends Fragment {
 				Log.e(TAG, "Error on checking existence user", error.toException());
 			}
 		});
-		return null;
 	}
 	
 	// Show appbar right menu
@@ -150,12 +139,12 @@ public class HomeFragment extends Fragment {
 		getActivity().getMenuInflater().inflate(R.menu.home_bl_toolbar_menu, menu);
 	}
 	
-	private void initializeUI(@NonNull View view) {
+	private void initializeUI() {
 		// Setup giardini recycler view
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		
-		setUpToolbar(view);
+		setUpToolbar();
 		
 		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
@@ -183,14 +172,15 @@ public class HomeFragment extends Fragment {
 		));
 	}
 	
-	public static void updateUI() {
+	public void updateUI() {
 		if (user == null) return;
 		Log.d(TAG, "Updating user " + user.getUsername());
 		
 		FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 		TextView idView = view.findViewById(R.id.anonymousStatusId);
 		idView.setText("User ID: " + firebaseUser.getUid());
-
+		idView.setVisibility(View.GONE);
+		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(view.getContext(), user.getGiardiniNames(), view));
 		
@@ -199,11 +189,12 @@ public class HomeFragment extends Fragment {
 		
 		title.setVisibility(View.VISIBLE); // FIXME
 		instructions.setVisibility(View.VISIBLE); // FIXME
-		nome_giardino = user.getNome_giardino_selected();
-		if(nome_giardino == null){
+		nomeGiardinoCorrente = user.getNomeGiardinoCorrente();
+		if (nomeGiardinoCorrente == null) {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.GONE); // FIXME
 		} else {
+			Giardino giardino = user.getGiardinoCorrente();
 			if (giardino.getOrti().isEmpty()) {
 				instructions.setText(R.string.instruction_no_orti);
 			} else {

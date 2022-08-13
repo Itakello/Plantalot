@@ -2,18 +2,13 @@ package com.plantalot.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.textfield.TextInputLayout;
 
 public class Utils {
 	
@@ -35,7 +30,7 @@ public class Utils {
 		}
 		return 0;
 	}
-
+	
 	public static ImageButton getToolbarNavigationButton(Toolbar toolbar) {
 		int size = toolbar.getChildCount();
 		for (int i = 0; i < size; i++) {

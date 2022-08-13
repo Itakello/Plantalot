@@ -3,17 +3,15 @@ package com.plantalot.components;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.android.material.color.MaterialColors;
 import com.plantalot.R;
 import com.plantalot.classes.Orto;
 import com.plantalot.utils.IntPair;
+
 
 public class OrtoView extends LinearLayout {
 	

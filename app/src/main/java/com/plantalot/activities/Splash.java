@@ -9,7 +9,8 @@ import android.os.Handler;
 import androidx.annotation.RequiresApi;
 
 import com.plantalot.R;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
+import com.plantalot.database.DbUsers;
 
 public class Splash extends Activity {
 	
@@ -20,7 +21,8 @@ public class Splash extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		Db.init(this);
+		DbPlants.init(this);
+		DbUsers.init();
 		
 		new Handler().postDelayed(() -> {
 			Intent mainIntent = new Intent(this, MainActivity.class);

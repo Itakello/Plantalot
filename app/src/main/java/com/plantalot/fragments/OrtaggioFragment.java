@@ -257,11 +257,11 @@ public class OrtaggioFragment extends Fragment {
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
 		
 		db.collection("varieta")
-				.whereEqualTo(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO, ortaggio)
+				.whereEqualTo(DbPlants.VARIETA_CLASSIFICAZIONE_ORTAGGIO, ortaggio)
 				.get().addOnSuccessListener(queryDocumentSnapshots -> {
 					
 					for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-						ortaggioDocuments.put(doc.get(Db.VARIETA_CLASSIFICAZIONE_VARIETA).toString(), doc.toObject(Varieta.class));
+						ortaggioDocuments.put(doc.get(DbPlants.VARIETA_CLASSIFICAZIONE_VARIETA).toString(), doc.toObject(Varieta.class));
 					}
 					
 					String defaultVarieta = ortaggioDocuments.size() == 1
@@ -281,7 +281,7 @@ public class OrtaggioFragment extends Fragment {
 							.get().addOnSuccessListener(document -> {
 								if (!document.exists()) return;
 								ImageView img = view.findViewById(R.id.ortaggio_fl_appbar_image);
-								img.setImageResource(Db.getImageId(ortaggio));
+								img.setImageResource(DbPlants.getImageId(ortaggio));
 							});
 					
 					db.collection("piante")

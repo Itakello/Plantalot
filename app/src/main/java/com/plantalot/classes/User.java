@@ -1,20 +1,13 @@
 package com.plantalot.classes;
 
-import android.util.Pair;
-
-import com.plantalot.database.Db;
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Fts4;
-import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
+// FIXME un po' di casino nei metodi
 
 public class User implements Serializable {
 	private final String TAG = "User";
@@ -23,7 +16,7 @@ public class User implements Serializable {
 	private String email;
 	private Map<String, Giardino> giardini;
 	public static HashMap<String, HashMap<String, Integer>> carriola = new HashMap<>();  // FIXME !!!!!
-	private String nome_giardino_selected;
+	private String nomeGiardinoCorrente;
 	
 	public User() {
 		giardini = new HashMap<>();
@@ -47,11 +40,19 @@ public class User implements Serializable {
 		return giardini.get(nome);
 	}
 	
+	public Giardino getGiardinoCorrente() {
+		return giardini.get(getNomeGiardinoCorrente());
+	}
+	
 	public Giardino getFirstGiardino() {
 		if (giardini == null || giardini.size() == 0) return null;
 		return giardini.entrySet().iterator().next().getValue();
 	}
 	
+	public String getFirstGiardinoName() {
+		if (giardini == null || giardini.size() == 0) return null;
+		return giardini.entrySet().iterator().next().getKey();
+	}
 	
 	public Map<String, Giardino> getGiardini() {
 		return giardini;
@@ -69,7 +70,7 @@ public class User implements Serializable {
 		giardini.put(giardino.getName(), giardino);
 	}
 	
-	public List<String> getGiardiniNames(){
+	public List<String> getGiardiniNames() {
 		return new ArrayList<>(giardini.keySet());
 	}
 	
@@ -77,12 +78,13 @@ public class User implements Serializable {
 		this.giardini = giardini;
 	}
 	
-	public String getNome_giardino_selected() {
-		return nome_giardino_selected;
+	public String getNomeGiardinoCorrente() {
+		if (nomeGiardinoCorrente == null) return nomeGiardinoCorrente = getFirstGiardinoName();
+		return nomeGiardinoCorrente;
 	}
 	
-	public void setNome_giardino_selected(String nome_giardino_selected) {
-		this.nome_giardino_selected = nome_giardino_selected;
+	public void setNomeGiardinoCorrente(String giardinoName) {
+		this.nomeGiardinoCorrente = giardinoName;
 	}
 	
 }

@@ -1,22 +1,15 @@
 package com.plantalot.components;
 
 import android.content.Context;
-import android.os.Build;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-
 import com.plantalot.R;
 import com.plantalot.fragments.NuovoOrtoFragment;
 import com.plantalot.utils.IntPair;
-import com.plantalot.utils.Utils;
 
-import java.util.HashMap;
 
 public class NuovoOrtoNumberSelector extends LinearLayout {
 	

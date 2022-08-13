@@ -21,7 +21,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 import com.plantalot.utils.ColorUtils;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 		viewHolder.mTvCount.setText(String.format(Locale.ITALIAN, "%d", row.second));
 		
 		Drawable mBtnBkg = viewHolder.mBtnDec.getBackground();
-		mBtnBkg.setTint(ColorUtils.alphaColor(Db.getIconColor(ortaggio), 35));
+		mBtnBkg.setTint(ColorUtils.alphaColor(DbPlants.getIconColor(ortaggio), 35));
 		viewHolder.mBtnDec.setBackground(mBtnBkg);
 		viewHolder.mBtnInc.setBackground(mBtnBkg);
 		

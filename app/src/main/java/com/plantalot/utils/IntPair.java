@@ -1,5 +1,7 @@
 package com.plantalot.utils;
 
+import androidx.annotation.NonNull;
+
 public class IntPair {
 	public int x;
 	public int y;
@@ -14,6 +16,7 @@ public class IntPair {
 		this.y = y;
 	}
 	
+	@NonNull
 	public String toString() {
 		return x + " × " + y;
 	}

@@ -14,19 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.plantalot.R;
 import com.plantalot.adapters.CarriolaOrtaggiAdapter;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
-import com.plantalot.database.Db;
+import com.plantalot.database.DbPlants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -61,8 +58,8 @@ public class CarriolaFragment extends Fragment {
 			List<String> varietas = new ArrayList<>(User.carriola.get(ortaggio).keySet());
 			Collections.sort(varietas);
 			db.collection("varieta")
-					.whereEqualTo(Db.VARIETA_CLASSIFICAZIONE_ORTAGGIO, ortaggio)
-					.whereIn(Db.VARIETA_CLASSIFICAZIONE_VARIETA, varietas)
+					.whereEqualTo(DbPlants.VARIETA_CLASSIFICAZIONE_ORTAGGIO, ortaggio)
+					.whereIn(DbPlants.VARIETA_CLASSIFICAZIONE_VARIETA, varietas)
 					.get().addOnSuccessListener(queryDocumentSnapshots -> {
 						for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 							Varieta varietaObj = document.toObject(Varieta.class);
