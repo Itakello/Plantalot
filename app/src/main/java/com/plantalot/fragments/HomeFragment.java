@@ -20,9 +20,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -144,7 +141,7 @@ public class HomeFragment extends Fragment {
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		
-		setUpToolbar();
+		setUpToolbar(view);
 		
 		// Setup orti recycler view
 		RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
@@ -155,7 +152,7 @@ public class HomeFragment extends Fragment {
 		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_nuovo_giardino));
 	}
 	
-	private void setUpToolbar() {
+	private void setUpToolbar(@NonNull View view) {
 		Toolbar toolbar = view.findViewById(R.id.home_bl_toolbar);
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		
@@ -172,7 +169,7 @@ public class HomeFragment extends Fragment {
 		));
 	}
 	
-	public void updateUI() {
+	private void updateUI() {
 		if (user == null) return;
 		Log.d(TAG, "Updating user " + user.getUsername());
 		
@@ -194,7 +191,7 @@ public class HomeFragment extends Fragment {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.GONE); // FIXME
 		} else {
-			Giardino giardino = user.getGiardinoCorrente();
+			Giardino giardino = user.getGiardino(nomeGiardinoCorrente);
 			if (giardino.getOrti().isEmpty()) {
 				instructions.setText(R.string.instruction_no_orti);
 			} else {

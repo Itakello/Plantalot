@@ -7,8 +7,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plantalot.R;
-import com.plantalot.database.DbPlants;
-import com.plantalot.database.DbUsers;
 
 public class MainActivity extends AppCompatActivity {
 	

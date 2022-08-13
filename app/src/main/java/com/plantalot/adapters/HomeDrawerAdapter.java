@@ -33,6 +33,7 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 	}
 	
 	// inflates the row layout from xml when needed
+	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.home_bl_drawer_button, parent, false);
@@ -68,7 +69,7 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 				
 				// Add delay for smooth animation
 				final Handler handler = new Handler();
-				handler.postDelayed(() -> imgButton.performClick(), 100);
+				handler.postDelayed(imgButton::performClick, 100);
 			});
 		}
 	}
