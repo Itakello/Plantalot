@@ -20,12 +20,16 @@ public class Orto {
 	private Esposizione esposizione;
 	private Orientamento orientamento;
 	
-	public Orto(Context context) {
-		this.nome = context.getResources().getString(R.string.nuovo_orto);
+	public Orto() {
 		this.aiuoleDim = new IntPair(120, 200);
 		this.aiuoleCount = new IntPair(3, 2);
 		this.esposizione = Esposizione.SOLE;
 		this.orientamento = Orientamento.N;
+	}
+	
+	public Orto(Context context) {
+		this();
+		this.nome = context.getResources().getString(R.string.nuovo_orto);
 	}
 	
 	public Orto(Context context, String nome, IntPair aiuoleDim, IntPair aiuoleCount, Esposizione esposizione, Orientamento orientamento) {
@@ -69,8 +73,12 @@ public class Orto {
 		return aiuoleDim;
 	}
 	
-	public IntPair getOrtoDim() {
+	public IntPair calcOrtoDim() {
 		return new IntPair(aiuoleDim.x * aiuoleCount.x, aiuoleDim.y * aiuoleCount.y);
+	}
+	
+	public int calcArea() {
+		return calcOrtoDim().x * calcOrtoDim().y;
 	}
 	
 	public IntPair getAiuoleCount() {

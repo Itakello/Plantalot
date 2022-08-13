@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment {
 	
 	private void updateUI() {
 		if (user == null) return;
-		Log.d(TAG, "Updating user " + user.getUsername());
+		Log.d(TAG, "------------------------------ Updating user " + user.getUsername());
 		
 		FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 		TextView idView = view.findViewById(R.id.anonymousStatusId);
@@ -186,12 +186,12 @@ public class HomeFragment extends Fragment {
 		
 		title.setVisibility(View.VISIBLE); // FIXME
 		instructions.setVisibility(View.VISIBLE); // FIXME
-		nomeGiardinoCorrente = user.getNomeGiardinoCorrente();
+		nomeGiardinoCorrente = user.getNome_giardino_corrente();
 		if (nomeGiardinoCorrente == null) {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.GONE); // FIXME
 		} else {
-			Giardino giardino = user.getGiardino(nomeGiardinoCorrente);
+			Giardino giardino = user.getGiardinoCorrente();
 			if (giardino.getOrti().isEmpty()) {
 				instructions.setText(R.string.instruction_no_orti);
 			} else {
@@ -202,7 +202,7 @@ public class HomeFragment extends Fragment {
 				if (button.second) buttonList.add(button.first);
 			}
 			CircleButton.setupRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
-			title.setText(giardino.getName());
+			title.setText(giardino.getNome());
 			
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);
 			HomeOrtiAdapter homeOrtiAdapter = new HomeOrtiAdapter(giardino.getOrti());

@@ -12,7 +12,7 @@ public class Giardino {
 //		GREEN, BLUE, RED, YELLOW, ORANGE, PURPLE, PINK,
 //	}
 	
-	private String name;
+	private String nome;
 	private LatLngGiardino pos;
 	private ArrayList<Orto> orti;  // FIXME !!!!
 //    Color c;
@@ -21,14 +21,14 @@ public class Giardino {
 		orti = new ArrayList<>();
 	}
 	
-	public Giardino(String name, LatLng pos) {
+	public Giardino(String nome, LatLng pos) {
 		this();
-		this.name = name;
+		this.nome = nome;
 		this.pos = new LatLngGiardino(pos);
 	}
 	
-	public String getName() {
-		return name;
+	public String getNome() {
+		return nome;
 	}
 	
 	public LatLngGiardino getPos() {
@@ -41,7 +41,7 @@ public class Giardino {
 	
 	public Map<String, Object> toMap() {
 		HashMap<String, Object> result = new HashMap<>();
-		result.put("name", name);
+		result.put("name", nome);
 		result.put("position", pos);
 		result.put("orti", orti);
 		return result;
@@ -49,5 +49,11 @@ public class Giardino {
 	
 	public void addOrto(Orto orto) {
 		orti.add(orto);
+	}
+	
+	public int calcArea() {
+		int area = 0;
+		for (Orto orto : orti) area += orto.calcArea();
+		return area;
 	}
 }

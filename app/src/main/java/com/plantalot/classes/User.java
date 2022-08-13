@@ -16,7 +16,7 @@ public class User implements Serializable {
 	private String email;
 	private Map<String, Giardino> giardini;
 	public static HashMap<String, HashMap<String, Integer>> carriola = new HashMap<>();  // FIXME !!!!!
-	private String nomeGiardinoCorrente;
+	private String nome_giardino_corrente;
 	
 	public User() {
 		giardini = new HashMap<>();
@@ -41,7 +41,7 @@ public class User implements Serializable {
 	}
 	
 	public Giardino getGiardinoCorrente() {
-		return giardini.get(getNomeGiardinoCorrente());
+		return giardini.get(getNome_giardino_corrente());
 	}
 	
 	public Giardino getFirstGiardino() {
@@ -67,7 +67,7 @@ public class User implements Serializable {
 	}
 	
 	public void addGiardino(Giardino giardino) {
-		giardini.put(giardino.getName(), giardino);
+		giardini.put(giardino.getNome(), giardino);
 	}
 	
 	public List<String> getGiardiniNames() {
@@ -78,13 +78,13 @@ public class User implements Serializable {
 		this.giardini = giardini;
 	}
 	
-	public String getNomeGiardinoCorrente() {
-		if (nomeGiardinoCorrente == null) return nomeGiardinoCorrente = getFirstGiardinoName();
-		return nomeGiardinoCorrente;
+	public String getNome_giardino_corrente() {
+		if (nome_giardino_corrente == null) return nome_giardino_corrente = getFirstGiardinoName();
+		return nome_giardino_corrente;
 	}
 	
-	public void setNomeGiardinoCorrente(String giardinoName) {
-		this.nomeGiardinoCorrente = giardinoName;
+	public void setNome_giardino_corrente(String nomeGiardino) {
+		this.nome_giardino_corrente = nomeGiardino;
 	}
 	
 }

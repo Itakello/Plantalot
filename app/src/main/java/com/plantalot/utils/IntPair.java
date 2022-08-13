@@ -21,11 +21,11 @@ public class IntPair {
 		return x + " × " + y;
 	}
 	
-	public int getMax() {
+	public int max() {
 		return Math.max(x, y);
 	}
 	
-	public int getMin() {
+	public int min() {
 		return Math.min(x, y);
 	}
 }

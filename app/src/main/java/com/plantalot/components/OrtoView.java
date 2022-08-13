@@ -29,7 +29,7 @@ public class OrtoView extends LinearLayout {
 	}
 	
 	public void setSize(IntPair size) {
-		int weight = (int) (6000f / (double) orto.getOrtoDim().getMax());
+		int weight = (int) (6000f / (double) orto.calcOrtoDim().max());
 		LayoutParams params = (LayoutParams) ortoView.getLayoutParams();
 		params.width = size.x;
 		params.height = size.y;

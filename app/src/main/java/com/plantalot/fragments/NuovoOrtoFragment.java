@@ -22,6 +22,7 @@ import com.plantalot.R;
 import com.plantalot.adapters.NuovoOrtoOptionsAdapter;
 import com.plantalot.classes.Orto;
 import com.plantalot.components.OrtoView;
+import com.plantalot.database.DbUsers;
 import com.plantalot.utils.IntPair;
 import com.plantalot.utils.Utils;
 
@@ -71,7 +72,9 @@ public class NuovoOrtoFragment extends Fragment {
 		
 		Button saveBtn = view.findViewById(R.id.save_orto);
 		saveBtn.setOnClickListener(v -> {
-			HomeFragment.user.getGiardinoCorrente().addOrto(orto);  // FIXME !!!!!!??
+//			Giardino giardino = HomeFragment.user.getGiardinoCorrente();
+//			giardino.addOrto(orto);  // FIXME !!!!!!??
+			DbUsers.addOrto(orto);
 			Navigation.findNavController(v).navigate(R.id.action_goto_home);
 		});
 		
@@ -79,7 +82,7 @@ public class NuovoOrtoFragment extends Fragment {
 	}
 	
 	public void updateTable() {
-		IntPair ortoDim = orto.getOrtoDim();
+		IntPair ortoDim = orto.calcOrtoDim();
 		IntPair aiuolaDim = new IntPair();
 		
 		if ((double) ortoDim.x / (double) ortoDim.y > (double) tableDim.x / (double) tableDim.y) {
