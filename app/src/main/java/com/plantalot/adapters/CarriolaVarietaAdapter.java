@@ -19,9 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
+import com.plantalot.classes.Carriola;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
+import com.plantalot.database.DbUsers;
 import com.plantalot.utils.ColorUtils;
 
 import java.util.List;
@@ -32,12 +34,14 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	private final List<Pair<Varieta, Integer>> mData;
 	private final CarriolaOrtaggiAdapter mParentAdapter;
 	private Context context;
+	private Carriola carriola;
 	private final int DELAY = 600;
 	private boolean holding = false;
 	
-	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, CarriolaOrtaggiAdapter parentAdapter) {
+	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, Carriola carriola, CarriolaOrtaggiAdapter parentAdapter) {
 		this.mData = data;
 		this.mParentAdapter = parentAdapter;
+		this.carriola = carriola;
 		System.out.println(data);
 	}
 	
@@ -91,7 +95,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						if (mHandler != null) return true;
-						if (User.carriola.get(ortaggio).get(varieta) == 0) {
+						if (carriola.get(ortaggio, varieta) == 0) {
 							holding = false;
 							return true;
 						}
@@ -118,7 +122,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 				public void run() {
 					holding = true;
 					viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, -pack, viewHolder));
-					if (User.carriola.get(ortaggio).get(varieta) > 0) {
+					if (carriola.get(ortaggio, varieta) > 0) {
 						mHandler.postDelayed(this, DELAY);
 					}
 				}
@@ -165,8 +169,9 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	// FIXME !!!
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	private String updateCount(String ortaggio, String varieta, int step, ViewHolder viewHolder) {
-		Integer newCount = Math.max(0, User.carriola.get(ortaggio).get(varieta) + step);
-		User.carriola.get(ortaggio).put(varieta, newCount);
+		Integer newCount = Math.max(0, carriola.get(ortaggio, varieta) + step);
+		carriola.put(ortaggio, varieta, newCount);
+		DbUsers.updateGiardinoCorrente(carriola, DbUsers.UPDATE);
 		mParentAdapter.updateCount(((View) viewHolder.mView.getParent().getParent()).findViewById(R.id.carriola_ortaggio_info), ortaggio);
 		return newCount.toString();
 	}

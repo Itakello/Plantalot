@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.common.base.Joiner;
 import com.plantalot.R;
+import com.plantalot.classes.Carriola;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
@@ -36,9 +37,11 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	private final List<Pair<String, List<Pair<Varieta, Integer>>>> mData;
 	private Resources res;
 	private Context context;
+	private Carriola carriola;
 	
-	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data) {
+	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data, Carriola carriola) {
 		this.mData = data;
+		this.carriola = carriola;
 	}
 	
 	@NonNull
@@ -63,7 +66,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		viewHolder.mTvName.setText(ortaggio);
 		updateCount(viewHolder.mTvInfo, ortaggio);
 		
-		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, this);
+		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, carriola, this);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 		viewHolder.mRecyclerView.setAdapter(carriolaVarietaAdapter);
 		
@@ -80,9 +83,9 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	public void updateCount(TextView tv, String ortaggio) {
-		int n_varieta = User.carriola.get(ortaggio).size();
-		int count = (new ArrayList<>(User.carriola.get(ortaggio).values())).stream().mapToInt(Integer::intValue).sum();
-		tv.setText(res.getQuantityString(R.plurals.n_varieta, n_varieta, n_varieta) + ", " + res.getQuantityString(R.plurals.n_piante, count, count));
+		int nVarieta = carriola.countVarieta(ortaggio);
+		int nPiante = carriola.countPiante(ortaggio);
+		tv.setText(res.getQuantityString(R.plurals.n_varieta, nVarieta, nVarieta) + ", " + res.getQuantityString(R.plurals.n_piante, nPiante, nPiante));
 	}
 	
 	@Override

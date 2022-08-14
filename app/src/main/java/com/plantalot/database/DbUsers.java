@@ -1,8 +1,10 @@
 package com.plantalot.database;
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
@@ -11,11 +13,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.plantalot.classes.Carriola;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.Orto;
 import com.plantalot.classes.User;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 public class DbUsers {
@@ -23,6 +29,9 @@ public class DbUsers {
 	private static final String TAG = "Users_DB";
 	private static DatabaseReference dbUsers;
 	private static DatabaseReference dbUser;
+	
+	public static final int UPDATE = 0;
+	public static final int DELETE = 1;
 	
 	public static void init() {
 		dbUsers = FirebaseDatabase.getInstance().getReference().child("users");
@@ -36,7 +45,7 @@ public class DbUsers {
 		return user;
 	}
 	
-	public static void updateGiardinoCorrente(String nomeGiardino) {
+	public static void updateNomeGiardinoCorrente(String nomeGiardino) {
 		HashMap<String, Object> u_map = new HashMap<>();
 		u_map.put("nome_giardino_corrente", nomeGiardino);
 		dbUsers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(u_map);
@@ -51,26 +60,77 @@ public class DbUsers {
 		u_map.put("nome_giardino_corrente", nomeGiardino);
 		dbUser.updateChildren(u_map);
 	}
+
+//	public static void addOrto(Orto orto) {
+//		Log.d(TAG, "Adding orto " + orto.getNome());
+//		dbUser.child("nome_giardino_corrente").addListenerForSingleValueEvent(new ValueEventListener() {
+//			@Override
+//			public void onDataChange(@NonNull DataSnapshot snapshot) {
+//				String nome_giardino_corrente = (String) snapshot.getValue();
+//
+//				dbUser.child("giardini").child(nome_giardino_corrente).addListenerForSingleValueEvent(new ValueEventListener() {
+//					@Override
+//					public void onDataChange(@NonNull DataSnapshot snapshot) {
+//						Giardino giardino = snapshot.getValue(Giardino.class);
+//						giardino.addOrto(orto);  // only difference
+//						HashMap<String, Object> g_map = new HashMap<>();
+//						g_map.put(giardino.getNome(), giardino);
+//						dbUser.child("giardini").updateChildren(g_map);
+//					}
+//
+//					@Override
+//					public void onCancelled(@NonNull DatabaseError error) {
+//					}
+//				});
+//			}
+//
+//			@Override
+//			public void onCancelled(@NonNull DatabaseError error) {
+//			}
+//		});
+//	}
+//
+//	public static void updateCarriola(Carriola carriola) {
+//		Log.d(TAG, "Updating carriola");
+//		dbUser.child("nome_giardino_corrente").addListenerForSingleValueEvent(new ValueEventListener() {
+//			@Override
+//			public void onDataChange(@NonNull DataSnapshot snapshot) {
+//				String nome_giardino_corrente = (String) snapshot.getValue();
+//
+//				dbUser.child("giardini").child(nome_giardino_corrente).addListenerForSingleValueEvent(new ValueEventListener() {
+//					@Override
+//					public void onDataChange(@NonNull DataSnapshot snapshot) {
+//						Giardino giardino = snapshot.getValue(Giardino.class);
+//						giardino.updateCarriola(carriola);  // only difference  FIXME ??
+//						HashMap<String, Object> g_map = new HashMap<>();
+//						g_map.put(giardino.getNome(), giardino);
+//						dbUser.child("giardini").updateChildren(g_map);
+//					}
+//
+//					@Override
+//					public void onCancelled(@NonNull DatabaseError error) {
+//					}
+//				});
+//			}
+//
+//			@Override
+//			public void onCancelled(@NonNull DatabaseError error) {
+//			}
+//		});
+//	}
 	
-	public static void updateGiardino(Giardino giardino) {
-		Log.d(TAG, "Updating giardino " + giardino.getNome());
-		HashMap<String, Object> g_map = new HashMap<>();
-		g_map.put(giardino.getNome(), giardino);
-		dbUser.child("giardini").updateChildren(g_map);
-	}
-	
-	public static void addOrto(Orto orto) {
-		Log.d(TAG, "Adding orto " + orto.getNome());
+	public static void updateGiardinoCorrente(Object obj, int method) {  // FIXME put nome_giardino_corrente in a Bundle !!!!!!!!!!!!!!!!??
+		Log.d(TAG, "Updating giardino corrente");
 		dbUser.child("nome_giardino_corrente").addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot snapshot) {
 				String nome_giardino_corrente = (String) snapshot.getValue();
-				
 				dbUser.child("giardini").child(nome_giardino_corrente).addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
+					@RequiresApi(api = Build.VERSION_CODES.N)
 					public void onDataChange(@NonNull DataSnapshot snapshot) {
 						Giardino giardino = snapshot.getValue(Giardino.class);
-						giardino.addOrto(orto);
+						giardino.update(obj, method);  // FIXME ??
 						HashMap<String, Object> g_map = new HashMap<>();
 						g_map.put(giardino.getNome(), giardino);
 						dbUser.child("giardini").updateChildren(g_map);
@@ -86,6 +146,6 @@ public class DbUsers {
 			public void onCancelled(@NonNull DatabaseError error) {
 			}
 		});
-		
 	}
+	
 }

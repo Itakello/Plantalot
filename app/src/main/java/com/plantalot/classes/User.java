@@ -15,7 +15,6 @@ public class User implements Serializable {
 	private String username;
 	private String email;
 	private Map<String, Giardino> giardini;
-	public static HashMap<String, HashMap<String, Integer>> carriola = new HashMap<>();  // FIXME !!!!!
 	private String nome_giardino_corrente;
 	
 	public User() {

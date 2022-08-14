@@ -12,11 +12,12 @@
 		android:id="@+id/carriola_text_vuota"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="80dp"
 		android:layout_marginHorizontal="16dp"
-    android:gravity="center"
+		android:layout_marginTop="80dp"
+		android:gravity="center"
 		android:text="La tua carriola è vuota.\nVai in 'Tutti gli ortaggi' per aggiungere nuove varietà."
 		android:textAppearance="?attr/textAppearanceHeadlineSmall"
+		tools:visibility="invisible"
 		/>
 	
 	<androidx.core.widget.NestedScrollView
@@ -30,15 +31,34 @@
 			android:orientation="vertical"
 			>
 			
-			<TextView
-				android:layout_width="wrap_content"
+			<LinearLayout
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				tools:text="4,20 m² / 16,0 m² occupati"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="32dp"
-				android:layout_marginBottom="16dp"
-				android:textAppearance="?attr/textAppearanceTitleMedium"
-				/>
+				android:orientation="horizontal"
+				>
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="24dp"
+					android:layout_marginTop="32dp"
+					android:layout_marginBottom="16dp"
+					android:textAppearance="?attr/textAppearanceTitleMedium"
+					tools:text="Totali:\nOccupati:\nDisponibili:"
+					/>
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="12dp"
+					android:layout_marginTop="32dp"
+					android:layout_marginBottom="16dp"
+					android:textAppearance="?attr/textAppearanceTitleMedium"
+					tools:text="16,0 m²\n4,2 m²\n11,8 m²"
+					android:gravity="end"
+					/>
+				
+			</LinearLayout>
 			
 			<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/carriola_ortaggi_recycler"
@@ -74,4 +94,6 @@
 		android:layout_gravity="center"
 		android:visibility="gone"
 		/>
+	
 </FrameLayout>
+

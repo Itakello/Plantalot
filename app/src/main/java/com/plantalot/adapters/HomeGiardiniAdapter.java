@@ -19,14 +19,14 @@ import com.plantalot.utils.Utils;
 import java.util.List;
 
 // Cambia il contenuto del backlyer
-public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.ViewHolder> {
+public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapter.ViewHolder> {
 	
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
 	private final View fragView;
 	
 	// data is passed into the constructor
-	public HomeDrawerAdapter(Context context, List<String> data, View fragView) {
+	public HomeGiardiniAdapter(Context context, List<String> data, View fragView) {
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
 		this.fragView = fragView;
@@ -61,9 +61,9 @@ public class HomeDrawerAdapter extends RecyclerView.Adapter<HomeDrawerAdapter.Vi
 			super(itemView);
 			button = itemView.findViewById(R.id.drawer_button_text);
 			button.setOnClickListener(v -> {  // FIXME controllare il codice
-				String giardinoCorrente = button.getText().toString();
-				System.out.println("Hai premuto il pulsante " + giardinoCorrente);
-				DbUsers.updateGiardinoCorrente(giardinoCorrente);
+				String nomeGiardinoCorrente = button.getText().toString();
+				System.out.println("Hai premuto il pulsante " + nomeGiardinoCorrente);
+				DbUsers.updateNomeGiardinoCorrente(nomeGiardinoCorrente);
 				Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
 				ImageButton imgButton = Utils.getToolbarNavigationButton(toolbar);
 				

@@ -31,11 +31,13 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
+import com.plantalot.classes.Carriola;
 import com.plantalot.classes.Pianta;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.components.OrtaggioSpecs;
 import com.plantalot.database.DbPlants;
+import com.plantalot.database.DbUsers;
 import com.plantalot.utils.ColorUtils;
 import com.plantalot.utils.Utils;
 
@@ -54,6 +56,7 @@ public class OrtaggioFragment extends Fragment {
 	
 	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
 	private LinkedList<String> dropdownItems;
+	private Carriola carriola;
 
 //	private final List<CircleButton> mButtons = Arrays.asList(  // FIXME !!!
 //			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24, R.drawable.ic_round_wheelbarrow_24, CircleButton.CARRIOLA),
@@ -67,6 +70,7 @@ public class OrtaggioFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		carriola = HomeFragment.user.getGiardinoCorrente().getCarriola();
 	}
 	
 	@Override
@@ -110,26 +114,21 @@ public class OrtaggioFragment extends Fragment {
 		String ortaggioName = varieta.getClassificazione_ortaggio();
 		String varietaName = varieta.getClassificazione_varieta();
 		View buttonCarriola = view.findViewById(R.id.ortaggio_fl_button_carriola);
-		boolean isIn = User.carriola.get(ortaggioName) != null
-				&& User.carriola.get(ortaggioName).get(varietaName) != null;
-		int icon = isIn ? R.drawable.ic_round_wheelbarrow_24
-				: R.drawable.ic_round_wheelbarrow_border_24;
+		boolean isIn = carriola.contains(ortaggioName, varietaName);
+		int icon = isIn ? R.drawable.ic_round_wheelbarrow_24 : R.drawable.ic_round_wheelbarrow_border_24;
 		String label = isIn ? "Togli dalla carriola" : "Metti in carriola";
 		((MaterialButton) buttonCarriola.findViewById(R.id.component_circle_button_icon)).setIconResource(icon);
 		((TextView) buttonCarriola.findViewById(R.id.component_circle_button_label)).setText(label);
-		buttonCarriola.setOnClickListener(view1 -> {
+		buttonCarriola.setOnClickListener(v -> {
 			if (isIn) {
-				User.carriola.get(ortaggioName).remove(varietaName);
-				if (User.carriola.get(ortaggioName).isEmpty()) {
-					User.carriola.remove(ortaggioName);
-				}
+				carriola.remove(ortaggioName, varietaName);
+				if (carriola.isEmpty(ortaggioName)) carriola.remove(ortaggioName);
 			} else {
-				if (User.carriola.get(ortaggioName) == null) {
-					User.carriola.put(ortaggioName, new HashMap<>());
-				}
-				User.carriola.get(ortaggioName).put(varietaName, varieta.getAltro_pack());
+				if (!carriola.contains(ortaggioName)) carriola.add(ortaggioName);
+				carriola.put(ortaggioName, varietaName, varieta.getAltro_pack());
 			}
 			setupButton(varieta);
+			DbUsers.updateGiardinoCorrente(carriola, DbUsers.UPDATE);
 		});
 		buttonCarriola.setVisibility(View.VISIBLE);
 	}

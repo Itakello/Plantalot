@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.plantalot.classes.Giardino;
 import com.plantalot.components.NuovoOrtoNumberSelector;
 import com.plantalot.R;
 import com.plantalot.adapters.NuovoOrtoOptionsAdapter;
@@ -74,7 +75,7 @@ public class NuovoOrtoFragment extends Fragment {
 		saveBtn.setOnClickListener(v -> {
 //			Giardino giardino = HomeFragment.user.getGiardinoCorrente();
 //			giardino.addOrto(orto);  // FIXME !!!!!!??
-			DbUsers.addOrto(orto);
+			DbUsers.updateGiardinoCorrente(orto, DbUsers.UPDATE);
 			Navigation.findNavController(v).navigate(R.id.action_goto_home);
 		});
 		

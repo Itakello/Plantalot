@@ -28,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.plantalot.R;
-import com.plantalot.adapters.HomeDrawerAdapter;
+import com.plantalot.adapters.HomeGiardiniAdapter;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.animations.NavigationIconClickListener;
@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment {
 		idView.setVisibility(View.GONE);
 		
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
-		giardiniRecyclerView.setAdapter(new HomeDrawerAdapter(view.getContext(), user.getGiardiniNames(), view));
+		giardiniRecyclerView.setAdapter(new HomeGiardiniAdapter(view.getContext(), user.getGiardiniNames(), view));
 		
 		TextView instructions = view.findViewById(R.id.instructions);
 		TextView title = view.findViewById(R.id.home_fl_title_giardino);
