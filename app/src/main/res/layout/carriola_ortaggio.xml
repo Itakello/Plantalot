@@ -56,6 +56,7 @@
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintStart_toEndOf="@id/carriola_ortaggio_image"
 					app:layout_constraintTop_toTopOf="parent"
+					android:layout_marginBottom="2dp"
 					>
 					
 					<TextView

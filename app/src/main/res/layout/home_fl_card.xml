@@ -38,7 +38,7 @@
 				tools:itemCount="2"
 				tools:listitem="@layout/home_fl_imageview"
 				/>
-			
+		
 		</FrameLayout>
 		
 		
@@ -59,8 +59,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:paddingVertical="8dp"
-				android:text="Back yard"
 				android:textAppearance="?attr/textAppearanceHeadlineSmall"
+				tools:text="Back yard"
 				/>
 			
 			<androidx.constraintlayout.widget.ConstraintLayout
@@ -69,11 +69,13 @@
 				>
 				
 				<com.google.android.material.chip.ChipGroup
+					android:id="@+id/chipGroup"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
+					app:rippleColor="@android:color/transparent"
 					app:singleLine="true"
 					>
 					
@@ -82,7 +84,8 @@
 						style="@style/Widget.App.Chip.Suggestion"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="# varietà"
+						tools:text="# varietà"
+						app:rippleColor="@color/none"
 						/>
 					
 					<com.google.android.material.chip.Chip
@@ -90,8 +93,10 @@
 						style="@style/Widget.App.Chip.Suggestion"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="# piante"
+						app:rippleColor="@color/none"
+						tools:text="# piante"
 						/>
+				
 				</com.google.android.material.chip.ChipGroup>
 				
 				<Button

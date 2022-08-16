@@ -155,4 +155,7 @@ public class Varieta {
 		return trapianti_mesi;
 	}
 	
+	public int calcArea() {
+		return distanze_file * distanze_piante;
+	}
 }

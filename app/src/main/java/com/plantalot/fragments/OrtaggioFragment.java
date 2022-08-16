@@ -122,9 +122,7 @@ public class OrtaggioFragment extends Fragment {
 		buttonCarriola.setOnClickListener(v -> {
 			if (isIn) {
 				carriola.remove(ortaggioName, varietaName);
-				if (carriola.isEmpty(ortaggioName)) carriola.remove(ortaggioName);
 			} else {
-				if (!carriola.contains(ortaggioName)) carriola.add(ortaggioName);
 				carriola.put(ortaggioName, varietaName, varieta.getAltro_pack());
 			}
 			setupButton(varieta);

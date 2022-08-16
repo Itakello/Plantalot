@@ -2,10 +2,10 @@ package com.plantalot.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.classes.Carriola;
-import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
 import com.plantalot.database.DbUsers;
+import com.plantalot.fragments.CarriolaFragment;
 import com.plantalot.utils.ColorUtils;
 
 import java.util.List;
@@ -37,12 +37,14 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	private Carriola carriola;
 	private final int DELAY = 600;
 	private boolean holding = false;
+	private CarriolaFragment fragment;
 	
-	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, Carriola carriola, CarriolaOrtaggiAdapter parentAdapter) {
+	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, Carriola carriola,
+	                              CarriolaFragment fragment, CarriolaOrtaggiAdapter parentAdapter) {
 		this.mData = data;
 		this.mParentAdapter = parentAdapter;
 		this.carriola = carriola;
-		System.out.println(data);
+		this.fragment = fragment;
 	}
 	
 	@NonNull
@@ -57,12 +59,12 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-		Resources res = context.getResources();
 		Pair<Varieta, Integer> row = mData.get(position);
 		int pack = row.first.getAltro_pack();
 		
 		String ortaggio = row.first.getClassificazione_ortaggio();
 		String varieta = row.first.getClassificazione_varieta();
+		Varieta varietaObj = row.first;
 		viewHolder.mTvName.setText(varieta);
 		viewHolder.mTvDist.setText(row.first.getDistanze_piante() + " × " + row.first.getDistanze_file() + " cm");
 		viewHolder.mTvCount.setText(String.format(Locale.ITALIAN, "%d", row.second));
@@ -74,14 +76,14 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 		
 		viewHolder.mBtnDec.setOnClickListener(view -> {
 			if (!holding) {
-				viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, -1, viewHolder));
+				viewHolder.mTvCount.setText(updateCount(ortaggio, varietaObj, -1, viewHolder));
 			} else {
 				holding = false;
 			}
 		});
 		viewHolder.mBtnInc.setOnClickListener(view -> {
 			if (!holding) {
-				viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, +1, viewHolder));
+				viewHolder.mTvCount.setText(updateCount(ortaggio, varietaObj, +1, viewHolder));
 			} else {
 				holding = false;
 			}
@@ -95,7 +97,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						if (mHandler != null) return true;
-						if (carriola.get(ortaggio, varieta) == 0) {
+						if (carriola.getPianteCount(ortaggio, varieta) == 0) {
 							holding = false;
 							return true;
 						}
@@ -121,8 +123,8 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 				@Override
 				public void run() {
 					holding = true;
-					viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, -pack, viewHolder));
-					if (carriola.get(ortaggio, varieta) > 0) {
+					viewHolder.mTvCount.setText(updateCount(ortaggio, varietaObj, -pack, viewHolder));
+					if (carriola.getPianteCount(ortaggio, varieta) > 0) {
 						mHandler.postDelayed(this, DELAY);
 					}
 				}
@@ -159,7 +161,7 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 				@Override
 				public void run() {
 					holding = true;
-					viewHolder.mTvCount.setText(updateCount(ortaggio, varieta, +pack, viewHolder));
+					viewHolder.mTvCount.setText(updateCount(ortaggio, varietaObj, +pack, viewHolder));
 					mHandler.postDelayed(this, DELAY);
 				}
 			};
@@ -168,12 +170,15 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	
 	// FIXME !!!
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	private String updateCount(String ortaggio, String varieta, int step, ViewHolder viewHolder) {
-		Integer newCount = Math.max(0, carriola.get(ortaggio, varieta) + step);
+	private String updateCount(String ortaggio, Varieta varietaObj, int step, ViewHolder viewHolder) {
+		String varieta = varietaObj.getClassificazione_varieta();
+		int oldCount = carriola.getPianteCount(ortaggio, varieta);
+		int newCount = Math.max(0, oldCount + step);
 		carriola.put(ortaggio, varieta, newCount);
-		DbUsers.updateGiardinoCorrente(carriola, DbUsers.UPDATE);
+		fragment.updateOccupiedArea(varietaObj.calcArea() * (newCount - oldCount));
 		mParentAdapter.updateCount(((View) viewHolder.mView.getParent().getParent()).findViewById(R.id.carriola_ortaggio_info), ortaggio);
-		return newCount.toString();
+		DbUsers.updateGiardinoCorrente(carriola, DbUsers.UPDATE);
+		return Integer.toString(newCount);
 	}
 	
 	@Override

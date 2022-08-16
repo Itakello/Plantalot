@@ -3,9 +3,12 @@ package com.plantalot.classes;
 import android.content.Context;
 
 import com.plantalot.R;
+import com.plantalot.database.DbPlants;
 import com.plantalot.utils.IntPair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Orto {
 	
@@ -20,11 +23,14 @@ public class Orto {
 	private Esposizione esposizione;
 	private Orientamento orientamento;
 	
+	private final Carriola ortaggi;  // fixme
+	
 	public Orto() {
 		this.aiuoleDim = new IntPair(120, 200);
 		this.aiuoleCount = new IntPair(3, 2);
 		this.esposizione = Esposizione.SOLE;
 		this.orientamento = Orientamento.N;
+		this.ortaggi = new Carriola();
 	}
 	
 	public Orto(Context context) {
@@ -81,6 +87,10 @@ public class Orto {
 		return calcOrtoDim().x * calcOrtoDim().y;
 	}
 	
+	public int plantedArea() {
+		return ortaggi.calcArea();
+	}
+	
 	public IntPair getAiuoleCount() {
 		return aiuoleCount;
 	}
@@ -90,7 +100,11 @@ public class Orto {
 	}
 	
 	public ArrayList<Integer> getImages() {  // TODO
-		return new ArrayList<>();
+		HashSet<Integer> imgSet = new HashSet<>();
+		for (String ortaggio : ortaggi.nomiOrtaggi()) {
+			imgSet.add(DbPlants.getImageId(ortaggio));
+		}
+		return new ArrayList<>(imgSet);
 	}
 	
 	public Esposizione getEsposizione() {
@@ -99,6 +113,18 @@ public class Orto {
 	
 	public Orientamento getOrientamento() {
 		return orientamento;
+	}
+	
+	public Carriola getOrtaggi() {
+		return ortaggi;
+	}
+	
+	public void addVarieta(String ortaggio, String varieta, Integer count) {
+		ortaggi.put(ortaggio, varieta, count);
+	}
+	
+	public void fetchVarieta() {
+		ortaggi.fetchVarieta();
 	}
 	
 }

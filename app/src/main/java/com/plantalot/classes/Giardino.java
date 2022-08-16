@@ -41,6 +41,9 @@ public class Giardino {
 	public ArrayList<Orto> getOrti() {
 		return orti;
 	}
+	public void setOrti(ArrayList<Orto> orti) {
+		this.orti = orti;
+	}
 	
 	public Map<String, Object> toMap() {
 		HashMap<String, Object> result = new HashMap<>();
@@ -56,19 +59,24 @@ public class Giardino {
 		return area;
 	}
 	
+	public int plantedArea() {
+		int area = 0;
+		for (Orto orto : orti) area += orto.plantedArea();
+		return area;
+	}
+	
 	public Carriola getCarriola() {
 		return carriola;
 	}
 
-//	public void addOrto(Orto orto) {
-//		orti.add(orto);
-//	}
-
-//	public void updateCarriola(Carriola carriola) {
-//		this.carriola = carriola;
-//	}
+	public void fetchVarieta() {
+		carriola.fetchVarieta();
+		for (Orto orto : orti) {
+			orto.fetchVarieta();
+		}
+	}
 	
-	public void update(Object obj, int method) {  // FIXME ??
+	public void update(Object obj, int method) {  // FIXME !!!??
 		switch (method) {
 			
 			case DbUsers.UPDATE:
@@ -76,6 +84,8 @@ public class Giardino {
 					carriola = (Carriola) obj;
 				} else if (obj instanceof Orto) {
 					orti.add((Orto) obj);
+				} else if (obj instanceof ArrayList) {
+					orti = (ArrayList<Orto>) obj;
 				}
 				break;
 			

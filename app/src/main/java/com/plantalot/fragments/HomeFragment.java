@@ -42,6 +42,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
+// FIXME spostare i caricamenti dal DB in Splash.java
+
 public class HomeFragment extends Fragment {
 	
 	private static final String TAG = "HomeFragment";
@@ -112,13 +114,14 @@ public class HomeFragment extends Fragment {
 		String uid = firebaseUser.getUid();
 		DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 		DatabaseReference userRef = rootRef.child("users").child(uid);
-		userRef.addValueEventListener(new ValueEventListener() {
+		userRef.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot snapshot) {
 				if (!snapshot.exists()) {
 					user = DbUsers.writeNewUser("default_username", "default_email");
 				} else {
 					user = snapshot.getValue(User.class);
+					user.getGiardinoCorrente().fetchVarieta();
 				}
 				updateUI();
 			}

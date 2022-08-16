@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import com.plantalot.classes.Carriola;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
+import com.plantalot.fragments.CarriolaFragment;
 import com.plantalot.navigation.Nav;
 import com.plantalot.utils.ColorUtils;
 
@@ -38,10 +40,12 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	private Resources res;
 	private Context context;
 	private Carriola carriola;
+	private CarriolaFragment fragment;
 	
-	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data, Carriola carriola) {
+	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data, Carriola carriola, CarriolaFragment fragment) {
 		this.mData = data;
 		this.carriola = carriola;
+		this.fragment = fragment;
 	}
 	
 	@NonNull
@@ -66,7 +70,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		viewHolder.mTvName.setText(ortaggio);
 		updateCount(viewHolder.mTvInfo, ortaggio);
 		
-		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, carriola, this);
+		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, carriola, fragment, this);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 		viewHolder.mRecyclerView.setAdapter(carriolaVarietaAdapter);
 		
