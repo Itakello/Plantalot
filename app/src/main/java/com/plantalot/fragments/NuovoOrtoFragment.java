@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.plantalot.MyApplication;
 import com.plantalot.classes.Giardino;
 import com.plantalot.components.NuovoOrtoNumberSelector;
 import com.plantalot.R;
@@ -41,12 +42,14 @@ public class NuovoOrtoFragment extends Fragment {
 	private Context context;
 	private TableLayout table;
 	private IntPair tableDim = new IntPair();
+	private Giardino giardino;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getContext();
 		orto = new Orto(context);
+		giardino = ((MyApplication) this.getActivity().getApplication()).user.getGiardinoCorrente();
 	}
 	
 	@Nullable
@@ -71,13 +74,15 @@ public class NuovoOrtoFragment extends Fragment {
 		com.plantalot.utils.DividerItemDecoration dividerItemDecoration = new com.plantalot.utils.DividerItemDecoration(optionsRecycler.getContext(), RecyclerView.VERTICAL, false);
 		optionsRecycler.addItemDecoration(dividerItemDecoration);
 		
-		Button saveBtn = view.findViewById(R.id.save_orto);
+		Button saveBtn = view.findViewById(R.id.nuovo_orto_save_btn);
 		saveBtn.setOnClickListener(v -> {
-//			Giardino giardino = HomeFragment.user.getGiardinoCorrente();
-//			giardino.addOrto(orto);  // FIXME !!!!!!??
-			DbUsers.updateGiardinoCorrente(orto, DbUsers.UPDATE);
+			giardino.addOrto(orto);
+			DbUsers.updateGiardino(giardino);
 			Navigation.findNavController(v).navigate(R.id.action_goto_home);
 		});
+		
+		Button backBtn = view.findViewById(R.id.nuovo_orto_back_btn);
+		backBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_goto_home));
 		
 		return view;
 	}

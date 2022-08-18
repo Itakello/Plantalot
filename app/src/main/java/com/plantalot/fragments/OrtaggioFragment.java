@@ -28,10 +28,12 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
 import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.Carriola;
+import com.plantalot.classes.Giardino;
 import com.plantalot.classes.Pianta;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
@@ -56,6 +58,7 @@ public class OrtaggioFragment extends Fragment {
 	
 	private final static String[] months = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
 	private LinkedList<String> dropdownItems;
+	private Giardino giardino;
 	private Carriola carriola;
 
 //	private final List<CircleButton> mButtons = Arrays.asList(  // FIXME !!!
@@ -70,7 +73,8 @@ public class OrtaggioFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		carriola = HomeFragment.user.getGiardinoCorrente().getCarriola();
+		giardino = ((MyApplication) this.getActivity().getApplication()).user.getGiardinoCorrente();
+		carriola = giardino.getCarriola();
 	}
 	
 	@Override
@@ -126,7 +130,8 @@ public class OrtaggioFragment extends Fragment {
 				carriola.put(ortaggioName, varietaName, varieta.getAltro_pack());
 			}
 			setupButton(varieta);
-			DbUsers.updateGiardinoCorrente(carriola, DbUsers.UPDATE);
+			giardino.setCarriola(carriola);
+			DbUsers.updateGiardino(giardino);
 		});
 		buttonCarriola.setVisibility(View.VISIBLE);
 	}

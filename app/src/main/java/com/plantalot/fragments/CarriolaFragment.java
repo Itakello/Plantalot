@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.adapters.CarriolaOrtaggiAdapter;
 import com.plantalot.classes.Carriola;
@@ -45,8 +46,7 @@ public class CarriolaFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		giardino = HomeFragment.user.getGiardinoCorrente();
+		giardino = ((MyApplication) this.getActivity().getApplication()).user.getGiardinoCorrente();
 		carriola = giardino.getCarriola();
 		
 		totalArea = giardino.calcArea();
@@ -97,7 +97,7 @@ public class CarriolaFragment extends Fragment {
 			view.findViewById(R.id.carriola_progressBar).setVisibility(View.GONE);
 			RecyclerView ortaggiRecyclerView = view.findViewById(R.id.carriola_ortaggi_recycler);
 			ortaggiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-			CarriolaOrtaggiAdapter carriolaOrtaggiAdapter = new CarriolaOrtaggiAdapter(carriolaList, carriola, this);
+			CarriolaOrtaggiAdapter carriolaOrtaggiAdapter = new CarriolaOrtaggiAdapter(carriolaList, giardino, this);
 			ortaggiRecyclerView.setAdapter(carriolaOrtaggiAdapter);
 			confirmBtn.setEnabled(giardino.getOrti().size() > 0);
 		});
@@ -112,16 +112,19 @@ public class CarriolaFragment extends Fragment {
 	
 	private void arrangeOrtaggi() {  // TODO
 		Random rnd = new Random();
-		ArrayList<Orto> orti = giardino.getOrti();
+		HashMap<String, Orto> orti = giardino.getOrti();
+		ArrayList<String> keys = new ArrayList<>(orti.keySet());
 		for (String ortaggio : carriola.nomiOrtaggi()) {
 			for (String varieta : carriola.nomiVarieta(ortaggio)) {
-				int r = rnd.nextInt(orti.size());
 				int count = carriola.getPianteCount(ortaggio, varieta);
-				orti.get(r).addVarieta(ortaggio, varieta, count);
+				if (count > 0) {
+					int r = rnd.nextInt(orti.size());
+					orti.get(keys.get(r)).addVarieta(ortaggio, varieta, count);
+				}
 			}
 		}
-		Log.d("Orto ==================", orti.get(0).getOrtaggi().nomiOrtaggi().toString());
-		DbUsers.updateGiardinoCorrente(orti, DbUsers.UPDATE);
+		giardino.setOrti(orti);
+		DbUsers.updateGiardino(giardino);
 	}
 	
 	private void setupToolbar() {

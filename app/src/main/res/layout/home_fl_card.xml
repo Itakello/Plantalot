@@ -80,16 +80,16 @@
 					>
 					
 					<com.google.android.material.chip.Chip
-						android:id="@+id/home_fl_card_label__varieta"
+						android:id="@+id/home_fl_card_label__specie"
 						style="@style/Widget.App.Chip.Suggestion"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						tools:text="# varietà"
+						tools:text="# specie"
 						app:rippleColor="@color/none"
 						/>
 					
 					<com.google.android.material.chip.Chip
-						android:id="@+id/label_piante"
+						android:id="@+id/home_fl_card_label__piante"
 						style="@style/Widget.App.Chip.Suggestion"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"

@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.plantalot.MyApplication;
 import com.plantalot.R;
+import com.plantalot.classes.Giardino;
 import com.plantalot.database.DbUsers;
 
 
@@ -42,6 +44,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	private GoogleMap map;
 	private CameraPosition cameraPosition;
 	private Marker currMarker;
+	private MyApplication app;
 	
 	// The entry point to the Fused Location Provider.
 	private FusedLocationProviderClient fusedLocationProviderClient;
@@ -77,6 +80,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		app = (MyApplication) this.getActivity().getApplication();
 		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
 	}
 	
@@ -97,10 +101,9 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 			String nomeGiardino = String.valueOf(((TextInputEditText) view.findViewById(R.id.nome_giardino)).getText());
 			Log.d(TAG, "Adding :" + nomeGiardino);
 			LatLng markerLoc = currMarker.getPosition();
-			DbUsers.writeNewGiardino(nomeGiardino, markerLoc);
-			// Select current garden in DB
-//				Bundle b = new Bundle();
-//				b.putString(Consts.KEY_GIARDINO, nomeGiardino);
+			Giardino giardino = new Giardino(nomeGiardino, markerLoc);
+			app.user.addGiardino(giardino);
+			DbUsers.updateGiardino(giardino);
 			Navigation.findNavController(v).navigate(R.id.action_goto_home);//, b);
 		});
 		
@@ -112,12 +115,9 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		this.map = googleMap;
 		Log.d(TAG, "Map ready");
 		
-		map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-			@Override
-			public void onMapClick(LatLng point) {
-				map.clear();
-				currMarker = map.addMarker(new MarkerOptions().position(point));
-			}
+		map.setOnMapClickListener(point -> {
+			map.clear();
+			currMarker = map.addMarker(new MarkerOptions().position(point));
 		});
 		
 		getLocationPermission();

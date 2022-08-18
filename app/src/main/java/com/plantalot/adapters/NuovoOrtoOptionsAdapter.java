@@ -1,13 +1,10 @@
 package com.plantalot.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -18,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputEditText;
 import com.plantalot.components.NuovoOrtoNumberSelector;
 import com.plantalot.R;
 import com.plantalot.classes.Orto;
@@ -66,8 +62,11 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		View mChild = mData.get(position).getThird();
 		viewHolder.mField.setText(field);
 		viewHolder.mValue.setText(value);
+		
 		viewHolder.mRow.setOnClickListener(view -> {
+			
 			if (position == 0) {  // FIXME !?
+				
 				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
 				builder.setTitle(R.string.nome_orto);
 				
@@ -75,7 +74,7 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 				input.setText(nomeOrto);
 				input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 				input.requestFocus();
-				showKeyboard();
+				Utils.showKeyboard(context);
 				
 				FrameLayout inputLayout = new FrameLayout(context);
 				int dp = Utils.dp2px(1, context);
@@ -87,15 +86,17 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 					nomeOrto = input.getText().toString();
 					mOrto.setNome(nomeOrto);
 					viewHolder.mValue.setText(nomeOrto);
-					closeKeyboard();
+					Utils.closeKeyboard(context);
 				});
 				builder.setNegativeButton(R.string.annulla, (dialog, which) -> {
-					closeKeyboard();
+					Utils.closeKeyboard(context);
 					dialog.cancel();
 				});
 				
 				builder.show();
+				
 			} else if (mChild != null) {
+				
 				mRecycler.setVisibility(View.INVISIBLE);
 				mExpanded.setVisibility(View.VISIBLE);
 				((TextView) mExpanded.findViewById(R.id.nuovo_orto_card_header)).setText(field);
@@ -106,7 +107,9 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 					mExpanded.removeView(mChild);
 					viewHolder.mValue.setText(((NuovoOrtoNumberSelector) mChild).getValues().toString());  // FIXME
 				});
+				
 			} else {
+				
 				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
 				builder.setTitle("TODO");
 				builder.setPositiveButton("OK", (dialog, i) -> dialog.cancel());
@@ -130,18 +133,6 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 			mField = itemView.findViewById(R.id.nuovo_orto_option_field);
 			mValue = itemView.findViewById(R.id.nuovo_orto_option_value);
 		}
-	}
-	
-	public void showKeyboard() {
-		((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-	}
-	
-	public void closeKeyboard() {
-		((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-		InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 	}
 	
 }

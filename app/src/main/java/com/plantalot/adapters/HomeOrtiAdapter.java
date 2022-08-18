@@ -1,6 +1,7 @@
 package com.plantalot.adapters;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -17,8 +18,11 @@ import android.widget.TextView;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.Orto;
+import com.plantalot.components.InputDialog;
+import com.plantalot.database.DbUsers;
 import com.plantalot.utils.Consts;
 import com.plantalot.R;
 
@@ -28,10 +32,12 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 	private final ArrayList<Orto> orti;
-	Context context;
+	private Giardino giardino;
+	private Context context;
 	
-	public HomeOrtiAdapter(ArrayList<Orto> orti) {
-		this.orti = orti;
+	public HomeOrtiAdapter(Giardino giardino) {
+		this.giardino = giardino;
+		this.orti = giardino.ortiList();
 	}
 	
 	@NonNull
@@ -44,15 +50,22 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	
 	
 	// Bind elements to card
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@SuppressLint("SetTextI18n")
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 		
 		Orto orto = orti.get(i);
 		String ortoName = orto.getNome();
-		int specie = orto.getPiante().size();
+		int specie = orto.getOrtaggi().countSpecie();
+		int piante = orto.getOrtaggi().countPiante();
+		
+		viewHolder.titleTextView.setText(ortoName);
+		viewHolder.specieTextView.setText(specie + " specie");
+		viewHolder.pianteTextView.setText(piante + " piante");
 		
 		// Card popup menu
+		HomeOrtiAdapter that = this;
 		viewHolder.buttonViewOption.setOnClickListener(view -> {
 			PopupMenu popup = new PopupMenu(context, viewHolder.buttonViewOption);
 			popup.inflate(R.menu.home_fl_card_menu);
@@ -61,15 +74,29 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 			}
 			popup.setOnMenuItemClickListener(item -> {
 				switch (item.getItemId()) {
-//                    case R.id.menu1:
-//                        //handle menu1 click
-//                        return true;
-//                    case R.id.menu2:
-//                        //handle menu2 click
-//                        return true;
-//                    case R.id.menu3:
-//                        //handle menu3 click
-//                        return true;
+					case R.id.home_card_menu_opt1:
+						InputDialog inputDialog = new InputDialog("Nome dell'orto", ortoName, context, newName -> {
+							giardino.editNomeOrto(orto, newName);
+							that.notifyItemChanged(i);
+							DbUsers.updateGiardino(giardino);
+						});
+						inputDialog.show();
+						return true;
+					
+					case R.id.home_card_menu_opt2:
+						MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+						builder.setTitle("Eliminare " + ortoName + "?");
+						builder.setNegativeButton(R.string.annulla, (dialog, j) -> dialog.cancel());
+						builder.setPositiveButton(R.string.conferma, (dialog, j) -> {
+							dialog.cancel();
+							giardino.removeOrto(orto);
+							orti.remove(i);
+							this.notifyItemRemoved(i);
+							DbUsers.updateGiardino(giardino);
+						});
+						builder.show();
+						return true;
+					
 					default:
 						return false;
 				}
@@ -79,30 +106,32 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 		
 		// Icons thumbnails
 		// needed to get the width (fixme ?)
-		viewHolder.mFrameLayout.post(() -> {
-			int width = viewHolder.mFrameLayout.getWidth();
-			int padding = viewHolder.mFrameLayout.getPaddingTop();
-			int imgwidth = (width - 2 * padding) / (Consts.CARD_PLANTS / 2);
-			
-			FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
-			layoutManager.setJustifyContent(JustifyContent.CENTER);
-			HomeThumbnailsAdapter homeThumbnailAdapter = new HomeThumbnailsAdapter(orto.getImages(), imgwidth);
-			
-			viewHolder.mRecyclerView.setLayoutManager(layoutManager);
-			viewHolder.mRecyclerView.setAdapter(homeThumbnailAdapter);
-			viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
-			viewHolder.mRecyclerView.suppressLayout(true);  // 🖕 (google: android propagate click to parent recyclerview)
-			
-			ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();
-			params.height = 2 * ((width - 2 * padding) / (Consts.CARD_PLANTS / 2) + padding);
-			viewHolder.mFrameLayout.setLayoutParams(params);
-			if (specie == 5 || specie == 6) {  // compact view
-				viewHolder.mFrameLayout.setPadding(padding + imgwidth / 2, padding, padding + imgwidth / 2, padding);
-			}
-			
-			viewHolder.titleTextView.setText(ortoName);
-			viewHolder.labelTextView.setText(specie + " specie");
-		});
+		if (!orto.getOrtaggi().notEmpty()) {
+			viewHolder.mFrameLayout.setVisibility(View.GONE);
+		} else {
+			viewHolder.mFrameLayout.setVisibility(View.VISIBLE);
+			viewHolder.mFrameLayout.post(() -> {
+				int width = viewHolder.mFrameLayout.getWidth();
+				int padding = viewHolder.mFrameLayout.getPaddingTop();
+				int imgwidth = (width - 2 * padding) / (Consts.CARD_PLANTS / 2);
+				
+				FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
+				layoutManager.setJustifyContent(JustifyContent.CENTER);
+				HomeThumbnailsAdapter homeThumbnailAdapter = new HomeThumbnailsAdapter(orto.getImages(), imgwidth);
+				
+				viewHolder.mRecyclerView.setLayoutManager(layoutManager);
+				viewHolder.mRecyclerView.setAdapter(homeThumbnailAdapter);
+				viewHolder.mRecyclerView.setRecycledViewPool(viewPool);
+				viewHolder.mRecyclerView.suppressLayout(true);  // 🖕 (google: android propagate click to parent recyclerview)
+				
+				ViewGroup.LayoutParams params = viewHolder.mFrameLayout.getLayoutParams();
+				params.height = 2 * ((width - 2 * padding) / (Consts.CARD_PLANTS / 2) + padding);
+				viewHolder.mFrameLayout.setLayoutParams(params);
+				if (specie == 5 || specie == 6) {  // compact view
+					viewHolder.mFrameLayout.setPadding(padding + imgwidth / 2, padding, padding + imgwidth / 2, padding);
+				}
+			});
+		}
 	}
 	
 	@Override
@@ -110,24 +139,22 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 		return orti.size();
 	}
 	
-	
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		
-		// Attributes card
 		private final TextView titleTextView;
-		private final TextView labelTextView;
+		private final TextView specieTextView;
+		private final TextView pianteTextView;
 		private final RecyclerView mRecyclerView;
 		private final FrameLayout mFrameLayout;
 		private final View buttonViewOption;
-		private final MaterialCardView mCardView;
 		
 		ViewHolder(final View view) {
 			super(view);
 			titleTextView = view.findViewById(R.id.home_fl_card_title__orto);
-			labelTextView = view.findViewById(R.id.home_fl_card_label__varieta);
+			specieTextView = view.findViewById(R.id.home_fl_card_label__specie);
+			pianteTextView = view.findViewById(R.id.home_fl_card_label__piante);
 			mRecyclerView = view.findViewById(R.id.home_fl_recycler__ortaggi);
 			mFrameLayout = view.findViewById(R.id.home_fl_layout__ortaggi);
-			mCardView = view.findViewById(R.id.home_fl_card);
 			buttonViewOption = view.findViewById(R.id.home_fl_card_button_menu);
 		}
 	}

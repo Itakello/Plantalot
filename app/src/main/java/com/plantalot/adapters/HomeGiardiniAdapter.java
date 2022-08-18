@@ -1,19 +1,25 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.plantalot.MyApplication;
 import com.plantalot.R;
+import com.plantalot.components.InputDialog;
 import com.plantalot.database.DbUsers;
+import com.plantalot.fragments.HomeFragment;
 import com.plantalot.utils.Utils;
 
 import java.util.List;
@@ -24,12 +30,20 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
 	private final View fragView;
+	private final Context context;
+	private String nomeGiardinoCorrente;
+	private final MyApplication app;
+	private final HomeFragment homeFragment;
 	
 	// data is passed into the constructor
-	public HomeGiardiniAdapter(Context context, List<String> data, View fragView) {
+	public HomeGiardiniAdapter(Context context, List<String> data, String nomeGiardinoCorrente, View fragView, MyApplication app, HomeFragment homeFragment) {
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
 		this.fragView = fragView;
+		this.context = context;
+		this.nomeGiardinoCorrente = nomeGiardinoCorrente;
+		this.app = app;
+		this.homeFragment = homeFragment;
 	}
 	
 	// inflates the row layout from xml when needed
@@ -41,10 +55,36 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 	}
 	
 	// binds the data to the TextView in each row
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
-		String giardino = mData.get(position);
-		holder.button.setText(giardino);
+	public void onBindViewHolder(ViewHolder viewHolder, int i) {
+		String nomeGiardino = mData.get(i);
+		viewHolder.giardinoBtn.setText(nomeGiardino);
+		
+		viewHolder.giardinoBtn.setOnClickListener(v -> {
+			String nomeGiardinoCorrente = viewHolder.giardinoBtn.getText().toString();
+			app.user.setNome_giardino_corrente(nomeGiardinoCorrente);
+			DbUsers.updateNomeGiardinoCorrente(nomeGiardinoCorrente);
+			Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
+			ImageButton imgButton = Utils.getToolbarNavigationButton(toolbar);
+			(new Handler()).postDelayed(imgButton::performClick, 100);
+			homeFragment.setupContent();  // FIXME !?
+		});
+		
+		HomeGiardiniAdapter that = this;
+		viewHolder.editBtn.setOnClickListener(v -> {
+			InputDialog inputDialog = new InputDialog("Nome del giardino", nomeGiardino, context, newName -> {
+				mData.set(i, newName);
+				that.notifyItemChanged(i);
+				app.user.editNomeGiardino(nomeGiardino, newName);
+				DbUsers.editNomeGiardino(nomeGiardino, newName, nomeGiardinoCorrente);
+				if (nomeGiardino.equals(nomeGiardinoCorrente)) {
+					((TextView) fragView.findViewById(R.id.home_fl_title_giardino)).setText(newName);
+					nomeGiardinoCorrente = newName;
+				}
+			});
+			inputDialog.show();
+		});
 	}
 	
 	// total number of rows
@@ -54,34 +94,15 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 	}
 	
 	// stores and recycles views as they are scrolled off screen
-	public class ViewHolder extends RecyclerView.ViewHolder {
-		Button button;
+	public static class ViewHolder extends RecyclerView.ViewHolder {
+		Button giardinoBtn;
+		Button editBtn;
 		
 		public ViewHolder(View itemView) {
 			super(itemView);
-			button = itemView.findViewById(R.id.drawer_button_text);
-			button.setOnClickListener(v -> {  // FIXME controllare il codice
-				String nomeGiardinoCorrente = button.getText().toString();
-				System.out.println("Hai premuto il pulsante " + nomeGiardinoCorrente);
-				DbUsers.updateNomeGiardinoCorrente(nomeGiardinoCorrente);
-				Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
-				ImageButton imgButton = Utils.getToolbarNavigationButton(toolbar);
-				
-				// Add delay for smooth animation
-				final Handler handler = new Handler();
-				handler.postDelayed(imgButton::performClick, 100);
-			});
+			giardinoBtn = itemView.findViewById(R.id.drawer_button_text);
+			editBtn = itemView.findViewById(R.id.drawer_button_edit);
 		}
-	}
-	
-	// convenience method for getting data at click position
-	String getItem(int id) {
-		return mData.get(id);
-	}
-	
-	// parent activity will implement this method to respond to click events
-	public interface GardenClickListener {
-		void onItemClick(View view, int position);
 	}
 	
 }

@@ -1,7 +1,12 @@
 package com.plantalot.classes;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.plantalot.database.DbUsers;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.plantalot.components.InputDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,12 +20,12 @@ public class Giardino {
 	
 	private String nome;
 	private LatLngGiardino pos;
-	private ArrayList<Orto> orti;  // FIXME !!!!
+	private HashMap<String, Orto> orti;  // FIXME !!!!
 	private Carriola carriola;  // FIXME !!!!!
 //    Color c;
 	
 	public Giardino() {
-		orti = new ArrayList<>();
+		orti = new HashMap<>();
 		carriola = new Carriola();
 	}
 	
@@ -34,15 +39,20 @@ public class Giardino {
 		return nome;
 	}
 	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
 	public LatLngGiardino getPos() {
 		return pos;
 	}
 	
-	public ArrayList<Orto> getOrti() {
+	public HashMap<String, Orto> getOrti() {
 		return orti;
 	}
-	public void setOrti(ArrayList<Orto> orti) {
-		this.orti = orti;
+	
+	public ArrayList<Orto> ortiList() {
+		return new ArrayList<>(orti.values());
 	}
 	
 	public Map<String, Object> toMap() {
@@ -55,44 +65,51 @@ public class Giardino {
 	
 	public int calcArea() {
 		int area = 0;
-		for (Orto orto : orti) area += orto.calcArea();
+		for (Orto orto : orti.values()) area += orto.calcArea();
 		return area;
 	}
 	
 	public int plantedArea() {
 		int area = 0;
-		for (Orto orto : orti) area += orto.plantedArea();
+		for (Orto orto : orti.values()) area += orto.plantedArea();
 		return area;
 	}
 	
 	public Carriola getCarriola() {
 		return carriola;
 	}
-
+	
 	public void fetchVarieta() {
 		carriola.fetchVarieta();
-		for (Orto orto : orti) {
+		for (Orto orto : orti.values()) {
 			orto.fetchVarieta();
 		}
 	}
 	
-	public void update(Object obj, int method) {  // FIXME !!!??
-		switch (method) {
-			
-			case DbUsers.UPDATE:
-				if (obj instanceof Carriola) {
-					carriola = (Carriola) obj;
-				} else if (obj instanceof Orto) {
-					orti.add((Orto) obj);
-				} else if (obj instanceof ArrayList) {
-					orti = (ArrayList<Orto>) obj;
-				}
-				break;
-			
-			case DbUsers.DELETE:
-				
-				break;
+	public void setCarriola(Carriola carriola) {
+		this.carriola = carriola;
+	}
+	
+	public void addOrto(Orto orto) {
+		if (!orti.containsKey(orto.getNome())) {
+			orti.put(orto.getNome(), orto);
+		} else {
+			// TODO
 		}
+	}
+	
+	public void editNomeOrto(Orto orto, String newName) {
+		removeOrto(orto);
+		orto.setNome(newName);
+		addOrto(orto);
+	}
+	
+	public void setOrti(HashMap<String, Orto> orti) {
+		this.orti = (HashMap<String, Orto>) orti;
+	}
+	
+	public void removeOrto(@NonNull Orto orto) {
+		orti.remove(orto.getNome());
 	}
 	
 }

@@ -86,4 +86,14 @@ public class User implements Serializable {
 		this.nome_giardino_corrente = nomeGiardino;
 	}
 	
+	public void editNomeGiardino(String oldName, String newName) {
+		Giardino giardino = giardini.get(oldName);
+		giardino.setNome(newName);
+		giardini.put(newName, giardino);
+		giardini.remove(oldName);
+		if (nome_giardino_corrente.equals(oldName) || nome_giardino_corrente == null) {
+			setNome_giardino_corrente(newName);
+		}
+	}
+	
 }

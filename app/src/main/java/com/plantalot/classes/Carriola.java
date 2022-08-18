@@ -35,11 +35,14 @@ public class Carriola {
 		return varietaMap.get(ortaggio + varieta);
 	}
 	
-	public ArrayList<Varieta> varietaList() {
-		return new ArrayList<>(varietaMap.values());
+	public List<Varieta> varietaList() {
+		List<Varieta> list = new ArrayList<>(varietaMap.values());
+		Collections.sort(list);
+		return list;
 	}
 	
 	public int getPianteCount(String ortaggio, String varieta) {
+		Log.wtf("WTF", ortaggio + " " + varieta);
 		return map.get(ortaggio).get(varieta);
 	}
 	
@@ -48,10 +51,12 @@ public class Carriola {
 			map.get(ortaggio).remove(varieta);
 			if (isEmpty(ortaggio)) map.remove(ortaggio);
 		}
+		varietaMap.remove(ortaggio + varieta);
 	}
 	
 	public void clear() {
 		map.clear();
+		varietaMap.clear();
 	}
 	
 	public void put(String ortaggio, String varieta, Integer count) {
@@ -103,6 +108,19 @@ public class Carriola {
 		return map.get(ortaggio).size();
 	}
 	
+	public int countSpecie() {
+		return map.size();
+	}
+	
+	@RequiresApi(api = Build.VERSION_CODES.N)
+	public int countPiante() {
+		int total = 0;
+		for (String ortaggio : nomiOrtaggi()) {
+			total += countPiante(ortaggio);
+		}
+		return total;
+	}
+	
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	public int countPiante(String ortaggio) {
 		return (new ArrayList<>(map.get(ortaggio).values())).stream().mapToInt(Integer::intValue).sum();
@@ -123,7 +141,7 @@ public class Carriola {
 					varieta.getClassificazione_ortaggio(),
 					varieta.getClassificazione_varieta());
 		}
-		Log.d("AREAAAAAAAAAAAAAAAAAAA", ""+ area);
+		Log.d("AREA", "" + area);
 		return area;
 	}
 	

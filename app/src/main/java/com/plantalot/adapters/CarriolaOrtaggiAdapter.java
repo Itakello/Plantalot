@@ -21,6 +21,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.common.base.Joiner;
 import com.plantalot.R;
 import com.plantalot.classes.Carriola;
+import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
@@ -39,12 +40,14 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	private final List<Pair<String, List<Pair<Varieta, Integer>>>> mData;
 	private Resources res;
 	private Context context;
+	private Giardino giardino;
 	private Carriola carriola;
 	private CarriolaFragment fragment;
 	
-	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data, Carriola carriola, CarriolaFragment fragment) {
+	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data, Giardino giardino, CarriolaFragment fragment) {
 		this.mData = data;
-		this.carriola = carriola;
+		this.giardino = giardino;
+		this.carriola = giardino.getCarriola();
 		this.fragment = fragment;
 	}
 	
@@ -70,7 +73,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		viewHolder.mTvName.setText(ortaggio);
 		updateCount(viewHolder.mTvInfo, ortaggio);
 		
-		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, carriola, fragment, this);
+		CarriolaVarietaAdapter carriolaVarietaAdapter = new CarriolaVarietaAdapter(mData.get(position).second, giardino, fragment, this);
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 		viewHolder.mRecyclerView.setAdapter(carriolaVarietaAdapter);
 		

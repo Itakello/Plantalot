@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.classes.Carriola;
+import com.plantalot.classes.Giardino;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
 import com.plantalot.database.DbUsers;
@@ -34,16 +35,18 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	private final List<Pair<Varieta, Integer>> mData;
 	private final CarriolaOrtaggiAdapter mParentAdapter;
 	private Context context;
+	private Giardino giardino;
 	private Carriola carriola;
 	private final int DELAY = 600;
 	private boolean holding = false;
 	private CarriolaFragment fragment;
 	
-	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, Carriola carriola,
+	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, Giardino giardino,
 	                              CarriolaFragment fragment, CarriolaOrtaggiAdapter parentAdapter) {
 		this.mData = data;
 		this.mParentAdapter = parentAdapter;
-		this.carriola = carriola;
+		this.giardino = giardino;
+		this.carriola = giardino.getCarriola();
 		this.fragment = fragment;
 	}
 	
@@ -177,7 +180,8 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 		carriola.put(ortaggio, varieta, newCount);
 		fragment.updateOccupiedArea(varietaObj.calcArea() * (newCount - oldCount));
 		mParentAdapter.updateCount(((View) viewHolder.mView.getParent().getParent()).findViewById(R.id.carriola_ortaggio_info), ortaggio);
-		DbUsers.updateGiardinoCorrente(carriola, DbUsers.UPDATE);
+		giardino.setCarriola(carriola);
+		DbUsers.updateGiardino(giardino);
 		return Integer.toString(newCount);
 	}
 	

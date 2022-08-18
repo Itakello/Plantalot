@@ -2,7 +2,7 @@ package com.plantalot.classes;
 
 import java.util.ArrayList;
 
-public class Varieta {
+public class Varieta implements Comparable<Varieta> {
 	
 	private double altro_f1;
 	private double altro_mezzombra;
@@ -157,5 +157,13 @@ public class Varieta {
 	
 	public int calcArea() {
 		return distanze_file * distanze_piante;
+	}
+	
+	
+	@Override
+	public int compareTo(Varieta varieta) {
+		int compareOrtaggio = this.classificazione_ortaggio.compareTo(varieta.classificazione_ortaggio);
+		if (compareOrtaggio != 0) return compareOrtaggio;
+		return this.classificazione_varieta.compareTo(varieta.classificazione_varieta);
 	}
 }
