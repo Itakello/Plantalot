@@ -75,11 +75,12 @@
 				/>
 		
 		</action>
-		
+
 		<action
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
-			/>
+			app:popUpTo="@id/homeFragment"
+			app:popUpToInclusive="true" />
 	
 	</fragment>
 	
@@ -121,10 +122,11 @@
 		tools:layout="@layout/nuovo_giardino_fragment"
 		>
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
-			/>
+			app:enterAnim="@android:anim/fade_in"
+			app:popUpTo="@id/homeFragment"
+			app:popUpToInclusive="true" />
 	
 	</fragment>
 	
@@ -135,10 +137,11 @@
 		tools:layout="@layout/nuovo_orto_fragment"
 		>
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
-			/>
+			app:enterAnim="@android:anim/fade_in"
+			app:popUpTo="@id/homeFragment"
+			app:popUpToInclusive="true" />
 	
 	</fragment>
 	
@@ -148,12 +151,13 @@
 		android:label="CarriolaFragment"
 		tools:layout="@layout/carriola_fragment"
 		>
-		
+
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
-			/>
+			app:enterAnim="@android:anim/fade_in"
+			app:popUpTo="@id/homeFragment"
+			app:popUpToInclusive="true" />
 		
 		<action
 			app:enterAnim="@android:anim/fade_in"

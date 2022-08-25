@@ -17,7 +17,8 @@
 	<string name="numero_aiuole">Numero di aiuole</string>
 	<string name="esposizione">Esposizione</string>
 	<string name="orientamento">Orientamento</string>
-	
+	<string name="exit_toast">Premi nuovamente per uscire</string>
+
 	<plurals name="piante">
 		<item quantity="one">pianta</item>
 		<item quantity="other">piante</item>
