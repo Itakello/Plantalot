@@ -3,6 +3,7 @@ package com.plantalot.adapters;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +32,15 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 	private final LayoutInflater mInflater;
 	private final View fragView;
 	private final Context context;
-	private String nomeGiardinoCorrente;
 	private final MyApplication app;
 	private final HomeFragment homeFragment;
 	
 	// data is passed into the constructor
-	public HomeGiardiniAdapter(Context context, List<String> data, String nomeGiardinoCorrente, View fragView, MyApplication app, HomeFragment homeFragment) {
+	public HomeGiardiniAdapter(Context context, View fragView, MyApplication app, HomeFragment homeFragment) {
 		this.mInflater = LayoutInflater.from(context);
-		this.mData = data;
+		this.mData = app.user.getGiardiniNames();
 		this.fragView = fragView;
 		this.context = context;
-		this.nomeGiardinoCorrente = nomeGiardinoCorrente;
 		this.app = app;
 		this.homeFragment = homeFragment;
 	}
@@ -76,12 +75,14 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 			InputDialog inputDialog = new InputDialog("Nome del giardino", nomeGiardino, context, newName -> {
 				mData.set(i, newName);
 				that.notifyItemChanged(i);
-				app.user.editNomeGiardino(nomeGiardino, newName);
-				DbUsers.editNomeGiardino(nomeGiardino, newName, nomeGiardinoCorrente);
+				String nomeGiardinoCorrente = app.user.getGiardinoCorrente().getNome();
+				Log.d("GIARDINO", nomeGiardino + " - " + nomeGiardinoCorrente);
 				if (nomeGiardino.equals(nomeGiardinoCorrente)) {
 					((TextView) fragView.findViewById(R.id.home_fl_title_giardino)).setText(newName);
 					nomeGiardinoCorrente = newName;
 				}
+				app.user.editNomeGiardino(nomeGiardino, newName);
+				DbUsers.editNomeGiardino(nomeGiardino, newName, nomeGiardinoCorrente);
 			});
 			inputDialog.show();
 		});

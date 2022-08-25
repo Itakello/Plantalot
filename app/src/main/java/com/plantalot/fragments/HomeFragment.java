@@ -40,7 +40,6 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 	
 	private static final String TAG = "HomeFragment";
-	private String nomeGiardinoCorrente;
 	private View view;
 	private MyApplication app;
 	
@@ -52,20 +51,6 @@ public class HomeFragment extends Fragment {
 			new Pair<>(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false),
 			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24, R.id.action_goto_nuovo_orto), true)
 	));
-	
-	@Override
-	public void onSaveInstanceState(@NonNull Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(Consts.KEY_GIARDINO, nomeGiardinoCorrente);
-	}
-	
-	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		if (savedInstanceState != null) {
-			nomeGiardinoCorrente = savedInstanceState.getString(Consts.KEY_GIARDINO);
-		}
-	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,7 +88,7 @@ public class HomeFragment extends Fragment {
 		// Setup giardini recycler view
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
 		giardiniRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		giardiniRecyclerView.setAdapter(new HomeGiardiniAdapter(view.getContext(), app.user.getGiardiniNames(), app.user.getNome_giardino_corrente(), view, app, this));
+		giardiniRecyclerView.setAdapter(new HomeGiardiniAdapter(view.getContext(), view, app, this));
 		
 		setupContent();
 	}
@@ -114,11 +99,10 @@ public class HomeFragment extends Fragment {
 		
 		title.setVisibility(View.VISIBLE); // FIXME
 		instructions.setVisibility(View.VISIBLE); // FIXME
-		
-		nomeGiardinoCorrente = app.user.getNome_giardino_corrente();
+
 //		Log.d("Giardino corrente", nomeGiardinoCorrente);
 		
-		if (nomeGiardinoCorrente == null) {
+		if (app.user.getGiardinoCorrente() == null) {
 			instructions.setText(R.string.instruction_no_giardini);
 			title.setVisibility(View.GONE); // FIXME
 		} else {
@@ -133,7 +117,7 @@ public class HomeFragment extends Fragment {
 				if (button.second) buttonList.add(button.first);
 			}
 			CircleButton.setupRecycler(buttonList, view.findViewById(R.id.home_fl_recycler_navbuttons), view.getContext());
-			title.setText(nomeGiardinoCorrente);
+			title.setText(app.user.getGiardinoCorrente().getNome());
 			
 			// Setup orti recycler view
 			RecyclerView ortiRecyclerView = view.findViewById(R.id.home_fl_recycler_orti);

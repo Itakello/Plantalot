@@ -73,8 +73,7 @@ public class Splash extends Activity {
 					app.user = DbUsers.writeNewUser("default_username", "default_email");
 				} else {
 					app.user = snapshot.getValue(User.class);
-					Giardino giardino = app.user.getGiardinoCorrente();
-					if (giardino != null) giardino.fetchVarieta();  // FIXME wait
+					if (app.user.getGiardinoCorrente() != null) app.user.getGiardinoCorrente().fetchVarieta();  // FIXME wait
 				}
 				new Handler().postDelayed(Splash.this::startMainActivity, SPLASH_DISPLAY_LENGTH);
 			}
