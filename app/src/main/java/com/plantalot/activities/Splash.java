@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.classes.Giardino;
@@ -41,7 +43,7 @@ public class Splash extends Activity {
 		
 		FirebaseAuth mAuth = FirebaseAuth.getInstance();
 		FirebaseUser currentUser = mAuth.getCurrentUser();
-		
+
 		if (currentUser == null) {  // User not signed in
 			mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
 				Log.d(TAG, "Signed in anonymously");
@@ -50,6 +52,13 @@ public class Splash extends Activity {
 		} else {  // User signed in
 			getUserFromFirebase(currentUser);
 		}
+		// Disk persistence user -> firebase
+		FirebaseDatabase.getInstance().getReference("users/" + mAuth.getUid()).keepSynced(true);
+		// Disk persistence ortomio -> firestore
+		FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+				.setPersistenceEnabled(true)
+				.build();
+		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 	}
 	
 	private void getUserFromFirebase(FirebaseUser firebaseUser) {
