@@ -13,8 +13,7 @@ import java.util.List;
 
 public class CircleButton {  // TODO extends View
 	
-	public static final int CARRIOLA = 0;
-	public static final int PREFERITI = 0;
+	
 	
 	private final String label;
 	private final int icon;

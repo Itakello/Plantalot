@@ -42,7 +42,6 @@ public class Carriola {
 	}
 	
 	public int getPianteCount(String ortaggio, String varieta) {
-		Log.wtf("WTF", ortaggio + " " + varieta);
 		return map.get(ortaggio).get(varieta);
 	}
 	

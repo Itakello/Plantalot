@@ -1,6 +1,7 @@
 package com.plantalot.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -78,7 +79,7 @@ public class HomeFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(TAG, "On createView");
 		view = inflater.inflate(R.layout.home_fragment, container, false);
-		setupUI();
+		new Handler().post(this::setupUI);
 //		view.findViewById(R.id.home_bl_drawer_recycler).setOnClickListener(v -> setupContent());
 		return view;
 	}

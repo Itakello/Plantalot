@@ -92,10 +92,14 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		SupportMapFragment mapFragment = new SupportMapFragment();
 		getChildFragmentManager().beginTransaction().replace(R.id.frame_layout_map, mapFragment).commit();
 		
-		if (mapFragment != null)
-			mapFragment.getMapAsync(this);
+		if (mapFragment != null)			mapFragment.getMapAsync(this);
 		
-		Button saveBtn = (Button) view.findViewById(R.id.save_giardino);
+		Button backBtn = (Button) view.findViewById(R.id.nuovo_giardino_back_btn);
+		backBtn.setOnClickListener(v -> {
+			Navigation.findNavController(v).navigate(R.id.action_goto_home);//, b);
+		});
+		
+		Button saveBtn = (Button) view.findViewById(R.id.nuovo_giardino_save_btn);
 		saveBtn.setOnClickListener(v -> {
 			// TODO check giardino esistente + lunghezza nome giardino (lunghezza < 15)
 			String nomeGiardino = String.valueOf(((TextInputEditText) view.findViewById(R.id.nome_giardino)).getText());

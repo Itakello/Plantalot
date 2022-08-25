@@ -44,16 +44,6 @@ public class DbUsers {
 		dbUser.updateChildren(u_map);
 	}
 	
-//	public static void addNewGiardino(String nomeGiardino, LatLng location) {
-//		Log.d(TAG, "Writing new giardino " + nomeGiardino);
-//		HashMap<String, Object> g_map = new HashMap<>();
-//		g_map.put(nomeGiardino, new Giardino(nomeGiardino, location));
-//		dbUser.child("giardini").updateChildren(g_map);
-//		HashMap<String, Object> u_map = new HashMap<>();
-//		u_map.put("nome_giardino_corrente", nomeGiardino);
-//		dbUser.updateChildren(u_map);
-//	}
-	
 	public static void updateGiardino(@NonNull Giardino giardino) {  // FIXME
 		Log.d(TAG, "Updating giardino " + giardino.getNome());
 		HashMap<String, Object> g_map = new HashMap<>();
@@ -61,24 +51,6 @@ public class DbUsers {
 		dbUser.child("giardini").updateChildren(g_map);
 	}
 
-//	public static void updateGiardino(String nomeGiardino) {  // FIXME
-//		Log.d(TAG, "Updating giardino " + nomeGiardino);
-//		dbUser.child("giardini").child(nomeGiardino).addListenerForSingleValueEvent(new ValueEventListener() {
-//			@Override
-//			@RequiresApi(api = Build.VERSION_CODES.N)
-//			public void onDataChange(@NonNull DataSnapshot snapshot) {
-//				Giardino giardino = snapshot.getValue(Giardino.class);
-//				HashMap<String, Object> g_map = new HashMap<>();
-//				g_map.put(nomeGiardino, giardino);
-//				dbUser.child("giardini").updateChildren(g_map);
-//			}
-//
-//			@Override
-//			public void onCancelled(@NonNull DatabaseError error) {
-//			}
-//		});
-//	}
-	
 	public static void editNomeGiardino(String oldName, String newName, String currentName) {  // FIXME
 		Log.d(TAG, "Updating giardino " + oldName);
 		dbUser.child("giardini").child(oldName).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -99,34 +71,5 @@ public class DbUsers {
 			}
 		});
 	}
-
-//	public static void _updateGiardinoCorrente(Object obj, Giardino.Method method) {  // FIXME put nome_giardino_corrente in a Bundle !!!!!!!!!!!!!!!!??
-//		Log.d(TAG, "Updating giardino corrente");
-//		dbUser.child("nome_giardino_corrente").addListenerForSingleValueEvent(new ValueEventListener() {
-//			@Override
-//			public void onDataChange(@NonNull DataSnapshot snapshot) {
-//				String nome_giardino_corrente = (String) snapshot.getValue();
-//				dbUser.child("giardini").child(nome_giardino_corrente).addListenerForSingleValueEvent(new ValueEventListener() {
-//					@Override
-//					@RequiresApi(api = Build.VERSION_CODES.N)
-//					public void onDataChange(@NonNull DataSnapshot snapshot) {
-//						Giardino giardino = snapshot.getValue(Giardino.class);
-//						giardino.update(obj, method);  // FIXME ??
-//						HashMap<String, Object> g_map = new HashMap<>();
-//						g_map.put(giardino.getNome(), giardino);
-//						dbUser.child("giardini").updateChildren(g_map);
-//					}
-//
-//					@Override
-//					public void onCancelled(@NonNull DatabaseError error) {
-//					}
-//				});
-//			}
-//
-//			@Override
-//			public void onCancelled(@NonNull DatabaseError error) {
-//			}
-//		});
-//	}
 
 }
