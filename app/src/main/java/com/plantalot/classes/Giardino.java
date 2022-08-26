@@ -13,16 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Giardino {
-
-//	public enum Color {  // TODO
-//		GREEN, BLUE, RED, YELLOW, ORANGE, PURPLE, PINK,
-//	}
+	// TODO: add color to giardino
 	
 	private String nome;
 	private LatLngGiardino pos;
-	private HashMap<String, Orto> orti;  // FIXME !!!!
-	private Carriola carriola;  // FIXME !!!!!
-//    Color c;
+	private HashMap<String, Orto> orti;
+	private Carriola carriola;
 	
 	public Giardino() {
 		orti = new HashMap<>();

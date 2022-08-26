@@ -24,7 +24,6 @@ public class Pianta {
 	public Pianta() {
 	}
 	
-	
 	public int getConcimazione_mensile() {
 		return concimazione_mensile;
 	}

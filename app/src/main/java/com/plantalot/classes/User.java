@@ -1,5 +1,7 @@
 package com.plantalot.classes;
 
+import com.plantalot.database.DbUsers;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,11 +45,6 @@ public class User implements Serializable {
 		return giardini.get(getNome_giardino_corrente());
 	}
 	
-	public Giardino getFirstGiardino() {
-		if (giardini == null || giardini.size() == 0) return null;
-		return giardini.entrySet().iterator().next().getValue();
-	}
-	
 	public String getFirstGiardinoName() {
 		if (giardini == null || giardini.size() == 0) return null;
 		return giardini.entrySet().iterator().next().getKey();
@@ -67,6 +64,7 @@ public class User implements Serializable {
 	
 	public void addGiardino(Giardino giardino) {
 		giardini.put(giardino.getNome(), giardino);
+		DbUsers.updateGiardino(giardino);
 	}
 	
 	public List<String> getGiardiniNames() {

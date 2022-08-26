@@ -40,9 +40,8 @@ import com.plantalot.database.DbUsers;
 
 public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallback {
 	
-	private final static String TAG = "MAPPA";
+	private final static String TAG = "NuovoGiardinoFragment";
 	private GoogleMap map;
-	private CameraPosition cameraPosition;
 	private Marker currMarker;
 	private MyApplication app;
 	
@@ -53,13 +52,13 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	// not granted.
 	private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
 	private static final int DEFAULT_ZOOM = 15;
-	private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 	private boolean locationPermissionGranted;
 	
 	// The geographical location where the device is currently located. That is, the last-known
 	// location retrieved by the Fused Location Provider.
 	private Location lastKnownLocation;
-	
+
+	// Location permission request
 	private final ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(
 			new ActivityResultContracts.RequestMultiplePermissions(), result -> {
 				Boolean fineLocationGranted = result.get(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -97,7 +96,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		
 		Button backBtn = (Button) view.findViewById(R.id.nuovo_giardino_back_btn);
 		backBtn.setOnClickListener(v -> {
-			Navigation.findNavController(v).navigate(R.id.action_goto_home);//, b);
+			Navigation.findNavController(v).popBackStack();
 		});
 		
 		Button saveBtn = (Button) view.findViewById(R.id.nuovo_giardino_save_btn);
@@ -108,8 +107,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 			LatLng markerLoc = currMarker.getPosition();
 			Giardino giardino = new Giardino(nomeGiardino, markerLoc);
 			app.user.addGiardino(giardino);
-			DbUsers.updateGiardino(giardino);
-			Navigation.findNavController(v).navigate(R.id.action_goto_home);//, b);
+			Navigation.findNavController(v).navigate(R.id.action_goto_home);
 		});
 		
 		return view;

@@ -103,8 +103,7 @@ public class AllPlantsFragment extends Fragment {
 	private static final HashMap<String, String> UDM = new HashMap<>();
 	
 	private int translateY;
-	
-	
+
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
 		titles.put(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
