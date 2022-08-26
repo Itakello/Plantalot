@@ -82,6 +82,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		super.onCreate(savedInstanceState);
 		app = (MyApplication) this.getActivity().getApplication();
 		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+		Log.d(TAG, "" + getParentFragmentManager().getBackStackEntryCount());
 	}
 	
 	@Nullable

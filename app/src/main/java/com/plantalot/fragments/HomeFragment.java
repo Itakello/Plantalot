@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +45,7 @@ public class HomeFragment extends Fragment {
 	private static final String TAG = "HomeFragment";
 	private View view;
 	private MyApplication app;
+	private boolean doubleBackToExitPressedOnce = false;
 	
 	private static final List<Pair<CircleButton, Boolean>> mButtons = new ArrayList<>(Arrays.asList(
 			new Pair<>(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true),
@@ -65,6 +68,29 @@ public class HomeFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(TAG, "On createView");
 		view = inflater.inflate(R.layout.home_fragment, container, false);
+		view.setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+					if (!doubleBackToExitPressedOnce) {
+						doubleBackToExitPressedOnce = true;
+						Toast.makeText(getContext(), R.string.exit_toast, Toast.LENGTH_SHORT).show();
+
+						new Handler().postDelayed(new Runnable() {
+
+							@Override
+							public void run() {
+								doubleBackToExitPressedOnce = false;
+							}
+						}, 2000);
+					} else {
+						getParentFragmentManager().popBackStack();
+					}
+					return true;
+				}
+				return false;
+			}
+		});
 		new Handler().post(this::setupUI);
 //		view.findViewById(R.id.home_bl_drawer_recycler).setOnClickListener(v -> setupContent());
 		return view;

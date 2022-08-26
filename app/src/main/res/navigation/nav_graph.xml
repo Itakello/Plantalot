@@ -33,12 +33,12 @@
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
 			/>
-		
+
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_nuovo_giardino"
 			app:destination="@id/nuovoGiardinoFragment"
-			/>
+			app:enterAnim="@android:anim/fade_in"
+			app:exitAnim="@android:anim/fade_out" />
 		
 		<action
 			app:enterAnim="@android:anim/fade_in"
