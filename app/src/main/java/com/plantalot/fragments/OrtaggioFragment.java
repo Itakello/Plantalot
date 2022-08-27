@@ -137,7 +137,7 @@ public class OrtaggioFragment extends Fragment {
 	
 	private void setupDropdown() {
 		AutoCompleteTextView autocomplete = view.findViewById(R.id.ortaggio_bl_autocomplete);
-//6		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
+//		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
 		autocomplete.setOnFocusChangeListener((v, hasFocus) -> {
 			if (!hasFocus) {
 //					textfield.setEndIconMode(TextInputLayout.END_ICON_DROPDOWN_MENU);
