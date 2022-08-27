@@ -2,23 +2,22 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.MyApplication;
 import com.plantalot.R;
-import com.plantalot.components.InputDialog;
 import com.plantalot.database.DbUsers;
 import com.plantalot.fragments.HomeFragment;
 import com.plantalot.utils.Utils;
@@ -31,7 +30,6 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 	private final List<String> mData;
 	private final LayoutInflater mInflater;
 	private final View fragView;
-	private final Context context;
 	private final MyApplication app;
 	private final HomeFragment homeFragment;
 	
@@ -40,7 +38,6 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = app.user.getGiardiniNames();
 		this.fragView = fragView;
-		this.context = context;
 		this.app = app;
 		this.homeFragment = homeFragment;
 	}
@@ -70,21 +67,10 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 			homeFragment.setupContent();  // FIXME !?
 		});
 		
-		HomeGiardiniAdapter that = this;
 		viewHolder.editBtn.setOnClickListener(v -> {
-			InputDialog inputDialog = new InputDialog("Nome del giardino", nomeGiardino, context, newName -> {
-				mData.set(i, newName);
-				that.notifyItemChanged(i);
-				String nomeGiardinoCorrente = app.user.getGiardinoCorrente().getNome();
-				Log.d("GIARDINO", nomeGiardino + " - " + nomeGiardinoCorrente);
-				if (nomeGiardino.equals(nomeGiardinoCorrente)) {
-					((TextView) fragView.findViewById(R.id.home_fl_title_giardino)).setText(newName);
-					nomeGiardinoCorrente = newName;
-				}
-				app.user.editNomeGiardino(nomeGiardino, newName);
-				DbUsers.updateNomeGiardino(nomeGiardino, newName, nomeGiardinoCorrente);
-			});
-			inputDialog.show();
+			Bundle bundle = new Bundle();
+			bundle.putString("nomeGiardino", nomeGiardino);
+			Navigation.findNavController(v).navigate(R.id.action_goto_nuovo_giardino, bundle);
 		});
 	}
 	

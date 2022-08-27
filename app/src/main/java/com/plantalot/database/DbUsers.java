@@ -51,7 +51,14 @@ public class DbUsers {
 		g_map.put(giardino.getNome(), giardino);
 		dbUser.child("giardini").updateChildren(g_map);
 	}
-
+	
+	public static void removeGiardino(String nomeGiardino) {  // FIXME
+		Log.d(TAG, "Removing giardino " + nomeGiardino);
+		HashMap<String, Object> g_map = new HashMap<>();
+		g_map.put(nomeGiardino, null);
+		dbUser.child("giardini").updateChildren(g_map);
+	}
+	
 	public static void updateNomeGiardino(String oldName, String newName, String currentName) {  // FIXME
 		Log.d(TAG, "Updating nome giardino from " + oldName + " to " + newName);
 		dbUser.child("giardini").child(oldName).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -73,5 +80,5 @@ public class DbUsers {
 			}
 		});
 	}
-
+	
 }

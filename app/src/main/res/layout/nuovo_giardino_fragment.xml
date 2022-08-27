@@ -37,7 +37,7 @@
 			/>
 		
 		<Button
-			android:id="@+id/nuovo_giardino_save_btn"
+			android:id="@+id/nuovo_giardino_save_delete_btn"
 			style="@style/Widget.Material3.Button.ElevatedButton.Icon"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -59,7 +59,8 @@
 		>
 		
 		<TextView
-			android:layout_width="match_parent"
+			android:id="@+id/nuovo_giardino_new_or_edit_text"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingVertical="16dp"
 			android:text="Nuovo giardino"
@@ -88,7 +89,7 @@
 				>
 				
 				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/nome_giardino"
+					android:id="@+id/nuovo_giardino_input_nome"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					/>

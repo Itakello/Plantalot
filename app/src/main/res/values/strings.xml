@@ -3,9 +3,11 @@
 	
 	<string name="conferma">Conferma</string>
 	<string name="annulla">Annulla</string>
+	<string name="elimina">Elimina</string>
 	
 	<string name="nuovo_orto">Nuovo orto</string>
 	<string name="nuovo_giardino">Nuovo giardino</string>
+	<string name="modifica_giardino">Modifica giardino</string>
 	<string name="giardino">Giardino</string>
 	<!-- TODO: Remove or change this placeholder text -->
 	<string name="hello_blank_fragment">Hello blank fragment</string>

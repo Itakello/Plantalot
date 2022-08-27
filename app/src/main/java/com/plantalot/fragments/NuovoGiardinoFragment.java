@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -25,17 +26,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.classes.Giardino;
-import com.plantalot.database.DbUsers;
 
 
 public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallback {
@@ -57,7 +57,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	// The geographical location where the device is currently located. That is, the last-known
 	// location retrieved by the Fused Location Provider.
 	private Location lastKnownLocation;
-
+	
 	// Location permission request
 	private final ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(
 			new ActivityResultContracts.RequestMultiplePermissions(), result -> {
@@ -87,26 +87,54 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.nuovo_giardino_fragment, container, false);
+		String oldName = getArguments().getString("nomeGiardino");
+		Log.wtf("oldName", oldName);
 		
+		View view = inflater.inflate(R.layout.nuovo_giardino_fragment, container, false);
 		SupportMapFragment mapFragment = new SupportMapFragment();
 		getChildFragmentManager().beginTransaction().replace(R.id.frame_layout_map, mapFragment).commit();
 		
-		if (mapFragment != null)			mapFragment.getMapAsync(this);
+		if (mapFragment != null) mapFragment.getMapAsync(this);
 		
-		Button backBtn = (Button) view.findViewById(R.id.nuovo_giardino_back_btn);
-		backBtn.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+		TextView newOrEdit = view.findViewById(R.id.nuovo_giardino_new_or_edit_text);
+		newOrEdit.setText(oldName == null ? R.string.nuovo_giardino : R.string.modifica_giardino);
 		
-		Button saveBtn = (Button) view.findViewById(R.id.nuovo_giardino_save_btn);
-		saveBtn.setOnClickListener(v -> {
-			// TODO check giardino esistente + lunghezza nome giardino (lunghezza < 15)
-			String nomeGiardino = String.valueOf(((TextInputEditText) view.findViewById(R.id.nome_giardino)).getText());
-			Log.d(TAG, "Adding :" + nomeGiardino);
-			LatLng markerLoc = currMarker.getPosition();
-			Giardino giardino = new Giardino(nomeGiardino, markerLoc);
-			app.user.addGiardino(giardino);
-			Navigation.findNavController(v).navigate(R.id.action_goto_home);
-		});
+		Button backBtn = view.findViewById(R.id.nuovo_giardino_back_btn);
+		
+		MaterialButton saveDeleteBtn = view.findViewById(R.id.nuovo_giardino_save_delete_btn);
+		TextInputEditText inputNome = view.findViewById(R.id.nuovo_giardino_input_nome);
+		if (oldName == null) {
+			saveDeleteBtn.setOnClickListener(v -> {
+				// TODO check giardino esistente + lunghezza nome giardino (lunghezza < 15)
+				String nomeGiardino = String.valueOf(inputNome.getText());
+				LatLng markerLoc = currMarker.getPosition();
+				Giardino giardino = new Giardino(nomeGiardino, markerLoc);
+				app.user.addGiardino(giardino);
+				Navigation.findNavController(v).navigate(R.id.action_goto_home);
+			});
+			backBtn.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+		} else {
+			// TODO change color
+			inputNome.setText(oldName);
+			saveDeleteBtn.setText(R.string.elimina);
+			saveDeleteBtn.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.ic_round_delete_24));
+			saveDeleteBtn.setOnClickListener(v -> {
+				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+				builder.setTitle("Eliminare " + oldName + "?");
+				builder.setNegativeButton(R.string.annulla, (dialog, j) -> dialog.cancel());
+				builder.setPositiveButton(R.string.conferma, (dialog, j) -> {
+					dialog.cancel();
+					app.user.removeGiardino(oldName);
+					Navigation.findNavController(v).navigate(R.id.action_goto_home);
+				});
+				builder.show();
+			});
+			backBtn.setOnClickListener(v -> {
+				app.user.editNomeGiardino(oldName, String.valueOf(inputNome.getText()));
+				// TODO lat/lon
+				Navigation.findNavController(v).popBackStack();
+			});
+		}
 		
 		return view;
 	}
@@ -170,24 +198,21 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		try {
 			if (locationPermissionGranted) {
 				@SuppressLint("MissingPermission") Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
-				locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
-					@Override
-					public void onComplete(@NonNull Task<Location> task) {
-						if (task.isSuccessful()) {
-							// Set the map's camera position to the current location of the device.
-							lastKnownLocation = task.getResult();
-							if (lastKnownLocation != null) {
-								LatLng currLoc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-								map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLoc, DEFAULT_ZOOM));
-								currMarker = map.addMarker(new MarkerOptions().position(currLoc));
-							}
-						} else {
-							Log.d(TAG, "Current location is null. Using defaults.");
-							Log.e(TAG, "Exception: %s", task.getException());
-							map.moveCamera(CameraUpdateFactory
-									.newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-							map.getUiSettings().setMyLocationButtonEnabled(false);
+				locationResult.addOnCompleteListener(getActivity(), task -> {
+					if (task.isSuccessful()) {
+						// Set the map's camera position to the current location of the device.
+						lastKnownLocation = task.getResult();
+						if (lastKnownLocation != null) {
+							LatLng currLoc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+							map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLoc, DEFAULT_ZOOM));
+							currMarker = map.addMarker(new MarkerOptions().position(currLoc));
 						}
+					} else {
+						Log.d(TAG, "Current location is null. Using defaults.");
+						Log.e(TAG, "Exception: %s", task.getException());
+						map.moveCamera(CameraUpdateFactory
+								.newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+						map.getUiSettings().setMyLocationButtonEnabled(false);
 					}
 				});
 			}

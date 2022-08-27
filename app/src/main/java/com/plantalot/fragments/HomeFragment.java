@@ -75,9 +75,9 @@ public class HomeFragment extends Fragment {
 					if (!doubleBackToExitPressedOnce) {
 						doubleBackToExitPressedOnce = true;
 						Toast.makeText(getContext(), R.string.exit_toast, Toast.LENGTH_SHORT).show();
-
+						
 						new Handler().postDelayed(new Runnable() {
-
+							
 							@Override
 							public void run() {
 								doubleBackToExitPressedOnce = false;
@@ -107,10 +107,14 @@ public class HomeFragment extends Fragment {
 		
 		// Add link to new_garden fragment
 		Button new_garden = view.findViewById(R.id.nuovo_giardino);
-		new_garden.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_nuovo_giardino));
+		Bundle bundle = new Bundle();
+		bundle.putString("nomeGiardino", null);
+		new_garden.setOnClickListener(v ->
+				Navigation.findNavController(view).navigate(R.id.action_goto_nuovo_giardino, bundle)
+		);
 		
 		if (app.user == null) return;
-		Log.d(TAG, "------------------------------ Updating user " + app.user.getUsername());
+		Log.d(TAG, "Updating user " + app.user.getUsername());
 		
 		// Setup giardini recycler view
 		RecyclerView giardiniRecyclerView = view.findViewById(R.id.home_bl_drawer_recycler);
@@ -170,7 +174,6 @@ public class HomeFragment extends Fragment {
 				view.findViewById(R.id.home_bl_drawer)
 		));
 	}
-
-
+	
 	
 }

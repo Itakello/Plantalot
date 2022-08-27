@@ -63,8 +63,15 @@ public class User implements Serializable {
 	}
 	
 	public void addGiardino(Giardino giardino) {
+		if (giardini.isEmpty()) nome_giardino_corrente = giardino.getNome();
 		giardini.put(giardino.getNome(), giardino);
 		DbUsers.updateGiardino(giardino);
+		DbUsers.updateNomeGiardinoCorrente(giardino.getNome());
+	}
+	
+	public void removeGiardino(String nomeGiardino) {
+		giardini.remove(nomeGiardino);
+		DbUsers.removeGiardino(nomeGiardino);
 	}
 	
 	public List<String> getGiardiniNames() {
