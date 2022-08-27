@@ -25,6 +25,7 @@ import com.plantalot.adapters.NuovoOrtoOptionsAdapter;
 import com.plantalot.classes.Orto;
 import com.plantalot.components.OrtoView;
 import com.plantalot.database.DbUsers;
+import com.plantalot.utils.DividerItemDecoration;
 import com.plantalot.utils.IntPair;
 import com.plantalot.utils.Utils;
 
@@ -43,15 +44,15 @@ public class NuovoOrtoFragment extends Fragment {
 	private TableLayout table;
 	private IntPair tableDim = new IntPair();
 	private Giardino giardino;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getContext();
-		orto = new Orto(context);
+		orto = new Orto(context.getResources().getString(R.string.nuovo_orto));
 		giardino = ((MyApplication) this.getActivity().getApplication()).user.getGiardinoCorrente();
 	}
-	
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,14 +65,15 @@ public class NuovoOrtoFragment extends Fragment {
 			tableDim.y = tableFrame.getHeight() - Utils.dp2px(12, context);  // FIXME margin
 			updateTable();
 		});
-		
+
 		setupOptions();
+
 		RecyclerView optionsRecycler = view.findViewById(R.id.nuovo_orto_options_recycler);
 		optionsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 		NuovoOrtoOptionsAdapter optionsAdapter = new NuovoOrtoOptionsAdapter(getActivity(), options, orto, view);
 		optionsRecycler.setAdapter(optionsAdapter);
 		
-		com.plantalot.utils.DividerItemDecoration dividerItemDecoration = new com.plantalot.utils.DividerItemDecoration(optionsRecycler.getContext(), RecyclerView.VERTICAL, false);
+		DividerItemDecoration dividerItemDecoration = new com.plantalot.utils.DividerItemDecoration(optionsRecycler.getContext(), RecyclerView.VERTICAL, false);
 		optionsRecycler.addItemDecoration(dividerItemDecoration);
 		
 		Button saveBtn = view.findViewById(R.id.nuovo_orto_save_btn);
@@ -82,7 +84,7 @@ public class NuovoOrtoFragment extends Fragment {
 		});
 		
 		Button backBtn = view.findViewById(R.id.nuovo_orto_back_btn);
-		backBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_goto_home));
+		backBtn.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
 		
 		return view;
 	}

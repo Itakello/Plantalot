@@ -35,7 +35,6 @@ import com.plantalot.adapters.OrtaggioSpecsAdapter;
 import com.plantalot.classes.Carriola;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.Pianta;
-import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.components.OrtaggioSpecs;
 import com.plantalot.database.DbPlants;

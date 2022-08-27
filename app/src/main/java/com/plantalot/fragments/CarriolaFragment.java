@@ -2,7 +2,6 @@ package com.plantalot.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,6 @@ import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbUsers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;

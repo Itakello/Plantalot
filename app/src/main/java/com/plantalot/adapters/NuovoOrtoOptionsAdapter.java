@@ -2,6 +2,8 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,9 @@ import java.util.List;
 import kotlin.Triple;
 
 public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptionsAdapter.ViewHolder> {
-	
+
+	private final String TAG = "NuovoOrtoOprionsAdapter";
+
 	private final List<Triple<String, String, View>> mData;
 	private final LayoutInflater mInflater;
 	private final View mView;
@@ -51,6 +55,22 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.nuovo_orto_option_row, parent, false);
+//		view.setFocusableInTouchMode(true);
+//		view.requestFocus();
+//		view.setOnKeyListener(new View.OnKeyListener() {
+//			@Override
+//			public boolean onKey(View v, int keyCode, KeyEvent event) {
+//				Log.i(TAG, "KeyCode: " + keyCode);
+//				// Check if osBack key event
+//				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+//					// Check if card open
+//					Log.i(TAG, "mExpanded visibility : " + mExpanded.getVisibility());
+////					if(mExpanded.getVisibility() == View.VISIBLE)
+////						mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
+//				}
+//				return false;
+//			}
+//		});
 		return new ViewHolder(view);
 	}
 	
@@ -62,6 +82,28 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		View mChild = mData.get(position).getThird();
 		viewHolder.mField.setText(field);
 		viewHolder.mValue.setText(value);
+
+		// Add back button handler for
+		if(mChild != null){
+			mChild.setFocusableInTouchMode(true);
+			mChild.requestFocus();
+			mChild.setOnKeyListener(new View.OnKeyListener() {
+				@Override
+				public boolean onKey(View v, int keyCode, KeyEvent event) {
+					// Check if osBack key event
+					if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+						// Check if card open
+						Log.i(TAG, "Pressed osBack with card open");
+						if(mExpanded.getVisibility() == View.VISIBLE){
+							mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
+							return true;
+						}
+					}
+					return false;
+				}
+			});
+		}
+
 		
 		viewHolder.mRow.setOnClickListener(view -> {
 			
@@ -101,13 +143,7 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 				mExpanded.setVisibility(View.VISIBLE);
 				((TextView) mExpanded.findViewById(R.id.nuovo_orto_card_header)).setText(field);
 				mExpanded.addView(mChild);
-				mExpanded.findViewById(R.id.nuovo_orto_card_back).setOnClickListener(v -> {
-					mExpanded.setVisibility(View.INVISIBLE);
-					mRecycler.setVisibility(View.VISIBLE);
-					mExpanded.removeView(mChild);
-					viewHolder.mValue.setText(((NuovoOrtoNumberSelector) mChild).getValues().toString());  // FIXME
-				});
-				
+				mExpanded.findViewById(R.id.nuovo_orto_card_back).setOnClickListener(v -> close_card(mChild, viewHolder));
 			} else {
 				
 				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
@@ -116,6 +152,14 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 				builder.show();
 			}
 		});
+
+	}
+
+	private void close_card(View mChild, ViewHolder viewHolder){
+		mExpanded.setVisibility(View.INVISIBLE);
+		mRecycler.setVisibility(View.VISIBLE);
+		mExpanded.removeView(mChild);
+		viewHolder.mValue.setText(((NuovoOrtoNumberSelector) mChild).getValues().toString());  // FIXME
 	}
 	
 	@Override

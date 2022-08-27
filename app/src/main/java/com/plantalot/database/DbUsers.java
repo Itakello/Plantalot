@@ -32,13 +32,14 @@ public class DbUsers {
 	
 	@NonNull
 	public static User writeNewUser(String username, String email) {
-		Log.d(TAG, "Writing new user");
+		Log.d(TAG, "Writing new user: " + username);
 		User user = new User(username, email);
 		dbAllUsers.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
 		return user;
 	}
 	
 	public static void updateNomeGiardinoCorrente(String nomeGiardino) {
+		Log.d(TAG, "Updating nome giardino corrente in " + nomeGiardino);
 		HashMap<String, Object> u_map = new HashMap<>();
 		u_map.put("nome_giardino_corrente", nomeGiardino);
 		dbUser.updateChildren(u_map);
@@ -51,8 +52,8 @@ public class DbUsers {
 		dbUser.child("giardini").updateChildren(g_map);
 	}
 
-	public static void editNomeGiardino(String oldName, String newName, String currentName) {  // FIXME
-		Log.d(TAG, "Updating giardino " + oldName);
+	public static void updateNomeGiardino(String oldName, String newName, String currentName) {  // FIXME
+		Log.d(TAG, "Updating nome giardino from " + oldName + " to " + newName);
 		dbUser.child("giardini").child(oldName).addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			@RequiresApi(api = Build.VERSION_CODES.N)
@@ -63,7 +64,8 @@ public class DbUsers {
 				g_map.put(newName, giardino);
 				g_map.put(oldName, null);
 				dbUser.child("giardini").updateChildren(g_map);
-				if (oldName.equals(currentName)) updateNomeGiardinoCorrente(newName);
+				if (oldName.equals(currentName))
+					updateNomeGiardinoCorrente(newName);
 			}
 			
 			@Override

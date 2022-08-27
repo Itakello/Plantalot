@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;

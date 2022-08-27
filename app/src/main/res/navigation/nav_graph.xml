@@ -76,12 +76,6 @@
 		
 		</action>
 
-		<action
-			android:id="@+id/action_goto_home"
-			app:destination="@id/homeFragment"
-			app:popUpTo="@id/homeFragment"
-			app:popUpToInclusive="true" />
-	
 	</fragment>
 	
 	<fragment
@@ -105,14 +99,7 @@
 				/>
 		
 		</action>
-		
-		<action
-			app:enterAnim="@android:anim/fade_out"
-			android:id="@+id/action_goto_all_plants"
-			app:destination="@id/allPlantsFragment"
-			app:launchSingleTop="false"
-			/>
-	
+
 	</fragment>
 	
 	<fragment
@@ -142,7 +129,7 @@
 			app:enterAnim="@android:anim/fade_in"
 			app:popUpTo="@id/homeFragment"
 			app:popUpToInclusive="true" />
-	
+
 	</fragment>
 	
 	<fragment
@@ -152,13 +139,6 @@
 		tools:layout="@layout/carriola_fragment"
 		>
 
-		<action
-			android:id="@+id/action_goto_home"
-			app:destination="@id/homeFragment"
-			app:enterAnim="@android:anim/fade_in"
-			app:popUpTo="@id/homeFragment"
-			app:popUpToInclusive="true" />
-		
 		<action
 			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"

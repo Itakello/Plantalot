@@ -82,7 +82,7 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 					nomeGiardinoCorrente = newName;
 				}
 				app.user.editNomeGiardino(nomeGiardino, newName);
-				DbUsers.editNomeGiardino(nomeGiardino, newName, nomeGiardinoCorrente);
+				DbUsers.updateNomeGiardino(nomeGiardino, newName, nomeGiardinoCorrente);
 			});
 			inputDialog.show();
 		});

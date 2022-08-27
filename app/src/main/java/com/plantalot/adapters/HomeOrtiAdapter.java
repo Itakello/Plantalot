@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.plantalot.classes.Giardino;
 import com.plantalot.classes.Orto;

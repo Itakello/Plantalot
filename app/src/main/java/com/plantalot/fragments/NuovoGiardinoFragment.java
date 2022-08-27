@@ -95,9 +95,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		if (mapFragment != null)			mapFragment.getMapAsync(this);
 		
 		Button backBtn = (Button) view.findViewById(R.id.nuovo_giardino_back_btn);
-		backBtn.setOnClickListener(v -> {
-			Navigation.findNavController(v).popBackStack();
-		});
+		backBtn.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
 		
 		Button saveBtn = (Button) view.findViewById(R.id.nuovo_giardino_save_btn);
 		saveBtn.setOnClickListener(v -> {

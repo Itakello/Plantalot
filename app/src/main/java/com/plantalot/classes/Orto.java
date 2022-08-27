@@ -21,8 +21,7 @@ public class Orto {
 	private IntPair aiuoleCount;
 	private Esposizione esposizione;
 	private Orientamento orientamento;
-	
-	private final Carriola ortaggi;  // fixme
+	private Carriola ortaggi;
 	
 	public Orto() {
 		this.aiuoleDim = new IntPair(120, 200);
@@ -32,19 +31,18 @@ public class Orto {
 		this.ortaggi = new Carriola();
 	}
 	
-	public Orto(Context context) {
+	public Orto(String nome) {
 		this();
-		this.nome = context.getResources().getString(R.string.nuovo_orto);
+		this.nome = nome;
 	}
 	
-	public Orto(Context context, String nome, IntPair aiuoleDim, IntPair aiuoleCount, Esposizione esposizione, Orientamento orientamento) {
-		this(context);
-		this.nome = nome;
-		this.aiuoleDim = aiuoleDim;
-		this.aiuoleCount = aiuoleCount;
-		this.esposizione = esposizione;
-		this.orientamento = orientamento;
-	}
+//	public Orto(String nome, IntPair aiuoleDim, IntPair aiuoleCount, Esposizione esposizione, Orientamento orientamento) {
+//		this(nome);
+//		this.aiuoleDim = aiuoleDim;
+//		this.aiuoleCount = aiuoleCount;
+//		this.esposizione = esposizione;
+//		this.orientamento = orientamento;
+//	}
 	
 	
 	public void setNome(String nome) {
@@ -68,7 +66,6 @@ public class Orto {
 	public void setOrientamento(Orientamento orientamento) {
 		this.orientamento = orientamento;
 	}
-	
 	
 	public String getNome() {
 		return nome;

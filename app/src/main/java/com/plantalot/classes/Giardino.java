@@ -50,13 +50,21 @@ public class Giardino {
 	public ArrayList<Orto> ortiList() {
 		return new ArrayList<>(orti.values());
 	}
-	
-	public Map<String, Object> toMap() {
-		HashMap<String, Object> result = new HashMap<>();
-		result.put("name", nome);
-		result.put("position", pos);
-		result.put("orti", orti);
-		return result;
+
+	public Carriola getCarriola() {
+		return carriola;
+	}
+
+	public void setCarriola(Carriola carriola) {
+		this.carriola = carriola;
+	}
+
+	public void setOrti(HashMap<String, Orto> orti) {
+		this.orti = (HashMap<String, Orto>) orti;
+	}
+
+	public void removeOrto(@NonNull Orto orto) {
+		orti.remove(orto.getNome());
 	}
 	
 	public int calcArea() {
@@ -71,21 +79,13 @@ public class Giardino {
 		return area;
 	}
 	
-	public Carriola getCarriola() {
-		return carriola;
-	}
-	
 	public void fetchVarieta() {
 		carriola.fetchVarieta();
 		for (Orto orto : orti.values()) {
 			orto.fetchVarieta();
 		}
 	}
-	
-	public void setCarriola(Carriola carriola) {
-		this.carriola = carriola;
-	}
-	
+
 	public void addOrto(Orto orto) {
 		if (!orti.containsKey(orto.getNome())) {
 			orti.put(orto.getNome(), orto);
@@ -99,13 +99,4 @@ public class Giardino {
 		orto.setNome(newName);
 		addOrto(orto);
 	}
-	
-	public void setOrti(HashMap<String, Orto> orti) {
-		this.orti = (HashMap<String, Orto>) orti;
-	}
-	
-	public void removeOrto(@NonNull Orto orto) {
-		orti.remove(orto.getNome());
-	}
-	
 }
