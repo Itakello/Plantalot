@@ -503,9 +503,9 @@ public class AllPlantsFragment extends Fragment {
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		
 		setOnMenuItemsClickListeners(menu);
-		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
+		if (isSearchShown) menu.findItem(R.id.allplants_search).expandActionView();
 		
-		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+		SearchView searchView = (SearchView) menu.findItem(R.id.allplants_search).getActionView();
 		searchView.setQueryHint("Cerca un ortaggio");
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
@@ -527,7 +527,7 @@ public class AllPlantsFragment extends Fragment {
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void setOnMenuItemsClickListeners(Menu menu) {
 		Handler handler = new Handler();
-		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
+		menu.findItem(R.id.allplants_search).setOnMenuItemClickListener(menuItem -> {
 			if (!isSearchShown) {
 				isSearchShown = true;
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
@@ -539,7 +539,7 @@ public class AllPlantsFragment extends Fragment {
 			return true;
 		});
 		
-		menu.findItem(R.id.filter).setOnMenuItemClickListener(menuItem -> {
+		menu.findItem(R.id.allplants_filter).setOnMenuItemClickListener(menuItem -> {
 			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.VISIBLE);
 			toolbar.setTitle("Filtra");
 			toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
@@ -548,9 +548,9 @@ public class AllPlantsFragment extends Fragment {
 			return true;
 		});
 		
-		menu.findItem(R.id.done).setOnMenuItemClickListener(menuItem -> backdropBehaviour());
+//		menu.findItem(R.id.done).setOnMenuItemClickListener(menuItem -> backdropBehaviour());
 		
-		menu.findItem(R.id.reset).setOnMenuItemClickListener(menuItem -> {
+		menu.findItem(R.id.allplants_reset).setOnMenuItemClickListener(menuItem -> {
 			boolean isChanged = false;
 			for (String filter : activeFilters.keySet()) {
 				if (!activeFilters.get(filter).isEmpty() && !Objects.equals(filter, RAGGRUPPA)) {
@@ -571,10 +571,10 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void updateMenuIcons(Menu menu) {
-		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
-		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
-		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
-		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
+		menu.findItem(R.id.allplants_search).setVisible(!isBackdropShown || isSearchShown);
+		menu.findItem(R.id.allplants_filter).setVisible(!isBackdropShown);
+		menu.findItem(R.id.allplants_reset).setVisible(isBackdropShown && !isSearchShown);
+//		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
 	}
 	
 	
@@ -635,14 +635,14 @@ public class AllPlantsFragment extends Fragment {
 	
 	//========[ BACKDROP ]========//
 	
-	private boolean backdropBehaviour() {
-		return backdropBehaviour(false);
+	private void backdropBehaviour() {
+		backdropBehaviour(false);
 	}
 	
 	@SuppressLint("Recycle")
-	private boolean backdropBehaviour(boolean closeOnly) {
+	private void backdropBehaviour(boolean closeOnly) {
 		
-		if (!isBackdropShown && closeOnly) return false;
+		if (!isBackdropShown && closeOnly) return;
 		isBackdropShown = !isBackdropShown;
 		
 		final int DELAY = 200;
@@ -685,7 +685,6 @@ public class AllPlantsFragment extends Fragment {
 		
 		updateMenuIcons(menu);
 		
-		return false;
 	}
 	
 }

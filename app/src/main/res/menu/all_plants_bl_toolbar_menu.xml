@@ -5,7 +5,7 @@
 	>
 	
 	<item
-		android:id="@+id/search"
+		android:id="@+id/allplants_search"
 		android:contentDescription="string/content_description_favorite"
 		android:icon="@drawable/ic_round_search_24"
 		android:title="string/favorite"
@@ -13,7 +13,7 @@
 		app:showAsAction="always|collapseActionView"
 		/>
 	<item
-		android:id="@+id/filter"
+		android:id="@+id/allplants_filter"
 		android:contentDescription="string/content_description_favorite"
 		android:icon="@drawable/ic_round_tune_24"
 		android:title="string/favorite"
@@ -22,7 +22,7 @@
 	
 	/>
 	<item
-		android:id="@+id/reset"
+		android:id="@+id/allplants_reset"
 		android:contentDescription="reset"
 		android:icon="@drawable/ic_round_settings_backup_restore_24"
 		android:title="reset"
@@ -30,13 +30,13 @@
 		android:visible="false"
 		/>
 	
-	<item
-		android:id="@+id/done"
-		android:contentDescription="done"
-		android:icon="@drawable/ic_round_done_24"
-		android:title="done"
-		app:showAsAction="ifRoom"
-		android:visible="false"
-		/>
+<!--	<item-->
+<!--		android:id="@+id/done"-->
+<!--		android:contentDescription="done"-->
+<!--		android:icon="@drawable/ic_round_done_24"-->
+<!--		android:title="done"-->
+<!--		app:showAsAction="ifRoom"-->
+<!--		android:visible="false"-->
+<!--		/>-->
 	
 </menu>
