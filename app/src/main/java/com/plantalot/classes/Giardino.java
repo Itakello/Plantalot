@@ -87,11 +87,7 @@ public class Giardino {
 	}
 
 	public void addOrto(Orto orto) {
-		if (!orti.containsKey(orto.getNome())) {
-			orti.put(orto.getNome(), orto);
-		} else {
-			// TODO
-		}
+		orti.put(orto.getNome(), orto);
 	}
 	
 	public void editNomeOrto(Orto orto, String newName) {
