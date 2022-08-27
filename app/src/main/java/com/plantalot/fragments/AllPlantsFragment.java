@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,6 +57,8 @@ import java.util.stream.IntStream;
 public class AllPlantsFragment extends Fragment {
 	
 	// FIXME global to local variables
+
+	private final String TAG = "AllPlantsFragment";
 	
 	private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 	
@@ -209,6 +212,8 @@ public class AllPlantsFragment extends Fragment {
 		view.findViewById(R.id.all_plants_backdrop_frontlayer).post(
 				() -> translateY = view.getHeight() - Utils.dp2px(56 + 48 + 8, getContext())
 		);
+
+//		Utils.back_button_handler(view, isBackdropShown, toolbar);
 		
 		Handler handler = new Handler();
 		handler.post(this::setupToolbar);
@@ -374,7 +379,7 @@ public class AllPlantsFragment extends Fragment {
 	
 	//========[ GROUPS ]========//
 	
-	private void gruopByRange(String field) {
+	private void groupByRange(String field) {
 		String udm = UDM.get(field);
 		for (Pair<Integer, Integer> dists : ranges.get(field)) {
 			String tmp = udm;
@@ -396,7 +401,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void gruopByNome() {
+	private void groupByNome() {
 		for (char c = 'A'; c <= 'Z'; c++) {
 			cards.add(new Pair<>("" + c, new ArrayList<>()));
 		}
@@ -406,7 +411,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void gruopByField(String field) {
+	private void groupByField(String field) {
 		HashMap<String, List<String>> strMap = new HashMap<>();
 		for (Ortaggio ortaggio : filteredOrtaggi) {
 			String str = (String) ortaggio.get(field);
@@ -430,7 +435,7 @@ public class AllPlantsFragment extends Fragment {
 	//========[ SETUP UI ]========//
 	
 	public void setupSubheader() {
-		if (isBackdropShown) {
+		if (isBackdropShown && !isSearchShown) {
 			String title = String.format(getString(R.string.all_plants_results_number), filteredOrtaggi.size());
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
 		} else {
@@ -448,16 +453,16 @@ public class AllPlantsFragment extends Fragment {
 		switch (activeGroup) {
 			case DbPlants.VARIETA_TASSONOMIA_FAMIGLIA:
 			case DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
-				gruopByField(activeGroup);
+				groupByField(activeGroup);
 				break;
 			case DbPlants.VARIETA_TASSONOMIA_SPECIE:
-				gruopByNome();
+				groupByNome();
 				break;
 			case DbPlants.VARIETA_RACCOLTA_AVG:
 			case DbPlants.VARIETA_DISTANZE_PIANTE:
 			case DbPlants.VARIETA_DISTANZE_FILE:
 			case DbPlants.VARIETA_ALTRO_PACK:
-				gruopByRange(activeGroup);
+				groupByRange(activeGroup);
 				break;
 		}
 		
@@ -641,7 +646,7 @@ public class AllPlantsFragment extends Fragment {
 	
 	@SuppressLint("Recycle")
 	private boolean backdropBehaviour(boolean closeOnly) {
-		
+		Log.d(TAG, "Moving backdrop");
 		if (!isBackdropShown && closeOnly) return false;
 		isBackdropShown = !isBackdropShown;
 		

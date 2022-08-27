@@ -55,23 +55,26 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.nuovo_orto_option_row, parent, false);
-//		view.setFocusableInTouchMode(true);
-//		view.requestFocus();
-//		view.setOnKeyListener(new View.OnKeyListener() {
-//			@Override
-//			public boolean onKey(View v, int keyCode, KeyEvent event) {
-//				Log.i(TAG, "KeyCode: " + keyCode);
-//				// Check if osBack key event
-//				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
-//					// Check if card open
-//					Log.i(TAG, "mExpanded visibility : " + mExpanded.getVisibility());
-////					if(mExpanded.getVisibility() == View.VISIBLE)
-////						mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
-//				}
-//				return false;
-//			}
-//		});
 		return new ViewHolder(view);
+	}
+
+	private void back_button_handler(View mainView, View press_target) {
+		mainView.setFocusableInTouchMode(true);
+		mainView.requestFocus();
+		mainView.setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// Check if osBack key event
+				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+					// Check if card open
+					if(mExpanded.getVisibility() == View.VISIBLE){
+						press_target.performClick();
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 	}
 	
 	
@@ -85,23 +88,8 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 
 		// Add back button handler for
 		if(mChild != null){
-			mChild.setFocusableInTouchMode(true);
-			mChild.requestFocus();
-			mChild.setOnKeyListener(new View.OnKeyListener() {
-				@Override
-				public boolean onKey(View v, int keyCode, KeyEvent event) {
-					// Check if osBack key event
-					if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
-						// Check if card open
-						Log.i(TAG, "Pressed osBack with card open");
-						if(mExpanded.getVisibility() == View.VISIBLE){
-							mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
-							return true;
-						}
-					}
-					return false;
-				}
-			});
+			View target = mExpanded.findViewById(R.id.nuovo_orto_card_back);
+			back_button_handler(mChild, target);
 		}
 
 		
@@ -154,6 +142,8 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		});
 
 	}
+
+
 
 	private void close_card(View mChild, ViewHolder viewHolder){
 		mExpanded.setVisibility(View.INVISIBLE);

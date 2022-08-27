@@ -2,6 +2,8 @@ package com.plantalot.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -12,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 
 
 public class Utils {
+
+	private static String TAG = "Utils";
 	
 	public static int dp2px(int dp, @NonNull Context context) {
 		return (int) (dp * context.getResources().getDisplayMetrics().density);
