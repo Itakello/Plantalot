@@ -85,6 +85,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-database:20.0.5'
+    // Firebase ui authentication
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.facebook.android:facebook-android-sdk:8.x'
     // Maps
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     // Chart and graph library
