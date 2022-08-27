@@ -3,7 +3,7 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto">
 	
 	<item
-			android:id="@+id/account"
+			android:id="@+id/home_profile_menu_btn"
 			android:contentDescription="string/content_description_favorite"
 			android:icon="@drawable/ic_round_account_circle_24"
 			android:title="string/favorite"

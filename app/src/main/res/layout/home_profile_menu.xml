@@ -5,43 +5,54 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:clickable="true"
+	android:focusable="true"
+	app:rippleColor="#00dddddd"
 	tools:showIn="@layout/home_fragment"
 	>
+	<!--FIXME ripple color -->
 	
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		>
+		
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			>
 			
 			<ImageView
+				android:id="@+id/home_profile_menu_close"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:padding="16dp"
 				android:src="@drawable/ic_round_close_24"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				android:padding="16dp"
 				/>
 			
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="Profilo"
+				android:textAppearance="?attr/textAppearanceButton"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				android:textAppearance="?attr/textAppearanceButton"
 				/>
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		
 		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/home_logged_row"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/home_logged_row"
+			android:visibility="gone"
+			tools:visibility="visible"
+			android:layout_marginBottom="16dp"
 			>
 			
 			<ImageView
@@ -49,8 +60,8 @@
 				android:id="@+id/home_logged_image"
 				android:layout_width="48dp"
 				android:layout_height="48dp"
-				app:layout_constraintBottom_toBottomOf="parent"
 				android:layout_marginStart="16dp"
+				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				tools:src="@mipmap/plant_weed_3944340"
@@ -58,9 +69,9 @@
 				/>
 			
 			<LinearLayout
-				android:layout_marginStart="16dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginStart="16dp"
 				android:orientation="vertical"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toEndOf="@+id/home_logged_image"
@@ -68,19 +79,19 @@
 				>
 				
 				<TextView
-			android:id="@+id/home_logged_name"
+					android:id="@+id/home_logged_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="Nome"
 					android:textAppearance="?attr/textAppearanceLabelMedium"
+					tools:text="Nome"
 					/>
-			
+				
 				<TextView
-			android:id="@+id/home_logged_mail"
+					android:id="@+id/home_logged_mail"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="mail@gmail.com"
 					android:textAppearance="?attr/textAppearanceBodySmall"
+					tools:text="mail@gmail.com"
 					/>
 			
 			
@@ -89,36 +100,71 @@
 			
 			<ImageView
 				
-				android:id="@+id/home_logged_logout"
+				android:id="@+id/home_logout_btn"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				app:layout_constraintBottom_toBottomOf="parent"
 				android:layout_marginEnd="16dp"
+				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				tools:src="@drawable/ic_baseline_logout_24"
 				
 				/>
-			
+		
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		
 		<View
 			android:layout_width="match_parent"
-			android:layout_height="1px"
+			android:layout_height="1dp"
 			android:background="?attr/colorOutline"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			android:layout_marginTop="16dp"
 			/>
+		
+		
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/home_login_row"
+			android:layout_margin="16dp"
+			>
+			
+			<ImageView
+				android:id="@+id/home_profile_login_icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				
+				android:src="@drawable/ic_baseline_login_24"
+				/>
+			
+			<TextView
+				android:layout_marginHorizontal="16dp"
+				android:id="@+id/textView2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Login"
+				android:textAppearance="?attr/textAppearanceLabelLarge"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toEndOf="@+id/home_profile_login_icon"
+				app:layout_constraintTop_toTopOf="parent"
+				/>
+		
+		</androidx.constraintlayout.widget.ConstraintLayout>
+		
 		
 		<TextView
 			android:layout_width="wrap_content"
-			android:layout_margin="16dp"
 			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="16dp"
+			android:layout_marginBottom="16dp"
 			android:text="↓ TODO ↓\nFeedback\nAiuto\nSegnala un bug\nAbout"
-			android:textAppearance="?attr/textAppearanceLabelMedium"/>
-		
+			android:textAppearance="?attr/textAppearanceLabelMedium"
+			/>
+	
 	</LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

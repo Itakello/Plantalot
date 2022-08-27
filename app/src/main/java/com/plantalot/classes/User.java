@@ -16,9 +16,11 @@ public class User implements Serializable {
 	private String email;
 	private Map<String, Giardino> giardini;
 	private String nome_giardino_corrente;
+	private boolean isLogged;
 	
 	public User() {
 		giardini = new HashMap<>();
+		isLogged = false;
 	}
 	
 	public User(String username, String email) {
@@ -94,6 +96,10 @@ public class User implements Serializable {
 		if (nome_giardino_corrente.equals(oldName) || nome_giardino_corrente == null) {
 			setNome_giardino_corrente(newName);
 		}
+	}
+	
+	public boolean isLogged() {
+		return isLogged;
 	}
 	
 }

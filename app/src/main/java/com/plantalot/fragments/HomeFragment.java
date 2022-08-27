@@ -158,6 +158,35 @@ public class HomeFragment extends Fragment {
 				R.drawable.ic_round_close_24,
 				view.findViewById(R.id.home_bl_drawer)
 		));
+		
+		
+		// profile menu FIXME
+		view.findViewById(R.id.home_profile_menu_btn).setOnClickListener(v ->
+				view.findViewById(R.id.home_profile_menu).setVisibility(View.VISIBLE)
+		);
+		view.findViewById(R.id.home_profile_menu_close).setOnClickListener(v ->
+				view.findViewById(R.id.home_profile_menu).setVisibility(View.GONE)
+		);
+		view.findViewById(R.id.home_profile_menu).setOnClickListener(v ->
+				view.findViewById(R.id.home_profile_menu).setVisibility(View.GONE)
+		);
+		
+		if (app.user.isLogged()) {
+			view.findViewById(R.id.home_logged_row).setVisibility(View.VISIBLE);
+			view.findViewById(R.id.home_login_row).setVisibility(View.GONE);
+		} else {
+			view.findViewById(R.id.home_logged_row).setVisibility(View.GONE);
+			view.findViewById(R.id.home_login_row).setVisibility(View.VISIBLE);
+		}
+		
+		view.findViewById(R.id.home_login_row).setOnClickListener(v -> {
+			// TODO
+		});
+		
+		view.findViewById(R.id.home_logout_btn).setOnClickListener(v -> {
+			// TODO
+		});
+		
 	}
 	
 }
