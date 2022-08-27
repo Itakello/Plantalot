@@ -491,7 +491,7 @@ public class AllPlantsFragment extends Fragment {
 	private void setupToolbar() {
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		if (activity != null) activity.setSupportActionBar(toolbar);
-		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));
+		toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_home));
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
