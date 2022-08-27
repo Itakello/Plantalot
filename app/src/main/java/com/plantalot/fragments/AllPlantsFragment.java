@@ -108,6 +108,14 @@ public class AllPlantsFragment extends Fragment {
 	
 	private int translateY;
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		isSearchShown = false;
+		isBackdropShown = false;
+//		updateMenuIcons(menu);
+	}
+
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
 		titles.put(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
