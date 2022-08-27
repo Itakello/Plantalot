@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -222,8 +223,11 @@ public class AllPlantsFragment extends Fragment {
 		handler.postDelayed(this::setupFilters, 300);
 		handler.postDelayed(this::setupSearch, 300);
 		handler.postDelayed(this::searchTextInit, 300);
+
 		return view;
 	}
+
+
 
 // FIXME !!!!
 //	@Override
@@ -508,7 +512,10 @@ public class AllPlantsFragment extends Fragment {
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		
 		setOnMenuItemsClickListeners(menu);
-		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
+		if (isSearchShown) {
+			Log.d(TAG, "Expanding action view since isSearchShown");
+			menu.findItem(R.id.search).expandActionView();
+		}
 		
 		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 		searchView.setQueryHint(getString(R.string.search_hint));
@@ -533,7 +540,9 @@ public class AllPlantsFragment extends Fragment {
 	private void setOnMenuItemsClickListeners(Menu menu) {
 		Handler handler = new Handler();
 		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
+
 			if (!isSearchShown) {
+				Log.i(TAG, "Showing search");
 				isSearchShown = true;
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
 				toolbar.setTitle(R.string.search);
@@ -576,6 +585,8 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void updateMenuIcons(Menu menu) {
+		if(!isSearchShown)
+			menu.findItem(R.id.search).collapseActionView();
 		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
 		menu.findItem(R.id.filter).setVisible(!isBackdropShown);
 		menu.findItem(R.id.reset).setVisible(isBackdropShown && !isSearchShown);
@@ -646,8 +657,8 @@ public class AllPlantsFragment extends Fragment {
 	
 	@SuppressLint("Recycle")
 	private boolean backdropBehaviour(boolean closeOnly) {
-		Log.d(TAG, "Moving backdrop");
 		if (!isBackdropShown && closeOnly) return false;
+		Log.d(TAG, "Moving backdrop");
 		isBackdropShown = !isBackdropShown;
 		
 		final int DELAY = 200;
@@ -675,6 +686,7 @@ public class AllPlantsFragment extends Fragment {
 		if (isBackdropShown) {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
 		} else {
+			Log.i(TAG, "Closing search");
 			isSearchShown = false;
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
 			toolbar.setTitle("Piante");

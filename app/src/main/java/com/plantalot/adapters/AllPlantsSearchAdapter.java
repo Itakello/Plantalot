@@ -2,6 +2,8 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearchAdapter.ViewHolder> {
+
+	private final String TAG = "AllPlantsSearchAdapter";
 	
 	private final List<String> mData;
 	private final List<String> mSearchText;
