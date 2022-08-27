@@ -675,7 +675,7 @@ public class AllPlantsFragment extends Fragment {
 			toolbar.setTitle("Piante");
 			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
 			toolbar.setNavigationOnClickListener(
-					view -> Navigation.findNavController(view).navigate(R.id.action_goto_home)
+					v -> Navigation.findNavController(view).navigate(R.id.action_goto_home)
 			);
 			handler.postDelayed(() -> {
 				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
