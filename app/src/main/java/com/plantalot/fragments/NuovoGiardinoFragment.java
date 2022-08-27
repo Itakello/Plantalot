@@ -25,7 +25,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,7 +34,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.classes.Giardino;
-import com.plantalot.database.DbUsers;
 
 
 public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallback {
@@ -105,7 +103,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 			LatLng markerLoc = currMarker.getPosition();
 			Giardino giardino = new Giardino(nomeGiardino, markerLoc);
 			app.user.addGiardino(giardino);
-			Navigation.findNavController(v).navigate(R.id.action_goto_home);
+			Navigation.findNavController(v).navigate(R.id.action_goto_home_from_nuovoGiardino);
 		});
 		
 		return view;

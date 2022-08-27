@@ -431,14 +431,14 @@ public class AllPlantsFragment extends Fragment {
 	
 	public void setupSubheader() {
 		if (isBackdropShown) {
-			String title = "Mostra " + filteredOrtaggi.size() + " risultati";
+			String title = String.format(getString(R.string.all_plants_results_number), filteredOrtaggi.size());
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
 		} else {
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader))
 					.setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
 		}
 	}
-	
+
 	@SuppressLint("NotifyDataSetChanged")
 	private void setupGroups() {
 		setupSubheader();
@@ -491,7 +491,7 @@ public class AllPlantsFragment extends Fragment {
 	private void setupToolbar() {
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		if (activity != null) activity.setSupportActionBar(toolbar);
-		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));
+		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).popBackStack());
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
@@ -506,7 +506,7 @@ public class AllPlantsFragment extends Fragment {
 		if (isSearchShown) menu.findItem(R.id.search).expandActionView();
 		
 		SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-		searchView.setQueryHint("Cerca un ortaggio");
+		searchView.setQueryHint(getString(R.string.search_hint));
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextChange(String newText) {
@@ -531,7 +531,7 @@ public class AllPlantsFragment extends Fragment {
 			if (!isSearchShown) {
 				isSearchShown = true;
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
-				toolbar.setTitle("Cerca");
+				toolbar.setTitle(R.string.search);
 				toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 				toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
 				handler.post(this::backdropBehaviour);
@@ -541,7 +541,7 @@ public class AllPlantsFragment extends Fragment {
 		
 		menu.findItem(R.id.filter).setOnMenuItemClickListener(menuItem -> {
 			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.VISIBLE);
-			toolbar.setTitle("Filtra");
+			toolbar.setTitle(R.string.filter);
 			toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 			toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
 			handler.post(this::backdropBehaviour);
@@ -675,7 +675,7 @@ public class AllPlantsFragment extends Fragment {
 			toolbar.setTitle("Piante");
 			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
 			toolbar.setNavigationOnClickListener(
-					view -> Navigation.findNavController(view).navigate(R.id.action_goto_home)
+					view -> Navigation.findNavController(view).popBackStack()
 			);
 			handler.postDelayed(() -> {
 				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);

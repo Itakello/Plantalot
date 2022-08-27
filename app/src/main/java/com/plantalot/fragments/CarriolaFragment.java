@@ -104,7 +104,7 @@ public class CarriolaFragment extends Fragment {
 			arrangeOrtaggi();
 			carriola.clear();
 			DbUsers.updateGiardino(giardino);
-			Navigation.findNavController(view).navigate(R.id.action_goto_home);
+			Navigation.findNavController(view).navigate(R.id.action_goto_home_from_carriola);
 		});
 	}
 	
@@ -127,7 +127,7 @@ public class CarriolaFragment extends Fragment {
 	
 	private void setupToolbar() {
 		MaterialToolbar toolbar = view.findViewById(R.id.carriola_toolbar);
-		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_goto_home));
+		toolbar.setNavigationOnClickListener(view -> Navigation.findNavController(view).popBackStack());
 	}
 	
 }

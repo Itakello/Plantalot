@@ -18,6 +18,10 @@
 	<string name="esposizione">Esposizione</string>
 	<string name="orientamento">Orientamento</string>
 	<string name="exit_toast">Premi nuovamente per uscire</string>
+    <string name="filter">Filtra</string>
+	<string name="search">Cerca</string>
+	<string name="search_hint">Cerca un ortaggio</string>
+	<string name="all_plants_results_number">Mostra %1$d risultati</string>
 
 	<plurals name="piante">
 		<item quantity="one">pianta</item>
