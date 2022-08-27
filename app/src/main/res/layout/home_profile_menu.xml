@@ -50,9 +50,9 @@
 			android:id="@+id/home_logged_row"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
 			android:visibility="gone"
 			tools:visibility="visible"
-			android:layout_marginBottom="16dp"
 			>
 			
 			<ImageView
@@ -99,16 +99,16 @@
 			
 			
 			<ImageView
-				
 				android:id="@+id/home_logout_btn"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="16dp"
+				android:clickable="true"
+				android:focusable="true"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				tools:src="@drawable/ic_baseline_logout_24"
-				
 				/>
 		
 		</androidx.constraintlayout.widget.ConstraintLayout>
@@ -124,9 +124,9 @@
 		
 		
 		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/home_login_row"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/home_login_row"
 			android:layout_margin="16dp"
 			android:clickable="true"
 			android:focusable="true"
@@ -136,18 +136,18 @@
 				android:id="@+id/home_profile_login_icon"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:src="@drawable/ic_baseline_login_24"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
 				
-				android:src="@drawable/ic_baseline_login_24"
+				app:layout_constraintTop_toTopOf="parent"
 				/>
 			
 			<TextView
-				android:layout_marginHorizontal="16dp"
 				android:id="@+id/textView2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="16dp"
 				android:text="Login"
 				android:textAppearance="?attr/textAppearanceLabelLarge"
 				app:layout_constraintBottom_toBottomOf="parent"
