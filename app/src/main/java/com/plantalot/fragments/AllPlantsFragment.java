@@ -548,8 +548,6 @@ public class AllPlantsFragment extends Fragment {
 			return true;
 		});
 		
-//		menu.findItem(R.id.done).setOnMenuItemClickListener(menuItem -> backdropBehaviour());
-		
 		menu.findItem(R.id.allplants_reset).setOnMenuItemClickListener(menuItem -> {
 			boolean isChanged = false;
 			for (String filter : activeFilters.keySet()) {
@@ -574,7 +572,6 @@ public class AllPlantsFragment extends Fragment {
 		menu.findItem(R.id.allplants_search).setVisible(!isBackdropShown || isSearchShown);
 		menu.findItem(R.id.allplants_filter).setVisible(!isBackdropShown);
 		menu.findItem(R.id.allplants_reset).setVisible(isBackdropShown && !isSearchShown);
-//		menu.findItem(R.id.done).setVisible(isBackdropShown && !isSearchShown);
 	}
 	
 	
