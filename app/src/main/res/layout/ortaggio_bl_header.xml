@@ -57,13 +57,14 @@
 		app:hintEnabled="false"
 		>
 		
-		<androidx.appcompat.widget.AppCompatAutoCompleteTextView
+<!--		<androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
+<!--			android:imeOptions="actionNext"-->
+		<AutoCompleteTextView
 			android:id="@+id/ortaggio_bl_autocomplete"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:completionThreshold="10"
-			android:imeOptions="actionNext"
-			android:inputType="textPhonetic"
+			android:inputType="none"
 			android:lines="1"
 			android:nextFocusDown="@+id/ortaggio_bl_buttons"
 			android:padding="0dp"

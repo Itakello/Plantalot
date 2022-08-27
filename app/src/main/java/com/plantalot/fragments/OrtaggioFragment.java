@@ -81,7 +81,7 @@ public class OrtaggioFragment extends Fragment {
 		view = inflater.inflate(R.layout.ortaggio_fragment, container, false);
 		Handler handler = new Handler();
 		handler.post(this::setupContentOrtaggio);
-		handler.post(this::setupDropdown);
+//		handler.post(this::setupDropdown);
 		return view;
 	}
 	
@@ -137,7 +137,7 @@ public class OrtaggioFragment extends Fragment {
 	
 	private void setupDropdown() {
 		AutoCompleteTextView autocomplete = view.findViewById(R.id.ortaggio_bl_autocomplete);
-//		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
+//6		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
 		autocomplete.setOnFocusChangeListener((v, hasFocus) -> {
 			if (!hasFocus) {
 //					textfield.setEndIconMode(TextInputLayout.END_ICON_DROPDOWN_MENU);
