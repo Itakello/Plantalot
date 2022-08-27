@@ -26,6 +26,19 @@
 	
 	</LinearLayout>
 	
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#44000000"
+		android:elevation="24"
+		android:paddingHorizontal="16dp"
+		android:paddingTop="48dp"
+		tools:visibility="visible"
+		android:visibility="gone"
+		>
+		<include layout="@layout/home_profile_menu"/>
+	</FrameLayout>
+	
 	<include layout="@layout/home_fl_content" />
 
 </FrameLayout>
