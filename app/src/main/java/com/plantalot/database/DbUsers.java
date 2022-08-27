@@ -59,7 +59,7 @@ public class DbUsers {
 		dbUser.child("giardini").updateChildren(g_map);
 	}
 	
-	public static void updateNomeGiardino(String oldName, String newName, String currentName) {  // FIXME
+	public static void updateNomeGiardino(String oldName, String newName) {  // FIXME
 		Log.d(TAG, "Updating nome giardino from " + oldName + " to " + newName);
 		dbUser.child("giardini").child(oldName).addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -71,8 +71,6 @@ public class DbUsers {
 				g_map.put(newName, giardino);
 				g_map.put(oldName, null);
 				dbUser.child("giardini").updateChildren(g_map);
-				if (oldName.equals(currentName))
-					updateNomeGiardinoCorrente(newName);
 			}
 			
 			@Override

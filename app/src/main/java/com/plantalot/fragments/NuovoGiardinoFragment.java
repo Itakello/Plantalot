@@ -129,7 +129,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 				});
 				builder.show();
 			});
-			backBtn.setOnClickListener(v -> {
+			backBtn.setOnClickListener(v -> {  // FIXME osBack
 				app.user.editNomeGiardino(oldName, String.valueOf(inputNome.getText()));
 				// TODO lat/lon
 				Navigation.findNavController(v).popBackStack();

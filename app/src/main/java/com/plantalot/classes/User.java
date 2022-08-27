@@ -63,10 +63,9 @@ public class User implements Serializable {
 	}
 	
 	public void addGiardino(Giardino giardino) {
-		if (giardini.isEmpty()) nome_giardino_corrente = giardino.getNome();
+		if (giardini.isEmpty()) setNome_giardino_corrente(giardino.getNome());
 		giardini.put(giardino.getNome(), giardino);
 		DbUsers.updateGiardino(giardino);
-		DbUsers.updateNomeGiardinoCorrente(giardino.getNome());
 	}
 	
 	public void removeGiardino(String nomeGiardino) {
@@ -89,6 +88,7 @@ public class User implements Serializable {
 	
 	public void setNome_giardino_corrente(String nomeGiardino) {
 		this.nome_giardino_corrente = nomeGiardino;
+		DbUsers.updateNomeGiardinoCorrente(nomeGiardino);
 	}
 	
 	public void editNomeGiardino(String oldName, String newName) {
@@ -96,6 +96,7 @@ public class User implements Serializable {
 		giardino.setNome(newName);
 		giardini.put(newName, giardino);
 		giardini.remove(oldName);
+		DbUsers.updateNomeGiardino(oldName, newName);
 		if (nome_giardino_corrente.equals(oldName) || nome_giardino_corrente == null) {
 			setNome_giardino_corrente(newName);
 		}
