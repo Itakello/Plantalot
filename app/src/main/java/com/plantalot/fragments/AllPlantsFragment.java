@@ -219,18 +219,6 @@ public class AllPlantsFragment extends Fragment {
 		handler.postDelayed(this::searchTextInit, 300);
 		return view;
 	}
-
-// FIXME !!!!
-//	@Override
-//	public void onResume() {
-//		super.onResume();
-//		if (isSearchShown) {
-//			System.out.println("EEEEEEEEEEEEEEEEE");
-//			view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
-//			isBackdropShown = false;
-//			backdropBehaviour();
-//		}
-//	}
 	
 	private static void setChip(Pair<String, List<String>> chip, String field) {
 		for (Pair<Integer, Integer> pair : ranges.get(field)) {
