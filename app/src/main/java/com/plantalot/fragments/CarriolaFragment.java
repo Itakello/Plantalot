@@ -127,7 +127,7 @@ public class CarriolaFragment extends Fragment {
 	
 	private void setupToolbar() {
 		MaterialToolbar toolbar = view.findViewById(R.id.carriola_toolbar);
-		toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_goto_home));
+		toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
 	}
 	
 }
