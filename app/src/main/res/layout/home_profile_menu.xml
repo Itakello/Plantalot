@@ -128,6 +128,8 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/home_login_row"
 			android:layout_margin="16dp"
+			android:clickable="true"
+			android:focusable="true"
 			>
 			
 			<ImageView
