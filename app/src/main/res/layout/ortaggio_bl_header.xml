@@ -103,7 +103,6 @@
 		<include
 			android:id="@+id/ortaggio_fl_button_carriola"
 			layout="@layout/component_circle_button"
-			android:visibility="gone"
 			/>
 		
 <!--		<include-->

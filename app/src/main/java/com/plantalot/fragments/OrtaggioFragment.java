@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,7 +61,7 @@ public class OrtaggioFragment extends Fragment {
 	private Giardino giardino;
 	private Carriola carriola;
 
-//	private final List<CircleButton> mButtons = Arrays.asList(  // FIXME !!!
+//	private final List<CircleButton> mButtons = Arrays.asList(  // FIXME !!!!!
 //			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24, R.drawable.ic_round_wheelbarrow_24, CircleButton.CARRIOLA),
 //			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24, R.drawable.ic_round_favorite_24, CircleButton.PREFERITI)
 //	);
@@ -81,7 +82,6 @@ public class OrtaggioFragment extends Fragment {
 		view = inflater.inflate(R.layout.ortaggio_fragment, container, false);
 		Handler handler = new Handler();
 		handler.post(this::setupContentOrtaggio);
-//		handler.post(this::setupDropdown);
 		return view;
 	}
 	
@@ -135,20 +135,6 @@ public class OrtaggioFragment extends Fragment {
 		buttonCarriola.setVisibility(View.VISIBLE);
 	}
 	
-	private void setupDropdown() {
-		AutoCompleteTextView autocomplete = view.findViewById(R.id.ortaggio_bl_autocomplete);
-//		TextInputLayout textfield = view.findViewById(R.id.ortaggio_bl_textfield);
-		autocomplete.setOnFocusChangeListener((v, hasFocus) -> {
-			if (!hasFocus) {
-//					textfield.setEndIconMode(TextInputLayout.END_ICON_DROPDOWN_MENU);
-				Utils.hideSoftKeyboard(v, getActivity());
-				// todo reset last input
-//				} else {
-//					textfield.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
-			}
-		});
-	}
-	
 	private void setupContentVarieta(Pianta pianta, Varieta varieta) {
 		
 		// Header
@@ -162,13 +148,12 @@ public class OrtaggioFragment extends Fragment {
 		sub2.setText(varieta.getTassonomia_famiglia());
 		setupButton(varieta);
 		
-		// Expandable Text View
+		// Description
 		MaterialCardView descriptionCard = view.findViewById(R.id.ortaggio_bl_specs_description);
 		String description = varieta.getInfo_descrizione();
 		if (description != null && !description.isEmpty()) {
 			descriptionCard.setVisibility(View.VISIBLE);
-			ExpandableTextView descriptionExpand = view.findViewById(R.id.expand_text_view);
-			descriptionExpand.setText(description);
+			((TextView) view.findViewById(R.id.ortaggio_bl_specs_description_text)).setText(description);
 		} else {
 			descriptionCard.setVisibility(View.GONE);
 		}
@@ -249,6 +234,10 @@ public class OrtaggioFragment extends Fragment {
 		specsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		OrtaggioSpecsAdapter ortaggioSpecsAdapter = new OrtaggioSpecsAdapter(specs);
 		specsRecyclerView.setAdapter(ortaggioSpecsAdapter);
+		specsRecyclerView.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT
+		));
 	}
 	
 	private void setupContentOrtaggio() {

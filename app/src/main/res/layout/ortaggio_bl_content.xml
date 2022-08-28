@@ -31,33 +31,6 @@
 		
 		</com.google.android.material.card.MaterialCardView>
 		
-		<com.google.android.material.card.MaterialCardView
-			android:id="@+id/ortaggio_bl_specs_description"
-			style="@style/Widget.App.Card.FullWidth"
-			android:visibility="gone"
-			tools:visibility="visible"
-			>
-			
-			<FrameLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:padding="16dp"
-				>
-				
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="Descrizione"
-					android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-					/>
-				
-				<include layout="@layout/ortaggio_bl_description" />
-			
-			</FrameLayout>
-		
-		</com.google.android.material.card.MaterialCardView>
-		
 		<com.google.android.material.card.MaterialCardView style="@style/Widget.App.Card.FullWidth">
 			
 			<include layout="@layout/ortaggio_bl_calendar" />
@@ -84,7 +57,7 @@
 				<androidx.recyclerview.widget.RecyclerView
 					android:id="@+id/ortaggio_bl_specs_recycler"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
+					android:layout_height="800dp"
 					android:overScrollMode="never"
 					android:padding="12dp"
 					tools:itemCount="5"
@@ -122,6 +95,40 @@
 				tools:itemCount="2"
 				tools:listitem="@layout/ortaggio_bl_card_row"
 				/>
+		
+		</com.google.android.material.card.MaterialCardView>
+		
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/ortaggio_bl_specs_description"
+			style="@style/Widget.App.Card.FullWidth"
+			android:visibility="gone"
+			tools:visibility="visible"
+			>
+			
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:padding="16dp"
+				>
+				
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Descrizione"
+					android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+					android:layout_marginBottom="8dp"
+					/>
+				
+				<TextView
+					android:id="@+id/ortaggio_bl_specs_description_text"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+					android:textColor="?attr/colorOnSurface"
+					/>
+				
+			</LinearLayout>
 		
 		</com.google.android.material.card.MaterialCardView>
 	

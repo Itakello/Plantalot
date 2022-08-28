@@ -25,14 +25,14 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 	private final List<String> mSearchText;
 	private final HashMap<String, List<String>> mMap;
 	private final LayoutInflater mInflater;
-	private final Context mContext;
+	private final Context context;
 	private final int prev_fragment;
 	
 	public AllPlantsSearchAdapter(Context context, List<String> data, HashMap<String, List<String>> map, List<String> searchText, int prev_fragment) {
 		this.mData = data;
 		this.mMap = map;
 		this.mInflater = LayoutInflater.from(context);
-		this.mContext = context;
+		this.context = context;
 		this.mSearchText = searchText;
 		this.prev_fragment = prev_fragment;
 	}
@@ -60,7 +60,7 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 			viewHolder.mOrtaggioTv.setText(ortaggio);
 		}
 		viewHolder.mImage.setImageResource(DbPlants.getImageId(ortaggio));
-		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, view));
+		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, context, view));
 	}
 	
 	@Override

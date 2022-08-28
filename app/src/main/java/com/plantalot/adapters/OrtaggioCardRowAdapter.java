@@ -43,7 +43,7 @@ public class OrtaggioCardRowAdapter extends RecyclerView.Adapter<OrtaggioCardRow
 		viewHolder.mTextView.setText(ortaggio);
 		viewHolder.mCardView.setCardBackgroundColor(DbPlants.getIconColor(ortaggio));
 		viewHolder.mImageView.setImageResource(DbPlants.getImageId(ortaggio));
-		viewHolder.mCardView.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, view));
+		viewHolder.mCardView.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, context, view));
 	}
 	
 	@Override

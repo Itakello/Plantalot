@@ -26,7 +26,7 @@
 			style="@style/Widget.App.Button.NavButton"
 			android:layout_width="56dp"
 			android:layout_height="56dp"
-			app:icon="@drawable/ic_round_add_big_24"
+			app:icon="@drawable/ic_round_hourglass_top_24"
 			/>
 		
 		<TextView
@@ -36,6 +36,7 @@
 			android:layout_marginTop="8dp"
 			android:lineHeight="16dp"
 			tools:text="Label"
+			android:text="\n"
 			android:textAlignment="center"
 			android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
 			>

@@ -77,7 +77,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 		viewHolder.mRecyclerView.setAdapter(carriolaVarietaAdapter);
 		
-		viewHolder.mCardHeader.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, R.id.carriolaFragment, view));
+		viewHolder.mCardHeader.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, R.id.carriolaFragment, context, view));
 		
 		Set<Integer> packSet = new HashSet<>();
 		for (Pair<Varieta, Integer> varietaPair : mData.get(position).second) {

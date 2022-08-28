@@ -24,7 +24,7 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	Context context;
 	
 	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data, int prev_fragment) {
-		this.mData = (List<Pair<String, List<String>>>) ((ArrayList) data).clone();
+		this.mData = (List<Pair<String, List<String>>>) ((ArrayList) data).clone();  // FIXME ??
 		this.prev_fragment = prev_fragment;
 		for (Pair<String, List<String>> p : data) {
 			if (p.second.isEmpty()) {
@@ -52,6 +52,7 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 			OrtaggioCardRowAdapter ortaggioCardRowAdapter = new OrtaggioCardRowAdapter(row.second, context, prev_fragment);
 			viewHolder.mRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
 			viewHolder.mRecyclerView.setAdapter(ortaggioCardRowAdapter);
+			viewHolder.mRecyclerView.setVisibility(View.VISIBLE);
 			
 			if (position == 1) {  // FIXME ?
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
