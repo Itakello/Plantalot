@@ -17,7 +17,6 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			>
 			
@@ -32,7 +31,6 @@
 		<action
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
-			app:enterAnim="@android:anim/fade_in"
 			/>
 		
 		<action
@@ -43,13 +41,11 @@
 		<action
 			android:id="@+id/action_goto_carriola"
 			app:destination="@id/carriolaFragment"
-			app:enterAnim="@android:anim/fade_in"
 			/>
 		
 		<action
 			android:id="@+id/action_goto_nuovo_orto"
 			app:destination="@id/nuovoOrtoFragment"
-			app:enterAnim="@android:anim/fade_in"
 			/>
 	
 	</fragment>
@@ -64,7 +60,6 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			>
 			
@@ -88,7 +83,6 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			>
 			
@@ -126,7 +120,6 @@
 		<action
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
-			app:enterAnim="@android:anim/fade_in"
 			app:popUpTo="@id/homeFragment"
 			app:popUpToInclusive="true"
 			/>
@@ -143,7 +136,6 @@
 		<action
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
-			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			/>
 	

@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -425,6 +424,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@SuppressLint("NotifyDataSetChanged")
 	private void setupGroups() {
 		setupSubheader();
@@ -447,7 +447,11 @@ public class AllPlantsFragment extends Fragment {
 				break;
 		}
 		
-		new Handler().postDelayed(() -> cardAdapter.notifyDataSetChanged(), 500);  // FIXME !!!!!!!?!?!?!
+		cardAdapter = new AllPlantsCardListAdapter(cards, view.findViewById(R.id.all_plants_fl_progressBar));
+		RecyclerView cardsRecyclerView = view.findViewById(R.id.all_plants_fl_card_list_recycler);
+		cardsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		cardsRecyclerView.setAdapter(cardAdapter);
+//		new Handler().postDelayed(() -> cardAdapter.notifyDataSetChanged(), 100);  // FIXME !!!!!!!?!?!?!
 	}
 	
 	private void setupFilters() {
