@@ -53,11 +53,11 @@ public class InputDialog {
 	
 	public void setError(String error) {
 		if (error != null) {
-			input.setError(error);
 			if (inputLayout.getParent() != null) {
 				((ViewGroup) inputLayout.getParent()).removeView(inputLayout);
 			}
-			inputLayout.removeAllViews();
+			inputLayout.removeView(input);
+			input.setError(error);
 			inputLayout.addView(input);
 			builder.setView(inputLayout);
 		}
