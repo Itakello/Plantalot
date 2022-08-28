@@ -103,7 +103,7 @@ public class AllPlantsFragment extends Fragment {
 	private static final HashMap<String, String> UDM = new HashMap<>();
 	
 	private int translateY;
-
+	
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
 		titles.put(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
@@ -659,9 +659,7 @@ public class AllPlantsFragment extends Fragment {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
 			toolbar.setTitle("Piante");
 			toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_24);
-			toolbar.setNavigationOnClickListener(
-					v -> Navigation.findNavController(view).navigate(R.id.action_goto_home)
-			);
+			toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 			handler.postDelayed(() -> {
 				view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.GONE);
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.GONE);
