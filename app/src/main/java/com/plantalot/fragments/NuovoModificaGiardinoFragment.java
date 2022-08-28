@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ import com.plantalot.R;
 import com.plantalot.classes.Giardino;
 
 
-public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallback {
+public class NuovoModificaGiardinoFragment extends Fragment implements OnMapReadyCallback {
 	
 	private final static String TAG = "NuovoGiardinoFragment";
 	private GoogleMap map;
@@ -50,7 +51,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	
 	// A default location (Sydney, Australia) and default zoom to use when location permission is
 	// not granted.
-	private final LatLng defaultLocation = new LatLng(46.0657555,11.1483961);
+	private final LatLng defaultLocation = new LatLng(46.0657555, 11.1483961);
 	private static final int DEFAULT_ZOOM = 15;
 	private boolean locationPermissionGranted;
 	
@@ -91,33 +92,45 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		Log.wtf("oldName", oldName);
 		
 		View view = inflater.inflate(R.layout.nuovo_giardino_fragment, container, false);
-		SupportMapFragment mapFragment = new SupportMapFragment();
-		getChildFragmentManager().beginTransaction().replace(R.id.frame_layout_map, mapFragment).commit();
 		
-		if (mapFragment != null) mapFragment.getMapAsync(this);
+		new Handler().post(() -> {
+			SupportMapFragment mapFragment = new SupportMapFragment();
+			getChildFragmentManager().beginTransaction().replace(R.id.frame_layout_map, mapFragment).commit();
+			if (mapFragment != null) mapFragment.getMapAsync(this);
+		});
 		
 		TextView newOrEdit = view.findViewById(R.id.nuovo_giardino_new_or_edit_text);
 		newOrEdit.setText(oldName == null ? R.string.nuovo_giardino : R.string.modifica_giardino);
 		
 		Button backBtn = view.findViewById(R.id.nuovo_giardino_back_btn);
-		
 		MaterialButton saveDeleteBtn = view.findViewById(R.id.nuovo_giardino_save_delete_btn);
 		TextInputEditText inputNome = view.findViewById(R.id.nuovo_giardino_input_nome);
+		
 		if (oldName == null) {
+			
 			saveDeleteBtn.setOnClickListener(v -> {
-				// TODO check giardino esistente + lunghezza nome giardino (lunghezza < 15)
 				String nomeGiardino = String.valueOf(inputNome.getText());
 				LatLng markerLoc = currMarker.getPosition();
-				Giardino giardino = new Giardino(nomeGiardino, markerLoc);
-				app.user.addGiardino(giardino);
-				Navigation.findNavController(v).navigate(R.id.action_goto_home);
+				if (!nomeGiardino.isEmpty()) {
+					Giardino giardino = new Giardino(nomeGiardino, markerLoc);
+					if (app.user.addGiardino(giardino)) {
+						Navigation.findNavController(v).navigate(R.id.action_goto_home);
+					} else {
+						inputNome.setError(getString(R.string.errore_nome_esistente));
+					}
+				} else {
+					inputNome.setError(getString(R.string.errore_campo_vuoto));
+				}
 			});
-			backBtn.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+			backBtn.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
+			
 		} else {
+			
 			// TODO change color
 			inputNome.setText(oldName);
 			saveDeleteBtn.setText(R.string.elimina);
 			saveDeleteBtn.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.ic_round_delete_24));
+			
 			saveDeleteBtn.setOnClickListener(v -> {
 				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
 				builder.setTitle("Eliminare " + oldName + "?");
@@ -129,10 +142,18 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 				});
 				builder.show();
 			});
-			backBtn.setOnClickListener(v -> {  // FIXME osBack
-				app.user.editNomeGiardino(oldName, String.valueOf(inputNome.getText()));
-				// TODO lat/lon
-				Navigation.findNavController(v).popBackStack();
+			
+			backBtn.setOnClickListener(v -> {  // FIXME osBack, TODO lat/lon
+				String newName = String.valueOf(inputNome.getText());
+				if (!newName.isEmpty()) {
+					if (app.user.editNomeGiardino(oldName, newName)) {
+						Navigation.findNavController(v).popBackStack();
+					} else {
+						inputNome.setError(getString(R.string.errore_nome_esistente));
+					}
+				} else {
+					inputNome.setError(getString(R.string.errore_campo_vuoto));
+				}
 			});
 		}
 		
@@ -149,11 +170,11 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 			currMarker = map.addMarker(new MarkerOptions().position(point));
 		});
 		
-		getLocationPermission();
-		// Turn on the My Location layer and the related control on the map.
-		updateLocationUI();
-		// Get the current location of the device and set the position of the map.
-		getDeviceLocation();
+		new Handler().post(() -> {
+			getLocationPermission();
+			updateLocationUI();  // Turn on the My Location layer and the related control on the map.
+			getDeviceLocation();  // Get the current location of the device and set the position of the map.
+		});
 	}
 	
 	private void getLocationPermission() {

@@ -5,6 +5,9 @@
 	<string name="annulla">Annulla</string>
 	<string name="elimina">Elimina</string>
 	
+	<string name="errore_campo_vuoto">Il campo non può essere vuoto</string>
+	<string name="errore_nome_esistente">Nome già esistente</string>
+	
 	<string name="nuovo_orto">Nuovo orto</string>
 	<string name="nuovo_giardino">Nuovo giardino</string>
 	<string name="modifica_giardino">Modifica giardino</string>
