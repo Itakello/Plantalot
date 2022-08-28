@@ -4,7 +4,8 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/nav_graph"
-	app:startDestination="@id/homeFragment">
+	app:startDestination="@id/homeFragment"
+	>
 	
 	<fragment
 		android:id="@+id/homeFragment"
@@ -14,9 +15,9 @@
 		>
 		
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			>
 			
@@ -29,29 +30,28 @@
 		</action>
 		
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_all_plants"
 			app:destination="@id/allPlantsFragment"
+			app:enterAnim="@android:anim/fade_in"
 			/>
-
+		
 		<action
 			android:id="@+id/action_goto_nuovo_giardino"
 			app:destination="@id/nuovoGiardinoFragment"
-			app:enterAnim="@android:anim/fade_in"
-			app:exitAnim="@android:anim/fade_out" />
+			/>
 		
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_carriola"
 			app:destination="@id/carriolaFragment"
+			app:enterAnim="@android:anim/fade_in"
 			/>
 		
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_nuovo_orto"
 			app:destination="@id/nuovoOrtoFragment"
+			app:enterAnim="@android:anim/fade_in"
 			/>
-		
+	
 	</fragment>
 	
 	<fragment
@@ -75,7 +75,7 @@
 				/>
 		
 		</action>
-
+	
 	</fragment>
 	
 	<fragment
@@ -86,9 +86,9 @@
 		>
 		
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			>
 			
@@ -99,21 +99,21 @@
 				/>
 		
 		</action>
-
+	
 	</fragment>
 	
 	<fragment
 		android:id="@+id/nuovoGiardinoFragment"
-		android:name="com.plantalot.fragments.NuovoGiardinoFragment"
+		android:name="com.plantalot.fragments.NuovoModificaGiardinoFragment"
 		android:label="NuovoGiardinoFragment"
 		tools:layout="@layout/nuovo_giardino_fragment"
 		>
 		<action
 			android:id="@+id/action_goto_home"
 			app:destination="@id/homeFragment"
-			app:enterAnim="@android:anim/fade_in"
 			app:popUpTo="@id/homeFragment"
-			app:popUpToInclusive="true" />
+			app:popUpToInclusive="true"
+			/>
 	
 	</fragment>
 	
@@ -128,8 +128,9 @@
 			app:destination="@id/homeFragment"
 			app:enterAnim="@android:anim/fade_in"
 			app:popUpTo="@id/homeFragment"
-			app:popUpToInclusive="true" />
-
+			app:popUpToInclusive="true"
+			/>
+	
 	</fragment>
 	
 	<fragment
@@ -138,14 +139,14 @@
 		android:label="CarriolaFragment"
 		tools:layout="@layout/carriola_fragment"
 		>
-
+		
 		<action
-			app:enterAnim="@android:anim/fade_in"
 			android:id="@+id/action_goto_ortaggio"
 			app:destination="@id/ortaggioFragment"
+			app:enterAnim="@android:anim/fade_in"
 			app:launchSingleTop="false"
 			/>
 	
 	</fragment>
-	
+
 </navigation>

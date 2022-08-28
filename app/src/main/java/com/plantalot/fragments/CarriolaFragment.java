@@ -46,7 +46,6 @@ public class CarriolaFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		giardino = ((MyApplication) this.getActivity().getApplication()).user.getGiardinoCorrente();
 		carriola = giardino.getCarriola();
-		
 		totalArea = giardino.calcArea();
 		plantedArea = giardino.plantedArea();
 		carriolaArea = carriola.calcArea();
