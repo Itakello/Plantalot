@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -78,15 +79,15 @@ public class AllPlantsFragment extends Fragment {
 	private final List<String> searchResultsOrtaggi = new ArrayList<>();
 	private final HashMap<String, List<String>> searchResultsVarieta = new HashMap<>();
 	
-	public static final String RAGGRUPPA = "Raggruppa";
-	private static final HashMap<String, String> titles = new HashMap<>();
-	private static final HashMap<String, List<Pair<Integer, Integer>>> ranges = new HashMap<>();
-	private static final List<String> OMBRA = new ArrayList<>(Arrays.asList(
+	private final String RAGGRUPPA = "Raggruppa";
+	private final HashMap<String, String> titles = new HashMap<>();
+	private final HashMap<String, List<Pair<Integer, Integer>>> ranges = new HashMap<>();
+	private final List<String> OMBRA = new ArrayList<>(Arrays.asList(
 			"Consigliata", "Tollerata", "Tollerata in estate", "Non tollerata"));
-	private static final List<String> MONTHS = new ArrayList<>(Arrays.asList(
+	private final List<String> MONTHS = new ArrayList<>(Arrays.asList(
 			"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"));
 	
-	private static final List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
+	private final List<Pair<String, List<String>>> chips = new ArrayList<>(Arrays.asList(
 			new Pair<>(RAGGRUPPA, new ArrayList<>()),  /*, "Produzione", "Anni di rotazione", "Piante per pack"*/
 			new Pair<>(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, DbPlants.getFamiglieNames()),
 			new Pair<>(DbPlants.VARIETA_TRAPIANTI_MESI, MONTHS),
@@ -99,12 +100,16 @@ public class AllPlantsFragment extends Fragment {
 //			new Pair<>("Giardini e preferiti", Arrays.asList("Tutto", "", "Preferiti"))  // TODO
 	));
 	
-	private static final Map<String, Integer> filtersCount = new HashMap<>();
-	private static final HashMap<String, String> UDM = new HashMap<>();
+	private final Map<String, Integer> filtersCount = new HashMap<>();
+	private final HashMap<String, String> udm = new HashMap<>();
 	
 	private int translateY;
 	
-	static {
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
 		titles.put(RAGGRUPPA, RAGGRUPPA);
 		titles.put(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
 		titles.put(DbPlants.VARIETA_TASSONOMIA_SPECIE, "Nome");
@@ -145,6 +150,7 @@ public class AllPlantsFragment extends Fragment {
 				new Pair<>(16, 16)
 		)));
 		
+		chips.get(0).second.clear();
 		for (Pair<String, List<String>> chip : chips) {
 			switch (chip.first) {
 				case RAGGRUPPA:
@@ -155,16 +161,13 @@ public class AllPlantsFragment extends Fragment {
 							DbPlants.VARIETA_DISTANZE_PIANTE,
 							DbPlants.VARIETA_DISTANZE_FILE,
 							DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA,
-							DbPlants.VARIETA_ALTRO_PACK));
+							DbPlants.VARIETA_ALTRO_PACK
+					));
 					break;
 				case DbPlants.VARIETA_DISTANZE_PIANTE:
-					setChip(chip, DbPlants.VARIETA_DISTANZE_PIANTE);
-					break;
 				case DbPlants.VARIETA_DISTANZE_FILE:
-					setChip(chip, DbPlants.VARIETA_DISTANZE_FILE);
-					break;
 				case DbPlants.VARIETA_RACCOLTA_AVG:
-					setChip(chip, DbPlants.VARIETA_RACCOLTA_AVG);
+					setChipRange(chip, chip.first);
 					break;
 				case DbPlants.VARIETA_ALTRO_PACK:
 					for (Pair<Integer, Integer> pair : ranges.get(DbPlants.VARIETA_ALTRO_PACK)) {
@@ -178,16 +181,11 @@ public class AllPlantsFragment extends Fragment {
 			filtersCount.put(chip.first, chip.second.size());
 		}
 		
-		UDM.put(DbPlants.VARIETA_RACCOLTA_AVG, "giorni");
-		UDM.put(DbPlants.VARIETA_DISTANZE_PIANTE, "cm");
-		UDM.put(DbPlants.VARIETA_DISTANZE_FILE, "cm");
-		UDM.put(DbPlants.VARIETA_ALTRO_PACK, "piante");
-	}
-	
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		udm.put(DbPlants.VARIETA_RACCOLTA_AVG, "giorni");
+		udm.put(DbPlants.VARIETA_DISTANZE_PIANTE, "cm");
+		udm.put(DbPlants.VARIETA_DISTANZE_FILE, "cm");
+		udm.put(DbPlants.VARIETA_ALTRO_PACK, "piante");
+		
 		setHasOptionsMenu(true);
 		for (Pair<String, List<String>> chip : chips) {
 			activeFilters.put(chip.first, new HashSet<>());
@@ -220,7 +218,7 @@ public class AllPlantsFragment extends Fragment {
 		return view;
 	}
 	
-	private static void setChip(Pair<String, List<String>> chip, String field) {
+	private void setChipRange(Pair<String, List<String>> chip, String field) {
 		for (Pair<Integer, Integer> pair : ranges.get(field)) {
 			chip.second.add(pair.first + " - " + pair.second);
 		}
@@ -363,7 +361,7 @@ public class AllPlantsFragment extends Fragment {
 	//========[ GROUPS ]========//
 	
 	private void gruopByRange(String field) {
-		String udm = UDM.get(field);
+		String udm = this.udm.get(field);
 		for (Pair<Integer, Integer> dists : ranges.get(field)) {
 			String tmp = udm;
 			if (Objects.equals(udm, "piante") && Objects.equals(dists.first, 1)) {

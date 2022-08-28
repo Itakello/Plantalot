@@ -49,9 +49,7 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
 		if (idFragment != -1) {
-			viewHolder.mCard.setOnClickListener(view -> {
-				Navigation.findNavController(view).navigate(idFragment, bundle);
-			});
+			viewHolder.mCard.setOnClickListener(view -> Navigation.findNavController(view).navigate(idFragment, bundle));
 		}
 	}
 	

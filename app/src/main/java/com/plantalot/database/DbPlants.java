@@ -55,6 +55,12 @@ public class DbPlants {
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	public static void init(Activity activity) {
 		
+		famiglieNames.clear();
+		ortaggiNames.clear();
+		icons.clear();
+		iconColors.clear();
+		varietaNames.clear();
+		
 		Resources res = activity.getResources();
 		defaultImageId = res.getIdentifier(
 				"plant_mushroom_3944308".split("\\.")[0],

@@ -2,6 +2,7 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
