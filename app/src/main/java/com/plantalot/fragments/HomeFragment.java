@@ -15,11 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +29,6 @@ import com.plantalot.classes.Giardino;
 import com.plantalot.animations.NavigationIconClickListener;
 import com.plantalot.adapters.HomeOrtiAdapter;
 import com.plantalot.components.CircleButton;
-import com.plantalot.utils.Consts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,28 +65,18 @@ public class HomeFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d(TAG, "On createView");
 		view = inflater.inflate(R.layout.home_fragment, container, false);
-		view.setOnKeyListener(new View.OnKeyListener() {
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-					if (!doubleBackToExitPressedOnce) {
-						doubleBackToExitPressedOnce = true;
-						Toast.makeText(getContext(), R.string.exit_toast, Toast.LENGTH_SHORT).show();
-						
-						new Handler().postDelayed(new Runnable() {
-							
-							@Override
-							public void run() {
-								doubleBackToExitPressedOnce = false;
-							}
-						}, 2000);
-					} else {
-						getParentFragmentManager().popBackStack();
-					}
-					return true;
+		view.setOnKeyListener((v, keyCode, event) -> {
+			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				if (!doubleBackToExitPressedOnce) {
+					doubleBackToExitPressedOnce = true;
+					Toast.makeText(getContext(), R.string.exit_toast, Toast.LENGTH_SHORT).show();
+					new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+				} else {
+					getParentFragmentManager().popBackStack();
 				}
-				return false;
+				return true;
 			}
+			return false;
 		});
 		new Handler().post(this::setupUI);
 //		view.findViewById(R.id.home_bl_drawer_recycler).setOnClickListener(v -> setupContent());

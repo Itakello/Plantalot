@@ -1,11 +1,13 @@
 package com.plantalot.classes;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.plantalot.R;
 import com.plantalot.components.InputDialog;
 
 import java.util.ArrayList;
@@ -47,22 +49,26 @@ public class Giardino {
 		return orti;
 	}
 	
+	public ArrayList<String> getOrtiNames() {
+		return new ArrayList<>(orti.keySet());
+	}
+	
 	public ArrayList<Orto> ortiList() {
 		return new ArrayList<>(orti.values());
 	}
-
+	
 	public Carriola getCarriola() {
 		return carriola;
 	}
-
+	
 	public void setCarriola(Carriola carriola) {
 		this.carriola = carriola;
 	}
-
+	
 	public void setOrti(HashMap<String, Orto> orti) {
 		this.orti = (HashMap<String, Orto>) orti;
 	}
-
+	
 	public void removeOrto(@NonNull Orto orto) {
 		orti.remove(orto.getNome());
 	}
@@ -85,7 +91,7 @@ public class Giardino {
 			orto.fetchVarieta();
 		}
 	}
-
+	
 	public void addOrto(Orto orto) {
 		orti.put(orto.getNome(), orto);
 	}
@@ -94,5 +100,17 @@ public class Giardino {
 		removeOrto(orto);
 		orto.setNome(newName);
 		addOrto(orto);
+	}
+	
+	public String checkNomeOrto(String oldName, String newName, Context context) {
+		if (oldName.equals(newName)) {
+			return null;
+		} else if (newName.isEmpty()) {
+			return context.getString(R.string.errore_campo_vuoto);
+		} else if (getOrtiNames().contains(newName)) {
+			return context.getString(R.string.errore_nome_esistente);
+		} else {
+			return null;
+		}
 	}
 }

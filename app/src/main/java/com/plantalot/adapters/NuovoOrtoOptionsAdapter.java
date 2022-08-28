@@ -1,80 +1,65 @@
 package com.plantalot.adapters;
 
 import android.content.Context;
-import android.text.InputType;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.plantalot.classes.Giardino;
+import com.plantalot.components.InputDialog;
 import com.plantalot.components.NuovoOrtoNumberSelector;
 import com.plantalot.R;
 import com.plantalot.classes.Orto;
-import com.plantalot.utils.Utils;
 
 import java.util.List;
 
 import kotlin.Triple;
 
 public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptionsAdapter.ViewHolder> {
-
+	
 	private final String TAG = "NuovoOrtoOprionsAdapter";
-
+	
 	private final List<Triple<String, String, View>> mData;
 	private final LayoutInflater mInflater;
-	private final View mView;
 	private final LinearLayout mExpanded;
-	private final MaterialCardView mCard;
 	private final RecyclerView mRecycler;
 	private final Context context;
+	private final Orto orto;
+	private final Giardino giardino;
 	private String nomeOrto;
-	private Orto mOrto;
+	private String error;
 	
-	public NuovoOrtoOptionsAdapter(Context context, List<Triple<String, String, View>> data, Orto orto, View view) {
+	public NuovoOrtoOptionsAdapter(Context context, List<Triple<String, String, View>> data, Giardino giardino, Orto orto, View view) {
 		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
 		this.mData = data;
-		this.mOrto = orto;
-		this.mView = view;
-		this.mCard = mView.findViewById(R.id.nuovo_orto_options_card);
-		this.mExpanded = mView.findViewById(R.id.nuovo_orto_card_expanded);
-		this.mRecycler = mView.findViewById(R.id.nuovo_orto_options_recycler);
+		this.giardino = giardino;
+		this.orto = orto;
+		this.mExpanded = view.findViewById(R.id.nuovo_orto_card_expanded);
+		this.mRecycler = view.findViewById(R.id.nuovo_orto_options_recycler);
 		this.nomeOrto = orto.getNome();
+		this.error = null;
 	}
 	
+	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.nuovo_orto_option_row, parent, false);
-//		view.setFocusableInTouchMode(true);
-//		view.requestFocus();
-//		view.setOnKeyListener(new View.OnKeyListener() {
-//			@Override
-//			public boolean onKey(View v, int keyCode, KeyEvent event) {
-//				Log.i(TAG, "KeyCode: " + keyCode);
-//				// Check if osBack key event
-//				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
-//					// Check if card open
-//					Log.i(TAG, "mExpanded visibility : " + mExpanded.getVisibility());
-////					if(mExpanded.getVisibility() == View.VISIBLE)
-////						mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
-//				}
-//				return false;
-//			}
-//		});
 		return new ViewHolder(view);
 	}
 	
 	
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, int position) {
 		String field = mData.get(position).getFirst();
@@ -82,60 +67,49 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		View mChild = mData.get(position).getThird();
 		viewHolder.mField.setText(field);
 		viewHolder.mValue.setText(value);
-
+		
 		// Add back button handler for
-		if(mChild != null){
+		if (mChild != null) {
 			mChild.setFocusableInTouchMode(true);
 			mChild.requestFocus();
-			mChild.setOnKeyListener(new View.OnKeyListener() {
-				@Override
-				public boolean onKey(View v, int keyCode, KeyEvent event) {
-					// Check if osBack key event
-					if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
-						// Check if card open
-						Log.i(TAG, "Pressed osBack with card open");
-						if(mExpanded.getVisibility() == View.VISIBLE){
-							mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
-							return true;
-						}
+			mChild.setOnKeyListener((v, keyCode, event) -> {
+				// Check if osBack key event
+				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+					// Check if card open
+					Log.i(TAG, "Pressed osBack with card open");
+					if (mExpanded.getVisibility() == View.VISIBLE) {
+						mExpanded.findViewById(R.id.nuovo_orto_card_back).performClick();
+						return true;
 					}
-					return false;
 				}
+				return false;
 			});
 		}
-
 		
-		viewHolder.mRow.setOnClickListener(view -> {
+		viewHolder.mRow.setOnClickListener(v -> {
 			
 			if (position == 0) {  // FIXME !?
 				
-				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-				builder.setTitle(R.string.nome_orto);
+				InputDialog inputDialog = new InputDialog(context.getString(R.string.nome_orto), nomeOrto, context);
 				
-				EditText input = new EditText(context);
-				input.setText(nomeOrto);
-				input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-				input.requestFocus();
-				Utils.showKeyboard(context);
-				
-				FrameLayout inputLayout = new FrameLayout(context);
-				int dp = Utils.dp2px(1, context);
-				inputLayout.setPadding(24 * dp, 20 * dp, 24 * dp, 12 * dp);
-				inputLayout.addView(input);
-				builder.setView(inputLayout);
-				
-				builder.setPositiveButton(R.string.conferma, (dialog, which) -> {
-					nomeOrto = input.getText().toString();
-					mOrto.setNome(nomeOrto);
-					viewHolder.mValue.setText(nomeOrto);
-					Utils.closeKeyboard(context);
-				});
-				builder.setNegativeButton(R.string.annulla, (dialog, which) -> {
-					Utils.closeKeyboard(context);
-					dialog.cancel();
+				inputDialog.setOnConfirm(newName -> {
+					nomeOrto = newName;
+					error = giardino.checkNomeOrto(orto.getNome(), newName, context);
+					if (error == null) {
+						orto.setNome(newName);
+						viewHolder.mValue.setText(newName);
+					} else {
+						inputDialog.setError(error);
+						inputDialog.show();
+					}
 				});
 				
-				builder.show();
+				inputDialog.setOnCancelListener(dialogInterface -> {
+					error = null;
+					nomeOrto = orto.getNome();
+				});
+				
+				inputDialog.show();
 				
 			} else if (mChild != null) {
 				
@@ -143,19 +117,21 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 				mExpanded.setVisibility(View.VISIBLE);
 				((TextView) mExpanded.findViewById(R.id.nuovo_orto_card_header)).setText(field);
 				mExpanded.addView(mChild);
-				mExpanded.findViewById(R.id.nuovo_orto_card_back).setOnClickListener(v -> close_card(mChild, viewHolder));
+				mExpanded.findViewById(R.id.nuovo_orto_card_back).setOnClickListener(v1 -> close_card(mChild, viewHolder));
+				
 			} else {
 				
 				MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
 				builder.setTitle("TODO");
 				builder.setPositiveButton("OK", (dialog, i) -> dialog.cancel());
 				builder.show();
+				
 			}
 		});
-
+		
 	}
-
-	private void close_card(View mChild, ViewHolder viewHolder){
+	
+	private void close_card(View mChild, ViewHolder viewHolder) {
 		mExpanded.setVisibility(View.INVISIBLE);
 		mRecycler.setVisibility(View.VISIBLE);
 		mExpanded.removeView(mChild);
@@ -167,7 +143,7 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		return mData.size();
 	}
 	
-	public class ViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder {
 		View mRow;
 		TextView mField, mValue;
 		

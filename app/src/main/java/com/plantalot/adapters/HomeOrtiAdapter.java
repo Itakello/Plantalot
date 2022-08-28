@@ -31,8 +31,10 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	
 	private final RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 	private final ArrayList<Orto> orti;
-	private Giardino giardino;
+	private final Giardino giardino;
 	private Context context;
+	private String nomeOrto;
+	private String error;
 	
 	public HomeOrtiAdapter(Giardino giardino) {
 		this.giardino = giardino;
@@ -55,11 +57,11 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 		
 		Orto orto = orti.get(i);
-		String ortoName = orto.getNome();
+		nomeOrto = orto.getNome();
 		int specie = orto.getOrtaggi().countSpecie();
 		int piante = orto.getOrtaggi().countPiante();
 		
-		viewHolder.titleTextView.setText(ortoName);
+		viewHolder.titleTextView.setText(nomeOrto);
 		viewHolder.specieTextView.setText(specie + " specie");
 		viewHolder.pianteTextView.setText(piante + " piante");
 		
@@ -74,17 +76,33 @@ public class HomeOrtiAdapter extends RecyclerView.Adapter<HomeOrtiAdapter.ViewHo
 			popup.setOnMenuItemClickListener(item -> {
 				switch (item.getItemId()) {
 					case R.id.home_card_menu_opt1:
-						InputDialog inputDialog = new InputDialog("Nome dell'orto", ortoName, context, newName -> {
-							giardino.editNomeOrto(orto, newName);
-							that.notifyItemChanged(i);
-							DbUsers.updateGiardino(giardino);
+						
+						InputDialog inputDialog = new InputDialog(context.getString(R.string.nome_orto), nomeOrto, context);
+						
+						inputDialog.setOnConfirm(newName -> {
+							nomeOrto = newName;
+							error = giardino.checkNomeOrto(orto.getNome(), newName, context);
+							if (error == null) {
+								giardino.editNomeOrto(orto, newName);
+								that.notifyItemChanged(i);
+								DbUsers.updateGiardino(giardino);
+							} else {
+								inputDialog.setError(error);
+								inputDialog.show();
+							}
 						});
+						
+						inputDialog.setOnCancelListener(dialogInterface -> {
+							error = null;
+							nomeOrto = orto.getNome();
+						});
+						
 						inputDialog.show();
 						return true;
 					
 					case R.id.home_card_menu_opt2:
 						MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-						builder.setTitle("Eliminare " + ortoName + "?");
+						builder.setTitle("Eliminare " + nomeOrto + "?");
 						builder.setNegativeButton(R.string.annulla, (dialog, j) -> dialog.cancel());
 						builder.setPositiveButton(R.string.conferma, (dialog, j) -> {
 							dialog.cancel();

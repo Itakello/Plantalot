@@ -23,7 +23,7 @@
 		
 		<Button
 			android:id="@+id/nuovo_orto_back_btn"
-			style="@style/Widget.App.Button.ElevatedButton.IconOnly"
+			style="@style/Widget.App.Button.TonalButton.IconOnly"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
 			android:insetLeft="0dp"
@@ -41,7 +41,7 @@
 		
 		<Button
 			android:id="@+id/nuovo_orto_save_btn"
-			style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+			style="@style/Widget.Material3.Button.TonalButton.Icon"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Salva"

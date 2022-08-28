@@ -42,15 +42,21 @@ public class NuovoOrtoFragment extends Fragment {
 	private Orto orto;
 	private Context context;
 	private TableLayout table;
-	private IntPair tableDim = new IntPair();
+	private final IntPair tableDim = new IntPair();
 	private Giardino giardino;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getContext();
-		orto = new Orto(context.getResources().getString(R.string.nuovo_orto));
 		giardino = ((MyApplication) this.getActivity().getApplication()).user.getGiardinoCorrente();
+		String nomeOrtoBase = context.getResources().getString(R.string.nuovo_orto);
+		String nomeOrto = nomeOrtoBase;
+		int i = 0;
+		while (giardino.getOrtiNames().contains(nomeOrto)) {
+			nomeOrto = nomeOrtoBase + " " + ++i;
+		}
+		orto = new Orto(nomeOrto);
 	}
 
 	@Nullable
@@ -70,7 +76,7 @@ public class NuovoOrtoFragment extends Fragment {
 
 		RecyclerView optionsRecycler = view.findViewById(R.id.nuovo_orto_options_recycler);
 		optionsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-		NuovoOrtoOptionsAdapter optionsAdapter = new NuovoOrtoOptionsAdapter(getActivity(), options, orto, view);
+		NuovoOrtoOptionsAdapter optionsAdapter = new NuovoOrtoOptionsAdapter(getActivity(), options, giardino, orto, view);
 		optionsRecycler.setAdapter(optionsAdapter);
 		
 		DividerItemDecoration dividerItemDecoration = new com.plantalot.utils.DividerItemDecoration(optionsRecycler.getContext(), RecyclerView.VERTICAL, false);
