@@ -1,5 +1,6 @@
 package com.plantalot.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,6 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.adapters.OrtaggioCardListAdapter;
@@ -60,12 +60,6 @@ public class OrtaggioFragment extends Fragment {
 	private LinkedList<String> dropdownItems;
 	private Giardino giardino;
 	private Carriola carriola;
-
-//	private final List<CircleButton> mButtons = Arrays.asList(  // FIXME !!!!!
-//			new CircleButton("Carriola", R.drawable.ic_round_wheelbarrow_border_24, R.drawable.ic_round_wheelbarrow_24, CircleButton.CARRIOLA),
-//			new CircleButton("Preferiti", R.drawable.ic_round_favorite_border_24, R.drawable.ic_round_favorite_24, CircleButton.PREFERITI)
-//	);
-//			new CircleButton("Modifica", R.drawable.ic_round_edit_24));
 	
 	private View view;
 	private final Map<String, Varieta> ortaggioDocuments = new HashMap<>();
@@ -135,6 +129,7 @@ public class OrtaggioFragment extends Fragment {
 		buttonCarriola.setVisibility(View.VISIBLE);
 	}
 	
+	@SuppressLint("SetTextI18n")
 	private void setupContentVarieta(Pianta pianta, Varieta varieta) {
 		
 		// Header

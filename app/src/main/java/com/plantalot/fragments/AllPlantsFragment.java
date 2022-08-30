@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -190,7 +188,7 @@ public class AllPlantsFragment extends Fragment {
 		udm.put(DbPlants.VARIETA_DISTANZE_FILE, "cm");
 		udm.put(DbPlants.VARIETA_ALTRO_PACK, "piante");
 
-//		setHasOptionsMenu(true);
+		setHasOptionsMenu(true);
 		for (Pair<String, List<String>> chip : chips) {
 			activeFilters.put(chip.first, new HashSet<>());
 		}

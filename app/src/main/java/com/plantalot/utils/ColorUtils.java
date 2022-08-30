@@ -23,7 +23,7 @@ public class ColorUtils {
 	 * @return it return hex decimal number or transparency code
 	 */
 	public static String convert(int alpha) {
-		String hexString = Integer.toHexString(Math.round(255 * alpha / 100));
+		String hexString = Integer.toHexString(Math.round(255 * (alpha / 100)));
 		return (hexString.length() < 2 ? "0" : "") + hexString;
 	}
 	

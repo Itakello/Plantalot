@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.plantalot.R;
 import com.plantalot.database.DbPlants;
 

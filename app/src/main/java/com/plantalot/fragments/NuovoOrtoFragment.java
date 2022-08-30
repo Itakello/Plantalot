@@ -44,7 +44,7 @@ public class NuovoOrtoFragment extends Fragment {
 	private TableLayout table;
 	private final IntPair tableDim = new IntPair();
 	private Giardino giardino;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class NuovoOrtoFragment extends Fragment {
 		}
 		orto = new Orto(nomeOrto);
 	}
-
+	
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,9 +71,9 @@ public class NuovoOrtoFragment extends Fragment {
 			tableDim.y = tableFrame.getHeight() - Utils.dp2px(12, context);  // FIXME margin
 			updateTable();
 		});
-
+		
 		setupOptions();
-
+		
 		RecyclerView optionsRecycler = view.findViewById(R.id.nuovo_orto_options_recycler);
 		optionsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 		NuovoOrtoOptionsAdapter optionsAdapter = new NuovoOrtoOptionsAdapter(getActivity(), options, giardino, orto, view);
