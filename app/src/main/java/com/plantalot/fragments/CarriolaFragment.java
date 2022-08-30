@@ -105,7 +105,7 @@ public class CarriolaFragment extends Fragment {
 			arrangeOrtaggi();
 			carriola.clear();
 			DbUsers.updateGiardino(giardino);
-			Navigation.findNavController(view).navigate(R.id.action_goto_home);
+			Navigation.findNavController(view).popBackStack();
 		});
 	}
 	
