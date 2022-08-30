@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -133,15 +132,11 @@ public class CarriolaFragment extends Fragment {
 		toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
 		view.findViewById(R.id.carriola_help).setOnClickListener(menuItem -> {
 			MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-			builder.setTitle("Carriola");
-			builder.setMessage(""
-					+ "Lo strumento carriola aiuta a calcolare lo spazio occupato dagli ortaggi che si desidera piantare nel proprio giardino.\n"
-					+ "Si inseriscono gli ortaggi e si selezionano le quantità, dopodichè si clicca su Conferma.\n"
-					+ "Un algoritmo (totalmente randomico) deciderà la disposizione ottimale delle piante nei vari orti del giardino.\n"
-					+ "Tiene in considerazione consociazioni, rotazioni e esposizione al fine di garantire le migliori condizioni di crescita alle piante.\n"
-					+ "Per poter usufruire di questo strumento è necessario aver creato almeno un orto nel giardino corrente.");
-			builder.setPositiveButton("Ho capito", (dialog, i) -> dialog.cancel());
+			builder.setTitle(R.string.carriola);
+			builder.setMessage(R.string.carriola_help);
+			builder.setPositiveButton(R.string.capito, (dialog, i) -> dialog.cancel());
 			builder.show();
 		});
 	}
+	
 }

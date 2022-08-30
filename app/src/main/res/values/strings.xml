@@ -4,6 +4,7 @@
 	<string name="conferma">Conferma</string>
 	<string name="annulla">Annulla</string>
 	<string name="elimina">Elimina</string>
+	<string name="capito">Ho capito</string>
 	
 	<string name="errore_campo_vuoto">Il campo non può essere vuoto</string>
 	<string name="errore_nome_esistente">Nome già esistente</string>
@@ -24,7 +25,10 @@
 	<string name="esposizione">Esposizione</string>
 	<string name="orientamento">Orientamento</string>
 	<string name="exit_toast">Premi nuovamente per uscire</string>
-
+	
+	<string name="carriola">Carriola</string>
+	<string name="carriola_help">NOTA: Per poter usufruire di questo strumento è necessario aver creato almeno un orto nel giardino corrente.\n\nLo strumento carriola aiuta a calcolare lo spazio occupato dagli ortaggi che si desidera piantare nel proprio giardino.\n\nSi inseriscono gli ortaggi e si selezionano le quantità, dopodichè si clicca su Conferma.\n\nUn algoritmo (totalmente randomico) deciderà la disposizione ottimale delle piante nei vari orti del giardino.\n\nTiene in considerazione consociazioni, rotazioni e esposizione al fine di garantire le migliori condizioni di crescita alle piante.</string>
+	
 	<plurals name="piante">
 		<item quantity="one">pianta</item>
 		<item quantity="other">piante</item>
