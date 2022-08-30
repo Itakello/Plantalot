@@ -36,7 +36,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
 		this.interpolator = interpolator;
 		this.openIcon = openIcon;
 		this.closeIcon = closeIcon;
-		this. drawer = drawer;
+		this.drawer = drawer;
 		
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

@@ -17,10 +17,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+
+// Una carriola per giardino, contiene le varietà aggiunte alla carriola e le relative quantità
+
 public class Carriola {
 	
-	private final HashMap<String, HashMap<String, Integer>> map;
-	private final HashMap<String, Varieta> varietaMap;
+	private final HashMap<String, HashMap<String, Integer>> map;  // <nomeOrtaggio, <nomeVarieta, quantita>>
+	private final HashMap<String, Varieta> varietaMap;            // <nomeVarieta, varieta>
 	
 	public Carriola() {
 		this.map = new HashMap<>();

@@ -29,7 +29,7 @@ import com.plantalot.database.DbUsers;
 
 public class Splash extends Activity {
 	
-	private final static int SPLASH_DISPLAY_LENGTH = 0;
+	private final static int SPLASH_DISPLAY_LENGTH = 500;
 	private final String TAG = "Splash";
 	private MyApplication app;
 	
