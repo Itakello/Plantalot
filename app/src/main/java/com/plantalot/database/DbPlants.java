@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -27,7 +28,7 @@ public class DbPlants {
 	
 	private static final List<String> famiglieNames = new ArrayList<>();
 	private static final List<String> ortaggiNames = new ArrayList<>();
-	private static final Map<String, Integer> icons = new HashMap<>();
+	private static final Map<String, Integer> iconFiles = new HashMap<>();
 	private static final Map<String, Integer> iconColors = new HashMap<>();
 	private static final Map<String, String> varietaNames = new HashMap<>();
 	private static int defaultImageId;
@@ -40,8 +41,8 @@ public class DbPlants {
 		return ortaggiNames;
 	}
 	
-	public static Map<String, Integer> getIcons() {
-		return icons;
+	public static Map<String, Integer> getIconFiles() {
+		return iconFiles;
 	}
 	
 	public static Map<String, Integer> getIconColors() {
@@ -52,8 +53,15 @@ public class DbPlants {
 		return varietaNames;
 	}
 	
+	
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	public static void init(Activity activity) {
+		
+		famiglieNames.clear();
+		ortaggiNames.clear();
+		iconFiles.clear();
+		iconColors.clear();
+		varietaNames.clear();
 		
 		Resources res = activity.getResources();
 		defaultImageId = res.getIdentifier(
@@ -61,10 +69,7 @@ public class DbPlants {
 				"mipmap",
 				activity.getPackageName());
 		
-		// FIXME local/offline db !!!!!!!!!!
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
-//		db.setPersistenceEnabled(true);
-//		db.keepSynced(true);
 		
 		Set<String> famiglieSet = new HashSet<>();
 		db.collection("ortaggi").get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -79,10 +84,11 @@ public class DbPlants {
 			db.collection("icons").get().addOnSuccessListener(queryDocumentSnapshotsIcons -> {
 				HashMap<String, String> iconsMap = new HashMap<>();
 				for (QueryDocumentSnapshot document : queryDocumentSnapshotsIcons) {
-					iconsMap.put(document.getId(), document.get(ICON).toString());
+					iconsMap.put(document.getId(), document.get(ICON_FILE).toString());
+					iconColors.put(document.getId(), Integer.parseInt(document.get(ICON_COLOR).toString()));
 				}
 				setIcons(activity, iconsMap);
-				setColors(activity);  // FIXME persistent !!!!!!
+//				setColors(activity);  // manuale
 			});
 		});
 		
@@ -98,17 +104,17 @@ public class DbPlants {
 	
 	
 	public static int getImageId(String ortaggio) {
-		if (icons.get(ortaggio) == null || icons.get(ortaggio) == 0) return defaultImageId;
-		return icons.get(ortaggio);
+		if (iconFiles.get(ortaggio) == null || iconFiles.get(ortaggio) == 0) return defaultImageId;
+		return iconFiles.get(ortaggio);
 	}
 	
 	
-	// TODO persistent
 	public static int getIconColor(String ortaggio) {
 		if (iconColors.get(ortaggio) == null || famiglieNames.contains(ortaggio)) ortaggio = "Rapa";
 		if (Objects.equals(ortaggio, "Peperoncino")) ortaggio = "Pomodoro";
 		return iconColors.get(ortaggio);
 	}
+	
 	
 	private static void setIcons(Activity mActivity, HashMap<String, String> iconsMap) {
 		Resources res = mActivity.getResources();
@@ -119,13 +125,14 @@ public class DbPlants {
 						imageFile.split("\\.")[0],
 						"mipmap",
 						mActivity.getPackageName());
-				icons.put(ortaggio, imageId);
+				iconFiles.put(ortaggio, imageId);
 			}
 		}
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	private static void setColors(Activity mActivity) {  // FIXME persistent !!!!!!
+	private static void printColors(Activity mActivity) {  // manual
+		Map<String, Integer> iconColors = new HashMap<>();
 		for (String ortaggio : ortaggiNames) {
 			Bitmap image = BitmapFactory.decodeResource(
 					mActivity.getResources(),
@@ -151,6 +158,7 @@ public class DbPlants {
 			color = MaterialColors.harmonizeWithPrimary(mActivity, color);
 			iconColors.put(ortaggio, color);
 		}
+		Log.wtf("setColors", iconColors.toString());
 	}
 	
 	// Fields (utility names)
@@ -199,6 +207,7 @@ public class DbPlants {
 	public static final String VARIETA_ALTRO_PERENNE = "altro_perenne";
 	public static final String VARIETA_ALTRO_F1 = "altro_f1";
 	
-	public static final String ICON = "icon";
+	public static final String ICON_FILE = "file";
+	public static final String ICON_COLOR = "color";
 	
 }
