@@ -55,6 +55,7 @@ public class AllPlantsFiltersAdapter extends RecyclerView.Adapter<AllPlantsFilte
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.all_plants_bl_drawer_chips, parent, false);
+		fragment.back_button_handler(view);
 		return new ViewHolder(view);
 	}
 	

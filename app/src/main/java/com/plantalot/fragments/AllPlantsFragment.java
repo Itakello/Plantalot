@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -68,6 +69,7 @@ public class AllPlantsFragment extends Fragment {
 	private AllPlantsFiltersAdapter filterAdapter;
 	private AllPlantsCardListAdapter cardAdapter;
 	private AllPlantsSearchAdapter searchAdapter;
+	private SearchView searchView;
 	
 	private boolean isBackdropShown = false;
 	private boolean isSearchShown = false;
@@ -187,7 +189,7 @@ public class AllPlantsFragment extends Fragment {
 		udm.put(DbPlants.VARIETA_DISTANZE_PIANTE, "cm");
 		udm.put(DbPlants.VARIETA_DISTANZE_FILE, "cm");
 		udm.put(DbPlants.VARIETA_ALTRO_PACK, "piante");
-
+		
 		setHasOptionsMenu(true);
 		for (Pair<String, List<String>> chip : chips) {
 			activeFilters.put(chip.first, new HashSet<>());
@@ -476,7 +478,9 @@ public class AllPlantsFragment extends Fragment {
 				searchResultsOrtaggi,
 				searchResultsVarieta,
 				searchTextList,
-				R.id.allPlantsFragment);
+				R.id.allPlantsFragment,
+				this
+		);
 		searchRecycler.setAdapter(searchAdapter);
 		searchTextInit();
 		searchRecycler.setVisibility(View.GONE);
@@ -502,7 +506,8 @@ public class AllPlantsFragment extends Fragment {
 			menu.findItem(R.id.allplants_search).expandActionView();
 		}
 		
-		SearchView searchView = (SearchView) menu.findItem(R.id.allplants_search).getActionView();
+		searchView = (SearchView) menu.findItem(R.id.allplants_search).getActionView();
+		searchView.setFocusable(true);
 		searchView.setQueryHint(getString(R.string.search_hint));
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
@@ -518,6 +523,10 @@ public class AllPlantsFragment extends Fragment {
 				System.out.println(query);
 				return false;
 			}
+		});
+		searchView.setOnSearchClickListener(v -> {
+			searchView.setFocusable(true);
+			searchView.requestFocusFromTouch();
 		});
 	}
 	
@@ -680,6 +689,20 @@ public class AllPlantsFragment extends Fragment {
 		
 		updateMenuIcons(menu);
 		
+	}
+	
+	public void back_button_handler(View mainView) {
+		mainView.setFocusableInTouchMode(true);
+		mainView.requestFocus();
+		mainView.setOnKeyListener((v, keyCode, event) -> {
+			// Check if osBack key event
+			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				Log.d(TAG, "Pressed back button");
+				backdropBehaviour(true);
+				return true;
+			}
+			return false;
+		});
 	}
 	
 }

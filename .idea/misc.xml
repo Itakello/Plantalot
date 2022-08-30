@@ -16,25 +16,23 @@
         <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/navigation_drawer.xml" value="0.10740740740740741" />
         <entry key="..\:/Users/maxst/AndroidStudioProjects/Plantalot/app/src/main/res/layout/navigation_drawer_button.xml" value="0.10740740740740741" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/drawable/ic_round_menu_24.xml" value="0.2325" />
-        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/all_plants_bl_appbar.xml" value="0.12771739130434784" />
-        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/all_plants_bl_drawer.xml" value="0.20885416666666667" />
-        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/all_plants_fl_content.xml" value="0.20885416666666667" />
-        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/all_plants_fragment.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/home_bl_appbar.xml" value="0.2" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/home_bl_drawer.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/home_bl_drawer_button.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/home_fl_content.xml" value="0.264" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/home_fragment.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/home_profile_menu.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/main_activity.xml" value="0.25" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/map_fragment.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/nuovo_giardino_fragment.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/nuovo_orto_card_nome.xml" value="0.3482789855072464" />
+        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/nuovo_orto_fragment.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/nuovo_orto_number_selector.xml" value="0.3482789855072464" />
+        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/nuovo_orto_option_row.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/ortaggio_bl_content.xml" value="0.1" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/ortaggio_bl_header.xml" value="0.536" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/ortaggio_fl_appbar.xml" value="0.2171875" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/ortaggio_fl_dropdown.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/layout/ortaggio_fragment.xml" value="0.2171875" />
-        <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/menu/all_plants_bl_toolbar_menu.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/maxst/StudioProjects/Plantalot/app/src/main/res/menu/home_bl_toolbar_menu.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/drawable-v24/backdrop_background.xml" value="0.108" />
         <entry key="app/src/main/res/drawable-v24/bkg_backdrop_frontlayer.xml" value="0.1355" />
@@ -55,8 +53,6 @@
         <entry key="app/src/main/res/drawable/bkg_orto_border_small.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/bkg_popupmenu.xml" value="0.105" />
         <entry key="app/src/main/res/drawable/bkg_sharp.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_baseline_login_24.xml" value="0.2475" />
-        <entry key="app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.2475" />
         <entry key="app/src/main/res/drawable/ic_carrot_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_iconify__24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_iconify_plant_24.xml" value="0.155" />
@@ -72,7 +68,6 @@
         <entry key="app/src/main/res/drawable/ic_round_fence_24.xml" value="0.2385" />
         <entry key="app/src/main/res/drawable/ic_round_format_line_spacing_24.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/ic_round_location_on_24.xml" value="0.2385" />
-        <entry key="app/src/main/res/drawable/ic_round_logout_24.xml" value="0.2475" />
         <entry key="app/src/main/res/drawable/ic_round_menu_24.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/ic_round_photo_camera_24.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/ic_round_remove_24.xml" value="0.204" />
@@ -85,7 +80,6 @@
         <entry key="app/src/main/res/drawable/ic_round_wheelbarrow_border_24.xml" value="0.2315" />
         <entry key="app/src/main/res/layout-v28/home_fl_navbutton.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout-v31/ortaggio_bl_content.xml" value="0.3411458333333333" />
-        <entry key="app/src/main/res/layout/_ortaggio_bl_description.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/activity_scrolling.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_scrolling_.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/layout/all_plants_bl_appbar.xml" value="0.25136612021857924" />
@@ -94,6 +88,7 @@
         <entry key="app/src/main/res/layout/all_plants_bl_drawer.xml" value="0.25" />
         <entry key="app/src/main/res/layout/all_plants_bl_drawer_chips.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/all_plants_bl_drawer_radiogroup.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/all_plants_bl_search_result.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/all_plants_fl_card_item.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/all_plants_fl_content.xml" value="0.2583436341161928" />
         <entry key="app/src/main/res/layout/all_plants_fragment.xml" value="0.25842696629213485" />
@@ -124,10 +119,9 @@
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/home_fragmentasdf.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/home_frontlayer.xml" value="0.23645833333333333" />
-        <entry key="app/src/main/res/layout/home_profile_menu.xml" value="0.4598393574297189" />
-        <entry key="app/src/main/res/layout/main_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/main_activity.xml" value="0.23645833333333333" />
         <entry key="app/src/main/res/layout/navigation_drawer.xml" value="0.1537037037037037" />
-        <entry key="app/src/main/res/layout/nuovo_giardino_fragment.xml" value="0.29143897996357016" />
+        <entry key="app/src/main/res/layout/nuovo_giardino_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/nuovo_orto_bl_appbar.xml" value="0.3390625" />
         <entry key="app/src/main/res/layout/nuovo_orto_card_dimensioni.xml" value="0.5" />
         <entry key="app/src/main/res/layout/nuovo_orto_card_header.xml" value="0.3390625" />
@@ -171,7 +165,6 @@
         <entry key="app/src/main/res/menu/all_plants_bl_drawer_raggruppa_menu.xml" value="0.3390625" />
         <entry key="app/src/main/res/menu/all_plants_bl_toolbar_menu.xml" value="0.3390625" />
         <entry key="app/src/main/res/menu/all_plants_bl_toolbar_menu_filter.xml" value="0.2604166666666667" />
-        <entry key="app/src/main/res/menu/carriola_bl_toolbar_menu.xml" value="0.2526041666666667" />
         <entry key="app/src/main/res/menu/home_bl_toolbar.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/menu/home_bl_toolbar_menu.xml" value="0.3411458333333333" />
         <entry key="app/src/main/res/menu/home_fl_card_menu.xml" value="0.3411458333333333" />

@@ -2,8 +2,6 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.text.Html;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.plantalot.R;
 import com.plantalot.database.DbPlants;
+import com.plantalot.fragments.AllPlantsFragment;
 import com.plantalot.navigation.Nav;
 
 import java.util.HashMap;
@@ -32,21 +31,24 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 	private final LayoutInflater mInflater;
 	private final Context context;
 	private final int prev_fragment;
+	private final AllPlantsFragment fragment;
 	
-	public AllPlantsSearchAdapter(Context context, List<String> data, HashMap<String, List<String>> map, List<String> searchText, int prev_fragment) {
+	public AllPlantsSearchAdapter(Context context, List<String> data, HashMap<String, List<String>> map,
+	                              List<String> searchText, int prev_fragment, AllPlantsFragment fragment) {
 		this.mData = data;
 		this.mMap = map;
 		this.mInflater = LayoutInflater.from(context);
 		this.context = context;
 		this.mSearchText = searchText;
 		this.prev_fragment = prev_fragment;
+		this.fragment = fragment;
 	}
 	
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.all_plants_bl_search_result, parent, false);
-//		back_button_handler(view, view.findViewById(R.id.));
+		fragment.back_button_handler(view);
 		return new ViewHolder(view);
 	}
 	
