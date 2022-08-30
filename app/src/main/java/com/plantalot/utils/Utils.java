@@ -12,9 +12,11 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
+import java.lang.reflect.Field;
+
 
 public class Utils {
-
+	
 	private static String TAG = "Utils";
 	
 	public static int dp2px(int dp, @NonNull Context context) {
@@ -62,4 +64,15 @@ public class Utils {
 		InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 	}
+	
+	public static int getResId(String resName, Class<?> c) {
+		try {
+			Field idField = c.getDeclaredField(resName);
+			return idField.getInt(idField);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
 }

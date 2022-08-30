@@ -1,7 +1,6 @@
 package com.plantalot.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -33,12 +32,11 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	
 	private final List<Pair<Varieta, Integer>> mData;
 	private final CarriolaOrtaggiAdapter mParentAdapter;
-	private Context context;
-	private Giardino giardino;
-	private Carriola carriola;
+	private final Giardino giardino;
+	private final Carriola carriola;
+	private final CarriolaFragment fragment;
 	private final int DELAY = 600;
 	private boolean holding = false;
-	private CarriolaFragment fragment;
 	
 	public CarriolaVarietaAdapter(@NonNull List<Pair<Varieta, Integer>> data, Giardino giardino,
 	                              CarriolaFragment fragment, CarriolaOrtaggiAdapter parentAdapter) {
@@ -53,12 +51,11 @@ public class CarriolaVarietaAdapter extends RecyclerView.Adapter<CarriolaVarieta
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.carriola_varieta, viewGroup, false);
-		this.context = viewGroup.getContext();
 		return new ViewHolder(view);
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
-	@SuppressLint("ClickableViewAccessibility")
+	@SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		Pair<Varieta, Integer> row = mData.get(position);

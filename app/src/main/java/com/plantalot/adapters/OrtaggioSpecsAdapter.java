@@ -44,18 +44,9 @@ public class OrtaggioSpecsAdapter extends RecyclerView.Adapter<OrtaggioSpecsAdap
 		if (specs.second != null) {
 			specs.second.bind(viewHolder.specsItem2);
 		} else {
-//			viewHolder.specsDividerV.setVisibility(View.GONE);
 			viewHolder.specsItem2.setVisibility(View.GONE);
 		}
 		
-//		if (position == mData.size() - 1) {
-//			viewHolder.specsDividerH.setVisibility(View.VISIBLE);
-//		}
-
-//		viewHolder.mImageView.setImageResource(specs);
-//		ViewGroup.LayoutParams params = viewHolder.mImageView.getLayoutParams();
-//		params.height = params.width = width;
-//		viewHolder.mImageView.setLayoutParams(params);
 	}
 	
 	@Override
@@ -66,21 +57,11 @@ public class OrtaggioSpecsAdapter extends RecyclerView.Adapter<OrtaggioSpecsAdap
 	static class ViewHolder extends RecyclerView.ViewHolder {
 		
 		View specsItem1, specsItem2;
-		View specsDividerV, specsDividerH;
 		
 		ViewHolder(View view) {
 			super(view);
 			specsItem1 = view.findViewById(R.id.ortaggio_bl_specs_row_item1);
 			specsItem2 = view.findViewById(R.id.ortaggio_bl_specs_row_item2);
-//			specsDividerV = view.findViewById(R.id.ortaggio_bl_specs_row_divider_v);
-//			specsDividerH = view.findViewById(R.id.ortaggio_bl_specs_row_divider_h_start);
-
-//			ViewGroup.LayoutParams lp = itemView.getLayoutParams();
-//			if (lp instanceof FlexboxLayoutManager.LayoutParams) {
-//				FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
-//				flexboxLp.setAlignSelf(AlignItems.CENTER);
-//			}
-			
 		}
 	}
 	

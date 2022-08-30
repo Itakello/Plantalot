@@ -64,7 +64,7 @@ public class HomeGiardiniAdapter extends RecyclerView.Adapter<HomeGiardiniAdapte
 			Toolbar toolbar = fragView.findViewById(R.id.home_bl_toolbar);
 			ImageButton imgButton = Utils.getToolbarNavigationButton(toolbar);
 			(new Handler()).postDelayed(imgButton::performClick, 100);
-			if(nomeGiardino != nomeGiardinoCorrente)
+			if (!nomeGiardino.equals(nomeGiardinoCorrente))
 				homeFragment.setupContent();  // FIXME !?
 		});
 		

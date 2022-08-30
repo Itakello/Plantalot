@@ -21,8 +21,9 @@ import com.plantalot.navigation.Nav;
 import java.util.HashMap;
 import java.util.List;
 
-public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearchAdapter.ViewHolder> {
 
+public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearchAdapter.ViewHolder> {
+	
 	private final String TAG = "AllPlantsSearchAdapter";
 	
 	private final List<String> mData;
@@ -67,22 +68,19 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		viewHolder.mImage.setImageResource(DbPlants.getImageId(ortaggio));
 		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, context, view));
 	}
-
+	
 	private void back_button_handler(View mainView, View press_target) {
 		mainView.setFocusableInTouchMode(true);
 		mainView.requestFocus();
-		mainView.setOnKeyListener(new View.OnKeyListener() {
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				// Check if osBack key event
-				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
-					Log.d(TAG, "Pressed back button");
-					press_target.performClick();
-					return true;
+		mainView.setOnKeyListener((v, keyCode, event) -> {
+			// Check if osBack key event
+			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				Log.d(TAG, "Pressed back button");
+				press_target.performClick();
+				return true;
 //					}
-				}
-				return false;
 			}
+			return false;
 		});
 	}
 	

@@ -569,7 +569,7 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void updateMenuIcons(Menu menu) {
-		if (!isSearchShown) menu.findItem(R.id.search).collapseActionView();
+		if (!isSearchShown) menu.findItem(R.id.allplants_search).collapseActionView();
 		menu.findItem(R.id.allplants_search).setVisible(!isBackdropShown || isSearchShown);
 		menu.findItem(R.id.allplants_filter).setVisible(!isBackdropShown);
 		menu.findItem(R.id.allplants_reset).setVisible(isBackdropShown && !isSearchShown);

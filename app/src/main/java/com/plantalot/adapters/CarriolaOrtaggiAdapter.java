@@ -1,5 +1,6 @@
 package com.plantalot.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +22,6 @@ import com.google.common.base.Joiner;
 import com.plantalot.R;
 import com.plantalot.classes.Carriola;
 import com.plantalot.classes.Giardino;
-import com.plantalot.classes.User;
 import com.plantalot.classes.Varieta;
 import com.plantalot.database.DbPlants;
 import com.plantalot.fragments.CarriolaFragment;
@@ -40,9 +39,9 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 	private final List<Pair<String, List<Pair<Varieta, Integer>>>> mData;
 	private Resources res;
 	private Context context;
-	private Giardino giardino;
-	private Carriola carriola;
-	private CarriolaFragment fragment;
+	private final Giardino giardino;
+	private final Carriola carriola;
+	private final CarriolaFragment fragment;
 	
 	public CarriolaOrtaggiAdapter(@NonNull List<Pair<String, List<Pair<Varieta, Integer>>>> data, Giardino giardino, CarriolaFragment fragment) {
 		this.mData = data;
@@ -60,6 +59,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		return new ViewHolder(view);
 	}
 	
+	@SuppressLint("SetTextI18n")
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
@@ -88,6 +88,7 @@ public class CarriolaOrtaggiAdapter extends RecyclerView.Adapter<CarriolaOrtaggi
 		viewHolder.mTvPack.setText(Joiner.on(", ").join(pack) + " " + res.getQuantityString(R.plurals.piante, pack.get(pack.size() - 1)));
 	}
 	
+	@SuppressLint("SetTextI18n")
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	public void updateCount(TextView tv, String ortaggio) {
 		int nVarieta = carriola.countVarieta(ortaggio);

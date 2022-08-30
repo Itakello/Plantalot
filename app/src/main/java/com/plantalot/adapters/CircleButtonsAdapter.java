@@ -23,6 +23,7 @@ import java.util.List;
 public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdapter.ViewHolder> {
 	
 	private final List<CircleButton> mData;
+	private View view;
 	
 	public CircleButtonsAdapter(List<CircleButton> data) {
 		this.mData = data;
@@ -31,7 +32,7 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.component_circle_button, viewGroup, false);
+		view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.component_circle_button, viewGroup, false);
 		return new ViewHolder(view);
 	}
 	
@@ -41,15 +42,13 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 		String label = mData.get(position).getLabel();
 		int idFragment = mData.get(position).getIdFragment();
 		Bundle bundle = mData.get(position).getBundle();
-//		int iconOn = mData.get(position).getIconOn();
-//		int collection = mData.get(position).getCollection();
 		
 		viewHolder.mButton.setIconResource(icon);
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
 		if (idFragment != -1) {
-			viewHolder.mCard.setOnClickListener(view -> Navigation.findNavController(view).navigate(idFragment, bundle));
+			viewHolder.mCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(idFragment, bundle));
 		}
 	}
 	

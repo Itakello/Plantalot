@@ -66,7 +66,7 @@ public class Splash extends Activity {
 	}
 	
 	private void getUserFromFirebase(@NonNull FirebaseUser firebaseUser) {
-			Log.wtf(TAG, "///////////////////////////////////////////////////////////////");
+		Log.wtf(TAG, "///////////////////////////////////////////////////////////////");
 		DbUsers.init();
 		String uid = firebaseUser.getUid();
 		DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
