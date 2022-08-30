@@ -6,11 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +23,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.plantalot.MyApplication;
 import com.plantalot.R;
-import com.plantalot.classes.Giardino;
 import com.plantalot.classes.User;
 import com.plantalot.database.DbPlants;
 import com.plantalot.database.DbUsers;
@@ -44,13 +44,16 @@ public class Splash extends Activity {
 		
 		FirebaseAuth mAuth = FirebaseAuth.getInstance();
 		FirebaseUser currentUser = mAuth.getCurrentUser();
-
+		
 		if (currentUser == null) {  // User not signed in
+			Log.wtf(TAG, "---------------------------------------");
 			mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
+				Log.wtf(TAG, "*****************************************");
 				Log.d(TAG, "Signed in anonymously");
 				getUserFromFirebase(mAuth.getCurrentUser());
 			});
 		} else {  // User signed in
+			Log.wtf(TAG, "+++++++++++++++++++++++++++++++++++++++ " + currentUser.getUid());
 			getUserFromFirebase(currentUser);
 		}
 		// Disk persistence user -> firebase
@@ -62,7 +65,8 @@ public class Splash extends Activity {
 		FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 	}
 	
-	private void getUserFromFirebase(FirebaseUser firebaseUser) {
+	private void getUserFromFirebase(@NonNull FirebaseUser firebaseUser) {
+			Log.wtf(TAG, "///////////////////////////////////////////////////////////////");
 		DbUsers.init();
 		String uid = firebaseUser.getUid();
 		DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -70,11 +74,14 @@ public class Splash extends Activity {
 		userRef.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot snapshot) {
+				Log.wtf(TAG, "======================================");
 				if (!snapshot.exists()) {
 					app.user = DbUsers.writeNewUser("default_username", "default_email");
 				} else {
 					app.user = snapshot.getValue(User.class);
-					if (app.user.getGiardinoCorrente() != null) app.user.getGiardinoCorrente().fetchVarieta();  // FIXME wait
+					if (app.user.getGiardinoCorrente() != null) {
+						app.user.getGiardinoCorrente().fetchVarieta();  // FIXME wait !!!!!!!!!!!!!!!!!!!!!
+					}
 				}
 				new Handler().postDelayed(Splash.this::startMainActivity, SPLASH_DISPLAY_LENGTH);
 			}
