@@ -24,7 +24,7 @@ public class OrtaggioCardListAdapter extends RecyclerView.Adapter<OrtaggioCardLi
 	Context context;
 	
 	public OrtaggioCardListAdapter(@NonNull List<Pair<String, List<String>>> data, int prev_fragment) {
-		this.mData = (List<Pair<String, List<String>>>) ((ArrayList) data).clone();  // FIXME ??
+		this.mData = new ArrayList<>(data);
 		this.prev_fragment = prev_fragment;
 		for (Pair<String, List<String>> p : data) {
 			if (p.second.isEmpty()) {
