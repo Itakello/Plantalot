@@ -39,7 +39,7 @@ import com.plantalot.R;
 import com.plantalot.classes.Giardino;
 
 
-public class NuovoModificaGiardinoFragment extends Fragment implements OnMapReadyCallback {
+public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallback {
 	
 	private final static String TAG = "NuovoGiardinoFragment";
 	private GoogleMap map;
@@ -106,7 +106,7 @@ public class NuovoModificaGiardinoFragment extends Fragment implements OnMapRead
 		MaterialButton saveDeleteBtn = view.findViewById(R.id.nuovo_giardino_save_delete_btn);
 		TextInputEditText inputNome = view.findViewById(R.id.nuovo_giardino_input_nome);
 		
-		if (oldName == null) {
+		if (oldName == null) {  // save
 			
 			saveDeleteBtn.setOnClickListener(v -> {
 				String nomeGiardino = String.valueOf(inputNome.getText());
@@ -114,7 +114,7 @@ public class NuovoModificaGiardinoFragment extends Fragment implements OnMapRead
 				if (!nomeGiardino.isEmpty()) {
 					Giardino giardino = new Giardino(nomeGiardino, markerLoc);
 					if (app.user.addGiardino(giardino)) {
-						Navigation.findNavController(v).navigate(R.id.action_goto_home);
+						Navigation.findNavController(view).popBackStack();
 					} else {
 						inputNome.setError(getString(R.string.errore_nome_esistente));
 					}
@@ -124,7 +124,7 @@ public class NuovoModificaGiardinoFragment extends Fragment implements OnMapRead
 			});
 			backBtn.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 			
-		} else {
+		} else {  // delete
 			
 			// TODO change color
 			inputNome.setText(oldName);
@@ -138,7 +138,7 @@ public class NuovoModificaGiardinoFragment extends Fragment implements OnMapRead
 				builder.setPositiveButton(R.string.conferma, (dialog, j) -> {
 					dialog.cancel();
 					app.user.removeGiardino(oldName);
-					Navigation.findNavController(v).navigate(R.id.action_goto_home);
+					Navigation.findNavController(view).popBackStack();
 				});
 				builder.show();
 			});
@@ -147,7 +147,7 @@ public class NuovoModificaGiardinoFragment extends Fragment implements OnMapRead
 				String newName = String.valueOf(inputNome.getText());
 				if (!newName.isEmpty()) {
 					if (app.user.editNomeGiardino(oldName, newName)) {
-						Navigation.findNavController(v).popBackStack();
+						Navigation.findNavController(view).popBackStack();
 					} else {
 						inputNome.setError(getString(R.string.errore_nome_esistente));
 					}

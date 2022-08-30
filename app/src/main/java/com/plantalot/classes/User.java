@@ -66,6 +66,7 @@ public class User implements Serializable {
 		if (getGiardiniNames().contains(giardino.getNome())) return false;
 		if (giardini.isEmpty()) setNome_giardino_corrente(giardino.getNome());
 		giardini.put(giardino.getNome(), giardino);
+		setNome_giardino_corrente(giardino.getNome());
 		DbUsers.updateGiardino(giardino);
 		return true;
 	}
@@ -73,6 +74,7 @@ public class User implements Serializable {
 	public void removeGiardino(String nomeGiardino) {
 		giardini.remove(nomeGiardino);
 		DbUsers.removeGiardino(nomeGiardino);
+		setNome_giardino_corrente(getFirstGiardinoName());
 	}
 	
 	public List<String> getGiardiniNames() {
