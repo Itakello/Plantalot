@@ -129,17 +129,7 @@ public class CarriolaFragment extends Fragment {
 	private void setupToolbar() {
 		MaterialToolbar toolbar = view.findViewById(R.id.carriola_toolbar);
 		toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
-		
-	}
-	
-	@Override
-	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
-		getActivity().getMenuInflater().inflate(R.menu.carriola_bl_toolbar_menu, menu);
-		setOnMenuItemsClickListeners(menu);
-	}
-	
-	private void setOnMenuItemsClickListeners(Menu menu) {
-		menu.findItem(R.id.carriola_help).setOnMenuItemClickListener(menuItem -> {
+		view.findViewById(R.id.carriola_help).setOnClickListener(menuItem -> {
 			MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
 			builder.setTitle("Carriola");
 			builder.setMessage(""
@@ -150,7 +140,6 @@ public class CarriolaFragment extends Fragment {
 					+ "Per poter usufruire di questo strumento è necessario aver creato almeno un orto nel giardino corrente.");
 			builder.setPositiveButton("Ho capito", (dialog, i) -> dialog.cancel());
 			builder.show();
-			return true;
 		});
 	}
 }
