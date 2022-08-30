@@ -16,6 +16,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.plantalot.R;
 import com.plantalot.components.CircleButton;
+import com.plantalot.utils.Utils;
 
 import java.util.List;
 
@@ -40,15 +41,15 @@ public class CircleButtonsAdapter extends RecyclerView.Adapter<CircleButtonsAdap
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 		int icon = mData.get(position).getIcon();
 		String label = mData.get(position).getLabel();
-		int idFragment = mData.get(position).getIdFragment();
+		String action = mData.get(position).getAction();
 		Bundle bundle = mData.get(position).getBundle();
 		
 		viewHolder.mButton.setIconResource(icon);
 		viewHolder.mTextView.setText(label);
 		ViewGroup.LayoutParams params = viewHolder.mTextView.getLayoutParams();
 		viewHolder.mTextView.setLayoutParams(params);
-		if (idFragment != -1) {
-			viewHolder.mCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(idFragment, bundle));
+		if (action != null) {
+			viewHolder.mCard.setOnClickListener(v -> Navigation.findNavController(view).navigate(Utils.getResId(action, R.id.class), bundle));
 		}
 	}
 	

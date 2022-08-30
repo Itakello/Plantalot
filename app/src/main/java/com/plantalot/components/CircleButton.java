@@ -7,46 +7,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.plantalot.R;
 import com.plantalot.adapters.CircleButtonsAdapter;
+import com.plantalot.utils.Utils;
 
 import java.util.List;
 
 public class CircleButton {  // TODO extends View
 	
-	
-	
 	private final String label;
 	private final int icon;
-	private final int idFragment;
+	private final String action;
 	private final Bundle bundle;
-//	private final int iconOn;
-//	private final int collection;
-
-	public CircleButton(String label, int icon){
-		this(label, icon, -1, (Bundle) null);
-	}
-
-	public CircleButton(String label, int icon, int idFragment) {
-		this(label, icon, idFragment, null);
+	
+	public CircleButton(String label, int icon) {
+		this(label, icon, null, null);
 	}
 	
-	public CircleButton(String label, int icon, int idFragment, Bundle bundle) {
+	public CircleButton(String label, int icon, String action) {
+		this(label, icon, action, null);
+	}
+	
+	public CircleButton(String label, int icon, String action, Bundle bundle) {
 		this.label = label;
 		this.icon = icon;
-		this.idFragment = idFragment;
+		this.action = action;
 		this.bundle = bundle;
-//		this.iconOn = -1;
-//		this.collection = -1;
 	}
-
-//	public CircleButton(String label, int icon, int iconOn, int collection) {
-//		this.label = label;
-//		this.icon = icon;
-//		this.iconOn = iconOn;
-//		this.idFragment = -1;
-//		this.bundle = null;
-//		this.collection = collection;
-//	}
 	
 	public String getLabel() {
 		return label;
@@ -55,22 +42,14 @@ public class CircleButton {  // TODO extends View
 	public int getIcon() {
 		return icon;
 	}
-
-	public int getIdFragment() {
-		return idFragment;
+	
+	public String getAction() {
+		return action;
 	}
-
+	
 	public Bundle getBundle() {
 		return bundle;
 	}
-	
-//	public int getIconOn() {
-//		return iconOn;
-//	}
-//
-//	public int getCollection() {
-//		return collection;
-//	}
 	
 	public static void setupRecycler(List<CircleButton> mButtons, RecyclerView recyclerView, Context context) {
 		CircleButtonsAdapter circleButtonsAdapter = new CircleButtonsAdapter(mButtons);

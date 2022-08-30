@@ -45,9 +45,9 @@ public class HomeFragment extends Fragment {
 	private boolean doubleBackToExitPressedOnce = false;
 	
 	private static final List<Pair<CircleButton, Boolean>> mButtons = new ArrayList<>(Arrays.asList(
-			new Pair<>(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, R.id.action_goto_all_plants), true),
-			new Pair<>(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, R.id.action_goto_carriola), true),
-			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24, R.id.action_goto_nuovo_orto), true),
+			new Pair<>(new CircleButton("Tutte le piante", R.drawable.ic_iconify_carrot_24, /*R.id.*/ "action_goto_all_plants"), true),
+			new Pair<>(new CircleButton("Visualizza carriola", R.drawable.ic_round_wheelbarrow_24, /*R.id.*/ "action_goto_carriola"), true),
+			new Pair<>(new CircleButton("Aggiungi orto", R.drawable.ic_round_add_big_24, /*R.id.*/ "action_goto_nuovo_orto"), true),
 			new Pair<>(new CircleButton("Le mie piante", R.drawable.ic_iconify_sprout_24), false),
 			new Pair<>(new CircleButton("Guarda carriola", R.drawable.ic_round_wheelbarrow_24), false),
 			new Pair<>(new CircleButton("Disponi giardino", R.drawable.ic_round_auto_24), false)
