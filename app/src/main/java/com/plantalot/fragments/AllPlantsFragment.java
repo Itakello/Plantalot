@@ -692,8 +692,6 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	public void back_button_handler(View mainView) {
-		mainView.setFocusableInTouchMode(true);
-		mainView.requestFocus();
 		mainView.setOnKeyListener((v, keyCode, event) -> {
 			// Check if osBack key event
 			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
