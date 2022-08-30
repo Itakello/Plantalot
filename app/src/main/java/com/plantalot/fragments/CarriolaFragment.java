@@ -72,15 +72,17 @@ public class CarriolaFragment extends Fragment {
 	}
 	
 	private static String format(int area) {
-		return (area / 10000) + "," + Math.abs(area / 1000 - 10 * (area / 10000)) + " m²";
+		return (area < 0 ? "-" : "")
+				+ Math.abs(area / 10000) + ","
+				+ Math.abs(area / 1000 - 10 * (area / 10000)) + " m²";
 	}
 	
 	public void updateOccupiedArea() {
 		updateOccupiedArea(0);
 	}
 	
-	public void updateOccupiedArea(int update) {
-		carriolaArea += update;
+	public void updateOccupiedArea(int updateArea) {
+		carriolaArea += updateArea;
 		int freeArea = totalArea - (plantedArea + carriolaArea);
 		String text = ""
 				+ format(totalArea) + "\n"
