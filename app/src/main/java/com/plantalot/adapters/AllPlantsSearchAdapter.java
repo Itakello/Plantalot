@@ -69,21 +69,6 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, context, view));
 	}
 	
-	private void back_button_handler(View mainView, View press_target) {
-		mainView.setFocusableInTouchMode(true);
-		mainView.requestFocus();
-		mainView.setOnKeyListener((v, keyCode, event) -> {
-			// Check if osBack key event
-			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				Log.d(TAG, "Pressed back button");
-				press_target.performClick();
-				return true;
-//					}
-			}
-			return false;
-		});
-	}
-	
 	@Override
 	public int getItemCount() {
 		return mData.size();
