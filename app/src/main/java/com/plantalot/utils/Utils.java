@@ -2,8 +2,6 @@ package com.plantalot.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -17,25 +15,8 @@ import java.lang.reflect.Field;
 
 public class Utils {
 	
-	private static String TAG = "Utils";
-	
 	public static int dp2px(int dp, @NonNull Context context) {
 		return (int) (dp * context.getResources().getDisplayMetrics().density);
-	}
-	
-	public static void hideSoftKeyboard(View view, Activity activity) {
-		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-	}
-	
-	public static double number(Object num) {  // FIXME
-		switch (num.getClass().getName()) {
-			case "java.lang.Double":
-				return (Double) num;
-			case "java.lang.Long":
-				return ((Long) num).doubleValue();
-		}
-		return 0;
 	}
 	
 	public static ImageButton getToolbarNavigationButton(Toolbar toolbar) {

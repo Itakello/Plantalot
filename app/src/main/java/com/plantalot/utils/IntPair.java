@@ -25,7 +25,4 @@ public class IntPair {
 		return Math.max(x, y);
 	}
 	
-	public int min() {
-		return Math.min(x, y);
-	}
 }

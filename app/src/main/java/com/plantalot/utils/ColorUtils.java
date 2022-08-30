@@ -22,6 +22,7 @@ public class ColorUtils {
 	 * @param alpha number of transparency you want
 	 * @return it return hex decimal number or transparency code
 	 */
+	@SuppressWarnings("IntegerDivisionInFloatingPointContext")
 	public static String convert(int alpha) {
 		String hexString = Integer.toHexString(Math.round(255 * (alpha / 100)));
 		return (hexString.length() < 2 ? "0" : "") + hexString;
