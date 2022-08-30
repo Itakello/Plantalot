@@ -110,7 +110,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 			
 			saveDeleteBtn.setOnClickListener(v -> {
 				String nomeGiardino = String.valueOf(inputNome.getText());
-				LatLng markerLoc = currMarker.getPosition();
+				LatLng markerLoc = currMarker != null ? currMarker.getPosition() : null;
 				if (!nomeGiardino.isEmpty()) {
 					Giardino giardino = new Giardino(nomeGiardino, markerLoc);
 					if (app.user.addGiardino(giardino)) {

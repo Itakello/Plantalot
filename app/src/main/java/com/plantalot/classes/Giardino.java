@@ -30,7 +30,7 @@ public class Giardino {
 	public Giardino(String nome, LatLng pos) {
 		this();
 		this.nome = nome;
-		this.pos = new LatLngGiardino(pos);
+		if (pos != null) this.pos = new LatLngGiardino(pos);
 	}
 	
 	public String getNome() {
