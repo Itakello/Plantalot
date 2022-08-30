@@ -58,7 +58,7 @@ import java.util.stream.IntStream;
 public class AllPlantsFragment extends Fragment {
 	
 	// FIXME global to local variables
-
+	
 	private final String TAG = "AllPlantsFragment";
 	
 	private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -107,7 +107,7 @@ public class AllPlantsFragment extends Fragment {
 	private static final HashMap<String, String> UDM = new HashMap<>();
 	
 	private int translateY;
-
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -115,7 +115,7 @@ public class AllPlantsFragment extends Fragment {
 		isBackdropShown = false;
 //		updateMenuIcons(menu);
 	}
-
+	
 	static {
 		titles.put(RAGGRUPPA, RAGGRUPPA);
 		titles.put(DbPlants.VARIETA_TASSONOMIA_FAMIGLIA, "Famiglie");
@@ -231,10 +231,9 @@ public class AllPlantsFragment extends Fragment {
 		handler.postDelayed(this::setupFilters, 300);
 		handler.postDelayed(this::setupSearch, 300);
 		handler.postDelayed(this::searchTextInit, 300);
-
+		
 		return view;
 	}
-
 
 
 // FIXME !!!!
@@ -455,7 +454,7 @@ public class AllPlantsFragment extends Fragment {
 					.setText(titles.get((new ArrayList<>(activeFilters.get(RAGGRUPPA))).get(0)));
 		}
 	}
-
+	
 	@SuppressLint("NotifyDataSetChanged")
 	private void setupGroups() {
 		setupSubheader();
@@ -548,7 +547,7 @@ public class AllPlantsFragment extends Fragment {
 	private void setOnMenuItemsClickListeners(Menu menu) {
 		Handler handler = new Handler();
 		menu.findItem(R.id.search).setOnMenuItemClickListener(menuItem -> {
-
+			
 			if (!isSearchShown) {
 				Log.i(TAG, "Showing search");
 				isSearchShown = true;
@@ -593,7 +592,7 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void updateMenuIcons(Menu menu) {
-		if(!isSearchShown)
+		if (!isSearchShown)
 			menu.findItem(R.id.search).collapseActionView();
 		menu.findItem(R.id.search).setVisible(!isBackdropShown || isSearchShown);
 		menu.findItem(R.id.filter).setVisible(!isBackdropShown);

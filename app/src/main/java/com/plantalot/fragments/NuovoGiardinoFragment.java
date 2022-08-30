@@ -55,7 +55,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 	// The geographical location where the device is currently located. That is, the last-known
 	// location retrieved by the Fused Location Provider.
 	private Location lastKnownLocation;
-
+	
 	// Location permission request
 	private final ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(
 			new ActivityResultContracts.RequestMultiplePermissions(), result -> {
@@ -90,7 +90,7 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 		SupportMapFragment mapFragment = new SupportMapFragment();
 		getChildFragmentManager().beginTransaction().replace(R.id.frame_layout_map, mapFragment).commit();
 		
-		if (mapFragment != null)			mapFragment.getMapAsync(this);
+		if (mapFragment != null) mapFragment.getMapAsync(this);
 		
 		Button backBtn = (Button) view.findViewById(R.id.nuovo_giardino_back_btn);
 		backBtn.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());

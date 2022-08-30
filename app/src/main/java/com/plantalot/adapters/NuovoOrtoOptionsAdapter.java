@@ -27,9 +27,9 @@ import java.util.List;
 import kotlin.Triple;
 
 public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptionsAdapter.ViewHolder> {
-
+	
 	private final String TAG = "NuovoOrtoOprionsAdapter";
-
+	
 	private final List<Triple<String, String, View>> mData;
 	private final LayoutInflater mInflater;
 	private final View mView;
@@ -57,7 +57,7 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		View view = mInflater.inflate(R.layout.nuovo_orto_option_row, parent, false);
 		return new ViewHolder(view);
 	}
-
+	
 	private void back_button_handler(View mainView, View press_target) {
 		mainView.setFocusableInTouchMode(true);
 		mainView.requestFocus();
@@ -65,9 +65,9 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				// Check if osBack key event
-				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+				if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 					// Check if card open
-					if(mExpanded.getVisibility() == View.VISIBLE){
+					if (mExpanded.getVisibility() == View.VISIBLE) {
 						press_target.performClick();
 						return true;
 					}
@@ -85,13 +85,13 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 		View mChild = mData.get(position).getThird();
 		viewHolder.mField.setText(field);
 		viewHolder.mValue.setText(value);
-
+		
 		// Add back button handler for
-		if(mChild != null){
+		if (mChild != null) {
 			View target = mExpanded.findViewById(R.id.nuovo_orto_card_back);
 			back_button_handler(mChild, target);
 		}
-
+		
 		
 		viewHolder.mRow.setOnClickListener(view -> {
 			
@@ -140,12 +140,11 @@ public class NuovoOrtoOptionsAdapter extends RecyclerView.Adapter<NuovoOrtoOptio
 				builder.show();
 			}
 		});
-
+		
 	}
-
-
-
-	private void close_card(View mChild, ViewHolder viewHolder){
+	
+	
+	private void close_card(View mChild, ViewHolder viewHolder) {
 		mExpanded.setVisibility(View.INVISIBLE);
 		mRecycler.setVisibility(View.VISIBLE);
 		mExpanded.removeView(mChild);

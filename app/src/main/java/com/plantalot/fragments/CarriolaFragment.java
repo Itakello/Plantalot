@@ -56,7 +56,7 @@ public class CarriolaFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.carriola_fragment, container, false);
 		areaValuesTv = view.findViewById(R.id.carriola_area_values);
-		confirmBtn=	view.findViewById(R.id.carriola_confirm_btn);
+		confirmBtn = view.findViewById(R.id.carriola_confirm_btn);
 		setupToolbar();
 		updateOccupiedArea();
 		if (carriola.notEmpty()) {
