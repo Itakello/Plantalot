@@ -524,10 +524,6 @@ public class AllPlantsFragment extends Fragment {
 				return false;
 			}
 		});
-		searchView.setOnSearchClickListener(v -> {
-			searchView.setFocusable(true);
-			searchView.requestFocusFromTouch();
-		});
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.N)
@@ -693,6 +689,8 @@ public class AllPlantsFragment extends Fragment {
 	
 	public void back_button_handler(View mainView) {
 		mainView.setOnKeyListener((v, keyCode, event) -> {
+//		mainView.setFocusableInTouchMode(true);
+//		mainView.requestFocus();
 			// Check if osBack key event
 			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 				Log.d(TAG, "Pressed back button");
