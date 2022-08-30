@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.plantalot.MyApplication;
 import com.plantalot.R;
 import com.plantalot.adapters.CarriolaOrtaggiAdapter;
@@ -55,7 +57,7 @@ public class CarriolaFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.carriola_fragment, container, false);
 		areaValuesTv = view.findViewById(R.id.carriola_area_values);
-		confirmBtn=	view.findViewById(R.id.carriola_confirm_btn);
+		confirmBtn = view.findViewById(R.id.carriola_confirm_btn);
 		setupToolbar();
 		updateOccupiedArea();
 		if (carriola.notEmpty()) {
@@ -127,6 +129,28 @@ public class CarriolaFragment extends Fragment {
 	private void setupToolbar() {
 		MaterialToolbar toolbar = view.findViewById(R.id.carriola_toolbar);
 		toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+		
 	}
 	
+	@Override
+	public void onPrepareOptionsMenu(@NonNull final Menu menu) {
+		getActivity().getMenuInflater().inflate(R.menu.carriola_bl_toolbar_menu, menu);
+		setOnMenuItemsClickListeners(menu);
+	}
+	
+	private void setOnMenuItemsClickListeners(Menu menu) {
+		menu.findItem(R.id.carriola_help).setOnMenuItemClickListener(menuItem -> {
+			MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+			builder.setTitle("Carriola");
+			builder.setMessage(""
+					+ "Lo strumento carriola aiuta a calcolare lo spazio occupato dagli ortaggi che si desidera piantare nel proprio giardino.\n"
+					+ "Si inseriscono gli ortaggi e si selezionano le quantità, dopodichè si clicca su Conferma.\n"
+					+ "Un algoritmo (totalmente randomico) deciderà la disposizione ottimale delle piante nei vari orti del giardino.\n"
+					+ "Tiene in considerazione consociazioni, rotazioni e esposizione al fine di garantire le migliori condizioni di crescita alle piante.\n"
+					+ "Per poter usufruire di questo strumento è necessario aver creato almeno un orto nel giardino corrente.");
+			builder.setPositiveButton("Ho capito", (dialog, i) -> dialog.cancel());
+			builder.show();
+			return true;
+		});
+	}
 }
