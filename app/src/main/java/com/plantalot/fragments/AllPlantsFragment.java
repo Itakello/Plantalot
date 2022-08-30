@@ -10,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,6 +59,8 @@ import java.util.stream.IntStream;
 public class AllPlantsFragment extends Fragment {
 	
 	// FIXME global to local variables
+	
+	private final String TAG = "AllPlantsFragment";
 	
 	private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 	
@@ -184,8 +189,8 @@ public class AllPlantsFragment extends Fragment {
 		udm.put(DbPlants.VARIETA_DISTANZE_PIANTE, "cm");
 		udm.put(DbPlants.VARIETA_DISTANZE_FILE, "cm");
 		udm.put(DbPlants.VARIETA_ALTRO_PACK, "piante");
-		
-		setHasOptionsMenu(true);
+
+//		setHasOptionsMenu(true);
 		for (Pair<String, List<String>> chip : chips) {
 			activeFilters.put(chip.first, new HashSet<>());
 		}
@@ -214,6 +219,7 @@ public class AllPlantsFragment extends Fragment {
 		handler.postDelayed(this::setupFilters, 300);
 		handler.postDelayed(this::setupSearch, 300);
 		handler.postDelayed(this::searchTextInit, 300);
+		
 		return view;
 	}
 	
@@ -359,7 +365,7 @@ public class AllPlantsFragment extends Fragment {
 	
 	//========[ GROUPS ]========//
 	
-	private void gruopByRange(String field) {
+	private void groupByRange(String field) {
 		String udm = this.udm.get(field);
 		for (Pair<Integer, Integer> dists : ranges.get(field)) {
 			String tmp = udm;
@@ -381,7 +387,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void gruopByNome() {
+	private void groupByNome() {
 		for (char c = 'A'; c <= 'Z'; c++) {
 			cards.add(new Pair<>("" + c, new ArrayList<>()));
 		}
@@ -391,7 +397,7 @@ public class AllPlantsFragment extends Fragment {
 		}
 	}
 	
-	private void gruopByField(String field) {
+	private void groupByField(String field) {
 		HashMap<String, List<String>> strMap = new HashMap<>();
 		for (Ortaggio ortaggio : filteredOrtaggi) {
 			String str = (String) ortaggio.get(field);
@@ -415,8 +421,8 @@ public class AllPlantsFragment extends Fragment {
 	//========[ SETUP UI ]========//
 	
 	public void setupSubheader() {
-		if (isBackdropShown) {
-			String title = "Mostra " + filteredOrtaggi.size() + " risultati";
+		if (isBackdropShown && !isSearchShown) {
+			String title = String.format(getString(R.string.all_plants_results_number), filteredOrtaggi.size());
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader)).setText(title);
 		} else {
 			((TextView) view.findViewById(R.id.all_plants_fl_subheader))
@@ -434,16 +440,16 @@ public class AllPlantsFragment extends Fragment {
 		switch (activeGroup) {
 			case DbPlants.VARIETA_TASSONOMIA_FAMIGLIA:
 			case DbPlants.VARIETA_ALTRO_TOLLERA_MEZZOMBRA:
-				gruopByField(activeGroup);
+				groupByField(activeGroup);
 				break;
 			case DbPlants.VARIETA_TASSONOMIA_SPECIE:
-				gruopByNome();
+				groupByNome();
 				break;
 			case DbPlants.VARIETA_RACCOLTA_AVG:
 			case DbPlants.VARIETA_DISTANZE_PIANTE:
 			case DbPlants.VARIETA_DISTANZE_FILE:
 			case DbPlants.VARIETA_ALTRO_PACK:
-				gruopByRange(activeGroup);
+				groupByRange(activeGroup);
 				break;
 		}
 		
@@ -493,10 +499,13 @@ public class AllPlantsFragment extends Fragment {
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		
 		setOnMenuItemsClickListeners(menu);
-		if (isSearchShown) menu.findItem(R.id.allplants_search).expandActionView();
+		if (isSearchShown) {
+			Log.d(TAG, "Expanding action view since isSearchShown");
+			menu.findItem(R.id.allplants_search).expandActionView();
+		}
 		
 		SearchView searchView = (SearchView) menu.findItem(R.id.allplants_search).getActionView();
-		searchView.setQueryHint("Cerca un ortaggio");
+		searchView.setQueryHint(getString(R.string.search_hint));
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextChange(String newText) {
@@ -519,9 +528,10 @@ public class AllPlantsFragment extends Fragment {
 		Handler handler = new Handler();
 		menu.findItem(R.id.allplants_search).setOnMenuItemClickListener(menuItem -> {
 			if (!isSearchShown) {
+				Log.i(TAG, "Showing search");
 				isSearchShown = true;
 				view.findViewById(R.id.all_plants_bl_search_recycler).setVisibility(View.VISIBLE);
-				toolbar.setTitle("Cerca");
+				toolbar.setTitle(R.string.search);
 				toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 				toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
 				handler.post(this::backdropBehaviour);
@@ -531,7 +541,7 @@ public class AllPlantsFragment extends Fragment {
 		
 		menu.findItem(R.id.allplants_filter).setOnMenuItemClickListener(menuItem -> {
 			view.findViewById(R.id.all_plants_bl_filters_recycler).setVisibility(View.VISIBLE);
-			toolbar.setTitle("Filtra");
+			toolbar.setTitle(R.string.filter);
 			toolbar.setNavigationIcon(R.drawable.ic_round_close_24);
 			toolbar.setNavigationOnClickListener(view -> backdropBehaviour());
 			handler.post(this::backdropBehaviour);
@@ -559,6 +569,7 @@ public class AllPlantsFragment extends Fragment {
 	}
 	
 	private void updateMenuIcons(Menu menu) {
+		if (!isSearchShown) menu.findItem(R.id.search).collapseActionView();
 		menu.findItem(R.id.allplants_search).setVisible(!isBackdropShown || isSearchShown);
 		menu.findItem(R.id.allplants_filter).setVisible(!isBackdropShown);
 		menu.findItem(R.id.allplants_reset).setVisible(isBackdropShown && !isSearchShown);
@@ -628,8 +639,8 @@ public class AllPlantsFragment extends Fragment {
 	
 	@SuppressLint("Recycle")
 	private void backdropBehaviour(boolean closeOnly) {
-		
 		if (!isBackdropShown && closeOnly) return;
+		Log.d(TAG, "Moving backdrop");
 		isBackdropShown = !isBackdropShown;
 		
 		final int DELAY = 200;
@@ -657,6 +668,7 @@ public class AllPlantsFragment extends Fragment {
 		if (isBackdropShown) {
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.VISIBLE);
 		} else {
+			Log.i(TAG, "Closing search");
 			isSearchShown = false;
 			view.findViewById(R.id.all_plants_fl_header_arrow).setVisibility(View.GONE);
 			toolbar.setTitle("Piante");

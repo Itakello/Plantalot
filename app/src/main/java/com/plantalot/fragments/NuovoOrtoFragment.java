@@ -86,7 +86,7 @@ public class NuovoOrtoFragment extends Fragment {
 		saveBtn.setOnClickListener(v -> {
 			giardino.addOrto(orto);
 			DbUsers.updateGiardino(giardino);
-			Navigation.findNavController(v).navigate(R.id.action_goto_home);
+			Navigation.findNavController(v).navigate(R.id.action_goto_home_from_nuovoOrto);
 		});
 		
 		Button backBtn = view.findViewById(R.id.nuovo_orto_back_btn);

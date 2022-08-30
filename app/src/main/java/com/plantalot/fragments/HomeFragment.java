@@ -117,8 +117,6 @@ public class HomeFragment extends Fragment {
 		
 		title.setVisibility(View.VISIBLE); // FIXME
 		instructions.setVisibility(View.VISIBLE); // FIXME
-
-//		Log.d("Giardino corrente", nomeGiardinoCorrente);
 		
 		if (app.user.getGiardinoCorrente() == null) {
 			instructions.setText(R.string.instruction_no_giardini);

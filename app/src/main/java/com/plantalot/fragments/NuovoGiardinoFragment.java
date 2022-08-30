@@ -170,11 +170,11 @@ public class NuovoGiardinoFragment extends Fragment implements OnMapReadyCallbac
 			currMarker = map.addMarker(new MarkerOptions().position(point));
 		});
 		
-		new Handler().post(() -> {
-			getLocationPermission();
-			updateLocationUI();  // Turn on the My Location layer and the related control on the map.
-			getDeviceLocation();  // Get the current location of the device and set the position of the map.
-		});
+		getLocationPermission();
+		// Turn on the My Location layer and the related control on the map.
+		updateLocationUI();
+		// Get the current location of the device and set the position of the map.
+		getDeviceLocation();
 	}
 	
 	private void getLocationPermission() {

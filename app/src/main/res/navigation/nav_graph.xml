@@ -103,7 +103,7 @@
 		tools:layout="@layout/nuovo_giardino_fragment"
 		>
 		<action
-			android:id="@+id/action_goto_home"
+			android:id="@+id/action_goto_home_from_nuovoGiardino"
 			app:destination="@id/homeFragment"
 			app:popUpTo="@id/homeFragment"
 			app:popUpToInclusive="true"
@@ -118,7 +118,7 @@
 		tools:layout="@layout/nuovo_orto_fragment"
 		>
 		<action
-			android:id="@+id/action_goto_home"
+			android:id="@+id/action_goto_home_from_nuovoOrto"
 			app:destination="@id/homeFragment"
 			app:popUpTo="@id/homeFragment"
 			app:popUpToInclusive="true"
@@ -138,7 +138,12 @@
 			app:destination="@id/ortaggioFragment"
 			app:launchSingleTop="false"
 			/>
-	
+		<action
+			android:id="@+id/action_goto_home_from_carriola"
+			app:destination="@id/homeFragment"
+			app:popUpTo="@id/homeFragment"
+			app:popUpToInclusive="true" />
+
 	</fragment>
 
 </navigation>

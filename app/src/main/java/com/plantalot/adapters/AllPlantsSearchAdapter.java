@@ -2,6 +2,8 @@ package com.plantalot.adapters;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearchAdapter.ViewHolder> {
+
+	private final String TAG = "AllPlantsSearchAdapter";
 	
 	private final List<String> mData;
 	private final List<String> mSearchText;
@@ -41,6 +45,7 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = mInflater.inflate(R.layout.all_plants_bl_search_result, parent, false);
+//		back_button_handler(view, view.findViewById(R.id.));
 		return new ViewHolder(view);
 	}
 	
@@ -61,6 +66,24 @@ public class AllPlantsSearchAdapter extends RecyclerView.Adapter<AllPlantsSearch
 		}
 		viewHolder.mImage.setImageResource(DbPlants.getImageId(ortaggio));
 		viewHolder.mContent.setOnClickListener(view -> Nav.gotoOrtaggio(ortaggio, prev_fragment, context, view));
+	}
+
+	private void back_button_handler(View mainView, View press_target) {
+		mainView.setFocusableInTouchMode(true);
+		mainView.requestFocus();
+		mainView.setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// Check if osBack key event
+				if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+					Log.d(TAG, "Pressed back button");
+					press_target.performClick();
+					return true;
+//					}
+				}
+				return false;
+			}
+		});
 	}
 	
 	@Override
