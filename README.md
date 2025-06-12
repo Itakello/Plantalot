@@ -1,9 +1,9 @@
 # Plantalot
-+
-Plantalot is an Android app developed in Italian for the course "Laboratory of Programming for Mobile Systems and Tablets", created in collaboration with [Davide Vecchi](https://github.com/davidevecchi) (davidevecchi) and [itakello](https://github.com/itakello).
-+
+
+Plantalot is an Android app developed in Italian for the course "Laboratory of Programming for Mobile Systems and Tablets", created in collaboration with [Davide Vecchi](https://github.com/davidevecchi) (davidevecchi) and [itakello](https://github.com/itakello) (itakello).
+
 The goal of the app is to help users organize and maintain their home vegetable garden by providing detailed information on a wide variety of vegetables:
-+
+
 ![Vegetable example](assets/Ortaggio.png)
 
 ## Features
